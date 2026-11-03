@@ -29,9 +29,9 @@ Throne بدون رابط گرافیکی از Throne 1.4.0 در Linux، macOS و 
 
 ## شروع سریع {#quick-start}
 
-در Debian 12، Ubuntu 22.04 یا جدیدتر (amd64):
+در Debian 10، Ubuntu 20.04 یا جدیدتر (amd64):
 
-1. فایل `Throne-<version>-debian-amd64.deb` را از [صفحهٔ انتشارها](https://github.com/throneproj/Throne/releases) دانلود کنید، یا [مخزن APT](@/get_started/installation.fa.md#apt-repository) را اضافه کنید.
+1. فایل `Throne-<version>-debian-amd64.deb` را از [صفحهٔ انتشارها](https://github.com/throneproj/Throne/releases) دانلود کنید. در Debian 12، Ubuntu 22.04 یا جدیدتر، می‌توانید به‌جای آن [مخزن APT](@/get_started/installation.fa.md#apt-repository) را اضافه کنید.
 2. بسته را نصب کنید و سرویس را شروع کنید:
 
    ```bash

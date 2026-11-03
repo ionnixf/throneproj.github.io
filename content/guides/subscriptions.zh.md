@@ -86,6 +86,8 @@ Throne 会创建一个以地址中的主机名命名的分组，并立即下载�
 
 更新不会停止或删除你当前连接的配置档。如果服务商移除了它，Throne 会保留它，并在报告中把它列在“仍在使用中，因此保留而不是删除”之下。如果你希望 Throne 改为停止并删除这类配置档，请开启 `设置`（Settings）→ `基本设置`（Basic Settings）→ `订阅`（Subscription）→ `允许停止活动配置档`（Allow stopping the active profile）。
 
+自 1.4.0 起，当更新以这种方式停止并删除了正在运行的配置档时（例如开启了 `更新订阅前清除服务器`（Clear servers before updating subscription）），Throne 会在分组中寻找它的替代者：类型相同且名称相同的配置档。如果恰好只有一个配置档匹配，Throne 会连接到它，日志中会显示“… 已在更新中被替换；正在连接到同名配置档。”（… was replaced by the update; connecting to the profile with the same name.）如果没有或有多个配置档匹配，连接会保持停止：“… 已在更新中被移除并保持停止：没有唯一的同名配置档可以替代它。”（… was removed by the update and stays stopped: no single profile with the same name replaces it.）如果你在此期间自己启动了某个配置档，Throne 会保留你启动的那个。
+
 如果服务商更改了正在运行的配置档的设置，Throne 会保存新设置，但连接仍使用旧设置。请重新启动该配置档以使用新设置。当更新替换了正在运行的[自动选择器](@/guides/testing.zh.md#auto-selector)所使用的配置档时，该自动选择器会自行重启。
 
 ## 服务商信息 {#provider-info}
@@ -139,9 +141,11 @@ Throne 会创建一个以地址中的主机名命名的分组，并立即下载�
 | `类型`（Type） | `基本`（Basic） | `基本` 或 `订阅`。分组创建后无法更改。 |
 | `前置代理`（Front Proxy） | `None` | 该分组的每个配置档都会先经由此配置档连接。参见[前置代理与落地代理](#front-landing-proxy)。 |
 | `落地代理`（Landing Proxy） | `None` | 流量经过该分组的配置档之后，再从此配置档离开。 |
+| `路由配置档`（Routing Profile） | `默认（…）`（Default (…)） | 自 1.4.0 起。该分组的配置档连接时使用的路由配置档。`默认（…）` 跟随 `路由`（Routing）菜单。参见[按分组设置路由配置档](@/guides/routing.zh.md#group-routing)。 |
 | `自动清除不可用配置档`（Auto Clear Unavailable Profiles） | 关闭 | 对该分组的配置档进行 URL 测试后，不经询问直接删除测试失败的配置档。 |
 | `URL` | – | 订阅地址。仅用于订阅分组。 |
 | `跳过自动更新`（Skip automatic update） | 关闭 | 让该分组不参与自动更新。手动更新仍然有效。 |
+| `使用订阅提供的路由配置档`（Use the subscription's routing profile） | 关闭 | 自 1.4.0 起。仅用于订阅分组。参见[每次更新之后](#after-update)。 |
 | `高级`（Advanced） | – | 打开 `Advanced Group Settings` 窗口（自 1.3.1 起）。参见[自动更新](#auto-update)、[每次更新之后](#after-update)、[User-Agent 与 HWID](#user-agent-and-hwid)、[TLS 与 HTTP 版本](#tls-http-version)和[服务器地址](#server-address)。自 1.4.0 起，基本分组也有此按钮，但只有 `Server Address` 部分。 |
 
 如果分组中有配置档，该窗口还会显示 `复制配置档分享链接`（Copy profile share links）和 `复制配置档分享链接(深度链接)`（Copy profile share links (Deep Links)）。它们会复制分组中所有配置档的链接。
@@ -163,6 +167,8 @@ Throne 会创建一个以地址中的主机名命名的分组，并立即下载�
 | `按延迟排序`（Sort by latency） | 需要开启 `运行 URL 测试`。对分组排序，最快的排在最前。 |
 
 变更报告会列出这些选项删除的每一个配置档。它们不会删除你当前连接的配置档，除非开启了 `允许停止活动配置档`（Allow stopping the active profile）。
+
+自 1.4.0 起，分组还可以采用服务商随订阅发送的路由配置档，格式与 Happ 应用相同。在分组选项中（不在 `高级`（Advanced）下）勾选 `使用订阅提供的路由配置档`（Use the subscription's routing profile）。之后每次更新都会把该路由配置档保存为分组自己的路由配置档，并替换其规则。该路由配置档属于这个分组，会随分组一起删除。从不使用订阅中的 DNS 设置。参见[来自订阅](@/guides/routing.zh.md#subscription-routing)。
 
 ## User-Agent 与 HWID {#user-agent-and-hwid}
 
@@ -278,14 +284,15 @@ Throne 会在 `x-hwid`、`x-device-os`、`x-ver-os` 和 `x-device-model` 请求�
 
 Throne for Android 具有相同的分组、选项和更新行为。
 
-- 从侧边菜单打开 `分组`（Groups）。使用顶部的 `新建分组`（New group）和 `更新所有订阅`（Update all subscriptions）。每个分组都会显示其类型、配置档数量、上次更新时间，以及服务商发送的配额信息（“已用 … · 剩余 … · 到期 …”，即 Used … · … left · expires …）。
-- 分组编辑器具有相同的基本选项，只是英文名称采用句首大写的写法：`前置代理`（Front proxy）、`落地代理`（Landing proxy）、`自动清除不可用配置`（Auto clear unavailable profiles）、`跳过自动更新`（Skip automatic update）和 `高级`（Advanced）。自 2.0.3 起，`高级`（Advanced）中还有 `TLS 版本`（TLS version）、`HTTP 版本`（HTTP version）、`更新间隔（分钟）`（Update interval (minutes)）和 `服务器间隔`（Server interval），`设置`（Settings）→ `订阅`（Subscriptions）中有 `使用服务器下发的更新间隔`（Use the update interval sent by the server）、`订阅 TLS 版本`（Subscription TLS version）和 `订阅 HTTP 版本`（Subscription HTTP version）。从该版本起，应用也会在服务器返回网页时给出提示，并在报告窗口中显示导入或更新的问题。Throne for Android 没有 `Server Address` 设置。
+- 从侧边菜单打开 `分组`（Groups）。使用顶部的 `新建分组`（New group）和 `更新所有订阅`（Update all subscriptions）。每个分组都会显示其类型、配置档数量、上次更新时间，以及服务商发送的配额信息（“已用 … · 剩余 … · 到期 …”，即 Used … · … left · expires …）。自 2.0.5 起，`设置` → `外观` → `紧凑分组卡片`（Compact group cards）会以用量进度条和剩余时间代替订阅链接和这些详细信息；参见[配置列表布局](@/android/_index.zh.md#layout)。
+- 分组编辑器具有相同的基本选项，只是英文名称采用句首大写的写法：`前置代理`（Front proxy）、`落地代理`（Landing proxy）、`自动清除不可用配置`（Auto clear unavailable profiles）、`跳过自动更新`（Skip automatic update）和 `高级`（Advanced）。自 2.0.3 起，`高级`（Advanced）中还有 `TLS 版本`（TLS version）、`HTTP 版本`（HTTP version）、`更新间隔（分钟）`（Update interval (minutes)）和 `服务器间隔`（Server interval），`设置`（Settings）→ `订阅`（Subscriptions）中有 `使用服务器下发的更新间隔`（Use the update interval sent by the server）、`订阅 TLS 版本`（Subscription TLS version）和 `订阅 HTTP 版本`（Subscription HTTP version）。从该版本起，应用也会在服务器返回网页时给出提示，并在报告窗口中显示导入或更新的问题。自 2.0.5 起，编辑器中还有 `路由配置`（Routing profile），订阅分组还有 `使用订阅提供的路由配置`（Use the subscription's routing profile）；参见[按分组设置路由配置档](@/guides/routing.zh.md#group-routing)。Throne for Android 没有 `Server Address` 设置。
 - 自 2.0.2 起，配置档列表上方的卡片会显示[服务商信息](#provider-info)：流量、剩余时间、`官网`（Portal）和 `技术支持`（Support），以及公告。点按公告可阅读全文。要为某个分组隐藏该卡片，请在分组编辑器中关闭 `订阅信息卡片`（Subscription info card）。
 - 自 2.0.2 起，订阅分组有一个 `过滤`（Filter）类别，包含两个正则表达式。`仅保留名称匹配项`（Only names matching）只保留名称匹配的配置档，例如 `HK|SG|Japan`。`移除名称匹配项`（Remove names matching）删除名称匹配的配置档，例如 `到期|流量|官网`。不区分大小写。过滤器在每次更新时生效，变更报告会说明它们过滤掉了多少个配置档。如果过滤后一个配置档都不剩，更新会中止，分组保持不变。
 - 自 2.0.2 起，Android 核心无法运行的条目会被跳过。参见 [Android 差异](@/reference/protocols.zh.md#android-import)。
 - `URL` 也接受 `content://` 地址，因此订阅可以来自另一个应用提供的文件。对于普通的 `http://` 地址，编辑器会警告“纯文本 HTTP 流量并不安全”。
 - 全局选项位于 `设置`（Settings）→ `订阅`（Subscriptions）。如果 `UserAgent`（User agent）为空，应用会发送 `Throne/Android/` 加上其版本号。
-- 开启 `设置` → `订阅` → `使用代理`（Use proxy）后，更新会经过正在运行的配置档；如果没有配置档在运行，更新会失败，并提示“请求使用代理但未启动配置。”（Request with proxy but no profile started.）。在 `仅代理`（Proxy only）模式下，更新同样会经过正在运行的配置档。2.0.3 之后，仅仅处于 `仅代理` 模式不会再导致更新失败：没有配置档在运行时，更新会直接发出。
+- 开启 `设置` → `订阅` → `使用代理`（Use proxy）后，更新会经过正在运行的配置档；如果没有配置档在运行，更新会失败，并提示“请求使用代理但未启动配置。”（Request with proxy but no profile started.）。在 `仅代理`（Proxy only）模式下，更新同样会经过正在运行的配置档。自 2.0.4 起，仅仅处于 `仅代理` 模式不会再导致更新失败：没有配置档在运行时，更新会直接发出。
+- 自 2.0.5 起，当开启了 `设置` → `订阅` → `允许停止活动配置`（Allow stopping the active profile），更新因此删除了正在运行的配置档时，Throne 会像桌面版一样连接到它的替代者：该分组中名称和类型都相同的唯一配置档。参见[正在使用的配置档](#running-profile)。
 - 通过 `添加服务器配置`（Add profile）→ `从剪切板导入`（Import from clipboard）导入地址时，会出现同样的“How to update?”（如何更新？）询问。
 - 只有手动更新单个分组后才会出现变化窗口。自动更新只会写入日志。
 

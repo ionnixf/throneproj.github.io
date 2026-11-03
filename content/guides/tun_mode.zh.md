@@ -62,7 +62,7 @@ sudo setcap cap_net_admin,cap_net_raw,cap_net_bind_service,cap_sys_ptrace,cap_da
 
 打开 `设置`（Settings）→ `Tun 设置`（Tun Settings）。如果在你点击 `确定`（OK）时 TUN 模式处于开启状态，Throne 会显示“重启 Tun 以生效。”请将 `Tun 模式`（Tun Mode）关闭后再重新开启。
 
-在简洁模式下，该窗口只显示 `Tun 启用 IPv6`（Tun Enable IPv6）、`严格路由`（Strict Route）、`启用 Tun 路由`（Enable Tun Routing）和 `排除故障`（Troubleshooting）。其他设置会被隐藏，但保留其值；参见[简洁模式与高级模式](@/get_started/configuration.zh.md#interface-mode)。
+在简洁模式下，该窗口只显示 `Tun 启用 IPv6`（Tun Enable IPv6）、`严格路由`（Strict Route）、`启用 Tun 路由`（Enable Tun Routing）和 `重启核心`（Restart Core）。其他设置会被隐藏，但保留其值；参见[简洁模式与高级模式](@/get_started/configuration.zh.md#interface-mode)。
 
 | 设置 | 默认值 | 作用 |
 | --- | --- | --- |
@@ -75,7 +75,7 @@ sudo setcap cap_net_admin,cap_net_raw,cap_net_bind_service,cap_sys_ptrace,cap_da
 | `IPv4 CIDR` | `172.19.0.1/24` | 网卡的 IPv4 地址。仅当它与你使用的某个网络冲突时才需要更改。`恢复默认地址`（Restore default addresses）会重置两个地址。 |
 | `IPv6 CIDR` | `fdfe:dcba:9876::1/96` | 网卡的 IPv6 地址。仅在开启 `Tun 启用 IPv6` 时使用。 |
 | `私有地址范围绕过`（Private Range Bypass） | 开启 | 不经过核心、直接走你的网卡的地址范围，每行一个。`恢复默认范围`（Restore default ranges）会恢复该列表。环回地址和广播地址始终绕过隧道。 |
-| `排除故障`（Troubleshooting）→ `重置`（Reset） | – | 重启核心进程。当 TUN 模式无法启动时使用。 |
+| `重启核心`（Restart Core） | – | 停止正在运行的配置档并重启核心。当 TUN 模式无法启动时使用，然后重新启动配置档。 |
 
 默认的 `私有地址范围绕过`（Private Range Bypass）列表为 `10.0.0.0/8`、`172.16.0.0/12`、`192.168.0.0/16`、`169.254.0.0/16`、`224.0.0.0/4`、`fc00::/7`、`fe80::/10` 和 `ff00::/8`。
 
@@ -107,12 +107,11 @@ sudo setcap cap_net_admin,cap_net_raw,cap_net_bind_service,cap_sys_ptrace,cap_da
 
 在 TUN 模式下，所有应用的 DNS 查询都会到达 Throne。对于被你的规则设为直连的网站，DNS 泄漏测试仍可能显示你的运营商的 DNS 服务器。这是预期行为；参见 [DNS](@/guides/dns.zh.md#leak-tests)。
 
-**macOS：** TUN 模式运行期间，Throne 会把当前网络服务（例如 `Wi-Fi`）的 DNS 服务器设为 `127.0.0.53`，由核心在那里按照 Throne 的 DNS 设置进行应答。你可以在 macOS 的网络设置中看到这一点。自 1.4.0 起：
+**macOS：** 自 1.4.0 起，TUN 模式运行期间，核心会把 TUN 网卡作为一个独立的网络服务添加到 macOS 的网络配置中。它的 DNS 服务器是隧道内的一个地址：`IPv4 CIDR` 地址的下一个地址，默认为 `172.19.0.2`。macOS 会把 DNS 查询发送到那里，由核心按照 Throne 的 DNS 设置进行应答。
 
-- 当前网络发生变化时（例如从 `Wi-Fi` 切换到 `Ethernet`），Throne 会把这项设置移到新的服务上，并恢复旧服务的设置。
-- TUN 模式停止时，Throne 会恢复该服务原先的 DNS 服务器，包括你自己设置的服务器。
-- 如果 Throne 或其核心崩溃或被强制结束，Throne 会在其核心下次启动时恢复这些 DNS 服务器，即使 macOS 重启过也是如此。
-- 如果 Throne 无法设置系统 DNS，TUN 模式就不会启动；参见 [macOS 故障排除](#troubleshooting-macos)。
+- Throne 不会更改你的网络服务（例如 `Wi-Fi`）的 DNS 服务器，macOS 的网络设置中也不会显示这个 TUN 服务。
+- TUN 模式停止时，或核心退出或崩溃时，macOS 会再次移除该 TUN 服务。
+- 如果核心无法添加该服务，TUN 模式就不会启动；参见 [macOS 故障排除](#troubleshooting-macos)。
 
 在 1.4.0 之前，Throne 会把 DNS 服务器设为 TUN 网卡的地址，并在 TUN 模式停止时清空 DNS 服务器，因此你自己设置的 DNS 服务器会丢失。崩溃之后，macOS 会保留一个已不再应答的 DNS 服务器。
 
@@ -164,13 +163,9 @@ xattr -d com.apple.quarantine /Applications/Throne.app
 
 **标准账户。** TUN 模式需要管理员账户。请使用系统代理，或者使用管理员账户登录。
 
-**TUN 模式启动时出现“set up the system DNS”或“set the system DNS”。** 自 1.4.0 起，如果 Throne 无法把系统 DNS 指向它的核心，TUN 模式就不会启动（参见 [DNS](#side-effects-dns)）。消息的后半部分说明了原因：
+**TUN 模式启动时出现“set the system DNS”。** 自 1.4.0 起，如果核心无法把 TUN 服务及其 DNS 服务器添加到 macOS，TUN 模式就不会启动（参见 [DNS](#side-effects-dns)）。消息的后半部分说明了失败的环节。点击 `Tun 设置`（Tun Settings）中的 `重启核心`（Restart Core），然后重新启动配置档。
 
-- “listen on 127.0.0.53:53”：DNS 端口已被其他程序占用，例如本地 DNS 服务器或其他 VPN 应用。请关闭该程序，然后重新启动配置档。
-- “the core is not running as root”：核心没有 root 权限，例如因为开启了 `禁止权限请求`（Disable Privilege request）。请为核心授予权限；参见 [macOS 权限](#privileges-macos)。
-- “no enabled network service uses …”：在 macOS 的网络设置中，当前网卡没有已启用的网络服务。
-
-如果 Throne 退出后，macOS 网络设置中的 DNS 服务器仍是 `127.0.0.53`，请启动一次 Throne：它的核心会恢复你的 DNS 服务器。你也可以自己从该网络服务的 DNS 服务器中删除 `127.0.0.53`。
+如果 macOS 网络设置中某个网络服务的 DNS 服务器仍是 `127.0.0.53`，那是 1.4.0 早期的测试版本留下的。请启动一次 Throne：如果它的核心拥有 root 权限，就会恢复该服务原先的 DNS 服务器。你也可以自己从该网络服务的 DNS 服务器中删除 `127.0.0.53`。
 
 关于 Windows 上的 DNS 泄漏加固，请参见 [Windows DNS 泄漏防护](@/advanced/windows_tun_mode.zh.md)。
 

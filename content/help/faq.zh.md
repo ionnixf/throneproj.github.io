@@ -143,8 +143,8 @@ Throne 1.1.0 和 1.1.1 会将带有 `inbounds` 的完整 sing-box 配置作为�
 
 ## `.deb` 软件包之间有什么区别？ {#deb-variants}
 
-- `Throne-<version>-debian-amd64.deb` 自带一份 Qt 库。它的体积较大，但不依赖系统的 Qt 版本。
-- `Throne-<version>-debian-amd64-system-qt.deb` 不包含 Qt。它使用你的发行版提供的 Qt 6 库，并将其作为依赖安装。
+- `Throne-<version>-debian-amd64.deb` 自带一份 Qt 库。它的体积较大，但不依赖系统的 Qt 版本。自 1.4.0 起，它也能在更旧的系统上运行，最低可到 Debian 10 和 Ubuntu 20.04（glibc 2.28）。
+- `Throne-<version>-debian-amd64-system-qt.deb` 不包含 Qt。它使用你的发行版提供的 Qt 6 库，并将其作为依赖安装。它需要 glibc 2.34 或更高版本以及 Qt 6，例如 Debian 12 和 Ubuntu 22.04 或更高版本。
 
 请先使用普通软件包。如果普通软件包无法启动，例如在不支持 SSE4.2 的处理器上（[#845](https://github.com/throneproj/Throne/issues/845)），请使用 `system-qt` 软件包。arm64 也有同样的一对软件包（`debian-arm64.deb` 和 `debian-arm64-system-qt.deb`），用于 Fedora 和 RHEL 的 `.rpm` 软件包也是如此（`fedora-amd64.rpm`、`fedora-amd64-system-qt.rpm` 以及对应的 arm64 版本）。Throne 的 APT 和 RPM 软件源提供的是 `system-qt` 软件包。参见[安装](@/get_started/installation.zh.md#linux)。
 
@@ -156,10 +156,11 @@ Throne 开发者在 [GitHub 发布页面](https://github.com/throneproj/Throne/r
 
 WinGet、Scoop 和 Nix/NixOS 软件包，以及 `throne-bin` 等其他 AUR 软件包，由社区成员制作，开发者不为其提供支持（[#1182](https://github.com/throneproj/Throne/issues/1182)、[#1622](https://github.com/throneproj/Throne/issues/1622)）。如果问题只在这类软件包中出现，请测试官方版本，并将打包问题报告给软件包的维护者。参见[包管理器](@/get_started/installation.zh.md#package-managers)。
 
-## Windows 7、旧版 macOS 或旧处理器需要哪个版本？ {#old-systems}
+## Windows 7、旧版 macOS、旧版 Linux 或旧处理器需要哪个版本？ {#old-systems}
 
 - **Windows 7 SP1 和 Windows 8：** 使用 `windowslegacy64.zip`（64 位）或 `windows32.zip`（32 位）。通用安装程序同样可用：在 32 位 Windows 以及早于 Windows 10 1809 的 64 位 Windows 上，它会自动安装 legacy 版本。普通的 `windows64.zip` 需要 Windows 10 1809 或更高版本。在 Throne 1.3 及更早版本中，Windows 7 和 8 上的 TUN 模式只能使用 `gvisor` 协议栈（[#1291](https://github.com/throneproj/Throne/issues/1291)）；自 1.4.0 起，`Tun 设置`（Tun Settings）中已没有 `Stack` 设置。
 - **运行 macOS 10.15 至 14.3 的 Intel Mac：** 使用 `macoslegacy-amd64.zip`。普通的 macOS 版本需要 macOS 14.4 或更高版本。更旧的 macOS 版本不受支持。在 Throne 1.3 及更早版本中，普通的 macOS 版本需要 macOS 13 或更高版本。
+- **旧版 Linux 发行版：** 自 1.4.0 起，ZIP 文件、安装脚本以及普通的 `.deb` 和 `.rpm` 软件包需要 glibc 2.28 或更高版本，因此可在 Debian 10、Ubuntu 20.04、RHEL 8 和 Raspberry Pi OS bullseye 上运行。`-system-qt` 软件包（因此也包括 APT 和 RPM 软件源）需要 Debian 12、Ubuntu 22.04、RHEL 9 或更高版本。参见 [Linux](@/get_started/installation.zh.md#linux)。
 - **Linux 上的旧处理器：** 如果 Throne 无法启动并输出 `This Qt build requires the following features: sse4.2 popcnt`，请安装 `system-qt` 软件包（[#845](https://github.com/throneproj/Throne/issues/845)）。
 
 [下载](@/downloads.zh.md)页面的表格列出了每个文件的最低系统要求。

@@ -79,7 +79,7 @@ Throne 将你的数据保存在你的用户文件夹中，而不是 `Throne.app`
 | 以 `-system-qt.deb` 或 `-system-qt.rpm` 结尾的文件 | 与上面相同的软件包，但使用系统自带的 Qt 库 |
 | [APT 软件源](#apt-repository)和 [RPM 软件源](#rpm-repository) | 使用系统 Qt 的软件包，由你的包管理器保持更新 |
 
-Linux 版本需要 glibc 2.34 或更高版本。包含 Qt 的 ARM64 文件需要 glibc 2.38 或更高版本。
+自 1.4.0 起，ZIP 文件、安装脚本以及普通的 `.deb` 和 `.rpm` 软件包需要 glibc 2.28 或更高版本，可在 Debian 10、Ubuntu 20.04、RHEL 8（以及 AlmaLinux 或 Rocky Linux 8）、Raspberry Pi OS（64 位）bullseye 及更新的系统上运行。`-system-qt` 软件包需要 glibc 2.34 或更高版本以及发行版自带的 Qt 6，例如 Debian 12 或 Ubuntu 22.04。在 1.4.0 之前，所有 Linux 版本都需要 glibc 2.34 或更高版本，包含 Qt 的 ARM64 文件需要 glibc 2.38 或更高版本。
 
 {% alert_warning() %}
 不要使用 `sudo` 或以 root 身份启动 Throne。为了使用 TUN 模式，Throne 只会为其核心 `ThroneCore` 授予 root 权限，并通过 `pkexec` 请求输入你的密码。参见 [TUN 模式](@/guides/tun_mode.zh.md#privileges)。
@@ -129,7 +129,7 @@ sudo dnf install ./Throne-x.x.x-fedora-amd64.rpm
 
 ### APT 软件源 {#apt-repository}
 
-位于 `throneproj.github.io/Throne/apt` 的 APT 软件源提供适用于 amd64 和 arm64 的使用系统 Qt 的软件包（参见[使用系统 Qt 的软件包](#system-qt)）。它包含每一个稳定版，但不包含 Beta 版，并且经过签名。要在 Debian、Ubuntu 及其他基于 Debian 的系统上添加它：
+位于 `throneproj.github.io/Throne/apt` 的 APT 软件源提供适用于 amd64 和 arm64 的使用系统 Qt 的软件包（参见[使用系统 Qt 的软件包](#system-qt)）。它包含每一个稳定版，但不包含 Beta 版，并且经过签名。使用系统 Qt 的软件包需要 Debian 12、Ubuntu 22.04 或更高版本。在更旧的系统上，请改为从[下载](@/downloads.zh.md)页面安装普通的 `.deb`。要在 Debian、Ubuntu 及其他基于 Debian 的系统上添加该软件源：
 
 ```bash
 sudo install -d -m 0755 /etc/apt/keyrings
@@ -145,7 +145,7 @@ sudo apt install throne
 
 ### RPM 软件源 {#rpm-repository}
 
-位于 `throneproj.github.io/Throne/rpm` 的 RPM 软件源提供适用于 x86_64 和 aarch64 的使用系统 Qt 的软件包，因此你的发行版必须提供 Qt 6.5 或更高版本。它包含每一个稳定版，但不包含 Beta 版，软件包和软件源都经过签名。
+位于 `throneproj.github.io/Throne/rpm` 的 RPM 软件源提供适用于 x86_64 和 aarch64 的使用系统 Qt 的软件包，因此你的发行版必须提供 Qt 6.5 或更高版本。这些软件包还需要 glibc 2.34 或更高版本，因此无法安装在 RHEL 8 及其重构版上；请在这些系统上从[下载](@/downloads.zh.md)页面安装普通的 `.rpm`。该软件源包含每一个稳定版，但不包含 Beta 版，软件包和软件源都经过签名。
 
 Fedora 和 RHEL 9 或更高版本：
 
@@ -312,7 +312,7 @@ ZIP 版以及 Windows 安装程序默认的按用户安装可以自行更新：�
 
 - **杀毒软件报警。** 一些杀毒软件会标记 Throne 或 `ThroneCore`，主要是因为更新程序会下载并替换程序文件。参见[常见问题](@/help/faq.zh.md#antivirus)。
 - **Throne 无法启动，并提示“Incompatible processor. This Qt build requires the following features: sse4.2 popcnt”（处理器不兼容，此 Qt 版本需要 sse4.2 和 popcnt 指令）。** 你的处理器对于自带的 Qt 来说太旧了。在 Windows 上，请使用 `windowslegacy64.zip`。在 Linux 上，请使用 `-system-qt` 软件包。另请参阅[常见问题](@/help/faq.zh.md#old-systems)。
-- **Linux：Throne 提示无法加载 Qt 平台插件“xcb”。** 安装 `libxcb-cursor0`（Debian、Ubuntu）或 `xcb-util-cursor`（Fedora、RHEL），或者使用 `-system-qt` 软件包。
+- **Linux：Throne 提示无法加载 Qt 平台插件“xcb”。** 如果 Throne 使用的是系统的 Qt，请安装 `libxcb-cursor0`（Debian、Ubuntu）或 `xcb-util-cursor`（Fedora、RHEL）。ZIP 文件和普通软件包已自带该库；如果它们出现此错误，请使用 `-system-qt` 软件包。
 - **Linux（GNOME）：没有托盘图标。** 为 GNOME 安装 AppIndicator 扩展。
 - **macOS：“Throne is damaged and can't be opened”（Throne 已损坏，无法打开）。** 隔离标记仍然存在。请运行 [macOS](@/get_started/installation.zh.md#macos) 步骤中的 `xattr` 命令。
 

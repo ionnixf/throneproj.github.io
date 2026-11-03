@@ -31,6 +31,8 @@ To change the active routing profile, use one of these:
 
 Choosing a routing profile in the `Routing` menu or the tray restarts the running connection, so the new rules apply at once. The window title shows the active routing profile when it is not `Default`.
 
+Since 1.4.0, a group can use its own routing profile instead of the one you choose here. See [Routing profile per group](#group-routing).
+
 ## Download ready-made profiles {#download-profiles}
 
 Throne can download routing profiles that are maintained for China, Iran and Russia.
@@ -248,12 +250,51 @@ The URL must serve a structured profile. Raw profiles cannot be remote profiles.
 
 Automatic updates need two things: the profile's `Auto update` box, and `Settings` → `Basic Settings` → `Subscription` → `Routing profiles auto update` (Advanced mode only, see [Simple and Advanced mode](@/get_started/configuration.md#interface-mode)). The second one is off by default. Its interval is in minutes (default 1440, once a day); values under 30 turn it off. The `Runtime Stats` tab shows `Next remote route update`. To update at once, use `Update` on the `Route` tab.
 
-An update replaces the rules and the default outbound with the downloaded ones, so your own changes to the profile are lost. To change a remote profile safely, `Clone` it, open the copy and untick `Auto update`. An update does not restart a running connection: the new rules are used the next time you start a profile.
+An update replaces the rules and the default outbound with the downloaded ones, so your own changes to the profile are lost. To change a remote profile safely, `Clone` it, open the copy and untick `Auto update`. An update does not restart a running connection: the new rules are used the next time you start a profile. Since 1.4.0, when an automatic update changes the routing profile that the running connection uses, the main window shows "Settings changed, restart to apply". Click `Restart` there to use the new rules at once.
 
 Since 1.4.0, two things survive an update:
 
 - A rule that you [disabled](#advanced-rules) stays disabled, as long as the downloaded rules have a rule with the same name. This way you can switch off a rule of a remote profile and keep `Auto update` on.
 - The profile's own [DNS settings](@/guides/dns.md#route-dns). Throne never takes DNS settings from the URL of a remote profile.
+
+## Routing profile per group {#group-routing}
+
+Since 1.4.0, a group can connect with its own routing profile instead of the one you choose in the `Routing` menu. For example, the servers of one provider can use `Bypass Iran`, while all other groups use `Default`.
+
+1. Right-click the group's tab and choose `Edit selected Group`, or choose `Groups` → `Edit current Group`.
+2. Choose a profile in `Routing Profile`. `Default (…)`, the default, follows the routing profile of the `Routing` menu and shows its name.
+3. Click `OK`.
+
+How Throne picks the routing profile:
+
+- The group of the profile that you start decides. For a chain or an auto selector, this is the group of the chain or the auto selector, not the groups of the profiles in it. Front and landing proxies, and saved profiles that rules send traffic to, use the routing profile of the profile that you started.
+- The `Routing` menu, the tray menu and `Routing Settings` → `Common` → `Routing Profile` choose the routing profile of the groups that use `Default (…)`. The check mark in the `Routing` menu shows this choice.
+- The window title and the tray tooltip show the routing profile that the running profile uses. The [Connections tab](#connections-tab) changes the rules of this routing profile.
+- If the running profile's group uses its own routing profile, choosing another one in the `Routing` menu does not restart the connection. The log says "The group "…" uses its own routing profile, so the running profile keeps it."
+- When you change the `Routing Profile` of a group while one of its profiles runs, the main window shows "Settings changed, restart to apply". Click `Restart` there.
+- When you delete a routing profile that a group uses, the group goes back to `Default (…)`, and the log says so.
+- The group's routing profile also brings its own [DNS settings](@/guides/dns.md#route-dns), if it has them.
+
+### From the subscription {#subscription-routing}
+
+Some providers send a routing profile with the subscription, in the format of the Happ app. Since 1.4.0, a subscription group can keep it as its own routing profile:
+
+1. Open the group options as described above.
+2. Under `Subscription`, tick `Use the subscription's routing profile`.
+3. Click `OK` and update the subscription.
+
+Throne reads the routing profile from the `routing` header of the provider's answer, or from a `happ://routing/…` line in the subscription. At the first update, it creates a structured routing profile from it, with the name that the provider gives it, or for example "Provider routing" for a group named Provider. If the group's `Routing Profile` is `Default (…)`, the new profile becomes the group's routing profile. In the group's list it shows as "… (from this subscription)". Every later update replaces its rules and its default outbound. The `Logs` tab shows a line such as "[Routing] Provider: updated the routing profile "…" from the subscription (120 entries, 2 skipped)".
+
+Things to know:
+
+- Throne takes the lists of sites and IP addresses that go direct, through the proxy or are blocked, and whether all other traffic goes through the proxy. The lists become the `Direct`, `Proxy` and `Block` boxes of the profile. Entries that Throne cannot use are skipped and counted in the log line.
+- DNS settings from the subscription are never used. The profile follows the global DNS settings, unless you give it its own on its `DNS` tab. Updates keep these, and also its name and the rules that you [disabled](#advanced-rules).
+- If the provider sends a `throne://route/` link instead, Throne leaves out rules that use a saved profile or `warp-bypass` or that change the destination, as well as VPN endpoints and DNS settings. It refuses raw profiles.
+- In `Routing Settings` → `Route`, the profile shows as "… (updated by subscription "…")". You can edit it, but the next update overwrites its rules. The Connections tab does not add rules to it ("The current routing profile is updated by the subscription "…"."). To change it for good, `Clone` it and choose the clone as the group's `Routing Profile`. The clone is your own; the subscription keeps updating only the original.
+- The profile belongs to the group. Deleting the group deletes the profile, also after you untick the option. Deleting the profile in `Routing Settings` unticks the option.
+- If the subscription sends no routing profile, the group keeps the one it has.
+- While `Routing Settings` is open, an update leaves the profile unchanged and says so in the log. The next update tries again.
+- When an update creates or changes the routing profile that the running profile uses, the main window shows "Settings changed, restart to apply".
 
 ## Raw profiles {#raw-profiles}
 
@@ -325,7 +366,9 @@ Click `OK`, then `Restart` in the "Settings changed, restart to apply" notice. A
 - When the dialog opens, it selects a server that already has one of the targets. When you choose another server, the check boxes show the targets of that server.
 - Throne runs the chosen server next to the profile you started, as with any rule that sends traffic to a saved profile (see [Advanced rules](#advanced-rules)).
 
-`Direct`, `Proxy`, `Block` and `Specific server` are disabled when the active routing profile is raw, is locked with `Prevent modifications`, or is a remote profile with `Auto update` on. Hover over the item to see the reason. For a remote profile, clone it first as described in [Remote profiles](#remote-profiles).
+`Direct`, `Proxy`, `Block` and `Specific server` are disabled when the active routing profile is raw, is locked with `Prevent modifications`, is a remote profile with `Auto update` on, or is updated by a [subscription](#subscription-routing) (since 1.4.0). Hover over the item to see the reason. For a remote profile, clone it first as described in [Remote profiles](#remote-profiles).
+
+Since 1.4.0, these items change the routing profile that the running profile uses, which can be its [group's own](#group-routing).
 
 Up to 1.3.2, the menu had `Append "…" to` and `Append process "…" to` instead. They added only the exact host or program to a box.
 
@@ -370,9 +413,10 @@ Throne for Android has the same routing profiles, rules and rule-sets. Open `Rou
 - **Wi-Fi rules.** `Wi-Fi SSID` and `Wi-Fi BSSID` need precise location access set to "Allow all the time", and location turned on, because Android hides the Wi-Fi name otherwise. Throne asks when you save such a rule. If access is missing, the notification "Wi-Fi rules are inactive" appears.
 - **Raw profiles.** Android refuses raw `throne://route/` links ("raw routing profiles are not supported on Android"). Raw profiles from a desktop backup are kept but cannot be used ("Raw (Throne desktop) · read-only").
 - **VPN endpoints** in an imported link are dropped with a warning.
-- **Disabled rules and DNS per profile** (after 2.0.3). Each rule in the editor has a check box that disables it, as on the desktop. The editor also has a `DNS` card with `Use the global DNS settings` and `Use custom DNS settings`; see [DNS per routing profile](@/guides/dns.md#route-dns). Remote profiles keep both across updates, and links carry both.
-- **Clone** (after 2.0.3). Cloning a remote profile gives a local copy that never updates, so you can change its rules.
-- **Quick switch.** On the Profiles screen, the menu (⋮) → `Routing profile` lists your routing profiles. The same dialog has an `Enable WARP` / `Disable WARP` button.
+- **Disabled rules and DNS per profile** (since 2.0.4). Each rule in the editor has a check box that disables it, as on the desktop. The editor also has a `DNS` card with `Use the global DNS settings` and `Use custom DNS settings`; see [DNS per routing profile](@/guides/dns.md#route-dns). Remote profiles keep both across updates, and links carry both.
+- **Clone** (since 2.0.4). Cloning a remote profile gives a local copy that never updates, so you can change its rules.
+- **Routing profile per group** (since 2.0.5). The group editor has `Routing profile`, and subscription groups also have `Use the subscription's routing profile`. Both work as on the desktop; see [Routing profile per group](#group-routing). Raw profiles are not offered. On the `Routing` screen, a profile that a subscription updates shows "Updated by subscription "…""; touch and hold it to see what this means. When you choose another routing profile while the running profile's group uses its own, Throne says "The group "…" uses its own routing profile, so the running profile keeps it." After you change the routing profile of the running profile's group, tap `Apply` when Throne shows "Reload proxy service to apply changes".
+- **Quick switch.** `Settings` → `Routing` → `Current routing profile` opens a dialog that lists your routing profiles. The dialog also has an `Enable WARP` / `Disable WARP` button. On the `Routing` screen of the drawer, tapping a profile makes it active without the dialog. In 2.0.4 and older, the dialog was in the menu (⋮) of the Profiles screen, as `Routing profile`.
 - **Links.** A `throne://route/` link adds the profile but does not make it active.
 
 `Download profiles`, `Update rule-sets` and remote profiles work as on the desktop. `AdBlock` and `Auto update remote profiles` are in `Settings` → `Routing`.

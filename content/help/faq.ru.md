@@ -143,8 +143,8 @@ Throne 1.1.0 и 1.1.1 импортировали целую конфигурац
 
 ## Чем отличаются пакеты `.deb`? {#deb-variants}
 
-- `Throne-<version>-debian-amd64.deb` содержит собственную копию библиотек Qt. Он больше по размеру, но не зависит от версии Qt в вашей системе.
-- `Throne-<version>-debian-amd64-system-qt.deb` не содержит Qt. Он использует библиотеки Qt 6 вашего дистрибутива и устанавливает их как зависимости.
+- `Throne-<version>-debian-amd64.deb` содержит собственную копию библиотек Qt. Он больше по размеру, но не зависит от версии Qt в вашей системе. Начиная с 1.4.0 он работает и в более старых системах: от Debian 10 и Ubuntu 20.04 (glibc 2.28).
+- `Throne-<version>-debian-amd64-system-qt.deb` не содержит Qt. Он использует библиотеки Qt 6 вашего дистрибутива и устанавливает их как зависимости. Ему нужна glibc 2.34 или новее и Qt 6, как в Debian 12 и Ubuntu 22.04 или новее.
 
 Начните с обычного пакета. Если он не запускается, например на процессорах без SSE4.2 ([#845](https://github.com/throneproj/Throne/issues/845)), используйте пакет `system-qt`. Такая же пара есть для arm64 (`debian-arm64.deb` и `debian-arm64-system-qt.deb`) и в виде пакетов `.rpm` для Fedora и RHEL (`fedora-amd64.rpm`, `fedora-amd64-system-qt.rpm` и версии для arm64). В APT- и RPM-репозиториях Throne есть пакеты `system-qt`. См. [Установка](@/get_started/installation.ru.md#linux).
 
@@ -156,10 +156,11 @@ Throne 1.1.0 и 1.1.1 импортировали целую конфигурац
 
 Пакеты WinGet, Scoop и Nix/NixOS, а также другие пакеты AUR, например `throne-bin`, создают участники сообщества, и разработчики их не поддерживают ([#1182](https://github.com/throneproj/Throne/issues/1182), [#1622](https://github.com/throneproj/Throne/issues/1622)). Если проблема возникает только с таким пакетом, проверьте официальную сборку, а о проблемах упаковки сообщайте сопровождающему пакета. См. [Менеджеры пакетов](@/get_started/installation.ru.md#package-managers).
 
-## Какая сборка нужна для Windows 7, старой macOS или старого процессора? {#old-systems}
+## Какая сборка нужна для Windows 7, старой macOS, старого Linux или старого процессора? {#old-systems}
 
 - **Windows 7 SP1 и Windows 8:** используйте `windowslegacy64.zip` (64-битная система) или `windows32.zip` (32-битная). Универсальный установщик тоже подойдёт: на 32-битной Windows и на 64-битной Windows, более ранней, чем Windows 10 1809, он сам устанавливает legacy-сборку. Обычному `windows64.zip` нужна Windows 10 1809 или новее. В Throne 1.3 и более старых версиях режим TUN в Windows 7 и 8 работает только со стеком `gvisor` ([#1291](https://github.com/throneproj/Throne/issues/1291)); начиная с 1.4.0 в `Настройки режима TUN` (Tun Settings) нет параметра `Stack`.
 - **Mac с процессором Intel и macOS с 10.15 по 14.3:** используйте `macoslegacy-amd64.zip`. Обычным сборкам для macOS нужна macOS 14.4 или новее. Более старые версии macOS не поддерживаются. В Throne 1.3 и более старых версиях обычным сборкам для macOS была нужна macOS 13 или новее.
+- **Старые дистрибутивы Linux:** начиная с 1.4.0, ZIP-файлам, установочному скрипту и обычным пакетам `.deb` и `.rpm` нужна glibc 2.28 или новее, поэтому они работают в Debian 10, Ubuntu 20.04, RHEL 8 и Raspberry Pi OS bullseye. Пакетам `-system-qt`, а значит и APT- и RPM-репозиториям, нужен Debian 12, Ubuntu 22.04, RHEL 9 или новее. См. [Linux](@/get_started/installation.ru.md#linux).
 - **Старые процессоры в Linux:** если Throne не запускается и выводит `This Qt build requires the following features: sse4.2 popcnt`, установите пакет `system-qt` ([#845](https://github.com/throneproj/Throne/issues/845)).
 
 В таблице на [странице загрузок](@/downloads.ru.md) указаны минимальные требования к системе для каждого файла.

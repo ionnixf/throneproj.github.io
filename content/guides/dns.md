@@ -26,7 +26,7 @@ When an app's query reaches Throne, Throne answers it in this order:
 
 Where the queries come from depends on the mode:
 
-- **TUN mode.** The DNS queries of your apps go into the tunnel and reach Throne. Throne adds a DNS step to every structured routing profile (the `Route DNS` or `dns-hijack` rule in the list does the same), so it answers these queries as described above. A raw routing profile only gets this step if you write it yourself; see [Raw profiles](@/guides/routing.md#raw-profiles). On macOS, Throne also points the system's DNS setting at its core while TUN mode runs; see [TUN Mode](@/guides/tun_mode.md#side-effects-dns).
+- **TUN mode.** The DNS queries of your apps go into the tunnel and reach Throne. Throne adds a DNS step to every structured routing profile (the `Route DNS` or `dns-hijack` rule in the list does the same), so it answers these queries as described above. A raw routing profile only gets this step if you write it yourself; see [Raw profiles](@/guides/routing.md#raw-profiles). On macOS, since 1.4.0, the core adds the TUN adapter to macOS as a network service of its own while TUN mode runs, with a DNS server inside the tunnel. It does not change the DNS servers of your network services, such as `Wi-Fi`. See [TUN Mode](@/guides/tun_mode.md#side-effects-dns).
 - **System proxy mode.** Apps that use the proxy send the site's name to Throne. For proxied connections, the proxy server looks the name up. For direct connections, Throne looks it up with Direct DNS. Apps can also look names up themselves with your system's resolver. Those lookups do not pass through Throne.
 
 ## Settings {#settings}
@@ -128,10 +128,32 @@ The tab has these settings of the [DNS tab](#settings): `Remote DNS`, `Direct DN
 Things to know:
 
 - Choosing another routing profile in the `Routing` menu restarts the connection, so the DNS servers change with it.
+- Since 1.4.0, a group can use its own routing profile (see [Routing profile per group](@/guides/routing.md#group-routing)). Then the DNS settings of that routing profile apply while a profile of the group runs. Tests always use the DNS settings of the routing profile chosen in the `Routing` menu, because they can test profiles of several groups.
+- A routing profile that a [subscription provides](@/guides/routing.md#subscription-routing) never takes DNS settings from the subscription. Give it its own on its `DNS` tab if it needs them; updates of the subscription keep them.
 - A profile with its own DNS settings also replaces a [custom DNS object](#advanced): while it is active, Throne ignores `Use Custom DNS Object`. When a profile follows the global settings and `Use Custom DNS Object` is on, its `DNS` tab says that the object applies.
 - Structured, remote and raw routing profiles all have the tab. A remote profile keeps its DNS settings when it updates; Throne never takes them from the URL.
 - The profile's `throne://route/` link carries its DNS settings. Before you import such a link with `Import` in `Routing Settings`, Throne names the servers: "It uses its own DNS servers: remote …, direct …". Check them: these servers see every name that you look up while the profile is active. See [Share profiles](@/guides/routing.md#share-profiles).
 - In Simple mode, the `DNS` tab of a profile appears only when the profile already uses its own DNS settings.
+
+## DNS server for other devices {#dns-server}
+
+While a profile runs, Throne's core also runs a DNS server. It answers with the DNS settings on this page, including those of the routing profile. Its port is `Settings` → `Basic Settings` → `Miscellaneous` → `Sing-box` → `DNS Server Port`, `5533` by default, for TCP and UDP (Advanced mode only, see [Simple and Advanced mode](@/get_started/configuration.md#interface-mode)). By default it listens only on `127.0.0.1`, so only programs on this computer can use it.
+
+Since 1.4.0, other devices on your network can use it too, for example a router that sends its DNS queries through this computer:
+
+1. Tick `Allow other devices to connect` below `DNS Server Port` (off by default), then click `OK`.
+2. If a profile is running, click `Restart` in the "Settings changed, restart to apply" notice. The DNS server then listens on all network interfaces.
+3. Allow incoming TCP and UDP connections to the port in your firewall, as for [LAN sharing](@/guides/proxy_modes.md#lan-sharing). On Linux with ufw, for example: `sudo ufw allow 5533`.
+4. On the other device, set the DNS server to your computer's LAN address and the port, for example `192.168.1.20` and `5533`.
+
+Things to know:
+
+- Many phones and computers accept only an address for DNS and always use port 53. The setting suits devices that also let you enter the port, such as many routers.
+- Anyone who can reach the port can look up names through your DNS settings, and so through your proxy. Use it only on a network that you trust.
+- The server answers only DNS queries. Other connections to the port are refused.
+- With `Enable FakeIP`, other devices get fake addresses too. These work only for connections that pass through Throne.
+- This setting is separate from `Program` → `Allow other devices to connect`, which shares the proxy port.
+- With [thronectl](@/advanced/api.md#settings), for example on [headless Throne](@/headless/_index.md), the setting is `dns_in_lan` and the port is `dns_in_port`.
 
 ## DNS leak tests {#leak-tests}
 
@@ -161,5 +183,5 @@ Throne for Android has the same DNS settings in `Settings` → `DNS`. FakeIP is 
 
 - **`localhost` as Direct DNS.** Since 2.0.1, it asks the DNS servers of the current Wi-Fi or mobile network directly, as on Windows. Android's own resolver is used only when the network names no DNS server. Before, Throne always used Android's resolver, which also applies Private DNS and could stall every lookup. If the network's DNS servers do not answer when you connect, Throne shows "Could not connect: the network's DNS (…) did not answer. Set a working Direct DNS." Its `DNS` button opens the DNS settings.
 - **Fake IPv6 addresses** come from `2001:db8::/32` since 2.0.2, as on the desktop.
-- **DNS per routing profile** (after 2.0.3). The editor of a routing profile has a `DNS` card with `Use the global DNS settings` and `Use custom DNS settings`, as on the desktop (see [DNS per routing profile](#route-dns)). While the active routing profile uses its own servers, `Settings` → `DNS` says so at the top: the settings there then apply only to other routing profiles.
+- **DNS per routing profile** (since 2.0.4). The editor of a routing profile has a `DNS` card with `Use the global DNS settings` and `Use custom DNS settings`, as on the desktop (see [DNS per routing profile](#route-dns)). While the active routing profile uses its own servers, `Settings` → `DNS` says so at the top: the settings there then apply only to other routing profiles.
 - **A local DNS server for other apps.** Throne runs a DNS server on `127.0.0.1` that other apps on the device can use. Since 2.0.2, you can change its port in `Settings` → `Inbound` → `DNS server port` (default `5533`).

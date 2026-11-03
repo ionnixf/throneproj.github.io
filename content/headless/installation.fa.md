@@ -23,12 +23,12 @@ Throne بدون رابط گرافیکی همان برنامهٔ معمولی Thr
 
 | بسته | نیاز دارد به | برای مثال روی این سیستم‌ها اجرا می‌شود |
 | --- | --- | --- |
-| `Throne-<version>-debian-amd64.deb`، `…-fedora-amd64.rpm` | glibc 2.34 | Debian 12، Ubuntu 22.04، Fedora، openSUSE Tumbleweed |
-| `…-amd64-system-qt.deb`، `…-amd64-system-qt.rpm` | glibc 2.34 و Qt 6 سیستم | همان‌ها، با Qt توزیع |
-| `Throne-<version>-debian-arm64-system-qt.deb` | glibc 2.34 و Qt 6 سیستم | Raspberry Pi OS bookworm، Debian 12، Ubuntu 22.04 روی arm64 |
-| `Throne-<version>-debian-arm64.deb`، `…-fedora-arm64.rpm` | glibc 2.38 | Ubuntu 24.04، Debian 13، Raspberry Pi OS trixie |
+| `Throne-<version>-debian-amd64.deb`، `…-fedora-amd64.rpm` | glibc 2.28 | Debian 10، Ubuntu 20.04، RHEL 8 و جدیدتر، Fedora، openSUSE |
+| `…-amd64-system-qt.deb`، `…-amd64-system-qt.rpm` | glibc 2.34 و Qt 6 سیستم | Debian 12، Ubuntu 22.04 و جدیدتر، Fedora، openSUSE Tumbleweed، با Qt توزیع |
+| `Throne-<version>-debian-arm64.deb`، `…-fedora-arm64.rpm` | glibc 2.28 | Raspberry Pi OS bullseye، Debian 10، Ubuntu 20.04 و جدیدتر روی arm64 |
+| `Throne-<version>-debian-arm64-system-qt.deb` | glibc 2.34 و Qt 6 سیستم | Raspberry Pi OS bookworm، Debian 12، Ubuntu 22.04 و جدیدتر روی arm64 |
 
-هر بسته به نسخه‌ای از glibc وابسته است که فایل‌هایش لازم دارند، بنابراین مدیر بسته، بسته‌ای را که برای سیستم بیش از حد جدید است رد می‌کند، به‌جای اینکه Throne‌ای نصب کند که نمی‌تواند اجرا شود. روی Raspberry Pi با Raspberry Pi OS bookworm (glibc 2.36)، از بستهٔ arm64 با `system-qt` استفاده کنید.
+هر بسته به نسخه‌ای از glibc وابسته است که فایل‌هایش لازم دارند، بنابراین مدیر بسته، بسته‌ای را که برای سیستم بیش از حد جدید است رد می‌کند، به‌جای اینکه Throne‌ای نصب کند که نمی‌تواند اجرا شود. روی Raspberry Pi از نسخهٔ 64 بیتی Raspberry Pi OS استفاده کنید. روی bookworm و جدیدتر، هر دو بستهٔ arm64 کار می‌کنند. bullseye، Qt 6 ندارد؛ پس آنجا از بستهٔ معمولی arm64 استفاده کنید.
 
 بسته‌های بدون `system-qt` نسخهٔ Qt خودشان را همراه دارند، اما همچنان به کتابخانه‌های گرافیک، فونت و X11 سیستم وابسته‌اند، چون یک برنامهٔ واحد Throne برنامهٔ دسکتاپ را هم در خود دارد. مدیر بسته این کتابخانه‌ها را نصب می‌کند. به هیچ نمایشگری نیاز نیست.
 

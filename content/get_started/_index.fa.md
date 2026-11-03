@@ -23,7 +23,7 @@ Throne برای Android (پیش‌تر با نام NekoBox for Android) برنا
 | سیستم | پیش‌نیازها | انواع بسته |
 |---|---|---|
 | Windows | Windows 10 1809 یا جدیدتر (x64، ARM64). Windows 7 SP1 یا جدیدتر با بیلدهای legacy (x64، x86 32 بیتی). | نصب‌کننده، ZIP قابل حمل |
-| Linux | x64 یا ARM64، glibc 2.34 یا جدیدتر (2.38 برای بیلدهای ARM64 که Qt را همراه دارند) | ZIP قابل حمل، `.deb`، `.rpm`، اسکریپت نصب، [مخزن‌های APT و RPM](@/get_started/installation.fa.md#apt-repository)، [AUR](@/get_started/installation.fa.md#aur) |
+| Linux | x64 یا ARM64، glibc 2.28 یا جدیدتر، برای نمونه Debian 10، Ubuntu 20.04 یا RHEL 8 (از نسخهٔ 1.4.0). بسته‌های `-system-qt` به glibc 2.34 یا جدیدتر نیاز دارند. | ZIP قابل حمل، `.deb`، `.rpm`، اسکریپت نصب، [مخزن‌های APT و RPM](@/get_started/installation.fa.md#apt-repository)، [AUR](@/get_started/installation.fa.md#aur) |
 | macOS | macOS 14.4 یا جدیدتر (Apple Silicon و Intel). macOS 10.15 یا جدیدتر با بیلد legacy (Intel). | ZIP، [Homebrew](@/get_started/installation.fa.md#homebrew) |
 | Android | Android 7.0 یا جدیدتر | APK |
 
@@ -32,6 +32,7 @@ Throne برای Android (پیش‌تر با نام NekoBox for Android) برنا
 ## ویژگی‌های برجسته {#highlights}
 
 - پروتکل‌های متعدد، از جمله VLESS با REALITY و XHTTP، Shadowsocks، Trojan، Hysteria، TUIC، WireGuard و AmneziaWG، NaïveProxy، OpenVPN و OpenConnect: [پروتکل‌ها و قالب‌های واردکردن](@/reference/protocols.fa.md).
+- تونل‌های DNS، که ترافیک شما را درون درخواست‌های DNS جابه‌جا می‌کنند: DNSTT/VayDNS، MasterDNS و XDNS برای VLESS (Xray) (از نسخهٔ 1.4.0): [تونل‌های DNS](@/advanced/dns_tunnels.fa.md).
 - اشتراک‌هایی که طبق زمان‌بندی به‌روز می‌شوند، با تنظیمات User-Agent و HWID برای هر گروه: [اشتراک‌ها و گروه‌ها](@/guides/subscriptions.fa.md).
 - پروکسی سیستمی یا حالت TUN برای همهٔ برنامه‌ها، و اشتراک‌گذاری پروکسی با دستگاه‌های دیگر شبکهٔ شما: [پروکسی سیستمی، TUN و اشتراک‌گذاری در شبکهٔ محلی](@/guides/proxy_modes.fa.md).
 - نمایه‌های مسیریابی با قوانین و مجموعه‌قوانین (rule-set)، و نمایه‌های آماده برای چین، ایران و روسیه: [مسیریابی](@/guides/routing.fa.md).
@@ -66,4 +67,4 @@ Throne بر پایهٔ این پروژه‌ها ساخته شده است:
 - [quirc](https://github.com/dlbeer/quirc): خواندن کد QR
 - [srombauts/sqlitecpp](https://github.com/srombauts/sqlitecpp): پایگاه‌دادهٔ نمایه‌ها و تنظیمات
 
-برای حمایت از توسعهٔ Throne، در `برنامه` (Program) ← `درباره` (About) روی `حمایت از Throne` (Support Throne) کلیک کنید (از نسخهٔ 1.4.0). این دکمه صفحهٔ کمک مالی را باز می‌کند. Throne برای Android همین گزینه را در صفحهٔ `درباره برنامه` (About) خود دارد (پس از 2.0.3).
+برای حمایت از توسعهٔ Throne، در `برنامه` (Program) ← `درباره` (About) روی `حمایت از Throne` (Support Throne) کلیک کنید (از نسخهٔ 1.4.0). این دکمه صفحهٔ کمک مالی را باز می‌کند. Throne برای Android همین گزینه را در صفحهٔ `درباره برنامه` (About) خود دارد (از نسخهٔ 2.0.4).

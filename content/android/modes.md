@@ -40,6 +40,12 @@ Since 2.0.2 this is a setting, `Settings` → `Inbound` → `Append HTTP proxy t
 - The setting is not available while `Enable authorization` is on, because Android cannot pass the username and password to apps. `Disable mixed inbound` also turns it off.
 - To exclude domains from this proxy, add them to `Settings` → `Inbound` → `HTTP proxy bypass list`. Write one entry per line, for example `*example.com`. Lines that start with `#` are comments. Apps connect to these domains without the proxy. The list is available while `Append HTTP proxy to VPN` is on.
 
+### Apps that bypass the VPN {#allow-bypass}
+
+Since 2.0.5, `Settings` → `General` → `Allow apps to bypass VPN` lets apps that ask for it connect outside the VPN, for example Google push notifications (FCM). It is off by default, so apps that use the VPN cannot leave it.
+
+When it is on, these connections go out directly and do not follow your routing profile. Android ignores the setting while Always-on VPN with "Block connections without VPN" is on. See [Always-on VPN](@/android/permissions.md#always-on). If Throne is connected when you change the setting, tap `Apply` when Throne shows "Reload proxy service to apply changes".
+
 ## Proxy only mode {#proxy-only}
 
 In `Proxy only` mode, Throne runs a local proxy and nothing else. Android does not ask for VPN permission, and no VPN key icon appears in the status bar. Only apps that you point at the proxy use Throne. The TUN settings and per-app proxy have no effect in this mode.
@@ -51,7 +57,7 @@ In `Proxy only` mode, Throne runs a local proxy and nothing else. Android does n
 
 The local proxy accepts SOCKS5 and HTTP on the same port.
 
-In this mode, Throne also sends its own requests through the local proxy, as if `Settings` → `Subscriptions` → `Use proxy` were on. In 2.0.3 and older, subscription updates and WARP registration therefore need a running profile. Without one, they fail with "Request with proxy but no profile started." After 2.0.3, they connect directly while no profile runs, unless `Use proxy` is on. WebDAV backups never use the local proxy.
+In this mode, Throne also sends its own requests through the local proxy, as if `Settings` → `Subscriptions` → `Use proxy` were on. In 2.0.3 and older, subscription updates and WARP registration therefore need a running profile. Without one, they fail with "Request with proxy but no profile started." Since 2.0.4, they connect directly while no profile runs, unless `Use proxy` is on. WebDAV backups never use the local proxy.
 
 `Disable mixed inbound` has no effect in `Proxy only` mode, because the local proxy is the only way into Throne.
 
@@ -59,7 +65,7 @@ In this mode, Throne also sends its own requests through the local proxy, as if 
 
 Per-app proxy decides which apps use the VPN. It works only in VPN mode.
 
-Open `Settings` → `TUN / VPN` → `Apps VPN mode`. The app list opens. Choose a mode at the top of the list:
+Turn on `Settings` → `TUN / VPN` → `Apps VPN mode`. The app list opens. Choose a mode at the top of the list:
 
 | Mode | Effect |
 | --- | --- |
@@ -67,7 +73,7 @@ Open `Settings` → `TUN / VPN` → `Apps VPN mode`. The app list opens. Choose 
 | `Proxy` | Only the selected apps use the VPN. All other apps connect directly. |
 | `Bypass` | The selected apps skip the VPN and connect directly. All other apps use the VPN. |
 
-Opening the list turns per-app proxy on, with `Bypass` preselected the first time. To turn it off, open the list again and choose `Off`. If no app is selected, all apps use the VPN in both modes.
+Opening the list turns per-app proxy on, with `Bypass` preselected the first time. To turn it off, turn off the `Apps VPN mode` switch, or choose `Off` in the list. Throne keeps the mode and the selection for the next time. To open the list again, turn the switch off and on. In 2.0.4 and older, the switch always opens the list and cannot turn per-app proxy off, so choose `Off` in the list. If no app is selected, all apps use the VPN in both modes.
 
 To select apps:
 
@@ -75,7 +81,7 @@ To select apps:
 2. Use `Search…` to find an app by name, package name or user ID.
 3. Turn off `Show system apps` to hide system apps. They are shown by default.
 
-Each row shows the app name, the package name and the user ID in parentheses. Apps that share a user ID are selected together. Selected apps are listed first when you open the list. Selected packages that are not installed stay in the list and are marked "(not installed)".
+Each row shows the app name, the package name and the user ID in parentheses. Apps that share a user ID are selected together. Selected apps are listed first when you open the list. Selected packages that are not installed stay in the list and are marked "(not installed)". Since 2.0.5, in `Proxy` mode, if none of the selected apps is installed, no app uses the VPN. In 2.0.4 and older, all apps used it then.
 
 `Auto select proxy apps` selects apps from a built-in list of about 390 apps that often need a proxy, such as Google apps, YouTube, Facebook, Instagram and Netflix. It replaces the selection of the installed apps. Packages that you added by name, or that are not installed, stay selected. In `Proxy` mode it selects the apps on that list. In `Bypass` mode it selects all other apps. In both cases, the apps on that list use the VPN and other apps do not. Apps with user ID 1000 (the Android system) count as apps on the list. Throne asks "Auto select proxy apps?" first. Tap `Replace` to continue.
 
@@ -97,7 +103,7 @@ com.google.android.youtube
 org.telegram.messenger
 ```
 
-In 2.0.2 and older, the import always reads the first line as the mode: upper and lower case do not matter, and any first line other than `true` selects `Proxy`. Since 2.0.3, a list whose first line is not `true` or `false` keeps the current mode and replaces only the selection. So you can also import a plain list of package names, for example one copied from the `Apps` field of a routing rule.
+In 2.0.2 and older, the import always reads the first line as the mode: upper and lower case do not matter, and any first line other than `true` selects `Proxy`. Since 2.0.3, a list whose first line is not `true` or `false` keeps the current mode and replaces only the selection. So you can also import a plain list of package names, for example one copied from the `Apps` field of a routing rule. Since 2.0.5, Throne refuses the whole list if a line is not a package name, for example a URL, and shows "Not a valid package name: …". Nothing changes then.
 
 If Throne is connected, the new selection applies after the connection reloads. Stop and start the connection, or tap `Apply` when Throne shows "Reload proxy service to apply changes".
 

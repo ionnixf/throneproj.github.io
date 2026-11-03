@@ -13,7 +13,7 @@ WARP سرویس VPN رایگان Cloudflare است. Throne می‌تواند WAR
 
 - WARP روی هر نمایه‌ای که اجرا می‌کنید اعمال می‌شود، از جمله زنجیره‌ها و انتخابگرهای خودکار (auto selector). فقط نمایه‌های `سفارشی (sing-box پیکربندی)` (Custom (sing-box config)) بدون آن اجرا می‌شوند. اگر گروه پروکسی مقصد (landing proxy) داشته باشد، WARP پس از آن قرار می‌گیرد.
 - WARP از راه پروکسی شما اجرا می‌شود؛ بنابراین پروکسی باید ترافیک WARP را حمل کند:
-  - حالت `WireGuard` از UDP استفاده می‌کند. نمایه باید UDP را عبور دهد.
+  - حالت‌های `WireGuard` و `AmneziaWG` از UDP استفاده می‌کنند. نمایه باید UDP را عبور دهد.
   - حالت `MASQUE` روی HTTP/3 هم به UDP نیاز دارد. MASQUE روی HTTP/2 فقط به TCP نیاز دارد.
 - قوانین و خروجی پیش‌فرض می‌توانند ترافیک را بدون WARP از پروکسی شما عبور دهند. [عبور بخشی از ترافیک بدون WARP](#warp-bypass) را ببینید.
 
@@ -23,7 +23,7 @@ WARP سرویس VPN رایگان Cloudflare است. Throne می‌تواند WAR
 
 1. `مسیریابی` (Routing) ← `تنظیمات مسیریابی` (Routing Settings) را باز کنید.
 2. زبانهٔ `Warp` را باز کنید.
-3. `Mode` را انتخاب کنید: `WireGuard` یا `MASQUE`.
+3. `Mode` را انتخاب کنید: `WireGuard`، `MASQUE` یا `AmneziaWG`.
 4. روی `Generate Warp Config` کلیک کنید.
 5. بار اول، Throne می‌پرسد که آیا شرایط استفاده از خدمات Cloudflare WARP را می‌پذیرید. روی `بله` (Yes) کلیک کنید.
 6. صبر کنید تا دکمه «Success!» (موفق شد!) را نشان دهد. اکنون فیلدهای حالت انتخاب‌شده پر شده‌اند.
@@ -31,16 +31,27 @@ WARP سرویس VPN رایگان Cloudflare است. Throne می‌تواند WAR
 
 در حالت ساده، `Warp` بخشی از زبانهٔ `متداول` (Common) است که فقط `Enable Warp`، `Mode` و `Generate Warp Config` را نشان می‌دهد. فیلدهای زیر و `Registration Domains…` پنهان هستند (فقط در حالت پیشرفته؛ [حالت ساده و پیشرفته](@/get_started/configuration.fa.md#interface-mode) را ببینید).
 
-هر حالت فیلدهای خودش را دارد. اگر بعداً `Mode` را عوض کردید، برای آن حالت هم پیکربندی بسازید.
+`WireGuard` و `MASQUE` هر کدام فیلدهای خودشان را دارند. اگر بعداً میان آن‌ها جابه‌جا شدید، برای حالت دیگر هم پیکربندی بسازید. `AmneziaWG` از فیلدهای `WireGuard` استفاده می‌کند؛ [حالت AmneziaWG](#amneziawg) را ببینید.
 
 | حالت | فیلدها |
 | --- | --- |
-| `WireGuard` | `Endpoint`، `Private Key`، `Public Key`، `Interface Addresses`، `Reserved` |
+| `WireGuard`، `AmneziaWG` | `Endpoint`، `Private Key`، `Public Key`، `Interface Addresses`، `Reserved` |
 | `MASQUE` | `Endpoint`، `Private Key`، `Peer Public Key`، `Interface Addresses`، `SNI`، `HTTP Version` |
 
 `HTTP Version` در MASQUE می‌تواند `HTTP/3 (fallback to HTTP/2)` (پیش‌فرض)، `HTTP/3 only` یا `HTTP/2` باشد. HTTP/3 روی UDP اجرا می‌شود. HTTP/2 روی TLS بر بستر TCP اجرا می‌شود و جایی که UDP مسدود است کار می‌کند.
 
 هر بار ساختن پیکربندی، یک دستگاه جدید در Cloudflare ثبت می‌کند.
+
+### حالت AmneziaWG {#amneziawg}
+
+از نسخهٔ 1.4.0، حالت `AmneziaWG` شناسایی اتصال WireGuard مربوط به WARP را سخت‌تر می‌کند. این حالت پیش از handshake مربوط به WireGuard بسته‌های اضافه‌ای می‌فرستد: چند بسته که شبیه آغاز یک اتصال HTTP/3 (QUIC) به `www.cloudflare.com` هستند، و چهار بستهٔ تصادفی بی‌مصرف (junk) با اندازهٔ 40 تا 70 بایت. این بسته‌ها با WARP سازگارند، پس اتصال مانند حالت `WireGuard` کار می‌کند. وقتی از این حالت استفاده کنید که حالت `WireGuard` وصل نمی‌شود، چون WireGuard به Cloudflare مسدود است. بسته‌های WARP از سرور پروکسی شما بیرون می‌روند، پس آنچه اهمیت دارد شبکهٔ سرور است، نه شبکهٔ شما.
+
+به بسته‌های QUIC امضا (signature) گفته می‌شود. Throne آن‌ها را به‌صورت آفلاین، روی رایانهٔ شما، می‌سازد و همراه با تنظیمات ذخیره می‌کند:
+
+- وقتی `AmneziaWG` را در `Mode` انتخاب می‌کنید و هنوز امضایی وجود ندارد؛
+- هر بار که در این حالت روی `Generate Warp Config` کلیک می‌کنید، همراه با یک پیکربندی WireGuard جدید.
+
+پیکربندی WireGuard که پیش‌تر ساخته‌اید همچنان کار می‌کند، پس وقتی از `WireGuard` به `AmneziaWG` می‌روید لازم نیست دوباره پیکربندی بسازید. اگر امضا وجود نداشته باشد و `Enable Warp` تیک خورده باشد، `تنظیمات مسیریابی` (Routing Settings) پیام «AmneziaWG has no QUIC signature yet: click Generate Warp Config.» (AmneziaWG هنوز امضای QUIC ندارد: روی Generate Warp Config کلیک کنید.) یا خطایی را که جلوی ساختن آن را گرفته است نشان می‌دهد.
 
 ### اگر ثبت ناموفق بود {#registration-fails}
 
@@ -64,7 +75,7 @@ Throne چنین درخواست‌هایی را به درگاه پروکسی مح
 
 همچنین می‌توانید `Enable Warp` را در زبانهٔ `Warp` تیک بزنید و روی `تایید` (OK) کلیک کنید. سپس برای اعمال تغییر، نمایه را دوباره اجرا کنید.
 
-اگر WARP روشن باشد اما برای حالت فعلی پیکربندی ساخته نشده باشد، نمایه اجرا نمی‌شود و Throne این پیام را نشان می‌دهد: «Warp is enabled but its config has not been generated. Please generate the Warp config first in Routing Settings.» (WARP روشن است اما پیکربندی آن ساخته نشده است؛ ابتدا پیکربندی WARP را در تنظیمات مسیریابی بسازید.) در حالت ساده، وقتی `Enable Warp` تیک خورده باشد و حالت فعلی پیکربندی نداشته باشد، `تنظیمات مسیریابی` (Routing Settings) هم پیام «WARP هنوز پیکربندی ندارد: روی «Generate Warp Config» کلیک کنید.» (WARP has no config yet: click Generate Warp Config.) را نشان می‌دهد.
+اگر WARP روشن باشد اما برای حالت فعلی پیکربندی ساخته نشده باشد (در حالت `AmneziaWG`، همچنین وقتی امضا وجود ندارد)، نمایه اجرا نمی‌شود و Throne این پیام را نشان می‌دهد: «Warp is enabled but its config has not been generated. Please generate the Warp config first in Routing Settings.» (WARP روشن است اما پیکربندی آن ساخته نشده است؛ ابتدا پیکربندی WARP را در تنظیمات مسیریابی بسازید.) در حالت ساده، وقتی `Enable Warp` تیک خورده باشد و حالت فعلی پیکربندی نداشته باشد، `تنظیمات مسیریابی` (Routing Settings) هم پیام «WARP هنوز پیکربندی ندارد: روی «Generate Warp Config» کلیک کنید.» (WARP has no config yet: click Generate Warp Config.) را نشان می‌دهد.
 
 برای اطمینان از کارکرد WARP، وب‌سایتی را باز کنید که نشانی IP شما را نشان می‌دهد. باید یک نشانی Cloudflare نمایش داده شود.
 
@@ -90,13 +101,16 @@ Throne چنین درخواست‌هایی را به درگاه پروکسی مح
 3. روی `Generate Warp Config` (برای WireGuard) یا `Generate WARP identity` (برای MASQUE) کلیک کنید. Throne کلیدها، نشانی‌ها، MTU و نشانی سرور را پر می‌کند.
 4. یک `اسم` (Name) وارد کنید و روی `تایید` (OK) کلیک کنید.
 
+`Mode` در `تنظیمات مسیریابی` (Routing Settings) چنین نمایه‌ای را تغییر نمی‌دهد. برای اینکه یک نمایهٔ WARP از نوع WireGuard همان پنهان‌سازی حالت `AmneziaWG` را داشته باشد، `Enable Amnezia` را تیک بزنید، روی `Amnezia Options` کلیک کنید و `Junk Packet Count (Jc)` را روی 4، `Junk Packet Min Size (Jmin)` را روی 40، `Junk Packet Max Size (Jmax)` را روی 70 و چهار سرآیند جادویی H1 تا H4 را روی 1، 2، 3 و 4 بگذارید. سپس روی `Generate QUIC Signature...` کلیک کنید، `www.cloudflare.com` را وارد کنید و روی `تایید` (OK) کلیک کنید.
+
 چنین نمایه‌ای به‌تنهایی مستقیماً به Cloudflare وصل می‌شود. تا وقتی از آن استفاده می‌کنید، `Enable Warp` را خاموش نگه دارید؛ وگرنه Throne یک هاپ WARP دوم پس از آن اضافه می‌کند.
 
 ## Android {#android}
 
 - تنظیمات در `تنظیمات` (Settings) ← `مسیریابی` (Routing) ← `WARP` قرار دارند: `فعال‌سازی WARP` (Enable WARP)، `حالت` (Mode)، فیلدهای هر حالت، `ایجاد پیکربندی` (Generate WARP config) و `دامنه‌های ثبت` (Registration domains).
 - نخستین ساختن پیکربندی از شما می‌خواهد شرایط استفاده از خدمات Cloudflare WARP را بپذیرید.
-- اگر ثبت مسدود است، ابتدا وصل شوید و `تنظیمات` (Settings) ← `اشتراک‌ها` (Subscriptions) ← `استفاده از پراکسی` (Use proxy) را روشن کنید. وقتی `فقط به حالت پراکسی` (Proxy only) انتخاب شده باشد، درخواست تا وقتی نمایه‌ای در حال اجراست از راه پروکسی فرستاده می‌شود. اگر هیچ نمایه‌ای اجرا نشود و `استفاده از پراکسی` روشن باشد، ساختن پیکربندی ناموفق می‌شود. پس از 2.0.3، `فقط به حالت پراکسی` به‌تنهایی دیگر باعث شکست نمی‌شود: در این حالت درخواست مستقیم فرستاده می‌شود.
-- برای روشن و خاموش کردن سریع WARP، منوی (⋮) صفحهٔ `پیکربندی` (Profiles) ← `پروفایل مسیریابی` (Routing profile) را باز کنید، سپس روی `فعال‌سازی WARP` (Enable WARP) یا `غیرفعال‌سازی WARP` (Disable WARP) بزنید.
+- از نسخهٔ 2.0.5، `حالت` (Mode) گزینهٔ `AmneziaWG` را هم دارد که مانند نسخهٔ دسکتاپ کار می‌کند. برنامه وقتی این حالت را انتخاب می‌کنید امضا را می‌سازد و `ایجاد پیکربندی` (Generate WARP config) یک امضای جدید می‌سازد. تا وقتی امضا وجود ندارد، ردیف `حالت` پیام «AmneziaWG هنوز امضای QUIC ندارد: روی «ایجاد پیکربندی» بزنید.» (AmneziaWG has no QUIC signature yet: tap Generate WARP config.) را نشان می‌دهد.
+- اگر ثبت مسدود است، ابتدا وصل شوید و `تنظیمات` (Settings) ← `اشتراک‌ها` (Subscriptions) ← `استفاده از پراکسی` (Use proxy) را روشن کنید. وقتی `فقط به حالت پراکسی` (Proxy only) انتخاب شده باشد، درخواست تا وقتی نمایه‌ای در حال اجراست از راه پروکسی فرستاده می‌شود. اگر هیچ نمایه‌ای اجرا نشود و `استفاده از پراکسی` روشن باشد، ساختن پیکربندی ناموفق می‌شود. از نسخهٔ 2.0.4، `فقط به حالت پراکسی` به‌تنهایی دیگر باعث شکست نمی‌شود: در این حالت درخواست مستقیم فرستاده می‌شود.
+- برای روشن و خاموش کردن سریع WARP، `تنظیمات` (Settings) ← `مسیریابی` (Routing) ← `پروفایل مسیریابی فعلی` (Current routing profile) را باز کنید، سپس روی `فعال‌سازی WARP` (Enable WARP) یا `غیرفعال‌سازی WARP` (Disable WARP) بزنید. پیش از نسخهٔ 2.0.5، همین پنجره از منوی (⋮) صفحهٔ `پیکربندی` (Profiles) ← `پروفایل مسیریابی` (Routing profile) هم باز می‌شود.
 - اگر WARP بدون پیکربندی ساخته‌شده روشن باشد، Android پیام «WARP is enabled but its config has not been generated. Generate it in Settings › Routing › WARP.» (WARP روشن است اما پیکربندی آن ساخته نشده است؛ آن را در تنظیمات › Routing › WARP بسازید.) را نشان می‌دهد.
 - ویرایشگرهای نمایهٔ WireGuard و MASQUE یک دکمهٔ `ایجاد هویت WARP` (Generate WARP identity) دارند.

@@ -41,10 +41,10 @@ Android 授予了权限，但随后拒绝创建 VPN 接口。此时“失败: �
 ### 已连接，但无法加载任何内容 {#no-traffic}
 
 1. 点按屏幕底部的横栏。“连接成功: HTTP 握手耗时 …ms”（自 2.0.3 起为“HTTP：… 毫秒”）表示该配置可用。“失败: …”表示该配置或其服务器不可用。
-2. 如果测试失败，请点按 ⋮ → `URL 测试`（URL test），然后选择一个可用的配置。参见[测试与自动选择器](@/guides/testing.zh.md)。
-3. 检查分应用代理：打开 `设置`（Settings）→ `TUN / VPN` → `分应用代理`（Apps VPN mode）查看应用列表。选择 `代理`（Proxy）时，只有所选应用使用 VPN；选择 `绕过`（Bypass）时，所选应用不使用 VPN。如果没有选择任何应用，所有应用都会使用 VPN。参见[分应用代理](@/android/modes.zh.md#per-app-proxy)。
-4. 通过 ⋮ → `路由配置`（Routing profile）切换到 `Default` 路由配置，然后再次测试。如果现在可以正常工作，问题出在你自己的路由配置中的某条规则。参见[路由](@/guides/routing.zh.md)。
-5. 检查 DNS：`设置` → `DNS` → `远程 DNS`（Remote DNS），默认为 `https://8.8.8.8/dns-query`。请尝试其他服务器。在 2.0.3 之后的版本中，路由配置可以使用自己的 DNS 服务器（其 `DNS` 部分中的 `使用自定义 DNS 设置`（Use custom DNS settings））。此时 `设置` → `DNS` 会提示当前路由配置使用自己的 DNS 服务器；请改为在该路由配置中修改它们。参见 [DNS](@/guides/dns.zh.md)。
+2. 如果测试失败，请点按 ⋮ → `测试`（Test）→ `URL 测试`（URL test）（在 2.0.4 及更早版本中：⋮ → `URL 测试`），然后选择一个可用的配置。参见[测试与自动选择器](@/guides/testing.zh.md)。
+3. 检查分应用代理：打开 `设置`（Settings）→ `TUN / VPN` → `分应用代理`（Apps VPN mode）查看应用列表。自 2.0.5 起，在它开启时点按会关闭分应用代理；再次点按即可打开列表。选择 `代理`（Proxy）时，只有所选应用使用 VPN；选择 `绕过`（Bypass）时，所选应用不使用 VPN。如果没有选择任何应用，所有应用都会使用 VPN。参见[分应用代理](@/android/modes.zh.md#per-app-proxy)。
+4. 通过 `设置` → `路由`（Routing）→ `当前路由配置`（Current routing profile）（在 2.0.4 及更早版本中：⋮ → `路由配置`（Routing profile））切换到 `Default` 路由配置，然后再次测试。如果现在可以正常工作，问题出在你自己的路由配置中的某条规则。如果 Throne 提示“分组 "…" 使用自己的路由配置，因此正在运行的配置会继续使用它。”（自 2.0.5 起），请改为在该分组的设置中将 `路由配置`（Routing profile）设为 `默认（…）`（Default (…)）。参见[路由](@/guides/routing.zh.md)。
+5. 检查 DNS：`设置` → `DNS` → `远程 DNS`（Remote DNS），默认为 `https://8.8.8.8/dns-query`。请尝试其他服务器。自 2.0.4 起，路由配置可以使用自己的 DNS 服务器（其 `DNS` 部分中的 `使用自定义 DNS 设置`（Use custom DNS settings））。此时 `设置` → `DNS` 会提示当前路由配置使用自己的 DNS 服务器；请改为在该路由配置中修改它们。参见 [DNS](@/guides/dns.zh.md)。
 6. 如果你在 `设置` → `TUN / VPN` 中开启了 `Tun IPv6` 或 `Tun 路由`（Tun routing），请关闭它们后再次测试。仅当你的服务器支持 IPv6 时才使用 `Tun IPv6`。如果某些应用或网站无法访问而其他的正常，请在同一界面中将 `MTU` 设为 `1500` 并重新连接。
 7. 要确定问题是否由 VPN 模式引起，请将 `设置` → `通用`（General）→ `运行模式`（Service mode）设为 `仅代理`（Proxy only）并连接。然后在一个自带代理设置的应用中，将代理设为 SOCKS5 代理 `127.0.0.1`、端口 `2080`（参见 `设置` → `入站`（Inbound）→ `代理端口`（Proxy port））。如果该应用可以正常工作，说明问题出在 VPN 模式：请切换回 `VPN` 模式，再检查一遍第 3 步和第 6 步。在 2.0.1 及更早版本中，还可以尝试其他 `TUN 实现`（TUN implementation）。参见 [VPN 与代理模式](@/android/modes.zh.md#tun-settings)。
 
@@ -62,7 +62,7 @@ Android 的“始终开启的 VPN”与“屏蔽未使用 VPN 的所有连接”
 
 1. 打开 `设置`（Settings）→ `通用`（General）→ `电池优化`（Battery optimization）。它必须显示“不受限”。如果不是，请点按它，并允许 Throne 不受限制地运行。参见[电池优化](@/android/permissions.zh.md#battery)。
 2. 打开 `设置` → `通用` → `后台与自启动`（Background & auto-start）。允许 Throne 自动启动并在后台运行。参见[厂商设置](@/android/permissions.zh.md#oem)。
-3. 保持 `当设备从睡眠状态唤醒时重置出站连接`（Reset outbound connections when device wakes from sleep）开启（默认）。设备从深度睡眠中唤醒时，Throne 会关闭旧连接，应用随后重新连接。同时也请保持 `当网络发生变化时重置出站连接`（Reset outbound connections when network changes）开启。
+3. 保持 `当设备从睡眠状态唤醒时重置出站连接`（Reset outbound connections when device wakes from sleep）开启（默认）。设备从深度睡眠中唤醒时，Throne 会关闭旧连接，应用随后重新连接。同时也请保持 `当网络发生变化时重置出站连接`（Reset outbound connections when network changes）开启。自 2.0.5 起，网络在断开后恢复时（例如一段时间没有信号之后），它也会重置连接。
 4. 启用始终开启的 VPN，让 Android 自行重新启动 Throne。参见[始终开启的 VPN](@/android/permissions.zh.md#always-on)。
 5. 在某些设备上，在最近任务列表中划掉 Throne 会停止它。请将它保留在列表中；如果设备支持，也可以将它锁定在列表中。
 
@@ -111,7 +111,7 @@ Throne 连接期间，它自己的请求（例如订阅更新）也会经过 Thr
 | “WARP 已启用但尚未生成配置。请在「设置 › 路由 › WARP」中生成。” | WARP 已开启，但所选模式没有 WARP 配置。 | 打开 `设置`（Settings）→ `路由`（Routing）→ `WARP`，点按 `生成配置`（Generate WARP config）。 |
 | “失败: Warp is enabled but its config has not been generated. Please generate the Warp config first in Routing Settings.”（Warp 已启用，但尚未生成其配置。请先在路由设置中生成 Warp 配置。） | 同一问题，在连接时显示。 | 同上。 |
 | “生成 WARP 配置失败” | 在 Cloudflare 注册失败。某些网络会阻止注册。 | 连接到一个可用的配置，在 `设置` → `订阅`（Subscriptions）中开启 `使用代理`（Use proxy），然后重新生成。 |
-| 没有消息，但开启 WARP 时无法加载任何内容 | 在 `WireGuard` 模式下，WARP 需要一个能转发 UDP 的配置。 | 将 `模式`（Mode）设为 `MASQUE`，将 `HTTP 版本`（HTTP version）设为 `HTTP/2`，这样只需要 TCP。为新模式生成配置。 |
+| 没有消息，但开启 WARP 时无法加载任何内容 | 在 `WireGuard` 模式下（以及自 2.0.5 起的 `AmneziaWG` 模式下），WARP 需要一个能转发 UDP 的配置。 | 将 `模式`（Mode）设为 `MASQUE`，将 `HTTP 版本`（HTTP version）设为 `HTTP/2`，这样只需要 TCP。为新模式生成配置。 |
 
 参见 [Cloudflare WARP](@/advanced/warp.zh.md)。
 
@@ -127,13 +127,13 @@ Throne 连接期间，它自己的请求（例如订阅更新）也会经过 Thr
 1. 检查配置类型。Tailscale 和额外核心（Extra Core）配置无法在 Android 上工作。TLS 伪装设置在 Android 上会被忽略。
 2. 如果订阅中的某个配置在 Android 上缺失：自 2.0.2 起，Throne 不会导入核心在 Android 上无法运行的配置，例如使用了 sing-box 没有的传输方式，或者在 VLESS 以外的配置类型上使用 XHTTP。`日志`（Logs）会列出每个被跳过的配置的原因。
 3. 如果该配置是带有 `geoip:` 或 `geosite:` 规则的 Xray 配置，它需要 `geoip.dat` 和 `geosite.dat` 文件。自 2.0.2 起，Throne 会在此类配置首次启动时，从 `设置`（Settings）→ `核心`（Core）→ `Xray Geo 资源`（Xray geo assets）中的 `来源`（Source）下载它们。如果 Throne 提示已安装的文件不包含配置所需的某个类别，请选择包含该类别的来源，例如你的桌面版使用的来源。
-4. 比较会影响配置连接方式的设置：`设置` → `预设`（Presets）中的预设（多路复用、TLS 分片、TLS 技巧、uTLS），以及 `设置` → `核心` → `Xray VLESS 偏好`（Xray VLESS preference）。VLESS 首选项在导入配置时生效，因此更改后请重新更新订阅。参见 [sing-box 与 Xray](@/advanced/xray.zh.md#vless-preference)。在 2.0.3 之后的版本中，还要比较 `设置` → `核心` → `在 Xray 中信任系统证书`（Trust system certificates in Xray）。在 Android 上，它会加入系统的根证书，但不包括你自己安装的证书。
+4. 比较会影响配置连接方式的设置：`设置` → `预设`（Presets）中的预设（多路复用、TLS 分片、TLS 技巧、uTLS），以及 `设置` → `核心` → `Xray VLESS 偏好`（Xray VLESS preference）。VLESS 首选项在导入配置时生效，因此更改后请重新更新订阅。参见 [sing-box 与 Xray](@/advanced/xray.zh.md#vless-preference)。自 2.0.4 起，还要比较 `设置` → `核心` → `在 Xray 中信任系统证书`（Trust system certificates in Xray）。在 Android 上，它会加入系统的根证书，但不包括你自己安装的证书。
 5. 要获得与桌面版相同的设置，请恢复桌面版备份。参见[在桌面版与 Android 之间迁移](@/guides/backup.zh.md#desktop-android)。
 6. 如果仍然失败，请附上两个应用的日志报告问题。
 
 ## 日志 {#logs}
 
-在侧边菜单中打开 `日志`（Logs）。它显示核心的日志。工具栏中有 `更新`（Update），用于重新加载视图，以及 `分享日志`（Share logs）和 `清空日志`（Clear logs）。菜单中有 `保存日志…`（Save logs…）、`隐藏敏感数据`（Hide sensitive data）和 `隐藏目标地址`（Hide destinations）。
+在侧边菜单中打开 `日志`（Logs）。它显示核心的日志。自 2.0.5 起，对于 Xray 配置，它还会在标有 `xray:` 的行中显示 Xray 的日志。工具栏中有 `更新`（Update），用于重新加载视图，以及 `分享日志`（Share logs）和 `清空日志`（Clear logs）。菜单中有 `保存日志…`（Save logs…）、`隐藏敏感数据`（Hide sensitive data）和 `隐藏目标地址`（Hide destinations）。
 
 自 2.0.3 起，工具栏中还有 `过滤`（Filter）。它只显示包含你输入的文本的行。`区分大小写`（Match case）和 `正则表达式`（Regular expression）会改变文本的比较方式。菜单中还有 `字体大小`（Font size）。向上滚动时，视图会停止跟随新行，`跳到最新`（Jump to latest）可以带你回到末尾。
 
@@ -146,14 +146,14 @@ Throne 连接期间，它自己的请求（例如订阅更新）也会经过 Thr
 `隐藏敏感数据` 默认开启，请保持开启。在导出的文件中，它会替换：
 
 - 每个 URL 的路径和查询部分，以及 URL 中的用户名和密码（主机名保留）；
-- 密码、密钥、令牌、UUID 以及类似的值；
+- 密码、密钥、令牌、UUID 以及类似的值，自 2.0.5 起也包括作为列表或对象的此类值；
 - 配置中的服务器地址、SNI 和主机名；
 - 公网 IP 地址（私有地址保留）；
 - Wi-Fi 名称。
 
 `隐藏目标地址` 还会隐藏连接日志行和 DNS 日志行中的域名。只有在 `隐藏敏感数据` 开启时才能开启它，并且应用重启后 Throne 不会保留该设置。隐藏只是尽力而为：发布文件之前，请先自己读一遍。
 
-如需更详细的信息，请将 `设置`（Settings）→ `核心`（Core）→ `日志级别`（Log level）设为 `info` 或 `debug`，然后点按 `应用`（Apply）重启应用。重现问题后分享日志。之后请将级别改回 `warn`。
+如需更详细的信息，请将 `设置`（Settings）→ `核心`（Core）→ `日志级别`（Log level）设为 `info` 或 `debug`，然后点按 `应用`（Apply）重启应用。自 2.0.5 起，对于 Xray 配置，还要在同一界面将 `Xray 日志级别`（Xray log level）设为 `info` 或 `debug`（默认 `warning`）：只有两个级别都允许时，Xray 的日志行才会显示。重现问题后分享日志。之后请将级别分别改回 `warn` 和 `warning`。
 
 崩溃后，Throne 会重新启动，并提示你分享一份已隐藏敏感数据的日志文件。
 

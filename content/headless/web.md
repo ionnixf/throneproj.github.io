@@ -211,7 +211,7 @@ secrets:
 
 | Page | What you can do |
 | --- | --- |
-| `Status` | See the state, the running profile, the kill switch and the current rates; connect and disconnect; turn TUN and the system proxy on and off (the system proxy only in a desktop Throne); pick the routing profile; restart the profile when a setting needs it; follow and cancel tests. |
+| `Status` | See the state, the running profile, the kill switch and the current rates; connect and disconnect; turn TUN and the system proxy on and off (the system proxy only in a desktop Throne); pick the routing profile (the list shows the one in use, which can be the [own routing profile](@/guides/routing.md#group-routing) of the running profile's group); restart the profile when a setting needs it; follow and cancel tests. |
 | `Profiles` | Browse groups and profiles with their test results, filter and sort them; connect a profile or the best one of a group; test latency, IP and speed; clear results; delete profiles. Import share links, a file or a URL. Add groups and subscriptions, update and delete them. |
 | `Traffic` | The rates of the last two minutes, and totals by profile or by app for 24 hours, 7 days or 30 days. |
 | `Logs` | Throne's log as it is written, with pause, a text filter, times, copying, and colors for warnings and errors. The page keeps the newest 5000 lines. |
@@ -226,6 +226,7 @@ Changes made elsewhere, in Throne's window, with `thronectl` or by a subscriptio
 The web UI does not edit:
 
 - the rules of routing profiles (it only activates a routing profile),
+- a group's own routing profile and `Use the subscription's routing profile` (for a new subscription, [`thronectl sub add`](@/headless/thronectl.md#profiles) sets them),
 - WARP and OTP accounts,
 - a profile's own settings, such as its server, ports or TLS,
 - the live list of connections,

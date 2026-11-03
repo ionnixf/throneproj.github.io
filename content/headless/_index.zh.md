@@ -29,9 +29,9 @@ toc = true
 
 ## 快速入门 {#quick-start}
 
-在 Debian 12、Ubuntu 22.04 或更高版本（amd64）上：
+在 Debian 10、Ubuntu 20.04 或更高版本（amd64）上：
 
-1. 从[发布页面](https://github.com/throneproj/Throne/releases)下载 `Throne-<version>-debian-amd64.deb`，或者添加 [APT 软件源](@/get_started/installation.zh.md#apt-repository)。
+1. 从[发布页面](https://github.com/throneproj/Throne/releases)下载 `Throne-<version>-debian-amd64.deb`。在 Debian 12、Ubuntu 22.04 或更高版本上，也可以改为添加 [APT 软件源](@/get_started/installation.zh.md#apt-repository)。
 2. 安装软件包并启动服务：
 
    ```bash

@@ -23,7 +23,7 @@ If you used Nekoray or NekoBox before, read [Coming from Nekoray / NekoBox](@/he
 | System | Requirements | Package types |
 |---|---|---|
 | Windows | Windows 10 1809 or newer (x64, ARM64). Windows 7 SP1 or newer with the legacy builds (x64, 32-bit x86). | Installer, portable ZIP |
-| Linux | x64 or ARM64, glibc 2.34 or newer (2.38 for ARM64 builds that bundle Qt) | Portable ZIP, `.deb`, `.rpm`, install script, [APT and RPM repositories](@/get_started/installation.md#apt-repository), [AUR](@/get_started/installation.md#aur) |
+| Linux | x64 or ARM64, glibc 2.28 or newer, for example Debian 10, Ubuntu 20.04 or RHEL 8 (since 1.4.0). The `-system-qt` packages need glibc 2.34 or newer. | Portable ZIP, `.deb`, `.rpm`, install script, [APT and RPM repositories](@/get_started/installation.md#apt-repository), [AUR](@/get_started/installation.md#aur) |
 | macOS | macOS 14.4 or newer (Apple Silicon and Intel). macOS 10.15 or newer with the legacy build (Intel). | ZIP, [Homebrew](@/get_started/installation.md#homebrew) |
 | Android | Android 7.0 or newer | APK |
 
@@ -32,6 +32,7 @@ Get the files from [Downloads](@/downloads.md).
 ## Highlights {#highlights}
 
 - Many protocols, including VLESS with REALITY and XHTTP, Shadowsocks, Trojan, Hysteria, TUIC, WireGuard and AmneziaWG, NaïveProxy, OpenVPN and OpenConnect: [Protocols & Import Formats](@/reference/protocols.md).
+- DNS tunnels, which carry your traffic inside DNS queries: DNSTT/VayDNS, MasterDNS, and XDNS for VLESS (Xray) (since 1.4.0): [DNS Tunnels](@/advanced/dns_tunnels.md).
 - Subscriptions that update on a schedule, with User-Agent and HWID settings for each group: [Subscriptions & Groups](@/guides/subscriptions.md).
 - System proxy or TUN mode for all apps, and proxy sharing with other devices on your network: [System Proxy, TUN & LAN sharing](@/guides/proxy_modes.md).
 - Routing profiles with rules and rule-sets, and ready-made profiles for China, Iran and Russia: [Routing](@/guides/routing.md).
@@ -66,4 +67,4 @@ Throne is built on these projects:
 - [quirc](https://github.com/dlbeer/quirc): QR code reading
 - [srombauts/sqlitecpp](https://github.com/srombauts/sqlitecpp): the profile and settings database
 
-To support the development of Throne, click `Support Throne` in `Program` → `About` (since 1.4.0). It opens the donation page. Throne for Android has the same item on its `About` screen (after 2.0.3).
+To support the development of Throne, click `Support Throne` in `Program` → `About` (since 1.4.0). It opens the donation page. Throne for Android has the same item on its `About` screen (since 2.0.4).

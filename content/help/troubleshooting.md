@@ -39,7 +39,7 @@ Since 1.4.0, a new installation starts in Simple mode, which hides many of the s
 
 - **No rights:** TUN mode needs administrator or root rights. Accept Throne's request, or see [Why does TUN mode need administrator or root rights?](@/help/faq.md#tun-admin). If `Disable Privilege request` (Advanced mode only) is on, Throne does not ask, and you must give the rights yourself.
 - **"Strict routing unavailable"** (Windows): Windows could not turn on strict routing. Open `Tun Settings`, turn off `Strict Route`, and start the profile again.
-- **"Tun device misbehaving":** the virtual adapter is in a bad state, for example after Throne was force-closed. Click `Reset` in the message, or use `Tun Settings` → `Troubleshooting` → `Reset`, and start the profile again. If it still fails, restart the computer.
+- **"Tun device misbehaving":** the virtual adapter is in a bad state, for example after Throne was force-closed. Click `Reset` in the message, or click `Restart Core` in `Tun Settings`, and start the profile again. If it still fails, restart the computer.
 - **The start hangs**, and Throne suggests restarting the software: on Windows, a very large HOSTS file can make the DNS cache flush hang ([#1906](https://github.com/throneproj/Throne/issues/1906)). Keep the HOSTS file small.
 - **"A background Throne (PID …) owns Tun on this computer; stop it or use thronectl."** A headless Throne runs on this computer. See [Throne is running in the background](#background-throne).
 
@@ -141,7 +141,7 @@ Start Throne from a terminal to see the error. For the `.deb` and `.rpm` package
 
 For a ZIP copy, run `./Throne` in its folder. Then check the message:
 
-- `Could not load the Qt platform plugin "xcb"`, with a note that `libxcb-cursor0` is needed: install `libxcb-cursor0` (Debian, Ubuntu) or `xcb-util-cursor` (Fedora) ([#1096](https://github.com/throneproj/Throne/issues/1096)).
+- `Could not load the Qt platform plugin "xcb"`, with a note that `libxcb-cursor0` is needed: install `libxcb-cursor0` (Debian, Ubuntu) or `xcb-util-cursor` (Fedora) ([#1096](https://github.com/throneproj/Throne/issues/1096)). The ZIP and the normal packages include this library, so you see this note only with a Throne that uses the Qt of your system.
 - `This Qt build requires the following features: sse4.2 popcnt`: install the `system-qt` package instead ([FAQ](@/help/faq.md#old-systems)).
 - Other Qt errors: try the `system-qt` package, which uses the Qt of your distribution.
 

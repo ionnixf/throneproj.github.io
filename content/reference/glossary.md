@@ -75,6 +75,10 @@ This page explains the terms you meet in Throne, one sentence each. Follow the l
 | Multiplex (mux) | Carries many connections inside one connection to the server, with smux, h2mux or yamux. | [Anti-Censorship Presets](@/advanced/presets.md#multiplex) |
 | WARP | The free VPN service of Cloudflare, which Throne can add as the last hop after your profile. | [Cloudflare WARP](@/advanced/warp.md) |
 | MASQUE | A tunnel protocol over HTTP/3 or HTTP/2; Throne has a `MASQUE` profile type, and WARP can use it. | [Cloudflare WARP](@/advanced/warp.md) |
+| DNS tunnel | Carries your traffic inside DNS queries, for networks where only DNS gets through. Throne has the `DNSTT / VayDNS` and `MasterDNS` profile types, and XDNS. | [DNS Tunnels](@/advanced/dns_tunnels.md) |
+| Resolver | A DNS server that answers DNS queries for you. A DNS tunnel sends its queries to resolvers, which pass them on to the tunnel server. | [DNS Tunnels](@/advanced/dns_tunnels.md#resolvers) |
+| mKCP | An Xray transport that carries the connection over UDP. | [DNS Tunnels](@/advanced/dns_tunnels.md#xdns) |
+| XDNS | mKCP with an `xdns` mask in Finalmask, which sends the mKCP packets as DNS queries: a DNS tunnel in a `VLESS (Xray)` profile. | [DNS Tunnels](@/advanced/dns_tunnels.md#xdns) |
 
 ## Privacy, files and security {#files-and-security}
 

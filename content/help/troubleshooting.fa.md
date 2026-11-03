@@ -39,7 +39,7 @@ toc = true
 
 - **نبود دسترسی:** حالت TUN به دسترسی مدیر (administrator) یا root نیاز دارد. درخواست Throne را بپذیرید، یا [چرا حالت TUN به دسترسی مدیر یا root نیاز دارد؟](@/help/faq.fa.md#tun-admin) را ببینید. اگر `غیرفعال کردن درخواست دسترسی` (Disable Privilege request) (فقط در حالت پیشرفته) روشن باشد، Throne نمی‌پرسد و باید خودتان دسترسی‌ها را بدهید.
 - **«Strict routing unavailable»** (مسیریابی سخت‌گیرانه در دسترس نیست؛ در Windows): Windows نتوانست مسیریابی سخت‌گیرانه را روشن کند. `تنظیمات vpn` را باز کنید، `مسیر سخت‌گیرانه` را خاموش کنید و نمایه را دوباره اجرا کنید.
-- **«Tun device misbehaving»** (دستگاه Tun درست کار نمی‌کند): آداپتور مجازی در وضعیت نامناسبی است، برای مثال پس از بسته شدن اجباری Throne. در پیام روی `بازنشانی` (Reset) کلیک کنید، یا از `تنظیمات vpn` ← `عیب یابی` (Troubleshooting) ← `بازنشانی` استفاده کنید و نمایه را دوباره اجرا کنید. اگر باز هم کار نکرد، رایانه را دوباره راه‌اندازی کنید.
+- **«Tun device misbehaving»** (دستگاه Tun درست کار نمی‌کند): آداپتور مجازی در وضعیت نامناسبی است، برای مثال پس از بسته شدن اجباری Throne. در پیام روی `بازنشانی` (Reset) کلیک کنید، یا در `تنظیمات vpn` روی `راه‌اندازی مجدد هسته` (Restart Core) کلیک کنید و نمایه را دوباره اجرا کنید. اگر باز هم کار نکرد، رایانه را دوباره راه‌اندازی کنید.
 - **اجرا گیر می‌کند** و Throne پیشنهاد می‌کند نرم‌افزار را دوباره راه‌اندازی کنید: در Windows، یک فایل HOSTS بسیار بزرگ ممکن است باعث شود پاک کردن حافظهٔ نهان DNS گیر کند ([#1906](https://github.com/throneproj/Throne/issues/1906)). فایل HOSTS را کوچک نگه دارید.
 - **«حالت Tun روی این رایانه در اختیار یک Throne پس‌زمینه (PID …) است؛ آن را متوقف کنید یا از thronectl استفاده کنید.»** (A background Throne (PID …) owns Tun on this computer; stop it or use thronectl.) یک Throne بدون رابط گرافیکی روی این رایانه اجرا می‌شود. [Throne در پس‌زمینه در حال اجراست](#background-throne) را ببینید.
 
@@ -141,7 +141,7 @@ Throne را از ترمینال اجرا کنید تا خطا را ببینید.
 
 برای نسخهٔ ZIP، `./Throne` را در پوشهٔ آن اجرا کنید. سپس پیام را بررسی کنید:
 
-- `Could not load the Qt platform plugin "xcb"`، همراه با توضیحی که می‌گوید `libxcb-cursor0` لازم است: `libxcb-cursor0` (Debian، Ubuntu) یا `xcb-util-cursor` (Fedora) را نصب کنید ([#1096](https://github.com/throneproj/Throne/issues/1096)).
+- `Could not load the Qt platform plugin "xcb"`، همراه با توضیحی که می‌گوید `libxcb-cursor0` لازم است: `libxcb-cursor0` (Debian، Ubuntu) یا `xcb-util-cursor` (Fedora) را نصب کنید ([#1096](https://github.com/throneproj/Throne/issues/1096)). فایل ZIP و بسته‌های معمولی این کتابخانه را همراه دارند، پس این توضیح را فقط با Throne‌ای می‌بینید که از Qt سیستم شما استفاده می‌کند.
 - `This Qt build requires the following features: sse4.2 popcnt`: به‌جای آن بستهٔ `system-qt` را نصب کنید ([پرسش‌های متداول](@/help/faq.fa.md#old-systems)).
 - خطاهای دیگر Qt: بستهٔ `system-qt` را امتحان کنید که از Qt توزیع شما استفاده می‌کند.
 

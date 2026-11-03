@@ -85,7 +85,7 @@ On Android 7.1 and later, touch and hold the Throne icon to see these shortcuts.
 
 On Android 8.0 and later, you can put a shortcut for one profile on the home screen:
 
-1. Open the profile with the `Edit` button on its row. This button is disabled while the profile runs. In the `Double column` layout, use ⋮ → `Edit` on the row.
+1. Open the profile with the `Edit` button on its row. This button is disabled while the profile runs. In the `Double column` layout and, since 2.0.5, with `Compact profile rows`, the row has no `Edit` button: use ⋮ → `Edit` on the row. See [Profile list layout](@/android/_index.md#layout).
 2. In the profile editor, tap ⋮ → `Create shortcut`.
 3. Confirm in the dialog of your launcher.
 

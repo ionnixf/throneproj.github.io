@@ -69,6 +69,7 @@ thronectl tun on
 
 - `thronectl import` reads a file of up to 900 KiB, or standard input with `-`. `--url URL` makes Throne download a URL once. Without `--group`, profiles go into the group that is current in Throne.
 - `thronectl sub add` adds a subscription group, named after the URL's host unless you give `--name`, and downloads it. It updates automatically unless you add `--no-auto-update`.
+- `thronectl sub add --route ID` gives the new group its own routing profile, with an ID from `thronectl routes`. `--import-route` keeps the routing profile that the subscription provides and refreshes it at every update. See [Routing profile per group](@/guides/routing.md#group-routing). `thronectl groups` shows each group's routing profile under `ROUTE`.
 - `thronectl connect best` starts the profile with the lowest latency, and first tests the profiles without a recent result (`--max-age`, for example `--max-age 1h`).
 - `thronectl test latency --group 3` tests a group. Tests can take minutes; give them a longer `--timeout`, for example `thronectl --timeout 5m test latency --group 3`.
 
@@ -89,6 +90,7 @@ thronectl backup restore desktop.thrbackup
 
 - `backup restore` shows what is in the archive and asks before it restores. Without a terminal, add `--yes`.
 - By default it restores profiles, routing profiles, OTP accounts and IP lists. To restore settings too, add `--parts profiles,routes,otp,ip_lists,settings`.
+- Restore `profiles` and `routes` together, as the default does. If you restore only one of them, the groups lose their own routing profiles and follow the active one.
 - A settings restore keeps the settings that belong to this device: the Throne API, the inbound address and ports, TUN, the kill switch, NTP, logging and file paths.
 - Throne restarts after a restore.
 - Through the API, Throne refuses archives with profiles that would run programs or read files on its device, such as Extra Core profiles (`invalid_archive`).
@@ -107,6 +109,8 @@ thronectl settings set kill_switch=true log_level=debug
 ```
 
 `true`, `false` and numbers are sent as such, anything else as text. The settings include the ones that `Throne --check` and a `tun_conflict` error name: TUN's address ranges (`tun_ipv4_cidr`, `tun_ipv6_cidr`), the core's DNS port (`dns_in_port`), the inbound (`inbound_address`, `inbound_port`), the Clash API (`clash_api_port`, `clash_listen_addr`) and the sing-box API (`singbox_api_port`). Some settings apply only when the profile starts again; the [settings table](https://github.com/throneproj/Throne-api/blob/main/spec/api.md#settings) in the API specification says which.
+
+`thronectl settings set dns_in_lan=true` lets other devices on the network use the core's DNS server, for example a router; see [DNS server for other devices](@/guides/dns.md#dns-server).
 
 Settings that the API does not manage can only be changed in a desktop Throne. Move them over with a [settings restore](#from-desktop).
 

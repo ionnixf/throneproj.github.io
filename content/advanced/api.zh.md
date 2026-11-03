@@ -105,8 +105,8 @@ API 默认关闭。
 
 | 命令 | 作用 |
 | --- | --- |
-| `status` | 显示状态、正在运行的配置档、各种模式、路由配置档、Throne 的版本；如果有其他程序占用了 TUN，还会显示它是什么。 |
-| `groups` | 列出分组及其 ID。 |
+| `status` | 显示状态、正在运行的配置档、各种模式、正在使用的路由配置档、Throne 的版本；如果有其他程序占用了 TUN，还会显示它是什么。 |
+| `groups` | 列出分组及其 ID。`ROUTE` 显示分组自己的路由配置档；分组跟随活动的路由配置档时显示 `active`。 |
 | `profiles [--group N] [--name REGEX] [--ids 1,2]` | 列出配置档及其最近的测试结果。 |
 | `connect <id>` | 启动一个配置档。`--restart` 会在它已经运行时重新启动它。 |
 | `connect last` | 启动正在运行的配置档，否则启动上次的配置档，否则启动记住的配置档。 |
@@ -115,8 +115,8 @@ API 默认关闭。
 | `toggle` | 没有配置档运行时执行 `connect last`，否则执行 `disconnect`。 |
 | `tun on`、`tun off`、`tun toggle` | 开启或关闭 TUN 模式。 |
 | `proxy on`、`proxy off`、`proxy toggle` | 开启或关闭系统代理。 |
-| `routes` | 列出路由配置档。 |
-| `route <id>` | 将某个路由配置档设为活动配置档，并重新启动正在运行的配置档。 |
+| `routes` | 列出路由配置档。`*` 标记活动的路由配置档。另有备注标记正在运行的配置档所在分组使用的路由配置档，以及由订阅分组更新的路由配置档。 |
+| `route <id>` | 将某个路由配置档设为活动配置档，并重新启动正在运行的配置档，除非正在运行的配置档所在的分组使用自己的路由配置档。 |
 | `test latency`、`test ip`、`test speed` | 运行 URL 测试、IP 测试或速度测试，并显示结果。请加上 `--group N`（可选再加 `--name REGEX`）或配置档 ID。 |
 | `jobs`、`job <id>`、`cancel <id>` | 列出最近的测试、显示某个测试、停止某个测试。 |
 | `clear` | 清除测试结果。请加上 `--group N`（可选再加 `--name REGEX`）或配置档 ID。 |
@@ -124,7 +124,7 @@ API 默认关闭。
 | `traffic [--by profile] [--by app] [--since 24h]` | 按配置档（默认）或按应用显示流量总计。`--since` 也接受天数，例如 `7d`。 |
 | `logs [-n N] [-f]` | 打印 Throne 日志的最后 `N` 行，默认 200 行，最多 1000 行。`-f` 随后会持续打印新行，直到你停止它，连接中断或 Throne 重启时也会继续。使用 `--json` 时，每行输出一个 JSON 对象。 |
 | `import [--group N] FILE` | 从一个不超过 900 KiB 的文件导入分享链接、订阅内容，或 Clash、sing-box、Xray、WireGuard 或 OpenVPN 配置。`-` 表示从标准输入读取；`--url URL` 让 Throne 下载某个 URL 一次。默认分组为 Throne 当前显示的分组。 |
-| `sub add <url> [--name NAME]` | 添加一个订阅分组并更新它，默认以 URL 的主机名命名。`--no-auto-update` 让它不参与自动更新；`--no-update` 表示现在不下载。 |
+| `sub add <url> [--name NAME]` | 添加一个订阅分组并更新它，默认以 URL 的主机名命名。`--no-auto-update` 让它不参与自动更新；`--no-update` 表示现在不下载。`--route ID` 为该分组指定自己的路由配置档；`--import-route` 保留订阅提供的路由配置档。 |
 | `sub update <id>…`、`sub update --all` | 更新订阅分组，或更新所有未归档的分组。 |
 | `group add <name>`、`group rm <id>` | 添加一个分组；删除一个分组及其中的配置档。 |
 | `profile rm <id>…`、`profile rm --group N [--name REGEX]` | 删除配置档。 |
@@ -149,6 +149,7 @@ API 默认关闭。
 - 启动或停止配置档的命令会等待结果，最长等待 `--timeout`。如果 Throne 需要更长时间，`thronectl` 会显示当前状态（例如 `connecting`），Throne 会自行完成操作。导入、更新、删除和下载也以同样的方式等待。`--no-wait` 会立即返回。
 - 测试和 geo 下载可能需要几分钟，因此请给它们更长的 `--timeout`，例如 `--timeout 15m`。耗时更长的测试会在 Throne 中继续运行；可以用 `thronectl job <id>` 跟踪它。
 - Throne 同一时间只运行一个测试，无论你是从窗口还是通过 API 启动它。
+- 分组可以使用自己的路由配置档进行连接（参见[按分组设置路由配置档](@/guides/routing.zh.md#group-routing)）。此时 `route` 只会更改其他分组的路由配置档。通过 API，只有在 `sub add` 创建分组时才能为它指定自己的路由配置档；之后要更改，请使用 Throne 窗口中的分组选项。
 - `thronectl` 成功时以 `0` 退出；以下情况以 `1` 退出：Throne 返回错误（打印为 `error: <code>: <message>`）、订阅、规则集或 geo 更新失败，或者对询问回答了否；命令或参数错误时以 `2` 退出；无法连接、密钥被拒绝或无法读取文件时以 `3` 退出。
 
 ### 设置 {#settings}
@@ -164,8 +165,10 @@ API 默认关闭。
 | 自动更新 | `sub_auto_update`、`sub_respect_server_interval`、`route_auto_update`（单位为分钟，`0` 表示关闭） |
 | 断网保护 | `kill_switch` |
 | TUN | `tun_strict_route`、`tun_auto_redirect`（Linux）、`tun_mtu`、`tun_ipv6`、`tun_ipv4_cidr`、`tun_ipv6_cidr` |
-| 端口与 API | `dns_in_port`、`clash_api_port`、`clash_listen_addr`、`singbox_api_port` |
+| 端口与 API | `dns_in_port`、`dns_in_lan`、`clash_api_port`、`clash_listen_addr`、`singbox_api_port` |
 | DNS 与时间 | `remote_dns`、`direct_dns`、`ntp_enabled`、`ntp_server`、`ntp_interval` |
+
+`dns_in_lan` 让你网络中的其他设备可以通过 `dns_in_port` 使用核心的 DNS 服务器；参见[供其他设备使用的 DNS 服务器](@/guides/dns.zh.md#dns-server)。
 
 对日志、入站、端口、DNS 和 NTP 的大多数更改会在正在运行的配置档重新启动时生效。只有当配置档正以 TUN 模式运行时，TUN 设置才需要这次重新启动；否则它们会在下次启动 TUN 模式时生效。需要重新启动时，`thronectl status` 会提示；`thronectl connect last --restart` 会应用这些更改。规范中的[设置表](https://github.com/throneproj/Throne-api/blob/main/spec/api.md#settings)列出了允许的值。
 

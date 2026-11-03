@@ -23,12 +23,12 @@ toc = true
 
 | 软件包 | 需要 | 可运行于，例如 |
 | --- | --- | --- |
-| `Throne-<version>-debian-amd64.deb`、`…-fedora-amd64.rpm` | glibc 2.34 | Debian 12、Ubuntu 22.04、Fedora、openSUSE Tumbleweed |
-| `…-amd64-system-qt.deb`、`…-amd64-system-qt.rpm` | glibc 2.34 和系统的 Qt 6 | 同上，使用发行版提供的 Qt |
-| `Throne-<version>-debian-arm64-system-qt.deb` | glibc 2.34 和系统的 Qt 6 | arm64 上的 Raspberry Pi OS bookworm、Debian 12、Ubuntu 22.04 |
-| `Throne-<version>-debian-arm64.deb`、`…-fedora-arm64.rpm` | glibc 2.38 | Ubuntu 24.04、Debian 13、Raspberry Pi OS trixie |
+| `Throne-<version>-debian-amd64.deb`、`…-fedora-amd64.rpm` | glibc 2.28 | Debian 10、Ubuntu 20.04、RHEL 8 及更高版本、Fedora、openSUSE |
+| `…-amd64-system-qt.deb`、`…-amd64-system-qt.rpm` | glibc 2.34 和系统的 Qt 6 | Debian 12、Ubuntu 22.04 及更高版本、Fedora、openSUSE Tumbleweed，使用发行版提供的 Qt |
+| `Throne-<version>-debian-arm64.deb`、`…-fedora-arm64.rpm` | glibc 2.28 | arm64 上的 Raspberry Pi OS bullseye、Debian 10、Ubuntu 20.04 及更高版本 |
+| `Throne-<version>-debian-arm64-system-qt.deb` | glibc 2.34 和系统的 Qt 6 | arm64 上的 Raspberry Pi OS bookworm、Debian 12、Ubuntu 22.04 及更高版本 |
 
-每个软件包都依赖其文件所需的 glibc 版本，因此包管理器会拒绝安装对系统而言过新的软件包，而不是装上一个无法启动的 Throne。在运行 Raspberry Pi OS bookworm（glibc 2.36）的树莓派上，请使用 arm64 的 `system-qt` 软件包。
+每个软件包都依赖其文件所需的 glibc 版本，因此包管理器会拒绝安装对系统而言过新的软件包，而不是装上一个无法启动的 Throne。在树莓派上，请使用 64 位的 Raspberry Pi OS。在 bookworm 及更高版本上，两种 arm64 软件包都能使用。bullseye 没有 Qt 6，因此请在其上使用普通的 arm64 软件包。
 
 不带 `system-qt` 的软件包自带 Qt，但仍然依赖系统的图形、字体和 X11 库，因为同一个 Throne 程序也包含桌面版。包管理器会安装这些库。不需要任何显示器。
 

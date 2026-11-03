@@ -143,8 +143,8 @@ Throne 1.1.0 و 1.1.1 یک پیکربندی کامل sing-box را که `inbound
 
 ## بسته‌های `.deb` چه تفاوتی با هم دارند؟ {#deb-variants}
 
-- `Throne-<version>-debian-amd64.deb` نسخهٔ خودش از کتابخانه‌های Qt را همراه دارد. حجمش بیشتر است، اما به نسخهٔ Qt سیستم شما وابسته نیست.
-- `Throne-<version>-debian-amd64-system-qt.deb` شامل Qt نیست. از کتابخانه‌های Qt 6 توزیع شما استفاده می‌کند و آن‌ها را به‌عنوان وابستگی نصب می‌کند.
+- `Throne-<version>-debian-amd64.deb` نسخهٔ خودش از کتابخانه‌های Qt را همراه دارد. حجمش بیشتر است، اما به نسخهٔ Qt سیستم شما وابسته نیست. از نسخهٔ 1.4.0، روی سیستم‌های قدیمی‌تر هم، از Debian 10 و Ubuntu 20.04 (glibc 2.28) به بعد، اجرا می‌شود.
+- `Throne-<version>-debian-amd64-system-qt.deb` شامل Qt نیست. از کتابخانه‌های Qt 6 توزیع شما استفاده می‌کند و آن‌ها را به‌عنوان وابستگی نصب می‌کند. به glibc 2.34 یا جدیدتر و Qt 6 نیاز دارد، مثل Debian 12 و Ubuntu 22.04 یا جدیدتر.
 
 با بستهٔ معمولی شروع کنید. اگر بستهٔ معمولی اجرا نشد، برای مثال روی پردازنده‌های بدون SSE4.2 ([#845](https://github.com/throneproj/Throne/issues/845))، از بستهٔ `system-qt` استفاده کنید. همین دو گونه برای arm64 (`debian-arm64.deb` و `debian-arm64-system-qt.deb`) و به‌صورت بسته‌های `.rpm` برای Fedora و RHEL (`fedora-amd64.rpm`، `fedora-amd64-system-qt.rpm` و نسخه‌های arm64) هم وجود دارد. مخزن‌های APT و RPM مربوط به Throne بسته‌های `system-qt` را دارند. [نصب](@/get_started/installation.fa.md#linux) را ببینید.
 
@@ -156,10 +156,11 @@ Throne 1.1.0 و 1.1.1 یک پیکربندی کامل sing-box را که `inbound
 
 بسته‌های WinGet، Scoop و Nix/NixOS، و بسته‌های دیگر AUR مانند `throne-bin`، را اعضای جامعهٔ کاربری می‌سازند و توسعه‌دهندگان از آن‌ها پشتیبانی نمی‌کنند ([#1182](https://github.com/throneproj/Throne/issues/1182)، [#1622](https://github.com/throneproj/Throne/issues/1622)). اگر مشکلی فقط با چنین بسته‌ای رخ می‌دهد، یک بیلد رسمی را امتحان کنید و مشکلات بسته‌بندی را به نگه‌دارندهٔ آن بسته گزارش دهید. [مدیران بسته](@/get_started/installation.fa.md#package-managers) را ببینید.
 
-## برای Windows 7، macOS قدیمی یا پردازندهٔ قدیمی به کدام بیلد نیاز دارم؟ {#old-systems}
+## برای Windows 7، macOS قدیمی، یک سیستم Linux قدیمی یا پردازندهٔ قدیمی به کدام بیلد نیاز دارم؟ {#old-systems}
 
 - **Windows 7 SP1 و Windows 8:** از `windowslegacy64.zip` (64 بیتی) یا `windows32.zip` (32 بیتی) استفاده کنید. نصب‌کنندهٔ universal هم کار می‌کند: روی Windows 32 بیتی و روی Windows 64 بیتیِ قدیمی‌تر از Windows 10 1809، خودش بیلد legacy را نصب می‌کند. فایل معمولی `windows64.zip` به Windows 10 1809 یا جدیدتر نیاز دارد. در Throne 1.3 و نسخه‌های قدیمی‌تر، حالت TUN روی Windows 7 و 8 فقط با پشتهٔ `gvisor` کار می‌کند ([#1291](https://github.com/throneproj/Throne/issues/1291))؛ از نسخهٔ 1.4.0، `تنظیمات vpn` (Tun Settings) تنظیم `Stack` ندارد.
 - **Mac با پردازندهٔ Intel و macOS 10.15 تا 14.3:** از `macoslegacy-amd64.zip` استفاده کنید. بیلدهای معمولی macOS به macOS 14.4 یا جدیدتر نیاز دارند. نسخه‌های قدیمی‌تر macOS پشتیبانی نمی‌شوند. در Throne 1.3 و نسخه‌های قدیمی‌تر، بیلدهای معمولی macOS به macOS 13 یا جدیدتر نیاز داشتند.
+- **توزیع‌های قدیمی‌تر Linux:** از نسخهٔ 1.4.0، فایل‌های ZIP، اسکریپت نصب و بسته‌های معمولی `.deb` و `.rpm` به glibc 2.28 یا جدیدتر نیاز دارند، پس روی Debian 10، Ubuntu 20.04، RHEL 8 و Raspberry Pi OS bullseye اجرا می‌شوند. بسته‌های `-system-qt`، و در نتیجه مخزن‌های APT و RPM، به Debian 12، Ubuntu 22.04، RHEL 9 یا جدیدتر نیاز دارند. [Linux](@/get_started/installation.fa.md#linux) را ببینید.
 - **پردازنده‌های قدیمی در Linux:** اگر Throne اجرا نمی‌شود و پیام `This Qt build requires the following features: sse4.2 popcnt` را چاپ می‌کند، بستهٔ `system-qt` را نصب کنید ([#845](https://github.com/throneproj/Throne/issues/845)).
 
 جدول صفحهٔ [دانلود](@/downloads.fa.md) حداقل سیستم لازم برای هر فایل را فهرست می‌کند.

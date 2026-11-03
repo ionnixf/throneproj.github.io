@@ -69,6 +69,7 @@ thronectl tun on
 
 - `thronectl import` 读取不超过 900 KiB 的文件，或者用 `-` 读取标准输入。`--url URL` 让 Throne 下载某个 URL 一次。不带 `--group` 时，配置档会进入 Throne 中的当前分组。
 - `thronectl sub add` 添加一个订阅分组并下载它；除非你提供 `--name`，否则该分组以 URL 中的主机名命名。除非你添加 `--no-auto-update`，否则它会自动更新。
+- `thronectl sub add --route ID` 为新分组指定自己的路由配置档，ID 取自 `thronectl routes`。`--import-route` 保留订阅提供的路由配置档，并在每次更新时刷新它。参见[按分组设置路由配置档](@/guides/routing.zh.md#group-routing)。`thronectl groups` 会在 `ROUTE` 下显示每个分组的路由配置档。
 - `thronectl connect best` 启动延迟最低的配置档，并且会先测试没有近期结果的配置档（`--max-age`，例如 `--max-age 1h`）。
 - `thronectl test latency --group 3` 测试一个分组。测试可能需要几分钟；请给它们更长的 `--timeout`，例如 `thronectl --timeout 5m test latency --group 3`。
 
@@ -89,6 +90,7 @@ thronectl backup restore desktop.thrbackup
 
 - `backup restore` 会显示归档中的内容，并在恢复前询问。没有终端时，请添加 `--yes`。
 - 默认情况下，它会恢复配置档、路由配置档、OTP 条目和 IP 列表。如果还要恢复设置，请添加 `--parts profiles,routes,otp,ip_lists,settings`。
+- 请像默认情况那样同时恢复 `profiles` 和 `routes`。如果只恢复其中之一，分组会失去自己的路由配置档，转而跟随活动的路由配置档。
 - 恢复设置时，会保留属于本设备的设置：Throne API、入站地址和端口、TUN、Kill Switch、NTP、日志以及文件路径。
 - 恢复后 Throne 会重启。
 - 通过 API 恢复时，Throne 会拒绝含有会在其设备上运行程序或读取文件的配置档（例如额外核心配置档）的归档（`invalid_archive`）。
@@ -107,6 +109,8 @@ thronectl settings set kill_switch=true log_level=debug
 ```
 
 `true`、`false` 和数字按原样发送，其他内容都作为文本发送。这些设置包括 `Throne --check` 和 `tun_conflict` 错误中提到的那些：TUN 的地址范围（`tun_ipv4_cidr`、`tun_ipv6_cidr`）、核心的 DNS 端口（`dns_in_port`）、入站（`inbound_address`、`inbound_port`）、Clash API（`clash_api_port`、`clash_listen_addr`）以及 sing-box API（`singbox_api_port`）。有些设置只有在配置档重新启动后才会生效；具体是哪些，请参见 API 规范中的[设置表](https://github.com/throneproj/Throne-api/blob/main/spec/api.md#settings)。
+
+`thronectl settings set dns_in_lan=true` 让网络中的其他设备（例如路由器）可以使用核心的 DNS 服务器；参见[供其他设备使用的 DNS 服务器](@/guides/dns.zh.md#dns-server)。
 
 API 不管理的设置只能在桌面版 Throne 中更改。请通过[恢复设置](#from-desktop)把它们迁移过来。
 

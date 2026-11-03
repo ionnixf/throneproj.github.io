@@ -78,6 +78,8 @@
       url: /advanced/presets/
     - title: "Cloudflare WARP"
       url: /advanced/warp/
+    - title: "تونل‌های DNS"
+      url: /advanced/dns_tunnels/
     - title: "OpenVPN، OpenConnect و Tailscale"
       url: /advanced/vpn_profiles/
     - title: "محافظت از نشت DNS در Windows"

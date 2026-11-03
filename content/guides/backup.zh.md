@@ -41,6 +41,8 @@ toc = true
 
 旧版本 Throne 创建的备份可以正常恢复。较新版本创建的备份可能会被拒绝，并提示“不支持的备份格式版本”；请先更新 Throne。自 1.3.2 起，如果备份中的路由规则使用了此版本 Throne 不支持的条件（例如来自较新版本的规则），Throne 会跳过这些规则，并告诉你跳过了多少条。
 
+自 1.4.0 起，如果只恢复 `配置档(分组和代理)`（Profiles (groups and proxies)）和 `路由配置档`（Routing profiles）中的一个部分，拥有自己路由配置档的分组会改回使用默认路由配置档。Throne for Android 自 2.0.5 起也是如此。
+
 要备份或恢复无界面（headless）运行的 Throne，或把桌面版的备份发送给它，请参见 [thronectl](@/headless/thronectl.zh.md#from-desktop)。
 
 ## WebDAV 备份 {#webdav}
@@ -117,14 +119,14 @@ Throne 从不自行删除旧备份。请按下文所述删除你不再需要的�
 
 ### Android 上的 WebDAV {#webdav-android}
 
-在 Throne for Android 中，打开侧边菜单中的 `工具`（Tools），或打开 `设置`（Settings）→ `备份与恢复`（Backup & restore）。`WebDAV`（WebDAV backup）卡片中有 `备份到 WebDAV`（Back up to WebDAV）、`从 WebDAV 恢复`（Restore from WebDAV）和 `WebDAV 设置`（WebDAV settings）。设置项包括 `服务器地址`（Server address）、`账号`（Username）、`密码`（Password）、`备份目录`（Backup path）（默认 `Throne`）和 `测试连接`（Test connection），在 2.0.3 之后的版本中还有 `Device name`。`备份到 WebDAV` 会上传 `本地`（Local backup）卡片中勾选的部分。
+在 Throne for Android 中，打开侧边菜单中的 `工具`（Tools），或打开 `设置`（Settings）→ `备份与恢复`（Backup & restore）。`WebDAV`（WebDAV backup）卡片中有 `备份到 WebDAV`（Back up to WebDAV）、`从 WebDAV 恢复`（Restore from WebDAV）和 `WebDAV 设置`（WebDAV settings）。设置项包括 `服务器地址`（Server address）、`账号`（Username）、`密码`（Password）、`备份目录`（Backup path）（默认 `Throne`）和 `测试连接`（Test connection），自 2.0.4 起还有 `Device name`。`备份到 WebDAV` 会上传 `本地`（Local backup）卡片中勾选的部分。
 
 要在两个应用之间共享备份，请在两边填写相同的服务器和相同的文件夹：桌面版的 `Folder` 对应 Android 上的 `备份目录`（Backup path）。在 Android 上恢复桌面版备份时，有几处会发生变化。参见[在桌面版与 Android 之间迁移](#desktop-android)。
 
 Android 应用有几处不同：
 
 - 在 2.0.3 中，它不使用备份列表。`从 WebDAV 恢复` 会显示文件夹中 `.thrbackup` 文件的名称，点按其中一个即可打开恢复窗口。对于 2.0.3 上传的备份，桌面版会显示为“Unknown device”。
-- 在 2.0.3 之后的版本中，它与桌面版使用同一份备份列表。`从 WebDAV 恢复` 会显示每个备份的日期、设备、平台、版本、内容和大小。点按某个备份可查看详细信息，然后选择 `恢复`（Restore）或 `Delete`。下载的文件会像桌面版一样根据列表进行检查。默认的 `Device name` 是 Android 设置中的设备名称，或者制造商和型号。
+- 自 2.0.4 起，它与桌面版使用同一份备份列表。`从 WebDAV 恢复` 会显示每个备份的日期、设备、平台、版本、内容和大小。点按某个备份可查看详细信息，然后选择 `恢复`（Restore）或 `Delete`。下载的文件会像桌面版一样根据列表进行检查。默认的 `Device name` 是 Android 设置中的设备名称，或者制造商和型号。
 - 它没有用于 WebDAV 的代理选项。它的 WebDAV 请求从不使用本地代理。在 VPN 模式下，当 Throne 已连接时，这些请求会像其他应用的流量一样经过 VPN。
 - 它从不忽略 WebDAV 的 TLS 证书错误。
 

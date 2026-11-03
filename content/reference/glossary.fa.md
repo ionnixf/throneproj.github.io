@@ -75,6 +75,10 @@ toc = true
 | Multiplex (mux) (چندگانه‌سازی) | چندین اتصال را درون یک اتصال به سرور منتقل می‌کند، با smux، h2mux یا yamux. | [پیش‌تنظیم‌های ضدسانسور](@/advanced/presets.fa.md#multiplex) |
 | WARP | سرویس VPN رایگان Cloudflare که Throne می‌تواند آن را به‌عنوان آخرین هاپ پس از نمایهٔ شما اضافه کند. | [Cloudflare WARP](@/advanced/warp.fa.md) |
 | MASQUE | یک پروتکل تونل روی HTTP/3 یا HTTP/2؛ Throne یک نوع نمایهٔ `MASQUE` دارد و WARP هم می‌تواند از آن استفاده کند. | [Cloudflare WARP](@/advanced/warp.fa.md) |
+| DNS tunnel (تونل DNS) | ترافیک شما را درون پرس‌وجوهای DNS حمل می‌کند، برای شبکه‌هایی که فقط DNS از آن‌ها عبور می‌کند. Throne نوع‌های نمایهٔ `DNSTT / VayDNS` و `MasterDNS` و همچنین XDNS را دارد. | [تونل‌های DNS](@/advanced/dns_tunnels.fa.md) |
+| Resolver (ریزالور) | سرور DNS که به‌جای شما به پرس‌وجوهای DNS پاسخ می‌دهد. تونل DNS پرس‌وجوهایش را به ریزالورها می‌فرستد و آن‌ها پرس‌وجوها را به سرور تونل می‌رسانند. | [تونل‌های DNS](@/advanced/dns_tunnels.fa.md#resolvers) |
+| mKCP | یک ترنسپورت Xray که اتصال را روی UDP حمل می‌کند. | [تونل‌های DNS](@/advanced/dns_tunnels.fa.md#xdns) |
+| XDNS | mKCP با یک ماسک `xdns` در Finalmask که بسته‌های mKCP را به‌صورت پرس‌وجوهای DNS می‌فرستد: یک تونل DNS در نمایهٔ `VLESS (Xray)`. | [تونل‌های DNS](@/advanced/dns_tunnels.fa.md#xdns) |
 
 ## حریم خصوصی، فایل‌ها و امنیت {#files-and-security}
 

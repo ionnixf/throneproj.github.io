@@ -7,7 +7,7 @@ toc = true
 
 Throne's core is built on sing-box, and it also contains Xray. Most profiles run on sing-box. Some VLESS profiles and all Xray custom configs run on Xray. This page explains how Throne chooses the core, how to change that choice for VLESS links, and how to fix Reality connection errors.
 
-In Simple mode, most settings on this page are hidden: the `Logging` and `Core` tabs, `Xray Geo Assets` and `Trust System Certificates in Xray` in `Basic Settings`, the XDRIVE `Tuning` group and `Share` → `Export config`. See [Simple and Advanced mode](@/get_started/configuration.md#interface-mode).
+In Simple mode, most settings on this page are hidden: the `Logging` and `Core` tabs, `Xray Geo Assets` and `Trust System Certificates in Xray` in `Basic Settings`, the `Tuning` groups of XDRIVE and mKCP, and `Share` → `Export config`. See [Simple and Advanced mode](@/get_started/configuration.md#interface-mode).
 
 ## Two cores in one {#two-cores}
 
@@ -28,9 +28,12 @@ Some VLESS features exist only in Xray. A `vless://` link that uses one of them 
 - the XHTTP transport (`type=xhttp`) and its `extra` settings,
 - VLESS encryption (an `encryption` value other than `none`),
 - Finalmask,
+- the mKCP transport (`type=kcp`, since 1.4.0),
 - a TCP (`raw`) transport with an HTTP header together with TLS.
 
 The XDRIVE transport (since 1.4.0) also exists only in Xray, but it has no link format. See [XDRIVE](#xdrive).
+
+mKCP carries the connection over UDP. To use it, choose `kcp` in `Network` in the profile editor. With an `xdns` mask in Finalmask, mKCP becomes XDNS, a DNS tunnel. See [XDNS](@/advanced/dns_tunnels.md#xdns) for the mKCP fields.
 
 Xray messages appear in the same `Logs` tab. Their detail level is set in `Settings` → `Basic Settings` → `Logging` → `Xray Log level`.
 
@@ -111,7 +114,7 @@ The option applies to the TLS settings of every Xray profile and of every outbou
 
 ## XDRIVE {#xdrive}
 
-Since 1.4.0, `VLESS (Xray)` profiles can use the XDRIVE transport. With XDRIVE, Throne and the server do not connect to each other. They exchange the traffic as files in a storage that both of them can reach: a Google Drive folder, another storage service with an HTTP API, or a folder on this computer. Use it only with a server that is set up for XDRIVE, with the settings that its operator gives you.
+Since 1.4.0, `VLESS (Xray)` profiles can use the XDRIVE transport. With XDRIVE, Throne and the server do not connect to each other. They exchange the traffic as files in a storage that both of them can reach: a Google Drive folder, an S3 bucket, another storage service with an HTTP API, or a folder on this computer. Use it only with a server that is set up for XDRIVE, with the settings that its operator gives you.
 
 XDRIVE has no link format, because a link would carry the storage secrets. Import the server's Xray JSON configuration instead, or a Throne link (`throne://add/…`). A `vless://` link with `type=xdrive` is refused with "XDRIVE has no share-link format. Import the server's JSON configuration instead." When you share an XDRIVE profile, Throne gives you its Throne link.
 
@@ -125,9 +128,14 @@ The `Storage` group:
 
 | Field | What it does |
 | --- | --- |
-| `Service` | `google-drive` (default): a Google Drive folder. `template`: any storage service whose HTTP API `Template` describes. `local`: a folder on this computer. |
-| `Folder` | `google-drive`: the ID of the folder that both ends share. `local`: the path of the folder. `template`: the value that the template reads as `{folder}`. Required for `google-drive` and `local`. |
+| `Service` | `google-drive` (default): a Google Drive folder. `s3`: a bucket of any S3-compatible storage, for example AWS S3, MinIO or Cloudflare R2. `template`: any storage service whose HTTP API `Template` describes. `local`: a folder on this computer. |
+| `Folder` | `google-drive`: the ID of the folder that both ends share. `s3`: the key prefix in the bucket that both ends share. `local`: the path of the folder. `template`: the value that the template reads as `{folder}`. Required for `google-drive`, `s3` and `local`. |
 | `Client ID`, `Client Secret`, `Refresh Token` | `google-drive` only, all three required: the OAuth client, and the refresh token of the Google account that owns the folder. |
+| `Endpoint` | `s3` only, required: the URL of the S3 API, for example `https://s3.us-east-1.amazonaws.com` or a MinIO or R2 endpoint. It must start with `http://` or `https://` and contain no credentials, query or fragment. |
+| `Region` | `s3` only: the region that requests are signed for. Empty means `us-east-1`. |
+| `Bucket` | `s3` only, required: the bucket that both ends share. |
+| `Path-Style Addressing` | `s3` only, on by default: puts the bucket in the URL path. When it is off, the bucket becomes part of the host name of the endpoint. This needs an endpoint with a domain name, not an IP address, and a bucket name of lowercase letters, digits, dots and hyphens. |
+| `Access Key ID`, `Secret Access Key`, `Session Token` | `s3` only: the S3 credentials. The first two are required. `Session Token` is optional, for temporary credentials. |
 | `Secrets` | `template` only: values that the template reads as `{secret0}`, `{secret1}` and so on, separated by commas. |
 | `Template` | `template` only, required: the auth, put, get, list and delete operations of the storage API, as JSON. Click the button to edit it. |
 | `Front Address`, `Front Port` | Optional, not for `local`: Throne connects to the storage API at this address while TLS still names the API host, a form of domain fronting. `Front Port` defaults to 443 and is used only together with `Front Address`. |
@@ -168,6 +176,7 @@ If a rule names a category that the file does not contain, Throne shows "Geo ass
 
 - The same setting is in `Settings` → `Core` → `Xray VLESS preference`, with `XHTTP only`, `XHTTP and Reality` (default) and `All VLESS`. It also applies only when you import, so update the subscription after you change it.
 - The profile types are `VLESS` and `VLESS (Xray)`, and the limits for Xray in chains are the same.
-- After 2.0.3, `VLESS (Xray)` profiles can use XDRIVE too: choose `XDRIVE` in `Network`. The fields are in `XDRIVE settings` and `XDRIVE tuning`, and `Secrets` takes one value per line.
-- After 2.0.3, `Settings` → `Core` → `Trust system certificates in Xray` does the same as on the desktop. It trusts the root certificates that come with Android, not the ones that you installed yourself.
+- Since 2.0.4, `VLESS (Xray)` profiles can use XDRIVE too: choose `XDRIVE` in `Network`. The fields are in `XDRIVE settings` and `XDRIVE tuning`, and `Secrets` takes one value per line. The `s3` service is desktop only.
+- The mKCP transport and XDNS are desktop only.
+- Since 2.0.4, `Settings` → `Core` → `Trust system certificates in Xray` does the same as on the desktop. It trusts the root certificates that come with Android, not the ones that you installed yourself.
 - Since 2.0.2, Throne for Android downloads `geoip.dat` and `geosite.dat` by itself when an Xray config with `geoip:` or `geosite:` rules starts or is tested, and the notification shows the progress. Choose where they come from in `Settings` → `Core` → `Xray geo assets`: `Source` offers the same four sources as the desktop app, or `Custom` addresses. Tap a file under `Files` to download it again, or tap `Download now` for both.

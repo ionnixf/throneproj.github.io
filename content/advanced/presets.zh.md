@@ -165,6 +165,6 @@ TLS 伪装需要发送原始数据包，因此核心需要更高的权限：
 
 - 同样的预设位于 `设置`（Settings）→ `预设`（Presets）：多路复用（sing-box 和 Xray）、TLS Client Hello 分片、TLS 技巧、uTLS，以及 HTTP/2 和 QUIC。其中 `默认开启` 在 Android 上的英文名称为 `On by default`。
 - 配置档同样有 `保持默认`（Keep default）选项，ECH 也是按配置档设置。
-- 2.0.3 之后，多路复用预设具有与桌面版相同的字段；配置档编辑器中的 `启用多路复用`（Enable multiplexer）也提供 `自定义`（Custom）选项，选择后会在其下方直接显示多路复用的各个字段。
-- Throne for Android 2.0.2 没有路由规则的 TLS 分片选项。
+- 自 2.0.4 起，多路复用预设具有与桌面版相同的字段；配置档编辑器中的 `启用多路复用`（Enable multiplexer）也提供 `自定义`（Custom）选项，选择后会在其下方直接显示多路复用的各个字段。
+- 自 2.0.3 起，路由规则也可以对其匹配的连接进行分片，选项为 `TLS 分片`（TLS fragment）、`TLS 分片回退延迟`（TLS fragment fallback delay）和 `TLS 记录分片`（TLS record fragment）。Throne for Android 2.0.2 没有这些选项。
 - TLS 伪装在 Android 上不可用。

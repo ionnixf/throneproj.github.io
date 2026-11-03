@@ -30,7 +30,7 @@ The `Documentation` item in the app's side menu (the drawer) opens this website.
 5. On the `Profiles` screen, tap `Add profile` in the toolbar (the page with a plus sign), then `Import from clipboard`. To scan a QR code instead, choose `Scan QR code`.
 6. Throne detects the URL and asks "How to update?". Tap `Create new subscription group`. Throne adds a group named after the host name in the URL and downloads its profiles.
 7. Tap the tab of the new group.
-8. Tap ⋮ (`More options`) → `URL test`. A panel shows the progress and a summary of the results. Each profile shows its own result in the list.
+8. Tap ⋮ (`More options`) → `Test` → `URL test`. In 2.0.4 and older, `URL test` is directly in the ⋮ menu. A panel shows the progress and a summary of the results. Each profile shows its own result in the list.
 9. When the test finishes, tap `Select fastest`, or tap a profile that works.
 10. Tap the round connect button at the bottom of the screen. The first time, Android asks whether Throne may set up a VPN connection. Allow it.
 11. To check the connection, tap the bar at the bottom of the screen ("Connected, tap to check connection"). It shows "Success: HTTP handshake took …ms" (since 2.0.3: "HTTP: … ms") when traffic passes through the profile. Since 2.0.2, the bar also shows the location where your traffic leaves the internet. Throne asks an IP lookup service for it through the connection. Since 2.0.3, `Settings` → `Testing` → `Look up exit country` turns this off, and `Lookup service` chooses the service.
@@ -64,7 +64,17 @@ Android also has home-screen widgets, a Quick Settings tile and the system's Alw
 The drawer also has two screens for watching the connection:
 
 - `sing-box dashboard` (since 2.0.2) shows the live traffic, the connections and the log of the running core. It needs a running profile and Android System WebView. The dashboard files come with the app. To hide the item, turn off `Settings` → `Core` → `Enable sing-box API`.
-- `Live graphs` (since 2.0.3) shows the proxy and direct speed of the last minutes, and the CPU use, memory and connections of the core. In 2.0.3, touch and hold the bar at the bottom of the screen to open it. After 2.0.3, touching and holding the bar opens a menu with `Live graphs` and `Speed test current connection`. The speed test needs a running connection.
+- `Live graphs` (since 2.0.3) shows the proxy and direct speed of the last minutes, and the CPU use, memory and connections of the core. In 2.0.3, touch and hold the bar at the bottom of the screen to open it. Since 2.0.4, touching and holding the bar opens a menu with `Live graphs` and `Speed test current connection`. The speed test needs a running connection.
+
+## Profile list layout {#layout}
+
+The `Profiles` screen shows a card for each profile, with buttons to edit and share it. These options change how the lists look:
+
+- In landscape, the `Double column` button in the toolbar shows smaller cards side by side, and `Single column` switches back. In portrait, the list always has one column. In 2.0.4 and older, choose the layout with ⋮ → `Appearance`, in both orientations.
+- `Settings` → `Appearance` → `Compact profile rows` (since 2.0.5) shows each profile on one short line with only its name and latency.
+- `Settings` → `Appearance` → `Compact group cards` (since 2.0.5) shortens the cards on the `Groups` screen. Subscription groups show a usage bar and the time left instead of the subscription link and details, and a refresh button instead of `Update subscription`.
+
+The double-column cards and the compact rows have no edit and share buttons. Use ⋮ → `Edit` or `Share` on the row instead.
 
 ## Desktop menus on Android {#menus}
 

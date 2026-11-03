@@ -91,7 +91,7 @@ Throne 会按照你的配置档和路由规则发送你的流量。本页介绍 
 
 你的应用流量所产生的 DNS 查询，会发往 `路由设置`（Routing Settings）→ `DNS` 中设置的服务器；自 1.4.0 起，如果当前路由配置档有自己的 DNS 设置，则发往它的服务器（参见[按路由配置档设置 DNS](@/guides/dns.zh.md#route-dns)）。参见 [DNS](@/guides/dns.zh.md)。
 
-**Android：** Throne for Android 会为订阅、路由配置档、规则集、测试和 WARP 注册发出同类请求。WebDAV 备份只发往你在 `WebDAV 设置`（WebDAV settings）中设置的服务器，并且只在你备份、恢复或测试连接时发出；2.0.3 之后，删除备份时也会发出。这些请求从不使用本地代理。2.0.3 之后，上传时还会像桌面版一样在备份列表中记录设备名称、一个随机的设备 ID、平台和版本。开启 `设置`（Settings）→ `订阅`（Subscriptions）→ `使用代理`（Use proxy）时，或处于 `仅代理`（Proxy only）模式时，只要有配置档在运行，它自身的请求就会使用本地代理。如果没有配置档在运行：开启了 `使用代理` 时（在 2.0.3 及更早版本中，处于 `仅代理` 模式时也是如此），订阅更新和 WARP 注册会失败，并提示“请求使用代理但未启动配置。”（Request with proxy but no profile started.）；2.0.3 之后，仅处于 `仅代理` 模式时，这些请求会直接发出。更新检查、路由配置档下载和规则集列表在没有配置档时也始终可用：它们会直接发出。自 2.0.2 起，Throne for Android 在每次连接后以及从底栏进行连接测试后，也会查询你的出口位置；该请求经由本地代理发出，在关闭混合入站时则经由 VPN 发出。在 2.0.2 中，它始终查询 `http://ip-api.com/json/`。自 2.0.3 起，`设置` → `测试`（Testing）→ `Look up exit country` 可以关闭此查询，`Lookup service` 提供与桌面版相同的服务。`Automatic` 在 2.0.3 中先查询 ip-api.com，2.0.3 之后先查询 IP2Location.io。同样自 2.0.2 起，当带有 `geoip:` 或 `geosite:` 规则的 Xray 配置启动或被测试时，它会从 GitHub 下载 `geoip.dat` 和 `geosite.dat`（默认来自 Loyalsoldier）。它只在你点按 `检查更新`（Check for updates）时，或在你开启 `每天检查更新`（Check for updates daily，该选项默认关闭）后每天一次，向 GitHub 检查更新。2.0.3 之后，更新界面还会从 `api.github.com` 下载新版本的更新日志。`路由`（Routing）界面上的 `刷新仓库列表`（Refresh repository list）会从 GitHub 下载路由配置档列表。
+**Android：** Throne for Android 会为订阅、路由配置档、规则集、测试和 WARP 注册发出同类请求。WebDAV 备份只发往你在 `WebDAV 设置`（WebDAV settings）中设置的服务器，并且只在你备份、恢复或测试连接时发出；自 2.0.4 起，删除备份时也会发出。这些请求从不使用本地代理。自 2.0.4 起，上传时还会像桌面版一样在备份列表中记录设备名称、一个随机的设备 ID、平台和版本。开启 `设置`（Settings）→ `订阅`（Subscriptions）→ `使用代理`（Use proxy）时，或处于 `仅代理`（Proxy only）模式时，只要有配置档在运行，它自身的请求就会使用本地代理。如果没有配置档在运行：开启了 `使用代理` 时（在 2.0.3 及更早版本中，处于 `仅代理` 模式时也是如此），订阅更新和 WARP 注册会失败，并提示“请求使用代理但未启动配置。”（Request with proxy but no profile started.）；自 2.0.4 起，仅处于 `仅代理` 模式时，这些请求会直接发出。更新检查、路由配置档下载和规则集列表在没有配置档时也始终可用：它们会直接发出。自 2.0.2 起，Throne for Android 在每次连接后以及从底栏进行连接测试后，也会查询你的出口位置；该请求经由本地代理发出，在关闭混合入站时则经由 VPN 发出。在 2.0.2 中，它始终查询 `http://ip-api.com/json/`。自 2.0.3 起，`设置` → `测试`（Testing）→ `Look up exit country` 可以关闭此查询，`Lookup service` 提供与桌面版相同的服务。`Automatic` 在 2.0.3 中先查询 ip-api.com，自 2.0.4 起先查询 IP2Location.io。同样自 2.0.2 起，当带有 `geoip:` 或 `geosite:` 规则的 Xray 配置启动或被测试时，它会从 GitHub 下载 `geoip.dat` 和 `geosite.dat`（默认来自 Loyalsoldier）。它只在你点按 `检查更新`（Check for updates）时，或在你开启 `每天检查更新`（Check for updates daily，该选项默认关闭）后每天一次，向 GitHub 检查更新。自 2.0.4 起，更新界面还会从 `api.github.com` 下载新版本的更新日志。`路由`（Routing）界面上的 `刷新仓库列表`（Refresh repository list）会从 GitHub 下载路由配置档列表。
 
 ## 本地代理端口 {#local-proxy}
 
@@ -113,7 +113,7 @@ Throne 会按照你的配置档和路由规则发送你的流量。本页介绍 
 
 | 端口 | 默认值 | 谁可以访问 |
 | --- | --- | --- |
-| `DNS 服务器端口`（DNS Server Port）：`基本设置` → `杂项` | `5533` | 仅限本机（`127.0.0.1`）。 |
+| `DNS 服务器端口`（DNS Server Port）：`基本设置` → `杂项` | `5533` | 仅限本机（`127.0.0.1`）。自 1.4.0 起，其下方的 `允许其他设备连接`（Allow other devices to connect）可向你的网络开放该端口；参见[供其他设备使用的 DNS 服务器](@/guides/dns.zh.md#dns-server)。 |
 | Clash API：`基本设置` → `核心`（Core） | 关闭（`监听端口` 为空） | Clash API 的 `监听地址`，默认为 `127.0.0.1`。开启时请设置 `密钥`（Secret）。 |
 | sing-box API / 仪表盘：`基本设置` → `核心` | 关闭（`监听端口` 为空） | 仅限本机。由随机生成的 `密钥` 保护。 |
 | Throne API：`Integration Settings` → `Throne API`（自 1.4.0 起） | 关闭；开启时端口为 `9095` | 仅限本机（`127.0.0.1`）；如果 `Listen on` 设为 `Local network`，则为所有能访问你电脑的设备，并受 `Allowed addresses` 限制。每个客户端都需要密钥。参见 [Throne API 与 thronectl](@/advanced/api.zh.md#security)。 |

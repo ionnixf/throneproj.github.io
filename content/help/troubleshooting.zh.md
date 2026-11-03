@@ -39,7 +39,7 @@ toc = true
 
 - **没有权限：** TUN 模式需要管理员或 root 权限。请接受 Throne 的请求，或参阅[为什么 TUN 模式需要管理员或 root 权限？](@/help/faq.zh.md#tun-admin)。如果开启了 `禁止权限请求`（Disable Privilege request）（仅在高级模式下可用），Throne 不会请求权限，你必须自行授予。
 - **“严格的路由不可用”（Strict routing unavailable）**（Windows）：Windows 无法开启严格路由。打开 `Tun 设置`，关闭 `严格路由`，然后重新启动配置档。
-- **“Tun 设备运行异常”（Tun device misbehaving）：** 虚拟网卡处于异常状态，例如在 Throne 被强制关闭之后。点击该消息中的 `重置`（Reset），或使用 `Tun 设置` → `排除故障`（Troubleshooting）→ `重置`，然后重新启动配置档。如果仍然失败，请重启电脑。
+- **“Tun 设备运行异常”（Tun device misbehaving）：** 虚拟网卡处于异常状态，例如在 Throne 被强制关闭之后。点击该消息中的 `重置`（Reset），或点击 `Tun 设置` 中的 `重启核心`（Restart Core），然后重新启动配置档。如果仍然失败，请重启电脑。
 - **启动卡住**，并且 Throne 建议重启软件：在 Windows 上，非常大的 HOSTS 文件可能会导致刷新 DNS 缓存时卡住（[#1906](https://github.com/throneproj/Throne/issues/1906)）。请保持 HOSTS 文件精简。
 - **“此计算机上的 Tun 由后台 Throne（PID …）占用；请停止它或使用 thronectl。”（A background Throne (PID …) owns Tun on this computer; stop it or use thronectl.）** 这台电脑上正在运行一个无界面 Throne。参见 [Throne 正在后台运行](#background-throne)。
 
@@ -141,7 +141,7 @@ toc = true
 
 对于 ZIP 版，请在其文件夹中运行 `./Throne`。然后查看提示信息：
 
-- `Could not load the Qt platform plugin "xcb"`，并提示需要 `libxcb-cursor0`：安装 `libxcb-cursor0`（Debian、Ubuntu）或 `xcb-util-cursor`（Fedora），参见 [#1096](https://github.com/throneproj/Throne/issues/1096)。
+- `Could not load the Qt platform plugin "xcb"`，并提示需要 `libxcb-cursor0`：安装 `libxcb-cursor0`（Debian、Ubuntu）或 `xcb-util-cursor`（Fedora），参见 [#1096](https://github.com/throneproj/Throne/issues/1096)。ZIP 文件和普通软件包已自带该库，因此只有使用系统 Qt 的 Throne 才会出现这条提示。
 - `This Qt build requires the following features: sse4.2 popcnt`：改为安装 `system-qt` 软件包（[常见问题](@/help/faq.zh.md#old-systems)）。
 - 其他 Qt 错误：尝试使用 `system-qt` 软件包，它使用你的发行版提供的 Qt。
 

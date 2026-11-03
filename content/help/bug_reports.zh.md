@@ -56,7 +56,7 @@ Throne 会在主窗口底部的 `日志`（Logs）标签页中显示日志，并
 2. 保持 `隐藏敏感数据`（Hide sensitive data）开启。它默认开启，会隐藏 URL、凭据、UUID、密钥、公网 IP 地址和 Wi-Fi 名称。开启 `隐藏目标地址`（Hide destinations）可以同时隐藏你访问过的域名。
 3. 点按 `分享日志`（Share logs）或 `保存日志…`（Save logs…），然后将文件附加到 issue 中。
 
-崩溃后，应用会提供一份经过清理的日志。参见 [Android 故障排除](@/android/troubleshooting.zh.md#logs)。
+如需详细日志，请在重现问题之前将 `设置`（Settings）→ `核心`（Core）→ `日志级别`（Log level）设为 `debug`。自 2.0.5 起，日志中还包含 Xray 配置的 Xray 日志；对于这些配置，还要在同一界面设置 `Xray 日志级别`（Xray log level）。崩溃后，应用会提供一份经过清理的日志。参见 [Android 故障排除](@/android/troubleshooting.zh.md#logs)。
 
 ## 诊断 {#diagnostics}
 

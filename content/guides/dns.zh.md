@@ -26,7 +26,7 @@ Throne 在核心中内置了自己的 DNS 解析器。它使用三个 DNS 服务
 
 查询的来源取决于所用的模式：
 
-- **TUN 模式。** 应用的 DNS 查询会进入隧道并到达 Throne。Throne 会为每个结构化路由配置档添加一个 DNS 步骤（列表中的 `Route DNS` 或 `dns-hijack` 规则起同样的作用），因此它会按上述方式应答这些查询。原始路由配置档只有在你自行编写这一步骤时才会包含它；参见[原始配置档](@/guides/routing.zh.md#raw-profiles)。在 macOS 上，TUN 模式运行期间，Throne 还会把系统的 DNS 设置指向它的核心；参见 [TUN 模式](@/guides/tun_mode.zh.md#side-effects-dns)。
+- **TUN 模式。** 应用的 DNS 查询会进入隧道并到达 Throne。Throne 会为每个结构化路由配置档添加一个 DNS 步骤（列表中的 `Route DNS` 或 `dns-hijack` 规则起同样的作用），因此它会按上述方式应答这些查询。原始路由配置档只有在你自行编写这一步骤时才会包含它；参见[原始配置档](@/guides/routing.zh.md#raw-profiles)。在 macOS 上，自 1.4.0 起，TUN 模式运行期间，核心会把 TUN 网卡作为一个独立的网络服务添加到 macOS，其 DNS 服务器是隧道内的一个地址。它不会更改你的网络服务（例如 `Wi-Fi`）的 DNS 服务器。参见 [TUN 模式](@/guides/tun_mode.zh.md#side-effects-dns)。
 - **系统代理模式。** 使用代理的应用会把网站名称发送给 Throne。对于经过代理的连接，由代理服务器查询该名称。对于直连的连接，由 Throne 使用直连 DNS 查询。应用也可以自行通过系统的解析器查询名称，这些查询不会经过 Throne。
 
 ## 设置 {#settings}
@@ -128,10 +128,32 @@ FakeIP 只影响到达 Throne 的查询，因此它在 TUN 模式下才有用。
 注意事项：
 
 - 在 `路由`（Routing）菜单中选择另一个路由配置档会重启连接，因此 DNS 服务器也会随之切换。
+- 自 1.4.0 起，分组可以使用自己的路由配置档（参见[按分组设置路由配置档](@/guides/routing.zh.md#group-routing)）。此时，该分组的配置档运行期间，生效的是该路由配置档的 DNS 设置。测试始终使用在 `路由`（Routing）菜单中选择的路由配置档的 DNS 设置，因为测试可能涉及多个分组的配置档。
+- 由[订阅提供](@/guides/routing.zh.md#subscription-routing)的路由配置档从不从订阅获取 DNS 设置。如果需要，请在它的 `DNS` 标签页上为它设置自己的 DNS；订阅更新时会保留这些设置。
 - 带有自己 DNS 设置的配置档也会取代[自定义 DNS 对象](#advanced)：该配置档处于活动状态时，Throne 会忽略 `使用自定义 DNS 对象`（Use Custom DNS Object）。当某个配置档使用全局设置且开启了 `使用自定义 DNS 对象` 时，该配置档的 `DNS` 标签页会提示该对象生效。
 - 结构化、远程和原始路由配置档都有该标签页。远程配置档在更新时会保留自己的 DNS 设置；Throne 从不从 URL 获取这些设置。
 - 配置档的 `throne://route/` 链接会携带其 DNS 设置。在 `路由设置`（Routing Settings）中用 `导入`（Import）导入此类链接之前，Throne 会列出这些服务器：“It uses its own DNS servers: remote …, direct …”（它使用自己的 DNS 服务器：远程 …，直连 …）。请核对它们：该配置档处于活动状态时，你查询的每个名称都会经过这些服务器。参见[分享配置档](@/guides/routing.zh.md#share-profiles)。
 - 在简洁模式下，只有已经使用自己 DNS 设置的配置档才会显示 `DNS` 标签页。
+
+## 供其他设备使用的 DNS 服务器 {#dns-server}
+
+配置档运行时，Throne 的核心还会运行一个 DNS 服务器。它使用本页上的 DNS 设置（包括路由配置档的 DNS 设置）进行应答。其端口为 `设置`（Settings）→ `基本设置`（Basic Settings）→ `杂项`（Miscellaneous）→ `Sing-box` → `DNS 服务器端口`（DNS Server Port），默认 `5533`，同时用于 TCP 和 UDP（仅高级模式，参见[简洁模式与高级模式](@/get_started/configuration.zh.md#interface-mode)）。默认情况下它只监听 `127.0.0.1`，因此只有这台电脑上的程序可以使用它。
+
+自 1.4.0 起，你网络中的其他设备也可以使用它，例如让 DNS 查询经过这台电脑的路由器：
+
+1. 勾选 `DNS 服务器端口`（DNS Server Port）下方的 `允许其他设备连接`（Allow other devices to connect）（默认关闭），然后点击 `确定`（OK）。
+2. 如果有配置档正在运行，请点击“设置已更改，重启进行应用”通知中的 `重启`（Restart）。之后 DNS 服务器会监听所有网络接口。
+3. 在防火墙中允许到该端口的 TCP 和 UDP 入站连接，方法与[局域网共享](@/guides/proxy_modes.zh.md#lan-sharing)相同。例如在使用 ufw 的 Linux 上：`sudo ufw allow 5533`。
+4. 在另一台设备上，把 DNS 服务器设为你电脑的局域网地址和该端口，例如 `192.168.1.20` 和 `5533`。
+
+注意事项：
+
+- 许多手机和电脑的 DNS 设置只接受地址，并且始终使用 53 端口。此设置适用于也允许输入端口的设备，例如许多路由器。
+- 任何能访问该端口的人都可以通过你的 DNS 设置查询名称，也就是经过你的代理。请只在你信任的网络中使用它。
+- 该服务器只应答 DNS 查询，到该端口的其他连接都会被拒绝。
+- 开启 `启用 FakeIP`（Enable FakeIP）后，其他设备也会得到虚假地址。这些地址只对经过 Throne 的连接有效。
+- 此设置与 `程序`（Program）→ `允许其他设备连接`（Allow other devices to connect）是分开的，后者共享的是代理端口。
+- 使用 [thronectl](@/advanced/api.zh.md#settings) 时（例如在[无界面 Throne](@/headless/_index.zh.md) 上），该设置为 `dns_in_lan`，端口为 `dns_in_port`。
 
 ## DNS 泄漏测试 {#leak-tests}
 
@@ -161,5 +183,5 @@ Throne for Android 在 `设置`（Settings）→ `DNS` 中提供相同的 DNS �
 
 - **`localhost` 作为直连 DNS。** 自 2.0.1 起，它会像在 Windows 上一样，直接询问当前 Wi-Fi 或移动网络的 DNS 服务器。只有当网络没有指定 DNS 服务器时，才会使用 Android 自身的解析器。此前，Throne 始终使用 Android 的解析器，而该解析器还会应用私人 DNS（Private DNS），可能使每次查询都卡住。如果连接时网络的 DNS 服务器没有应答，Throne 会提示“无法连接：网络的 DNS (…) 未应答。请设置可用的直连 DNS。”（Could not connect: the network's DNS (…) did not answer. Set a working Direct DNS.）。提示中的 `DNS` 按钮会打开 DNS 设置。
 - **虚假的 IPv6 地址**自 2.0.2 起来自 `2001:db8::/32`，与桌面版相同。
-- **按路由配置档设置 DNS**（2.0.3 之后的版本）。与桌面版一样，路由配置档的编辑器中有一个 `DNS` 卡片，提供 `使用全局 DNS 设置`（Use the global DNS settings）和 `使用自定义 DNS 设置`（Use custom DNS settings）（参见[按路由配置档设置 DNS](#route-dns)）。当活动的路由配置档使用自己的服务器时，`设置`（Settings）→ `DNS` 页面顶部会说明这一点：此时那里的设置只对其他路由配置档生效。
+- **按路由配置档设置 DNS**（自 2.0.4 起）。与桌面版一样，路由配置档的编辑器中有一个 `DNS` 卡片，提供 `使用全局 DNS 设置`（Use the global DNS settings）和 `使用自定义 DNS 设置`（Use custom DNS settings）（参见[按路由配置档设置 DNS](#route-dns)）。当活动的路由配置档使用自己的服务器时，`设置`（Settings）→ `DNS` 页面顶部会说明这一点：此时那里的设置只对其他路由配置档生效。
 - **供其他应用使用的本地 DNS 服务器。** Throne 在 `127.0.0.1` 上运行一个 DNS 服务器，设备上的其他应用都可以使用它。自 2.0.2 起，你可以在 `设置`（Settings）→ `入站`（Inbound）→ `DNS 服务器端口`（DNS server port）中更改其端口（默认 `5533`）。

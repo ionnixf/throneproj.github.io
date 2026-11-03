@@ -94,6 +94,8 @@ $env:HTTP_PROXY = "http://127.0.0.1:2080"; $env:HTTPS_PROXY = "http://127.0.0.1:
 
 当 Throne 监听所有接口时，`连接`（Connections）标签页会显示 `来源`（Source）列，其中是每台设备的地址。要停止共享，请再次选择 `程序`（Program）→ `允许其他设备连接`（Allow other devices to connect），然后重启配置档。之后 Throne 只会监听 `127.0.0.1`。
 
+`允许其他设备连接`（Allow other devices to connect）只共享代理端口。自 1.4.0 起，其他设备（例如路由器）也可以使用 Throne 的 DNS 服务器；参见[供其他设备使用的 DNS 服务器](@/guides/dns.zh.md#dns-server)。
+
 共享代理端口与把你的整个网络连接作为 Wi-Fi 热点共享是两回事。关于后者以及更多示例，请参见[常用方案](@/guides/recipes.zh.md#share-with-devices)。
 
 ## 入站设置 {#inbound-settings}

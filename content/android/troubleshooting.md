@@ -41,10 +41,10 @@ Android gave the permission but then refused to create the VPN interface. The "F
 ### Connected, but nothing loads {#no-traffic}
 
 1. Tap the bar at the bottom of the screen. "Success: HTTP handshake took …ms" (since 2.0.3: "HTTP: … ms") means that the profile works. "Failed: …" means that the profile or its server does not work.
-2. If it failed, tap ⋮ → `URL test` and select a profile that works. See [Testing & Auto Selector](@/guides/testing.md).
-3. Check per-app proxy: open `Settings` → `TUN / VPN` → `Apps VPN mode` to see the app list. With `Proxy`, only the selected apps use the VPN. With `Bypass`, the selected apps do not use it. If no app is selected, all apps use the VPN. See [Per-app proxy](@/android/modes.md#per-app-proxy).
-4. Switch to the `Default` routing profile with ⋮ → `Routing profile`, and test again. If it works now, a rule in your own routing profile is the cause. See [Routing](@/guides/routing.md).
-5. Check DNS: `Settings` → `DNS` → `Remote DNS` (default `https://8.8.8.8/dns-query`). Try another server. After 2.0.3, a routing profile can use its own DNS servers (`Use custom DNS settings` in its `DNS` section). `Settings` → `DNS` then says that the current routing profile uses its own DNS servers; change them in the routing profile instead. See [DNS](@/guides/dns.md).
+2. If it failed, tap ⋮ → `Test` → `URL test` (in 2.0.4 and older: ⋮ → `URL test`) and select a profile that works. See [Testing & Auto Selector](@/guides/testing.md).
+3. Check per-app proxy: open `Settings` → `TUN / VPN` → `Apps VPN mode` to see the app list. Since 2.0.5, tapping it while it is on turns per-app proxy off; tap it again to open the list. With `Proxy`, only the selected apps use the VPN. With `Bypass`, the selected apps do not use it. If no app is selected, all apps use the VPN. See [Per-app proxy](@/android/modes.md#per-app-proxy).
+4. Switch to the `Default` routing profile with `Settings` → `Routing` → `Current routing profile` (in 2.0.4 and older: ⋮ → `Routing profile`), and test again. If it works now, a rule in your own routing profile is the cause. If Throne says "The group "…" uses its own routing profile, so the running profile keeps it." (since 2.0.5), set `Routing profile` in the group's settings to `Default (…)` instead. See [Routing](@/guides/routing.md).
+5. Check DNS: `Settings` → `DNS` → `Remote DNS` (default `https://8.8.8.8/dns-query`). Try another server. Since 2.0.4, a routing profile can use its own DNS servers (`Use custom DNS settings` in its `DNS` section). `Settings` → `DNS` then says that the current routing profile uses its own DNS servers; change them in the routing profile instead. See [DNS](@/guides/dns.md).
 6. If you turned on `Tun IPv6` or `Tun routing` in `Settings` → `TUN / VPN`, turn them off and test again. Use `Tun IPv6` only when your server supports IPv6. If some apps or websites fail while others work, set `MTU` on the same screen to `1500` and reconnect.
 7. To find out whether VPN mode causes the problem, set `Settings` → `General` → `Service mode` to `Proxy only` and connect. Then set an app that has its own proxy setting to the SOCKS5 proxy `127.0.0.1`, port `2080` (see `Settings` → `Inbound` → `Proxy port`). If that app works, the problem is in VPN mode: go back to `VPN` mode and check steps 3 and 6 again. In 2.0.1 and older, also try another `TUN implementation`. See [VPN & Proxy Modes](@/android/modes.md#tun-settings).
 
@@ -62,7 +62,7 @@ Typical signs: the VPN disconnects while the screen is off, the notification dis
 
 1. Open `Settings` → `General` → `Battery optimization`. It must show "Unrestricted". If it does not, tap it and allow Throne to run without restrictions. See [Battery optimization](@/android/permissions.md#battery).
 2. Open `Settings` → `General` → `Background & auto-start`. Allow Throne to start automatically and to run in the background. See [Manufacturer settings](@/android/permissions.md#oem).
-3. Keep `Reset outbound connections when device wakes from sleep` on (the default). When the device wakes from deep sleep, Throne closes the old connections, and apps connect again. Keep `Reset outbound connections when network changes` on as well.
+3. Keep `Reset outbound connections when device wakes from sleep` on (the default). When the device wakes from deep sleep, Throne closes the old connections, and apps connect again. Keep `Reset outbound connections when network changes` on as well. Since 2.0.5, it also resets the connections when the network comes back after it was lost, for example after a time without signal.
 4. Turn on Always-on VPN, so that Android starts Throne again by itself. See [Always-on VPN](@/android/permissions.md#always-on).
 5. On some devices, swiping Throne away in the list of recent apps stops it. Leave it in the list, or lock it there if your device offers this.
 
@@ -111,7 +111,7 @@ If the provider wants the request to come from one of its servers, choose that s
 | "WARP is enabled but its config has not been generated. Generate it in Settings › Routing › WARP." | WARP is on, but there is no WARP config for the selected mode. | Open `Settings` → `Routing` → `WARP` and tap `Generate WARP config`. |
 | "Failed: Warp is enabled but its config has not been generated. Please generate the Warp config first in Routing Settings." | The same problem, shown when you connect. | The same. |
 | "Failed to generate WARP config" | The registration at Cloudflare failed. It is blocked in some networks. | Connect to a working profile, turn on `Use proxy` in `Settings` → `Subscriptions`, and generate again. |
-| No message, but nothing loads while WARP is on | In `WireGuard` mode, WARP needs a profile that forwards UDP. | Set `Mode` to `MASQUE` and `HTTP version` to `HTTP/2`, which needs only TCP. Generate a config for the new mode. |
+| No message, but nothing loads while WARP is on | In `WireGuard` mode, and since 2.0.5 in `AmneziaWG` mode, WARP needs a profile that forwards UDP. | Set `Mode` to `MASQUE` and `HTTP version` to `HTTP/2`, which needs only TCP. Generate a config for the new mode. |
 
 See [Cloudflare WARP](@/advanced/warp.md).
 
@@ -127,13 +127,13 @@ See [Cloudflare WARP](@/advanced/warp.md).
 1. Check the profile type. Tailscale and Extra Core profiles do not work on Android. TLS spoof settings are ignored on Android.
 2. If a profile of a subscription is missing on Android: since 2.0.2, Throne does not import profiles that the core cannot run on Android, for example a transport that sing-box does not have, or XHTTP on a profile type other than VLESS. `Logs` shows the reason for each skipped profile.
 3. If the profile is an Xray config with `geoip:` or `geosite:` rules, it needs the files `geoip.dat` and `geosite.dat`. Since 2.0.2, Throne downloads them when such a config first starts, from the `Source` in `Settings` → `Core` → `Xray geo assets`. If Throne says that the installed file does not contain a category that the config needs, choose a source that has it, for example the one that your desktop uses.
-4. Compare the settings that change how profiles connect: the presets in `Settings` → `Presets` (multiplex, TLS fragment, TLS tricks, uTLS) and `Settings` → `Core` → `Xray VLESS preference`. The VLESS preference is applied when profiles are imported, so update the subscription again after you change it. See [sing-box vs Xray](@/advanced/xray.md#vless-preference). After 2.0.3, also compare `Settings` → `Core` → `Trust system certificates in Xray`. On Android it adds the system's root certificates, but not certificates that you installed yourself.
+4. Compare the settings that change how profiles connect: the presets in `Settings` → `Presets` (multiplex, TLS fragment, TLS tricks, uTLS) and `Settings` → `Core` → `Xray VLESS preference`. The VLESS preference is applied when profiles are imported, so update the subscription again after you change it. See [sing-box vs Xray](@/advanced/xray.md#vless-preference). Since 2.0.4, also compare `Settings` → `Core` → `Trust system certificates in Xray`. On Android it adds the system's root certificates, but not certificates that you installed yourself.
 5. To get the same settings as on desktop, restore a desktop backup. See [Moving between desktop and Android](@/guides/backup.md#desktop-android).
 6. If it still fails, report the problem with the logs of both apps.
 
 ## Logs {#logs}
 
-Open `Logs` in the drawer. It shows the log of the core. The toolbar has `Update` (reloads the view), `Share logs` and `Clear logs`. The menu has `Save logs…`, `Hide sensitive data` and `Hide destinations`.
+Open `Logs` in the drawer. It shows the log of the core. Since 2.0.5, it also shows the log of Xray for Xray profiles, in lines marked `xray:`. The toolbar has `Update` (reloads the view), `Share logs` and `Clear logs`. The menu has `Save logs…`, `Hide sensitive data` and `Hide destinations`.
 
 Since 2.0.3, the toolbar also has `Filter`. It shows only the lines that contain the text you type. `Match case` and `Regular expression` change how the text is compared. The menu also has `Font size`. When you scroll up, the view stops following new lines, and `Jump to latest` takes you back to the end.
 
@@ -146,14 +146,14 @@ Since 2.0.3, the toolbar also has `Filter`. It shows only the lines that contain
 `Hide sensitive data` is on by default. Keep it on. In the exported file it replaces:
 
 - the path and query of every URL, and user names and passwords in URLs (the host name stays);
-- passwords, keys, tokens, UUIDs and similar values;
+- passwords, keys, tokens, UUIDs and similar values, since 2.0.5 also when such a value is a list or an object;
 - server addresses, SNI and host names in the configuration;
 - public IP addresses (private addresses stay);
 - Wi-Fi names.
 
 `Hide destinations` also hides the domain names in connection and DNS lines. You can turn it on only while `Hide sensitive data` is on, and Throne does not keep it after the app restarts. The hiding is best effort: read the file before you post it.
 
-For more detail, set `Settings` → `Core` → `Log level` to `info` or `debug`, and tap `Apply` to restart the app. Reproduce the problem, then share the logs. Set the level back to `warn` afterwards.
+For more detail, set `Settings` → `Core` → `Log level` to `info` or `debug`, and tap `Apply` to restart the app. Since 2.0.5, for an Xray profile, also set `Xray log level` on the same screen to `info` or `debug` (default `warning`): Xray lines appear only when both levels allow them. Reproduce the problem, then share the logs. Set the levels back to `warn` and `warning` afterwards.
 
 After a crash, Throne restarts and offers to share a log file with sensitive data hidden.
 

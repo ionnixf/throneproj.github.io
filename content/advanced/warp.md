@@ -13,7 +13,7 @@ With WARP on, traffic goes: your device → the profile you start → WARP → I
 
 - WARP applies to every profile you start, including chains and auto selectors. Only `Custom (sing-box config)` profiles run without it. If the group has a landing proxy, WARP comes after it.
 - WARP runs through your proxy, so the proxy must carry WARP's traffic:
-  - `WireGuard` mode uses UDP. The profile must forward UDP.
+  - `WireGuard` and `AmneziaWG` modes use UDP. The profile must forward UDP.
   - `MASQUE` mode over HTTP/3 also needs UDP. MASQUE over HTTP/2 needs only TCP.
 - Rules and the default outbound can send traffic through your proxy without WARP. See [Skip WARP for some traffic](#warp-bypass).
 
@@ -23,7 +23,7 @@ Setting up WARP takes two steps: generate a config once, then turn WARP on.
 
 1. Open `Routing` → `Routing Settings`.
 2. Open the `Warp` tab.
-3. Choose the `Mode`: `WireGuard` or `MASQUE`.
+3. Choose the `Mode`: `WireGuard`, `MASQUE` or `AmneziaWG`.
 4. Click `Generate Warp Config`.
 5. The first time, Throne asks whether you accept the Cloudflare WARP terms of service. Click `Yes`.
 6. Wait until the button shows "Success!". The fields of the chosen mode are now filled in.
@@ -31,16 +31,27 @@ Setting up WARP takes two steps: generate a config once, then turn WARP on.
 
 In Simple mode, `Warp` is a section of the `Common` tab that shows only `Enable Warp`, `Mode` and `Generate Warp Config`. The fields below and `Registration Domains…` are hidden (Advanced mode only, see [Simple and Advanced mode](@/get_started/configuration.md#interface-mode)).
 
-Each mode has its own fields. If you switch the `Mode` later, generate a config for that mode too.
+`WireGuard` and `MASQUE` have their own fields. If you switch between them later, generate a config for the other mode too. `AmneziaWG` uses the fields of `WireGuard`; see [AmneziaWG mode](#amneziawg).
 
 | Mode | Fields |
 | --- | --- |
-| `WireGuard` | `Endpoint`, `Private Key`, `Public Key`, `Interface Addresses`, `Reserved` |
+| `WireGuard`, `AmneziaWG` | `Endpoint`, `Private Key`, `Public Key`, `Interface Addresses`, `Reserved` |
 | `MASQUE` | `Endpoint`, `Private Key`, `Peer Public Key`, `Interface Addresses`, `SNI`, `HTTP Version` |
 
 The MASQUE `HTTP Version` can be `HTTP/3 (fallback to HTTP/2)` (default), `HTTP/3 only` or `HTTP/2`. HTTP/3 runs over UDP. HTTP/2 runs over TLS on TCP and works where UDP is blocked.
 
 Each generation registers a new device with Cloudflare.
+
+### AmneziaWG mode {#amneziawg}
+
+Since 1.4.0, `AmneziaWG` mode makes WARP's WireGuard connection harder to recognize. Before the WireGuard handshake, it sends extra packets: a few that look like the start of an HTTP/3 (QUIC) connection to `www.cloudflare.com`, and four random junk packets of 40 to 70 bytes. These packets are compatible with WARP, so the connection works as in `WireGuard` mode. Use this mode when `WireGuard` mode does not connect because WireGuard to Cloudflare is blocked. WARP's packets leave from your proxy server, so what counts is the network of the server, not yours.
+
+The QUIC packets are called the signature. Throne creates them offline, on your computer, and stores them with the settings:
+
+- when you choose `AmneziaWG` in `Mode` and no signature exists yet;
+- each time you click `Generate Warp Config` in this mode, together with a new WireGuard config.
+
+A WireGuard config that you generated earlier keeps working, so you do not need to generate again when you switch from `WireGuard` to `AmneziaWG`. If the signature is missing while `Enable Warp` is ticked, `Routing Settings` shows "AmneziaWG has no QUIC signature yet: click Generate Warp Config.", or the error that stopped its creation.
 
 ### If registration fails {#registration-fails}
 
@@ -64,7 +75,7 @@ Click `Routing` → `Enable Warp`. A tick shows that WARP is on. Click it again 
 
 You can also tick `Enable Warp` on the `Warp` tab and click `OK`. Then start the profile again to apply the change.
 
-If WARP is on but the current mode has no generated config, the profile does not start, and Throne shows "Warp is enabled but its config has not been generated. Please generate the Warp config first in Routing Settings." In Simple mode, `Routing Settings` also shows "WARP has no config yet: click Generate Warp Config." while `Enable Warp` is ticked and the current mode has no config.
+If WARP is on but the current mode has no generated config (in `AmneziaWG` mode, also when the signature is missing), the profile does not start, and Throne shows "Warp is enabled but its config has not been generated. Please generate the Warp config first in Routing Settings." In Simple mode, `Routing Settings` also shows "WARP has no config yet: click Generate Warp Config." while `Enable Warp` is ticked and the current mode has no config.
 
 To check that WARP works, open a website that shows your IP address. It should show a Cloudflare address.
 
@@ -90,13 +101,16 @@ You can also make WARP a profile of its own, for example to use it without anoth
 3. Click `Generate Warp Config` (WireGuard) or `Generate WARP identity` (MASQUE). Throne fills in the keys, addresses, MTU and server address.
 4. Enter a `Name` and click `OK`.
 
+The `Mode` in `Routing Settings` does not change such a profile. To give a WireGuard WARP profile the obfuscation of `AmneziaWG` mode, tick `Enable Amnezia`, click `Amnezia Options`, and set `Junk Packet Count (Jc)` to 4, `Junk Packet Min Size (Jmin)` to 40, `Junk Packet Max Size (Jmax)` to 70, and the four magic headers H1 to H4 to 1, 2, 3 and 4. Then click `Generate QUIC Signature...`, enter `www.cloudflare.com` and click `OK`.
+
 On its own, such a profile connects to Cloudflare directly. Keep `Enable Warp` off while you use it, or Throne adds a second WARP hop after it.
 
 ## Android {#android}
 
 - The settings are in `Settings` → `Routing` → `WARP`: `Enable WARP`, `Mode`, the fields of each mode, `Generate WARP config` and `Registration domains`.
 - The first generation asks you to accept the Cloudflare WARP terms of service.
-- If registration is blocked, connect first and turn on `Settings` → `Subscriptions` → `Use proxy`. In `Proxy only` mode, the request goes through the proxy too while a profile runs. While no profile runs, generation fails if `Use proxy` is on. After 2.0.3, `Proxy only` mode alone no longer makes it fail: the request then goes out directly.
-- To switch WARP quickly, open the menu (⋮) of the Profiles screen → `Routing profile`, then tap `Enable WARP` or `Disable WARP`.
+- Since 2.0.5, `Mode` also offers `AmneziaWG`, which works as on the desktop. The app creates the signature when you choose this mode, and `Generate WARP config` creates a new one. While the signature is missing, the `Mode` row shows "AmneziaWG has no QUIC signature yet: tap Generate WARP config."
+- If registration is blocked, connect first and turn on `Settings` → `Subscriptions` → `Use proxy`. In `Proxy only` mode, the request goes through the proxy too while a profile runs. While no profile runs, generation fails if `Use proxy` is on. Since 2.0.4, `Proxy only` mode alone no longer makes it fail: the request then goes out directly.
+- To switch WARP quickly, open `Settings` → `Routing` → `Current routing profile`, then tap `Enable WARP` or `Disable WARP`. Before 2.0.5, the same dialog also opens from the menu (⋮) of the Profiles screen → `Routing profile`.
 - If WARP is on without a generated config, Android shows "WARP is enabled but its config has not been generated. Generate it in Settings › Routing › WARP."
 - The WireGuard and MASQUE profile editors have a `Generate WARP identity` button.

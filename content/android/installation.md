@@ -110,7 +110,7 @@ The builds from GitHub can update themselves:
 
 The connection stops while the app is replaced and starts again after the update.
 
-After 2.0.3, the release notes show the changes of every version after yours, up to the new one, taken from the changelog of the app. When the new version is a stable release, its pre-releases are not listed separately. If Throne cannot load the changelog, it shows the notes of the GitHub release instead. Links in the notes open in the browser.
+Since 2.0.4, the release notes show the changes of every version after yours, up to the new one, taken from the changelog of the app. When the new version is a stable release, its pre-releases are not listed separately. If Throne cannot load the changelog, it shows the notes of the GitHub release instead. Links in the notes open in the browser.
 
 The update settings are in `Settings` → `General`, in the `Updates` group:
 

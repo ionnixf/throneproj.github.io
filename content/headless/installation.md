@@ -23,12 +23,12 @@ The `.deb` and `.rpm` packages from the [releases page](https://github.com/thron
 
 | Package | Needs | Runs on, for example |
 | --- | --- | --- |
-| `Throne-<version>-debian-amd64.deb`, `…-fedora-amd64.rpm` | glibc 2.34 | Debian 12, Ubuntu 22.04, Fedora, openSUSE Tumbleweed |
-| `…-amd64-system-qt.deb`, `…-amd64-system-qt.rpm` | glibc 2.34 and the system's Qt 6 | The same, with Qt from the distribution |
-| `Throne-<version>-debian-arm64-system-qt.deb` | glibc 2.34 and the system's Qt 6 | Raspberry Pi OS bookworm, Debian 12, Ubuntu 22.04 on arm64 |
-| `Throne-<version>-debian-arm64.deb`, `…-fedora-arm64.rpm` | glibc 2.38 | Ubuntu 24.04, Debian 13, Raspberry Pi OS trixie |
+| `Throne-<version>-debian-amd64.deb`, `…-fedora-amd64.rpm` | glibc 2.28 | Debian 10, Ubuntu 20.04, RHEL 8 and newer, Fedora, openSUSE |
+| `…-amd64-system-qt.deb`, `…-amd64-system-qt.rpm` | glibc 2.34 and the system's Qt 6 | Debian 12, Ubuntu 22.04 and newer, Fedora, openSUSE Tumbleweed, with Qt from the distribution |
+| `Throne-<version>-debian-arm64.deb`, `…-fedora-arm64.rpm` | glibc 2.28 | Raspberry Pi OS bullseye, Debian 10, Ubuntu 20.04 and newer on arm64 |
+| `Throne-<version>-debian-arm64-system-qt.deb` | glibc 2.34 and the system's Qt 6 | Raspberry Pi OS bookworm, Debian 12, Ubuntu 22.04 and newer on arm64 |
 
-Each package depends on the glibc version its files need, so the package manager refuses a package that is too new for the system instead of installing a Throne that cannot start. On a Raspberry Pi with Raspberry Pi OS bookworm (glibc 2.36), use the arm64 `system-qt` package.
+Each package depends on the glibc version its files need, so the package manager refuses a package that is too new for the system instead of installing a Throne that cannot start. On a Raspberry Pi, use the 64-bit Raspberry Pi OS. On bookworm and newer, both arm64 packages work. Bullseye has no Qt 6, so use the normal arm64 package there.
 
 The packages without `system-qt` bring their own Qt, but they still depend on the system's graphics, font and X11 libraries, because the one Throne program also contains the desktop app. The package manager installs those libraries. Nothing needs a display.
 

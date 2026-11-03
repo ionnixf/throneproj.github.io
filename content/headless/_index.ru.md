@@ -29,9 +29,9 @@ Headless Throne доступен начиная с Throne 1.4.0 в Linux, macOS 
 
 ## Быстрый старт {#quick-start}
 
-В Debian 12, Ubuntu 22.04 или новее (amd64):
+В Debian 10, Ubuntu 20.04 или новее (amd64):
 
-1. Скачайте `Throne-<version>-debian-amd64.deb` со [страницы релизов](https://github.com/throneproj/Throne/releases) или подключите [репозиторий APT](@/get_started/installation.ru.md#apt-repository).
+1. Скачайте `Throne-<version>-debian-amd64.deb` со [страницы релизов](https://github.com/throneproj/Throne/releases). В Debian 12, Ubuntu 22.04 или новее вместо этого можно подключить [репозиторий APT](@/get_started/installation.ru.md#apt-repository).
 2. Установите пакет и запустите службу:
 
    ```bash

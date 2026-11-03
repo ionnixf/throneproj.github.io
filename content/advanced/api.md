@@ -105,8 +105,8 @@ For headless Throne, `Throne --print-connection` prints the `export` lines for b
 
 | Command | What it does |
 | --- | --- |
-| `status` | Shows the state, the running profile, the modes, the routing profile, the version of Throne and, if something else holds TUN, what it is. |
-| `groups` | Lists the groups with their IDs. |
+| `status` | Shows the state, the running profile, the modes, the routing profile in use, the version of Throne and, if something else holds TUN, what it is. |
+| `groups` | Lists the groups with their IDs. `ROUTE` shows the group's own routing profile, or `active` when the group follows the active one. |
 | `profiles [--group N] [--name REGEX] [--ids 1,2]` | Lists profiles with their last test results. |
 | `connect <id>` | Starts a profile. `--restart` restarts it if it is already running. |
 | `connect last` | Starts the running profile, else the last one, else the remembered one. |
@@ -115,8 +115,8 @@ For headless Throne, `Throne --print-connection` prints the `export` lines for b
 | `toggle` | `connect last` when nothing runs, else `disconnect`. |
 | `tun on`, `tun off`, `tun toggle` | Turns TUN mode on or off. |
 | `proxy on`, `proxy off`, `proxy toggle` | Turns the system proxy on or off. |
-| `routes` | Lists the routing profiles. |
-| `route <id>` | Makes a routing profile active and restarts the running profile. |
+| `routes` | Lists the routing profiles. `*` marks the active one. A note marks the one that the running profile's group uses, and the ones that a subscription group updates. |
+| `route <id>` | Makes a routing profile active and restarts the running profile, unless the running profile's group uses its own routing profile. |
 | `test latency`, `test ip`, `test speed` | Runs a URL test, an IP test or a speed test, and shows the results. Add `--group N` (with an optional `--name REGEX`) or profile IDs. |
 | `jobs`, `job <id>`, `cancel <id>` | Lists the recent tests, shows one test, stops a test. |
 | `clear` | Clears test results. Add `--group N` (with an optional `--name REGEX`) or profile IDs. |
@@ -124,7 +124,7 @@ For headless Throne, `Throne --print-connection` prints the `export` lines for b
 | `traffic [--by profile] [--by app] [--since 24h]` | Shows traffic totals by profile (default) or by app. `--since` also takes days, such as `7d`. |
 | `logs [-n N] [-f]` | Prints the last `N` lines of Throne's log, 200 by default and 1000 at most. `-f` then prints new lines until you stop it, also when the connection drops or Throne restarts. With `--json`, one JSON object per line. |
 | `import [--group N] FILE` | Imports share links, a subscription body, or a Clash, sing-box, Xray, WireGuard or OpenVPN configuration from a file of up to 900 KiB. `-` reads standard input; `--url URL` makes Throne download a URL once. The default group is the one that Throne shows. |
-| `sub add <url> [--name NAME]` | Adds a subscription group, named after the host of the URL by default, and updates it. `--no-auto-update` leaves it out of automatic updates; `--no-update` does not download it now. |
+| `sub add <url> [--name NAME]` | Adds a subscription group, named after the host of the URL by default, and updates it. `--no-auto-update` leaves it out of automatic updates; `--no-update` does not download it now. `--route ID` gives the group its own routing profile; `--import-route` keeps the routing profile that the subscription provides. |
 | `sub update <id>…`, `sub update --all` | Updates subscription groups, or all groups that are not archived. |
 | `group add <name>`, `group rm <id>` | Adds a group; deletes a group with its profiles. |
 | `profile rm <id>…`, `profile rm --group N [--name REGEX]` | Deletes profiles. |
@@ -149,6 +149,7 @@ Good to know:
 - Commands that start or stop a profile wait for the result, up to `--timeout`. If Throne needs longer, `thronectl` shows the current state, such as `connecting`, and Throne finishes on its own. Imports, updates, deletions and downloads wait the same way. `--no-wait` returns at once.
 - Tests and geo downloads can take minutes, so give them a longer `--timeout`, for example `--timeout 15m`. A test that takes longer keeps running in Throne; follow it with `thronectl job <id>`.
 - Throne runs one test at a time, whether you start it from the window or through the API.
+- A group can connect with its own routing profile (see [Routing profile per group](@/guides/routing.md#group-routing)). `route` then changes only the routing profile of the other groups. Through the API, you can give a group its own routing profile only when `sub add` creates it; to change it later, use the group options in Throne's window.
 - `thronectl` exits with `0` on success; `1` for an error from Throne (printed as `error: <code>: <message>`), a failed subscription, rule-set or geo update, or a question answered with no; `2` for a wrong command or flag; `3` when it cannot connect, the key is rejected, or a file cannot be read.
 
 ### Settings {#settings}
@@ -164,8 +165,10 @@ Good to know:
 | Automatic updates | `sub_auto_update`, `sub_respect_server_interval`, `route_auto_update` (minutes, `0` is off) |
 | Kill switch | `kill_switch` |
 | TUN | `tun_strict_route`, `tun_auto_redirect` (Linux), `tun_mtu`, `tun_ipv6`, `tun_ipv4_cidr`, `tun_ipv6_cidr` |
-| Ports and APIs | `dns_in_port`, `clash_api_port`, `clash_listen_addr`, `singbox_api_port` |
+| Ports and APIs | `dns_in_port`, `dns_in_lan`, `clash_api_port`, `clash_listen_addr`, `singbox_api_port` |
 | DNS and time | `remote_dns`, `direct_dns`, `ntp_enabled`, `ntp_server`, `ntp_interval` |
+
+`dns_in_lan` lets other devices on your network use the core's DNS server on `dns_in_port`; see [DNS server for other devices](@/guides/dns.md#dns-server).
 
 Most changes to logs, the inbound, ports, DNS and NTP take effect when the running profile starts again. TUN settings need that restart only while the profile runs in TUN mode; otherwise they apply the next time TUN mode starts. While a restart is needed, `thronectl status` says so; `thronectl connect last --restart` applies them. The [settings table](https://github.com/throneproj/Throne-api/blob/main/spec/api.md#settings) of the specification has the allowed values.
 

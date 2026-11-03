@@ -20,8 +20,8 @@ toc = true
 | `VMess` | 支持 | 支持 | |
 | `Trojan` | 支持 | 支持 | |
 | `VLESS` | 支持 | 支持 | sing-box 实现，支持 REALITY。 |
-| `VLESS (Xray)` | 支持 | 支持 | Xray 实现：支持 XHTTP、REALITY、VLESS 加密、Finalmask 和 [XDRIVE](@/advanced/xray.zh.md#xdrive) 传输（桌面版自 1.4.0 起，Android 版 2.0.3 之后）。参见 [sing-box 与 Xray](@/advanced/xray.zh.md#vless-preference)。 |
-| `Hysteria` | 支持 | 支持 | Hysteria 1 和 Hysteria 2 合为一种类型：通过 `协议版本`（Protocol Version）选择。支持端口跳跃和混淆。 |
+| `VLESS (Xray)` | 支持 | 支持 | Xray 实现：支持 XHTTP、REALITY、VLESS 加密、Finalmask、[XDRIVE](@/advanced/xray.zh.md#xdrive) 传输（桌面版自 1.4.0 起，Android 版自 2.0.4 起），以及带 [XDNS](@/advanced/dns_tunnels.zh.md#xdns) 的 mKCP 传输（桌面版自 1.4.0 起）。参见 [sing-box 与 Xray](@/advanced/xray.zh.md#vless-preference)。 |
+| `Hysteria` | 支持 | 支持 | Hysteria 1 和 Hysteria 2 合为一种类型：通过 `协议版本`（Protocol Version）选择。支持端口跳跃和混淆。自 1.4.0 起（Android：自 2.0.5 起），当 `上行 (Mbps)`（Up Mbps）或 `下行 (Mbps)`（Down Mbps）留空时，Hysteria 1 使用上行 10 Mbps、下行 50 Mbps。为获得最佳效果，请填写你线路的真实速度。 |
 | `TUIC` | 支持 | 支持 | |
 | `Juicity` | 支持 | 支持 | |
 | `Naive` | 支持 | 支持 | 基于 HTTPS 或 QUIC 的 NaïveProxy。Android 上为 `Naïve`。 |
@@ -36,6 +36,8 @@ toc = true
 | `OpenConnect` | 支持 | 支持 | 支持 AnyConnect、GlobalProtect、Fortinet、F5、Pulse 和 Juniper（`nc`）服务器。OTP 仅在桌面版上可用。参见 [OpenConnect](@/advanced/vpn_profiles.zh.md#openconnect)。 |
 | `Tailscale` | 支持 | 不支持 | 加入你的 Tailscale 网络，并可使用出口节点。参见 [Tailscale](@/advanced/vpn_profiles.zh.md#tailscale)。 |
 | `SSH` | 支持 | 支持 | |
+| `DNSTT / VayDNS` | 支持 | 不支持 | 连接 dnstt 或 VayDNS 服务器的 DNS 隧道，自 1.4.0 起。参见 [DNSTT 和 VayDNS](@/advanced/dns_tunnels.zh.md#dnstt)。 |
+| `MasterDNS` | 支持 | 不支持 | 连接 MasterDnsVPN 或 StormDNS 服务器的 DNS 隧道，自 1.4.0 起。参见 [MasterDNS](@/advanced/dns_tunnels.zh.md#masterdns)。 |
 | `直连`（Direct） | 支持 | 支持 | 不使用代理。在配置档中设置绑定接口，即可让流量通过该网卡发出。 |
 | `自定义 (sing-box 出站)`（Custom (sing-box outbound)）、`自定义 (sing-box 配置)`（Custom (sing-box config)） | 支持 | 支持 | 你自己的 sing-box JSON：单个出站，或原样运行的完整配置。Android 上为 `自定义配置`（Custom config）。参见[自定义配置](@/advanced/chains.zh.md#custom-config)。 |
 | `自定义 (Xray 出站)`（Custom (Xray outbound)）、`自定义 (Xray 配置)`（Custom (Xray config)） | 支持 | 支持 | 同上，用于 Xray JSON。 |
@@ -44,7 +46,7 @@ toc = true
 
 部分 Android 标签只是大小写不同，例如 `SOCKS` 和 `Auto selector`。
 
-`AnyTLS`、`Hysteria`、`Juicity`、`MASQUE`、`ShadowTLS`、`TrustTunnel` 和 `TUIC` 始终使用 TLS，因此它们的编辑器中没有关闭 TLS 的开关。在 2.0.3 及更早版本的 Throne for Android 中，手动创建的这类配置档在保存时会丢失其 TLS 设置（例如 SNI）。2.0.3 之后，编辑器会保留这些设置。
+`AnyTLS`、`Hysteria`、`Juicity`、`MASQUE`、`ShadowTLS`、`TrustTunnel` 和 `TUIC` 始终使用 TLS，因此它们的编辑器中没有关闭 TLS 的开关。在 2.0.3 及更早版本的 Throne for Android 中，手动创建的这类配置档在保存时会丢失其 TLS 设置（例如 SNI）。自 2.0.4 起，编辑器会保留这些设置。
 
 ### 由哪个引擎运行配置档 {#engines}
 
@@ -53,9 +55,11 @@ Throne 的核心 ThroneCore 使用 sing-box 运行所有类型的配置档，但
 - `VLESS (Xray)`、`自定义 (Xray 出站)`（Custom (Xray outbound)）和 `自定义 (Xray 配置)`（Custom (Xray config)）在核心内置的 Xray 引擎中运行。
 - `额外核心`（Extra Core）运行你选择的外部程序。
 
+DNS 隧道类型 `DNSTT / VayDNS` 和 `MasterDNS` 在 sing-box 中运行。XDNS 是 `VLESS (Xray)` 配置档，因此在 Xray 中运行。参见 [DNS 隧道](@/advanced/dns_tunnels.zh.md#how-it-works)。
+
 Throne for Android 使用相同的核心，因此同样适用这些规则。代理链可以混用两种引擎，但顺序只能是：先是 sing-box 跳点，然后是 Xray 跳点，最后又是 sing-box 跳点。
 
-导入 `vless://` 链接时，由 `设置`（Settings）→ `基本设置`（Basic Settings）→ `核心`（Core）→ `Xray VLESS 首选项`（Xray VLESS Preference，仅在高级模式下显示）决定它成为哪种类型。在默认值 `XHTTP And Reality` 下，使用 XHTTP 或 REALITY 的链接会成为 `VLESS (Xray)`，其他链接则成为 `VLESS`。需要仅 Xray 才有的功能（例如 VLESS 加密）的链接，总是成为 `VLESS (Xray)`。自 1.4.0 起，Clash YAML 中使用 REALITY 的 VLESS 条目也遵循这一设置。参见 [sing-box 与 Xray](@/advanced/xray.zh.md#vless-preference)。
+导入 `vless://` 链接时，由 `设置`（Settings）→ `基本设置`（Basic Settings）→ `核心`（Core）→ `Xray VLESS 首选项`（Xray VLESS Preference，仅在高级模式下显示）决定它成为哪种类型。在默认值 `XHTTP And Reality` 下，使用 XHTTP 或 REALITY 的链接会成为 `VLESS (Xray)`，其他链接则成为 `VLESS`。需要仅 Xray 才有的功能（例如 VLESS 加密，或自 1.4.0 起的 mKCP 传输 `type=kcp`）的链接，总是成为 `VLESS (Xray)`。自 1.4.0 起，Clash YAML 中使用 REALITY 的 VLESS 条目也遵循这一设置。参见 [sing-box 与 Xray](@/advanced/xray.zh.md#vless-preference)。
 
 ## 导入格式 {#import-formats}
 
@@ -80,7 +84,8 @@ Throne 桌面版和 Throne for Android 在粘贴的文本、文件、二维码�
 | 分享链接，每行一个：`vless://`、`vmess://`、`ss://`、`trojan://`、`socks://`、`socks4://`、`socks4a://`、`socks5://`、`http://`、`https://`、`hysteria://`、`hysteria2://`、`hy2://`、`tuic://`、`juicity://`、`anytls://`、`mieru://`、`mierus://`、`snell://`、`tt://`（TrustTunnel）、`shadowtls://`、`wg://`、`wireguard://`、`awg://`（桌面版，自 1.4.0 起）、`ssh://`、`naive+https://`、`naive+quic://` | 每个链接生成一个配置档 |
 | Throne 链接：`throne://add/…` 以及较旧的 `json://…` | 一个任意类型的配置档 |
 | AmneziaVPN 链接：`vpn://…` | 链接中包含的各个配置 |
-| sing-box JSON：完整配置，或出站数组 | 每个受支持的出站生成一个配置档 |
+| DNS 隧道链接：`dnst://`、`slipnet://`、`masterdns://`、`stormdns://`（桌面版，自 1.4.0 起） | 每个链接生成一个 `DNSTT / VayDNS` 或 `MasterDNS` 配置档，参见 [DNS 隧道](@/advanced/dns_tunnels.zh.md#import) |
+| sing-box JSON：完整配置，或出站数组 | 每个受支持的出站生成一个配置档，桌面版还包括 `dnstt` 和 `masterdns`（自 1.4.0 起） |
 | sing-box JSON：单个出站对象 | 一个 `自定义 (sing-box 出站)` 配置档 |
 | Xray JSON：配置、出站数组或单个出站 | VLESS 出站生成 `VLESS (Xray)`，其他出站生成 `自定义 (Xray 出站)` |
 | Xray JSON：完整配置的数组 | 每个配置生成一个 `自定义 (Xray 配置)` 配置档 |
@@ -91,11 +96,28 @@ Throne 桌面版和 Throne for Android 在粘贴的文本、文件、二维码�
 | AnyConnect XML 配置文件、`openconnect` 命令行，或含有 `protocol=` 行的文件 | `OpenConnect` 配置档 |
 | 以上任意格式经 Base64 编码后的内容 | 先解码，再导入 |
 
-`tt://` 包括两种 TrustTunnel 链接：`tt://user:password@server:port?…`，以及 TrustTunnel 应用生成的 `tt://?…` 深度链接。Throne 可以读取第 1 版深度链接，自 1.4.0 起（Android：2.0.3 之后）也可以读取第 2 版。链接中必须包含服务器地址、服务器名称、用户名和密码，因此只带有订阅地址的链接会被拒绝。如果链接列出了多个服务器地址，Throne 会导入第一个，并对其余地址给出警告。
+`tt://` 包括两种 TrustTunnel 链接：`tt://user:password@server:port?…`，以及 TrustTunnel 应用生成的 `tt://?…` 深度链接。Throne 可以读取第 1 版深度链接，自 1.4.0 起（Android：自 2.0.4 起）也可以读取第 2 版。链接中必须包含服务器地址、服务器名称、用户名和密码，因此只带有订阅地址的链接会被拒绝。如果链接列出了多个服务器地址，Throne 会导入第一个，并对其余地址给出警告。
 
 不是代理服务器的条目会被跳过，例如 sing-box 的 `direct`、`block`、`selector` 和 `urltest` 出站，或 Xray 的 `freedom` 和 `blackhole` 出站。要运行完整的 sing-box 或 Xray 配置，请创建 `自定义 (sing-box 配置)`（Custom (sing-box config)）或 `自定义 (Xray 配置)`（Custom (Xray config)）配置档，并把配置粘贴进去。参见[完整配置](@/advanced/chains.zh.md#full-configs)。
 
 两个应用都会拒绝大于 50 MB 的导入文件（在 Android 上，`.zip` 文件不受此限制），以及大于 64 MB 的订阅响应。
+
+### 无法使用的值 {#unusable-values}
+
+自 1.4.0 起（Android：自 2.0.5 起），一些 Throne 无法使用的值不再导致配置档导入失败。Throne 会略去该值，导入其余部分，并在[变更报告](@/guides/subscriptions.zh.md#change-report)中给出警告：
+
+- `VLESS` 或 `VLESS (Xray)` 配置档无法使用的 `flow`，例如用在不支持 Vision 的传输上的 Vision。
+- 无效的 XHTTP 设置。无效的 XHTTP 模式会变为 `auto`。
+- 无效的 REALITY `spx`（spider X）。
+- 无效的 Mieru 端口或端口范围。
+
+在相同版本中，Throne 还能读取以下值：
+
+- Hysteria 链接中带单位的 `upmbps` 和 `downmbps`，例如 `55Mbps`。
+- 用逗号分隔的多个 WireGuard `local_address` 条目。
+- `VLESS (Xray)` 链接中为空的 `encryption`，表示 `none`。
+
+自 1.4.0 起，混淆类型为 `none`、`plain` 或为空的 Hysteria 2 链接、JSON 或 Clash 条目会以不混淆的方式导入。在编辑器中，将 `混淆`（Obfuscation）设为 `无`（None）可达到同样效果。
 
 ### Android 上的差异 {#android-import}
 
@@ -104,7 +126,7 @@ Throne 桌面版和 Throne for Android 在粘贴的文本、文件、二维码�
 - 以 `clash://install-config?url=…` 开头的链接会打开 Throne，并将该 URL 添加为订阅。
 - 在其他应用中点按协议链接（例如 `vless://…`）或 `throne://` 链接时，Throne 会打开，并在导入配置档之前先征求你的确认。
 - Android 的分享面板只会为二进制文件（`application/octet-stream`）提供 Throne 选项，例如备份文件。要从聊天应用导入链接，请复制该链接并使用 `从剪切板导入`（Import from clipboard）。其他文件请使用 `从文件中导入`（Import from file）。
-- `Tailscale` 和 `额外核心`（Extra Core）配置档无法在 Android 上使用。
+- `Tailscale`、`额外核心`（Extra Core）、`DNSTT / VayDNS` 和 `MasterDNS` 配置档无法在 Android 上使用，Android 版也不导入 DNS 隧道链接。
 - 自 2.0.2 起，Throne for Android 在导入和更新时会跳过其核心无法运行的条目，例如非 VLESS 类型配置档上的 XHTTP。日志会把每个这样的条目标为 `Skipped`，并注明类型、名称和原因。
 
 ## 分享链接 {#share-links}
@@ -117,7 +139,7 @@ Throne 桌面版和 Throne for Android 在粘贴的文本、文件、二维码�
 | Throne 链接 | `throne://add/…` | Throne 桌面版和 Throne for Android |
 | 旧版 Throne 链接 | `json://…` | Throne，仅可导入 |
 
-**标准链接**使用该协议通常的链接格式。有些类型没有标准链接：`自动选择器`（Auto Selector）、`链式代理`（Chain Proxy）、各种 `自定义`（Custom）类型、`直连`（Direct）、`额外核心`（Extra Core）、`MASQUE`、`OpenVPN` 和 `OpenConnect`。使用 XDRIVE 传输的 `VLESS (Xray)` 配置档也没有标准链接。对于这些类型，Throne 会改为提供 Throne 链接。如果这类配置档设置了高级连接选项（例如绑定接口），Throne 显示的将不是 Throne 链接，而是一条只包含这些选项的不完整链接。对于这些配置档，请勾选 `Deep Link`，或使用 `复制选定项的链接 (深度链接)`（Copy links of selected (Deep Links)）。对于 `Tailscale`，也请分享 Throne 链接：Throne 无法导入它为这类配置档显示的 `ts://` 链接。
+**标准链接**使用该协议通常的链接格式。有些类型没有标准链接：`自动选择器`（Auto Selector）、`链式代理`（Chain Proxy）、各种 `自定义`（Custom）类型、`直连`（Direct）、`额外核心`（Extra Core）、`MASQUE`、`OpenVPN` 和 `OpenConnect`。使用 XDRIVE 传输的 `VLESS (Xray)` 配置档也没有标准链接。对于这些类型，Throne 会改为提供 Throne 链接。如果这类配置档设置了高级连接选项（例如绑定接口），Throne 显示的将不是 Throne 链接，而是一条只包含这些选项的不完整链接。对于这些配置档，请勾选 `Deep Link`，或使用 `复制选定项的链接 (深度链接)`（Copy links of selected (Deep Links)）。对于 `Tailscale`，也请分享 Throne 链接：Throne 无法导入它为这类配置档显示的 `ts://` 链接。`DNSTT / VayDNS` 和 `MasterDNS` 配置档会生成 `dnst://` 链接，参见 [DNS 隧道](@/advanced/dns_tunnels.zh.md#import)。
 
 **Throne 链接**以 Base64 编码的 JSON 保存配置档的设置。它适用于所有配置档类型，包括没有标准链接的类型，但只有 Throne 能识别。参见[深度链接](@/advanced/deeplinks.zh.md#add)。`json://` 链接是 1.2.0 之前使用的 Throne 链接格式，Throne 仍然可以导入。
 
@@ -156,7 +178,9 @@ Throne 桌面版和 Throne for Android 在粘贴的文本、文件、二维码�
 
 ### 在 Android 上分享 {#share-android}
 
-点按配置档的分享按钮。在 `双列`（Double column）布局中，则改为点按 ⋮ → `分享`（Share）。菜单提供：
+点按配置档的分享按钮。双列卡片以及自 2.0.5 起的 `紧凑配置行`（Compact profile rows）没有分享按钮：请改为点按该行的 ⋮ → `分享`（Share）。自 2.0.5 起，`双列`（Double column）布局只能在横屏时通过工具栏按钮使用。参见[配置列表布局](@/android/_index.zh.md#layout)。
+
+菜单提供：
 
 - `二维码`（QR code）→ `标准`（Standard）或 `Throne 链接`（Throne link）
 - `导出到剪切板`（Export to clipboard）→ `标准` 或 `Throne 链接`

@@ -23,7 +23,7 @@ Throne for Android（前身为 NekoBox for Android）是 Throne 的 Android 应�
 | 系统 | 要求 | 安装包类型 |
 |---|---|---|
 | Windows | Windows 10 1809 或更高版本（x64、ARM64）。使用 legacy 版本时支持 Windows 7 SP1 或更高版本（x64、32 位 x86）。 | 安装程序、便携版 ZIP |
-| Linux | x64 或 ARM64，glibc 2.34 或更高版本（自带 Qt 的 ARM64 版本需要 2.38） | 便携版 ZIP、`.deb`、`.rpm`、安装脚本、[APT 和 RPM 软件源](@/get_started/installation.zh.md#apt-repository)、[AUR](@/get_started/installation.zh.md#aur) |
+| Linux | x64 或 ARM64，glibc 2.28 或更高版本，例如 Debian 10、Ubuntu 20.04 或 RHEL 8（自 1.4.0 起）。`-system-qt` 软件包需要 glibc 2.34 或更高版本。 | 便携版 ZIP、`.deb`、`.rpm`、安装脚本、[APT 和 RPM 软件源](@/get_started/installation.zh.md#apt-repository)、[AUR](@/get_started/installation.zh.md#aur) |
 | macOS | macOS 14.4 或更高版本（Apple Silicon 和 Intel）。使用 legacy 版本时支持 macOS 10.15 或更高版本（Intel）。 | ZIP、[Homebrew](@/get_started/installation.zh.md#homebrew) |
 | Android | Android 7.0 或更高版本 | APK |
 
@@ -32,6 +32,7 @@ Throne for Android（前身为 NekoBox for Android）是 Throne 的 Android 应�
 ## 功能亮点 {#highlights}
 
 - 支持多种协议，包括带 REALITY 和 XHTTP 的 VLESS、Shadowsocks、Trojan、Hysteria、TUIC、WireGuard 和 AmneziaWG、NaïveProxy、OpenVPN 以及 OpenConnect：[协议与导入格式](@/reference/protocols.zh.md)。
+- DNS 隧道，把你的流量放在 DNS 查询中传输：DNSTT/VayDNS、MasterDNS，以及用于 VLESS（Xray）的 XDNS（自 1.4.0 起）：[DNS 隧道](@/advanced/dns_tunnels.zh.md)。
 - 订阅可按计划自动更新，每个分组都可以单独设置 User-Agent 和 HWID：[订阅与分组](@/guides/subscriptions.zh.md)。
 - 通过系统代理或 TUN 模式为所有应用提供代理，并可与网络中的其他设备共享代理：[系统代理、TUN 与局域网共享](@/guides/proxy_modes.zh.md)。
 - 带规则和规则集的路由配置档，以及适用于中国、伊朗和俄罗斯的现成配置档：[路由](@/guides/routing.zh.md)。
@@ -66,4 +67,4 @@ Throne 基于以下项目构建：
 - [quirc](https://github.com/dlbeer/quirc)：二维码识别
 - [srombauts/sqlitecpp](https://github.com/srombauts/sqlitecpp)：配置档和设置数据库
 
-要支持 Throne 的开发，请在 `程序`（Program）→ `关于`（About）中点击 `支持 Throne`（Support Throne）（自 1.4.0 起）。它会打开捐赠页面。Throne for Android 的 `关于`（About）页面中也有同样的选项（2.0.3 之后）。
+要支持 Throne 的开发，请在 `程序`（Program）→ `关于`（About）中点击 `支持 Throne`（Support Throne）（自 1.4.0 起）。它会打开捐赠页面。Throne for Android 的 `关于`（About）页面中也有同样的选项（自 2.0.4 起）。

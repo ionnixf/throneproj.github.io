@@ -29,9 +29,9 @@ The pages in this section:
 
 ## Quick start {#quick-start}
 
-On Debian 12, Ubuntu 22.04 or newer (amd64):
+On Debian 10, Ubuntu 20.04 or newer (amd64):
 
-1. Download `Throne-<version>-debian-amd64.deb` from the [releases page](https://github.com/throneproj/Throne/releases), or add the [APT repository](@/get_started/installation.md#apt-repository).
+1. Download `Throne-<version>-debian-amd64.deb` from the [releases page](https://github.com/throneproj/Throne/releases). On Debian 12, Ubuntu 22.04 or newer, you can add the [APT repository](@/get_started/installation.md#apt-repository) instead.
 2. Install the package and start the service:
 
    ```bash

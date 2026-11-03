@@ -41,6 +41,8 @@ To restore a backup:
 
 Backups from older versions of Throne restore normally. A backup from a newer version can be refused with "Unsupported backup format version"; update Throne first. Since 1.3.2, if the backup has routing rules with conditions that this version of Throne does not support, for example rules from a newer version, Throne leaves those rules out and tells you how many it skipped.
 
+Since 1.4.0, when you restore only one of `Profiles (groups and proxies)` and `Routing profiles`, groups that have their own routing profile go back to the default routing profile. Throne for Android does the same since 2.0.5.
+
 To back up or restore a headless Throne, or to send a desktop backup to one, see [thronectl](@/headless/thronectl.md#from-desktop).
 
 ## WebDAV backups {#webdav}
@@ -117,14 +119,14 @@ If a WebDAV action fails, the message says why:
 
 ### WebDAV on Android {#webdav-android}
 
-In Throne for Android, open `Tools` in the drawer, or `Settings` → `Backup & restore`. The `WebDAV backup` card has `Back up to WebDAV`, `Restore from WebDAV` and `WebDAV settings`. The settings are `Server address`, `Username`, `Password`, `Backup path` (default `Throne`) and `Test connection`, and after 2.0.3 also `Device name`. `Back up to WebDAV` uploads the parts ticked in the `Local backup` card.
+In Throne for Android, open `Tools` in the drawer, or `Settings` → `Backup & restore`. The `WebDAV backup` card has `Back up to WebDAV`, `Restore from WebDAV` and `WebDAV settings`. The settings are `Server address`, `Username`, `Password`, `Backup path` (default `Throne`) and `Test connection`, and since 2.0.4 also `Device name`. `Back up to WebDAV` uploads the parts ticked in the `Local backup` card.
 
 To share backups between the apps, enter the same server and the same folder in both: `Folder` on the desktop is `Backup path` on Android. A desktop backup changes a few things when you restore it on Android. See [Move between desktop and Android](#desktop-android).
 
 The Android app works differently in a few points:
 
 - In 2.0.3, it does not use the backup list. `Restore from WebDAV` shows the names of the `.thrbackup` files in the folder, and a tap on one opens the restore window. The desktop shows the backups that 2.0.3 uploads as "Unknown device".
-- After 2.0.3, it uses the same backup list as the desktop. `Restore from WebDAV` shows the date, the device, the platform, the version, the contents and the size of each backup. Tap a backup to see its details, then `Restore` or `Delete`. Downloads are checked against the list as on the desktop. The default `Device name` is the device name from Android's settings, or the manufacturer and model.
+- Since 2.0.4, it uses the same backup list as the desktop. `Restore from WebDAV` shows the date, the device, the platform, the version, the contents and the size of each backup. Tap a backup to see its details, then `Restore` or `Delete`. Downloads are checked against the list as on the desktop. The default `Device name` is the device name from Android's settings, or the manufacturer and model.
 - It has no proxy option for WebDAV. Its WebDAV requests never use the local proxy. In VPN mode, while Throne is connected, they pass through the VPN like the traffic of other apps.
 - It never ignores TLS certificate errors for WebDAV.
 

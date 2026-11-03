@@ -59,6 +59,8 @@ After the notification question, Throne asks once: "Keep Throne running". The me
 
 Tap `Allow` and confirm in the Android dialog. If you tap `Not now`, Throne reminds you: "You can allow this later in Settings › General › Battery optimization".
 
+Since 2.0.5, Throne asks the first-start questions again after a reinstall, also when Android restored the app's data from its backup.
+
 `Settings` → `General` → `Battery optimization` shows the current state:
 
 | State | Meaning |
@@ -104,7 +106,7 @@ Throne needs a selected profile. On Android 10 and newer:
 
 On Android 7 to 9, Throne does neither: it shows no notification without a profile, and in `Proxy only` mode the always-on start does not connect. Keep `Service mode` on `VPN` there.
 
-Android's option "Block connections without VPN" blocks all network traffic while Throne is not connected. Throne for Android has no kill switch of its own, unlike [Throne desktop](@/advanced/kill_switch.md), so this option is the closest thing on Android. While it is on, apps have no internet when Throne is stopped or cannot connect. To turn it off, open Android's VPN settings again.
+Android's option "Block connections without VPN" blocks all network traffic while Throne is not connected. Throne for Android has no kill switch of its own, unlike [Throne desktop](@/advanced/kill_switch.md), so this option is the closest thing on Android. While it is on, apps have no internet when Throne is stopped or cannot connect, and Android ignores [Allow apps to bypass VPN](@/android/modes.md#allow-bypass). To turn it off, open Android's VPN settings again.
 
 ## Auto connect {#auto-connect}
 

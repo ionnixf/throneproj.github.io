@@ -94,6 +94,8 @@ Firewall:
 
 While Throne listens on all interfaces, the `Connections` tab shows a `Source` column with the address of each device. To stop sharing, choose `Program` → `Allow other devices to connect` again and restart the profile. Throne then listens on `127.0.0.1` only.
 
+`Allow other devices to connect` shares only the proxy port. Since 1.4.0, other devices can also use Throne's DNS server, for example a router; see [DNS server for other devices](@/guides/dns.md#dns-server).
+
 Sharing the proxy port is different from sharing your whole connection as a Wi-Fi hotspot. For that and more examples, see [Recipes](@/guides/recipes.md#share-with-devices).
 
 ## Inbound settings {#inbound-settings}

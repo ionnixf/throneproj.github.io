@@ -78,6 +78,8 @@
       url: /advanced/presets/
     - title: "Cloudflare WARP"
       url: /advanced/warp/
+    - title: "DNS 隧道"
+      url: /advanced/dns_tunnels/
     - title: "OpenVPN、OpenConnect 与 Tailscale"
       url: /advanced/vpn_profiles/
     - title: "Windows DNS 泄漏防护"

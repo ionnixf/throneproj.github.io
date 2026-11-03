@@ -79,7 +79,7 @@ Throne keeps your data in your user folder, not inside `Throne.app`, so you can 
 | Files that end in `-system-qt.deb` or `-system-qt.rpm` | The same packages, but they use the Qt libraries of your system |
 | [APT repository](#apt-repository) and [RPM repository](#rpm-repository) | The system-Qt packages, kept up to date by your package manager |
 
-The Linux builds need glibc 2.34 or newer. The ARM64 files that include Qt need glibc 2.38 or newer.
+Since 1.4.0, the ZIP files, the install script and the normal `.deb` and `.rpm` packages need glibc 2.28 or newer. They run on Debian 10, Ubuntu 20.04, RHEL 8 (and AlmaLinux or Rocky Linux 8), Raspberry Pi OS (64-bit) bullseye and newer systems. The `-system-qt` packages need glibc 2.34 or newer and the Qt 6 of your distribution, for example on Debian 12 or Ubuntu 22.04. Before 1.4.0, all Linux builds needed glibc 2.34 or newer, and the ARM64 files that include Qt needed glibc 2.38 or newer.
 
 {% alert_warning() %}
 Do not start Throne with `sudo` or as root. For TUN mode, Throne gives root rights only to its core, `ThroneCore`, and asks for your password through `pkexec`. See [TUN Mode](@/guides/tun_mode.md#privileges).
@@ -129,7 +129,7 @@ Since 1.4.0, the packages also install a systemd service for [headless Throne](@
 
 ### APT repository {#apt-repository}
 
-The APT repository at `throneproj.github.io/Throne/apt` has the system-Qt packages for amd64 and arm64 (see [System Qt packages](#system-qt)). It gets every stable release, but no beta versions, and it is signed. To add it on Debian, Ubuntu and other Debian-based systems:
+The APT repository at `throneproj.github.io/Throne/apt` has the system-Qt packages for amd64 and arm64 (see [System Qt packages](#system-qt)). It gets every stable release, but no beta versions, and it is signed. The system-Qt packages need Debian 12, Ubuntu 22.04 or newer. On older systems, install the normal `.deb` from [Downloads](@/downloads.md) instead. To add the repository on Debian, Ubuntu and other Debian-based systems:
 
 ```bash
 sudo install -d -m 0755 /etc/apt/keyrings
@@ -145,7 +145,7 @@ If you installed a normal `.deb` from [Downloads](@/downloads.md) before, the fi
 
 ### RPM repository {#rpm-repository}
 
-The RPM repository at `throneproj.github.io/Throne/rpm` has the system-Qt packages for x86_64 and aarch64, so your distribution must provide Qt 6.5 or newer. It gets every stable release, but no beta versions, and the packages and the repository are signed.
+The RPM repository at `throneproj.github.io/Throne/rpm` has the system-Qt packages for x86_64 and aarch64, so your distribution must provide Qt 6.5 or newer. These packages also need glibc 2.34 or newer, so they do not install on RHEL 8 and its rebuilds; install the normal `.rpm` from [Downloads](@/downloads.md) there. The repository gets every stable release, but no beta versions, and the packages and the repository are signed.
 
 Fedora and RHEL 9 or newer:
 
@@ -312,7 +312,7 @@ For the details, beta versions and backups, see [Backup, Updates & Migration](@/
 
 - **Antivirus warning.** Some antivirus programs flag Throne or `ThroneCore`, mostly because the updater downloads and replaces program files. See the [FAQ](@/help/faq.md#antivirus).
 - **Throne does not start and reports "Incompatible processor. This Qt build requires the following features: sse4.2 popcnt".** Your processor is too old for the included Qt. On Windows, use `windowslegacy64.zip`. On Linux, use a `-system-qt` package. See also the [FAQ](@/help/faq.md#old-systems).
-- **Linux: Throne reports that it could not load the Qt platform plugin "xcb".** Install `libxcb-cursor0` (Debian, Ubuntu) or `xcb-util-cursor` (Fedora, RHEL), or use a `-system-qt` package.
+- **Linux: Throne reports that it could not load the Qt platform plugin "xcb".** With a Throne that uses the Qt of your system, install `libxcb-cursor0` (Debian, Ubuntu) or `xcb-util-cursor` (Fedora, RHEL). The ZIP and the normal packages include this library; if they show the error, use a `-system-qt` package.
 - **Linux with GNOME: no tray icon.** Install the AppIndicator extension for GNOME.
 - **macOS: "Throne is damaged and can't be opened".** The quarantine flag is still set. Run the `xattr` command from the [macOS](@/get_started/installation.md#macos) steps.
 

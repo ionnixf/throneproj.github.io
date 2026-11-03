@@ -165,6 +165,6 @@ Leave these fields empty unless your server's documentation asks for other value
 
 - The same presets are in `Settings` → `Presets`: Multiplex (sing-box and Xray), TLS Client Hello fragment, TLS tricks, uTLS, and HTTP/2 and QUIC. `Default On` is called `On by default` there.
 - Profiles have the same `Keep default` choice, and ECH is set per profile.
-- After 2.0.3, the multiplex presets have the same fields as on the desktop, and `Enable multiplexer` in the profile editor also offers `Custom`, which shows the multiplex fields right below it.
-- The TLS fragment options of routing rules are not in Throne for Android 2.0.2.
+- Since 2.0.4, the multiplex presets have the same fields as on the desktop, and `Enable multiplexer` in the profile editor also offers `Custom`, which shows the multiplex fields right below it.
+- Since 2.0.3, routing rules can also fragment the connections they match, with `TLS fragment`, `TLS fragment fallback delay` and `TLS record fragment`. Throne for Android 2.0.2 does not have these options.
 - TLS spoof is not available on Android.

@@ -79,7 +79,7 @@ Throne داده‌های شما را در پوشهٔ کاربری‌تان نگ�
 | فایل‌هایی که به `-system-qt.deb` یا `-system-qt.rpm` ختم می‌شوند | همان بسته‌ها، اما از کتابخانه‌های Qt سیستم شما استفاده می‌کنند |
 | [مخزن APT](#apt-repository) و [مخزن RPM](#rpm-repository) | بسته‌های system-Qt، که مدیر بستهٔ شما آن‌ها را به‌روز نگه می‌دارد |
 
-بیلدهای Linux به glibc 2.34 یا جدیدتر نیاز دارند. فایل‌های ARM64 که Qt را همراه دارند به glibc 2.38 یا جدیدتر نیاز دارند.
+از نسخهٔ 1.4.0، فایل‌های ZIP، اسکریپت نصب و بسته‌های معمولی `.deb` و `.rpm` به glibc 2.28 یا جدیدتر نیاز دارند. این‌ها روی Debian 10، Ubuntu 20.04، RHEL 8 (و AlmaLinux یا Rocky Linux 8)، Raspberry Pi OS (64 بیتی) bullseye و سیستم‌های جدیدتر اجرا می‌شوند. بسته‌های `-system-qt` به glibc 2.34 یا جدیدتر و Qt 6 توزیع شما نیاز دارند، برای نمونه روی Debian 12 یا Ubuntu 22.04. پیش از نسخهٔ 1.4.0، همهٔ بیلدهای Linux به glibc 2.34 یا جدیدتر نیاز داشتند و فایل‌های ARM64 که Qt را همراه دارند به glibc 2.38 یا جدیدتر.
 
 {% alert_warning() %}
 Throne را با `sudo` یا به‌عنوان root اجرا نکنید. برای حالت TUN، Throne فقط به هستهٔ خود، یعنی `ThroneCore`، دسترسی root می‌دهد و گذرواژهٔ شما را از طریق `pkexec` می‌پرسد. [حالت TUN](@/guides/tun_mode.fa.md#privileges) را ببینید.
@@ -129,7 +129,7 @@ sudo dnf install ./Throne-x.x.x-fedora-amd64.rpm
 
 ### مخزن APT {#apt-repository}
 
-مخزن APT در `throneproj.github.io/Throne/apt` بسته‌های system-Qt را برای amd64 و arm64 دارد ([بسته‌های System Qt](#system-qt) را ببینید). این مخزن همهٔ نسخه‌های پایدار را دریافت می‌کند، اما نسخه‌های بتا را نه، و امضا شده است. برای افزودن آن در Debian، Ubuntu و دیگر سیستم‌های مبتنی بر Debian:
+مخزن APT در `throneproj.github.io/Throne/apt` بسته‌های system-Qt را برای amd64 و arm64 دارد ([بسته‌های System Qt](#system-qt) را ببینید). این مخزن همهٔ نسخه‌های پایدار را دریافت می‌کند، اما نسخه‌های بتا را نه، و امضا شده است. بسته‌های system-Qt به Debian 12، Ubuntu 22.04 یا جدیدتر نیاز دارند. در سیستم‌های قدیمی‌تر، به‌جای آن `.deb` معمولی را از [دانلود](@/downloads.fa.md) نصب کنید. برای افزودن این مخزن در Debian، Ubuntu و دیگر سیستم‌های مبتنی بر Debian:
 
 ```bash
 sudo install -d -m 0755 /etc/apt/keyrings
@@ -145,7 +145,7 @@ sudo apt install throne
 
 ### مخزن RPM {#rpm-repository}
 
-مخزن RPM در `throneproj.github.io/Throne/rpm` بسته‌های system-Qt را برای x86_64 و aarch64 دارد؛ بنابراین توزیع شما باید Qt 6.5 یا جدیدتر را فراهم کند. این مخزن همهٔ نسخه‌های پایدار را دریافت می‌کند، اما نسخه‌های بتا را نه، و هم بسته‌ها و هم خود مخزن امضا شده‌اند.
+مخزن RPM در `throneproj.github.io/Throne/rpm` بسته‌های system-Qt را برای x86_64 و aarch64 دارد؛ بنابراین توزیع شما باید Qt 6.5 یا جدیدتر را فراهم کند. این بسته‌ها به glibc 2.34 یا جدیدتر هم نیاز دارند، پس روی RHEL 8 و نسخه‌های بازسازی‌شدهٔ آن نصب نمی‌شوند؛ آنجا `.rpm` معمولی را از [دانلود](@/downloads.fa.md) نصب کنید. این مخزن همهٔ نسخه‌های پایدار را دریافت می‌کند، اما نسخه‌های بتا را نه، و هم بسته‌ها و هم خود مخزن امضا شده‌اند.
 
 Fedora و RHEL 9 یا جدیدتر:
 
@@ -312,7 +312,7 @@ Throne دو بخش دارد که جداگانه ساخته می‌شوند: را
 
 - **هشدار آنتی‌ویروس.** برخی آنتی‌ویروس‌ها Throne یا `ThroneCore` را خطرناک تشخیص می‌دهند، بیشتر به این دلیل که به‌روزرسان فایل‌های برنامه را دانلود و جایگزین می‌کند. [پرسش‌های متداول](@/help/faq.fa.md#antivirus) را ببینید.
 - **Throne اجرا نمی‌شود و پیام «Incompatible processor. This Qt build requires the following features: sse4.2 popcnt» (پردازنده ناسازگار است) را نشان می‌دهد.** پردازندهٔ شما برای Qt همراه برنامه بیش از حد قدیمی است. در Windows، از `windowslegacy64.zip` استفاده کنید. در Linux، از یک بستهٔ `-system-qt` استفاده کنید. [پرسش‌های متداول](@/help/faq.fa.md#old-systems) را هم ببینید.
-- **Linux: Throne اعلام می‌کند که نتوانسته پلاگین پلتفرم Qt با نام «xcb» را بارگذاری کند.** `libxcb-cursor0` (Debian، Ubuntu) یا `xcb-util-cursor` (Fedora، RHEL) را نصب کنید، یا از یک بستهٔ `-system-qt` استفاده کنید.
+- **Linux: Throne اعلام می‌کند که نتوانسته پلاگین پلتفرم Qt با نام «xcb» را بارگذاری کند.** اگر Throne از Qt سیستم شما استفاده می‌کند، `libxcb-cursor0` (Debian، Ubuntu) یا `xcb-util-cursor` (Fedora، RHEL) را نصب کنید. فایل ZIP و بسته‌های معمولی این کتابخانه را همراه دارند؛ اگر آن‌ها این خطا را نشان می‌دهند، از یک بستهٔ `-system-qt` استفاده کنید.
 - **Linux با GNOME: آیکون سینی سیستم دیده نمی‌شود.** افزونهٔ AppIndicator را برای GNOME نصب کنید.
 - **macOS: «Throne is damaged and can't be opened» (Throne آسیب دیده است و باز نمی‌شود).** پرچم قرنطینه هنوز فعال است. دستور `xattr` را از مراحل [macOS](@/get_started/installation.fa.md#macos) اجرا کنید.
 

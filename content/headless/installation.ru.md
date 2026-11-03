@@ -23,12 +23,12 @@ Headless Throne — это обычная программа Throne, запущ�
 
 | Пакет | Требует | Работает, например, в |
 | --- | --- | --- |
-| `Throne-<version>-debian-amd64.deb`, `…-fedora-amd64.rpm` | glibc 2.34 | Debian 12, Ubuntu 22.04, Fedora, openSUSE Tumbleweed |
-| `…-amd64-system-qt.deb`, `…-amd64-system-qt.rpm` | glibc 2.34 и системный Qt 6 | Тех же системах, с Qt из дистрибутива |
-| `Throne-<version>-debian-arm64-system-qt.deb` | glibc 2.34 и системный Qt 6 | Raspberry Pi OS bookworm, Debian 12, Ubuntu 22.04 на arm64 |
-| `Throne-<version>-debian-arm64.deb`, `…-fedora-arm64.rpm` | glibc 2.38 | Ubuntu 24.04, Debian 13, Raspberry Pi OS trixie |
+| `Throne-<version>-debian-amd64.deb`, `…-fedora-amd64.rpm` | glibc 2.28 | Debian 10, Ubuntu 20.04, RHEL 8 и новее, Fedora, openSUSE |
+| `…-amd64-system-qt.deb`, `…-amd64-system-qt.rpm` | glibc 2.34 и системный Qt 6 | Debian 12, Ubuntu 22.04 и новее, Fedora, openSUSE Tumbleweed, с Qt из дистрибутива |
+| `Throne-<version>-debian-arm64.deb`, `…-fedora-arm64.rpm` | glibc 2.28 | Raspberry Pi OS bullseye, Debian 10, Ubuntu 20.04 и новее на arm64 |
+| `Throne-<version>-debian-arm64-system-qt.deb` | glibc 2.34 и системный Qt 6 | Raspberry Pi OS bookworm, Debian 12, Ubuntu 22.04 и новее на arm64 |
 
-Каждый пакет зависит от той версии glibc, которая нужна его файлам, поэтому менеджер пакетов отказывается устанавливать слишком новый для системы пакет, а не устанавливает Throne, который не сможет запуститься. На Raspberry Pi с Raspberry Pi OS bookworm (glibc 2.36) используйте пакет arm64 `system-qt`.
+Каждый пакет зависит от той версии glibc, которая нужна его файлам, поэтому менеджер пакетов отказывается устанавливать слишком новый для системы пакет, а не устанавливает Throne, который не сможет запуститься. На Raspberry Pi используйте 64-битную Raspberry Pi OS. В bookworm и новее работают оба пакета arm64. В bullseye нет Qt 6, поэтому там используйте обычный пакет arm64.
 
 Пакеты без `system-qt` содержат собственный Qt, но всё равно зависят от системных библиотек графики, шрифтов и X11, потому что одна и та же программа Throne содержит и приложение для компьютера. Менеджер пакетов устанавливает эти библиотеки. Дисплей не нужен.
 

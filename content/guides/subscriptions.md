@@ -86,6 +86,8 @@ Since 1.4.0, the report also lists problems: how many entries could not be impor
 
 An update does not stop or delete the profile you are connected to. If the provider removed it, Throne keeps it and lists it in the report under "Still in use, so kept instead of deleted". To let Throne stop and delete such a profile instead, turn on `Settings` → `Basic Settings` → `Subscription` → `Allow stopping the active profile`.
 
+Since 1.4.0, when an update stops and deletes the running profile this way, for example with `Clear servers before updating subscription`, Throne looks for its replacement in the group: a profile of the same type with the same name. If exactly one profile matches, Throne connects to it, and the log says "… was replaced by the update; connecting to the profile with the same name." If none or several match, the connection stays stopped: "… was removed by the update and stays stopped: no single profile with the same name replaces it." If you start a profile yourself in the meantime, Throne keeps yours.
+
 If the provider changed the settings of the running profile, Throne saves the new settings, but the connection keeps the old ones. Start the profile again to use the new settings. A running [auto selector](@/guides/testing.md#auto-selector) restarts by itself when an update replaces profiles that it uses.
 
 ## Provider information {#provider-info}
@@ -139,9 +141,11 @@ To change a group, right-click its tab and choose `Edit selected Group`, or choo
 | `Type` | `Basic` | `Basic` or `Subscription`. You cannot change it after the group is created. |
 | `Front Proxy` | `None` | A profile that every profile of this group connects through first. See [Front and landing proxy](#front-landing-proxy). |
 | `Landing Proxy` | `None` | A profile that traffic leaves through after the group's profile. |
+| `Routing Profile` | `Default (…)` | Since 1.4.0. The routing profile that the group's profiles connect with. `Default (…)` follows the `Routing` menu. See [Routing profile per group](@/guides/routing.md#group-routing). |
 | `Auto Clear Unavailable Profiles` | off | After a URL test of this group's profiles, deletes the profiles that failed, without asking. |
 | `URL` | – | The subscription address. Only for subscription groups. |
 | `Skip automatic update` | off | Leaves this group out of automatic updates. Manual updates still work. |
+| `Use the subscription's routing profile` | off | Since 1.4.0. Only for subscription groups. See [After each update](#after-update). |
 | `Advanced` | – | Opens `Advanced Group Settings` (since 1.3.1). See [Automatic updates](#auto-update), [After each update](#after-update), [User-Agent and HWID](#user-agent-and-hwid), [TLS and HTTP version](#tls-http-version) and [Server address](#server-address). Since 1.4.0, basic groups have it too, with only the `Server Address` part. |
 
 If the group has profiles, the window also has `Copy profile share links` and `Copy profile share links (Deep Links)`. They copy the links of all profiles in the group.
@@ -163,6 +167,8 @@ Since 1.3.1, a subscription group can clean itself up after each update. Open th
 | `Sort by latency` | Needs `Run URL test`. Sorts the group, fastest first. |
 
 The change report lists every profile these options removed. They do not delete the profile you are connected to, unless `Allow stopping the active profile` is on.
+
+Since 1.4.0, a group can also take the routing profile that the provider sends with the subscription, in the format of the Happ app. Tick `Use the subscription's routing profile` in the group options (not under `Advanced`). Every update then saves that routing profile as the group's own and replaces its rules. The routing profile belongs to the group and is deleted with it. DNS settings from the subscription are never used. See [From the subscription](@/guides/routing.md#subscription-routing).
 
 ## User-Agent and HWID {#user-agent-and-hwid}
 
@@ -278,14 +284,15 @@ For more help, see [Troubleshooting](@/help/troubleshooting.md#subscriptions).
 
 Throne for Android has the same groups, options and update behavior.
 
-- Open `Groups` from the side menu. Use `New group` and `Update all subscriptions` at the top. Each group shows its type, the number of profiles, the last update and, if the provider sends it, the quota ("Used … · … left · expires …").
-- The group editor has the same basic options, written in sentence case: `Front proxy`, `Landing proxy`, `Auto clear unavailable profiles`, `Skip automatic update` and `Advanced`. Since 2.0.3, `Advanced` also has `TLS version`, `HTTP version`, `Update interval (minutes)` and `Server interval`, and `Settings` → `Subscriptions` has `Use the update interval sent by the server`, `Subscription TLS version` and `Subscription HTTP version`. The app then also says when the server returns a web page, and shows problems of an import or update in a report window. Throne for Android has no `Server Address` setting.
+- Open `Groups` from the side menu. Use `New group` and `Update all subscriptions` at the top. Each group shows its type, the number of profiles, the last update and, if the provider sends it, the quota ("Used … · … left · expires …"). Since 2.0.5, `Settings` → `Appearance` → `Compact group cards` shows a usage bar and the time left instead of the subscription link and these details; see [Profile list layout](@/android/_index.md#layout).
+- The group editor has the same basic options, written in sentence case: `Front proxy`, `Landing proxy`, `Auto clear unavailable profiles`, `Skip automatic update` and `Advanced`. Since 2.0.3, `Advanced` also has `TLS version`, `HTTP version`, `Update interval (minutes)` and `Server interval`, and `Settings` → `Subscriptions` has `Use the update interval sent by the server`, `Subscription TLS version` and `Subscription HTTP version`. The app then also says when the server returns a web page, and shows problems of an import or update in a report window. Since 2.0.5, the editor also has `Routing profile` and, for subscription groups, `Use the subscription's routing profile`; see [Routing profile per group](@/guides/routing.md#group-routing). Throne for Android has no `Server Address` setting.
 - Since 2.0.2, a card above the profile list shows the [provider information](#provider-info): the traffic, the time left, `Portal` and `Support`, and the announcement. Tap the announcement to read all of it. To hide the card for one group, turn off `Subscription info card` in the group editor.
 - Since 2.0.2, a subscription group has a `Filter` category with two regular expressions. `Only names matching` keeps only the profiles whose name matches, for example `HK|SG|Japan`. `Remove names matching` removes the profiles whose name matches, for example `expire|traffic|website`. Case does not matter. The filters apply at every update, and the change report says how many profiles they filtered out. If they would leave no profile, the update stops and the group stays unchanged.
 - Since 2.0.2, entries that the Android core cannot run are skipped. See [Android differences](@/reference/protocols.md#android-import).
 - `URL` also accepts a `content://` address, so a subscription can come from a file that another app provides. For a plain `http://` address, the editor warns "Cleartext HTTP traffic is insecure".
 - The global options are in `Settings` → `Subscriptions`. If `User agent` is empty, the app sends `Throne/Android/` and its version.
-- With `Settings` → `Subscriptions` → `Use proxy` on, updates go through the running profile and fail with "Request with proxy but no profile started." while no profile runs. In `Proxy only` mode, updates also go through the running profile. After 2.0.3, `Proxy only` mode alone no longer makes them fail: while no profile runs, they go out directly.
+- With `Settings` → `Subscriptions` → `Use proxy` on, updates go through the running profile and fail with "Request with proxy but no profile started." while no profile runs. In `Proxy only` mode, updates also go through the running profile. Since 2.0.4, `Proxy only` mode alone no longer makes them fail: while no profile runs, they go out directly.
+- Since 2.0.5, when an update deletes the running profile because `Settings` → `Subscriptions` → `Allow stopping the active profile` is on, Throne connects to its replacement, as on the desktop: the one profile of the group with the same name and type. See [The profile you are using](#running-profile).
 - `Add profile` → `Import from clipboard` with an address asks the same "How to update?" question.
 - The changes window appears only after a manual update of one group. Automatic updates only write to the log.
 

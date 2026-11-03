@@ -31,6 +31,8 @@ toc = true
 
 在 `路由`（Routing）菜单或托盘中选择路由配置档会重启正在运行的连接，因此新规则会立即生效。当活动的路由配置档不是 `Default` 时，窗口标题会显示它的名称。
 
+自 1.4.0 起，分组可以使用自己的路由配置档，而不是你在这里选择的那个。参见[按分组设置路由配置档](#group-routing)。
+
 ## 下载现成的配置档 {#download-profiles}
 
 Throne 可以下载为中国、伊朗和俄罗斯维护的路由配置档。
@@ -248,12 +250,51 @@ Throne 会在配置档启动时下载该配置档的规则集，并将它们保�
 
 自动更新需要同时满足两个条件：勾选配置档的 `自动更新`（Auto update）复选框，并开启 `设置`（Settings）→ `基本设置`（Basic Settings）→ `订阅`（Subscription）→ `路由配置档自动更新`（Routing profiles auto update）（仅高级模式，参见[简洁模式与高级模式](@/get_started/configuration.zh.md#interface-mode)）。后者默认关闭。其间隔以分钟为单位（默认 1440，即每天一次）；小于 30 的值会将其关闭。`运行时统计`（Runtime Stats）标签页会显示 `下次远程路由更新`（Next remote route update）。要立即更新，请使用 `路由`（Route）标签页上的 `更新`（Update）。
 
-更新会用下载的内容替换规则和默认出站，因此你对该配置档所做的更改会丢失。要安全地修改远程配置档，请先 `克隆`（Clone）它，然后打开副本并取消勾选 `自动更新`（Auto update）。更新不会重启正在运行的连接：新规则会在你下次启动配置档时使用。
+更新会用下载的内容替换规则和默认出站，因此你对该配置档所做的更改会丢失。要安全地修改远程配置档，请先 `克隆`（Clone）它，然后打开副本并取消勾选 `自动更新`（Auto update）。更新不会重启正在运行的连接：新规则会在你下次启动配置档时使用。自 1.4.0 起，当自动更新改变了正在运行的连接所使用的路由配置档时，主窗口会显示“设置已更改，重启进行应用”。点击那里的 `重启`（Restart）即可立即使用新规则。
 
 自 1.4.0 起，有两样东西在更新后会保留：
 
 - 你[禁用](#advanced-rules)的规则会保持禁用，前提是下载的规则中有同名规则。这样你就可以关闭远程配置档中的某条规则，同时保持 `自动更新`（Auto update）开启。
 - 配置档自己的 [DNS 设置](@/guides/dns.zh.md#route-dns)。Throne 从不从远程配置档的 URL 获取 DNS 设置。
+
+## 按分组设置路由配置档 {#group-routing}
+
+自 1.4.0 起，分组可以使用自己的路由配置档连接，而不是使用你在 `路由`（Routing）菜单中选择的那个。例如，某个服务商的服务器可以使用 `Bypass Iran`，而其他所有分组都使用 `Default`。
+
+1. 右键点击该分组的标签页并选择 `编辑选定分组`（Edit selected Group），或选择 `分组`（Groups）→ `编辑当前分组`（Edit current Group）。
+2. 在 `路由配置档`（Routing Profile）中选择一个配置档。默认选项 `默认（…）`（Default (…)）跟随 `路由` 菜单中的路由配置档，并显示其名称。
+3. 点击 `确定`（OK）。
+
+Throne 如何选择路由配置档：
+
+- 由你启动的配置档所在的分组决定。对于代理链或自动选择器，看的是代理链或自动选择器本身所在的分组，而不是其中各个配置档所在的分组。前置代理、落地代理以及规则将流量发往的已保存配置档，都使用你所启动配置档的路由配置档。
+- `路由`（Routing）菜单、托盘菜单以及 `路由设置`（Routing Settings）→ `通用`（Common）→ `路由配置档`（Routing Profile）为使用 `默认（…）` 的分组选择路由配置档。`路由` 菜单中的勾选标记显示的就是这个选择。
+- 窗口标题和托盘提示显示正在运行的配置档所使用的路由配置档。[连接标签页](#connections-tab)修改的也是这个路由配置档的规则。
+- 如果正在运行的配置档所在的分组使用自己的路由配置档，那么在 `路由` 菜单中选择其他配置档不会重启连接。日志会显示“组“…”使用自己的路由配置档，因此正在运行的配置档保持不变。”（The group "…" uses its own routing profile, so the running profile keeps it.）
+- 当某个分组的配置档正在运行时，如果你更改该分组的 `路由配置档`，主窗口会显示“设置已更改，重启进行应用”。点击那里的 `重启`（Restart）。
+- 当你删除某个分组正在使用的路由配置档时，该分组会恢复为 `默认（…）`，日志中也会说明。
+- 分组的路由配置档也会带上它自己的 [DNS 设置](@/guides/dns.zh.md#route-dns)（如果有的话）。
+
+### 来自订阅 {#subscription-routing}
+
+有些服务商会随订阅一起发送一个路由配置档，格式与 Happ 应用相同。自 1.4.0 起，订阅分组可以把它保留为自己的路由配置档：
+
+1. 按上文所述打开分组选项。
+2. 在 `订阅`（Subscription）下，勾选 `使用订阅提供的路由配置档`（Use the subscription's routing profile）。
+3. 点击 `确定`（OK），然后更新该订阅。
+
+Throne 会从服务商应答中的 `routing` 标头读取路由配置档，或者从订阅中的 `happ://routing/…` 行读取。第一次更新时，Throne 会据此创建一个结构化路由配置档，使用服务商为它起的名称；如果没有名称，则以分组命名，例如名为 Provider 的分组会得到“Provider 路由”。如果该分组的 `路由配置档`（Routing Profile）是 `默认（…）`，新配置档就会成为该分组的路由配置档。在分组的列表中，它显示为“…（来自此订阅）”（… (from this subscription)）。之后的每次更新都会替换它的规则和默认出站。`日志`（Logs）标签页会显示类似“[路由] Provider：已从订阅更新路由配置档“…”（120 条，跳过 2 条）”（[Routing] Provider: updated the routing profile "…" from the subscription (120 entries, 2 skipped)）的一行。
+
+须知事项：
+
+- Throne 会读取直连、走代理或被阻止的网站和 IP 地址列表，以及其余流量是否走代理。这些列表会成为配置档的 `直连`（Direct）、`代理`（Proxy）和 `阻止`（Block）输入框。Throne 无法使用的条目会被跳过，并计入该日志行。
+- 从不使用订阅中的 DNS 设置。该配置档遵循全局 DNS 设置，除非你在它的 `DNS` 标签页上为它设置自己的 DNS。更新会保留这些设置，也会保留它的名称以及你[禁用](#advanced-rules)的规则。
+- 如果服务商发送的是 `throne://route/` 链接，Throne 会排除使用已保存配置档或 `warp-bypass` 的规则、更改目标地址的规则，以及 VPN 端点和 DNS 设置。原始配置档会被拒绝。
+- 在 `路由设置`（Routing Settings）→ `路由`（Route）中，该配置档显示为“…（由订阅“…”更新）”（… (updated by subscription "…")）。你可以编辑它，但下次更新会覆盖它的规则。连接标签页不会向它添加规则（“当前路由配置档由订阅“…”更新。”，The current routing profile is updated by the subscription "…".）。要永久修改它，请 `克隆`（Clone）它，并把副本选为该分组的 `路由配置档`。副本归你自己所有；订阅只会继续更新原配置档。
+- 该配置档属于这个分组。删除分组会同时删除该配置档，即使你已经取消勾选该选项。在 `路由设置` 中删除该配置档会取消勾选该选项。
+- 如果订阅没有发送路由配置档，分组会保留已有的那个。
+- 当 `路由设置` 处于打开状态时，更新不会更改该配置档，并会在日志中说明。下次更新会再次尝试。
+- 当更新创建或更改了正在运行的配置档所使用的路由配置档时，主窗口会显示“设置已更改，重启进行应用”。
 
 ## 原始配置档 {#raw-profiles}
 
@@ -325,7 +366,9 @@ Throne 会在配置档启动时下载该配置档的规则集，并将它们保�
 - 对话框打开时，会选中已经包含其中某个目标的服务器。选择其他服务器后，复选框会显示该服务器的目标。
 - Throne 会在你启动的配置档之外同时运行所选服务器，与任何将流量发送到已保存配置档的规则相同（参见[高级规则](#advanced-rules)）。
 
-当活动的路由配置档是原始配置档、被 `防止修改`（Prevent modifications）锁定，或者是开启了 `自动更新`（Auto update）的远程配置档时，`直连`、`代理`、`阻止` 和 `Specific server` 会被禁用。将鼠标悬停在菜单项上可查看原因。对于远程配置档，请先按照[远程配置档](#remote-profiles)中的说明克隆它。
+当活动的路由配置档是原始配置档、被 `防止修改`（Prevent modifications）锁定、是开启了 `自动更新`（Auto update）的远程配置档，或者由[订阅](#subscription-routing)更新时（自 1.4.0 起），`直连`、`代理`、`阻止` 和 `Specific server` 会被禁用。将鼠标悬停在菜单项上可查看原因。对于远程配置档，请先按照[远程配置档](#remote-profiles)中的说明克隆它。
+
+自 1.4.0 起，这些菜单项修改的是正在运行的配置档所使用的路由配置档，它可能是该配置档[所在分组自己的](#group-routing)路由配置档。
 
 在 1.3.2 及更早版本中，菜单中是 `追加 "…" 到`（Append "…" to）和 `追加进程 "…" 到`（Append process "…" to）。它们只会把确切的主机或程序添加到输入框中。
 
@@ -370,9 +413,10 @@ Throne for Android 拥有相同的路由配置档、规则和规则集。从侧�
 - **Wi-Fi 规则。** `Wi-Fi SSID` 和 `Wi-Fi BSSID` 需要将精确位置权限设为“始终允许”（Allow all the time），并开启位置信息，否则 Android 会隐藏 Wi-Fi 名称。保存此类规则时，Throne 会请求该权限。如果缺少权限，会出现“Wi-Fi rules are inactive”（Wi-Fi 规则未生效）通知。
 - **原始配置档。** Android 会拒绝原始配置档的 `throne://route/` 链接，并提示“raw routing profiles are not supported on Android”（Android 不支持原始路由配置档）。来自桌面版备份的原始配置档会被保留，但无法使用，显示为“Raw (Throne desktop) · read-only”（原始配置档，来自 Throne 桌面版，只读）。
 - 导入的链接中的 **VPN 端点**会被丢弃，并显示警告。
-- **已禁用的规则和按配置档设置的 DNS**（2.0.3 之后的版本）。与桌面版一样，编辑器中的每条规则都有一个用于禁用它的复选框。编辑器中还有一个 `DNS` 卡片，提供 `使用全局 DNS 设置`（Use the global DNS settings）和 `使用自定义 DNS 设置`（Use custom DNS settings）；参见[按路由配置档设置 DNS](@/guides/dns.zh.md#route-dns)。远程配置档在更新后会保留这两者，链接中也会携带这两者。
-- **`克隆`（Clone）**（2.0.3 之后的版本）。克隆远程配置档会得到一个永不更新的本地副本，因此你可以修改它的规则。
-- **快速切换。** 在 `配置`（Profiles）界面中，菜单（⋮）→ `路由配置`（Routing profile）会列出你的路由配置档。同一对话框中还有 `启用 WARP`（Enable WARP）/ `禁用 WARP`（Disable WARP）按钮。
+- **已禁用的规则和按配置档设置的 DNS**（自 2.0.4 起）。与桌面版一样，编辑器中的每条规则都有一个用于禁用它的复选框。编辑器中还有一个 `DNS` 卡片，提供 `使用全局 DNS 设置`（Use the global DNS settings）和 `使用自定义 DNS 设置`（Use custom DNS settings）；参见[按路由配置档设置 DNS](@/guides/dns.zh.md#route-dns)。远程配置档在更新后会保留这两者，链接中也会携带这两者。
+- **`克隆`（Clone）**（自 2.0.4 起）。克隆远程配置档会得到一个永不更新的本地副本，因此你可以修改它的规则。
+- **按分组设置路由配置档**（自 2.0.5 起）。分组编辑器中有 `路由配置`（Routing profile），订阅分组还有 `使用订阅提供的路由配置`（Use the subscription's routing profile）。两者的作用与桌面版相同；参见[按分组设置路由配置档](#group-routing)。原始配置档不会出现在选项中。在 `路由`（Routing）界面中，由订阅更新的配置档会显示“由订阅 "…" 更新”（Updated by subscription "…"）；长按它可查看这意味着什么。当正在运行的配置档所在的分组使用自己的路由配置时，如果你选择其他路由配置档，Throne 会提示“分组 "…" 使用自己的路由配置，因此正在运行的配置会继续使用它。”（The group "…" uses its own routing profile, so the running profile keeps it.）更改正在运行的配置档所在分组的路由配置后，请在 Throne 显示“重载代理服务以应用修改”时点按 `应用`（Apply）。
+- **快速切换。** `设置`（Settings）→ `路由`（Routing）→ `当前路由配置`（Current routing profile）会打开一个对话框，列出你的路由配置档。该对话框中还有 `启用 WARP`（Enable WARP）/ `禁用 WARP`（Disable WARP）按钮。在侧边菜单的 `路由`（Routing）界面中点按某个配置档，无需对话框即可使其生效。在 2.0.4 及更早版本中，该对话框位于 `配置`（Profiles）界面的菜单（⋮）中，名为 `路由配置`（Routing profile）。
 - **链接。** `throne://route/` 链接会添加配置档，但不会将其设为活动配置档。
 
 `下载配置`（Download profiles）、`更新规则集`（Update rule-sets）和远程配置档的用法与桌面版相同。`AdBlock` 和 `自动更新远程配置`（Auto update remote profiles）位于 `设置`（Settings）→ `路由`（Routing）中。

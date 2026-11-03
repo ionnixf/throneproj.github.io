@@ -59,6 +59,8 @@ VPN 运行时，Throne 会显示一条通知，其中包含配置名称、速度
 
 点按 `允许`（Allow）并在 Android 对话框中确认。如果点按 `暂不`（Not now），Throne 会提醒你：“之后可在「设置 › 通用 › 电池优化」中允许”。
 
+自 2.0.5 起，重新安装后 Throne 会再次提出首次启动时的问题，即使 Android 已从其备份中恢复了应用数据。
+
 `设置`（Settings）→ `通用`（General）→ `电池优化`（Battery optimization）会显示当前状态：
 
 | 状态 | 含义 |
@@ -104,7 +106,7 @@ Throne 需要一个已选择的配置。在 Android 10 及更高版本上：
 
 在 Android 7 至 9 上，Throne 不会做这两件事：没有配置时不会显示通知，并且在 `仅代理` 模式下，由始终开启的 VPN 触发的启动不会建立连接。因此在这些版本上，请将 `运行模式`（Service mode）保持为 `VPN`。
 
-Android 的“屏蔽未使用 VPN 的所有连接”（Block connections without VPN）选项会在 Throne 未连接时阻止所有网络流量。与 [Throne 桌面版](@/advanced/kill_switch.zh.md)不同，Throne for Android 没有自己的断网保护（kill switch），因此在 Android 上，这个选项是最接近的功能。开启后，当 Throne 停止或无法连接时，应用将无法上网。要关闭它，请再次打开 Android 的 VPN 设置。
+Android 的“屏蔽未使用 VPN 的所有连接”（Block connections without VPN）选项会在 Throne 未连接时阻止所有网络流量。与 [Throne 桌面版](@/advanced/kill_switch.zh.md)不同，Throne for Android 没有自己的断网保护（kill switch），因此在 Android 上，这个选项是最接近的功能。开启后，当 Throne 停止或无法连接时，应用将无法上网，并且 Android 会忽略[允许应用绕过 VPN](@/android/modes.zh.md#allow-bypass)（Allow apps to bypass VPN）。要关闭它，请再次打开 Android 的 VPN 设置。
 
 ## 自动连接 {#auto-connect}
 

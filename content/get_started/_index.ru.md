@@ -23,7 +23,7 @@ Throne для Android (ранее NekoBox for Android) — это приложе
 | Система | Требования | Типы пакетов |
 |---|---|---|
 | Windows | Windows 10 1809 или новее (x64, ARM64). Windows 7 SP1 или новее — с legacy-сборками (x64, 32-битная x86). | Установщик, портативный ZIP |
-| Linux | x64 или ARM64, glibc 2.34 или новее (2.38 для сборок ARM64 со встроенным Qt) | Портативный ZIP, `.deb`, `.rpm`, установочный скрипт, [APT- и RPM-репозитории](@/get_started/installation.ru.md#apt-repository), [AUR](@/get_started/installation.ru.md#aur) |
+| Linux | x64 или ARM64, glibc 2.28 или новее, например Debian 10, Ubuntu 20.04 или RHEL 8 (начиная с 1.4.0). Пакетам `-system-qt` нужна glibc 2.34 или новее. | Портативный ZIP, `.deb`, `.rpm`, установочный скрипт, [APT- и RPM-репозитории](@/get_started/installation.ru.md#apt-repository), [AUR](@/get_started/installation.ru.md#aur) |
 | macOS | macOS 14.4 или новее (Apple Silicon и Intel). macOS 10.15 или новее — с legacy-сборкой (Intel). | ZIP, [Homebrew](@/get_started/installation.ru.md#homebrew) |
 | Android | Android 7.0 или новее | APK |
 
@@ -32,6 +32,7 @@ Throne для Android (ранее NekoBox for Android) — это приложе
 ## Основные возможности {#highlights}
 
 - Множество протоколов, включая VLESS с REALITY и XHTTP, Shadowsocks, Trojan, Hysteria, TUIC, WireGuard и AmneziaWG, NaïveProxy, OpenVPN и OpenConnect: [Протоколы и форматы импорта](@/reference/protocols.ru.md).
+- DNS-туннели, которые передают ваш трафик внутри DNS-запросов: DNSTT/VayDNS, MasterDNS и XDNS для VLESS (Xray) (начиная с 1.4.0): [DNS-туннели](@/advanced/dns_tunnels.ru.md).
 - Подписки, которые обновляются по расписанию, с настройками User-Agent и HWID для каждой группы: [Подписки и группы](@/guides/subscriptions.ru.md).
 - Режим системного прокси или режим TUN для всех приложений, а также раздача прокси другим устройствам в вашей сети: [Системный прокси, TUN и доступ из локальной сети](@/guides/proxy_modes.ru.md).
 - Профили маршрутизации с правилами и наборами правил, а также готовые профили для Китая, Ирана и России: [Маршрутизация](@/guides/routing.ru.md).
@@ -66,4 +67,4 @@ Throne построен на основе этих проектов:
 - [quirc](https://github.com/dlbeer/quirc): чтение QR-кодов
 - [srombauts/sqlitecpp](https://github.com/srombauts/sqlitecpp): база данных профилей и настроек
 
-Чтобы поддержать разработку Throne, нажмите `Поддержать Throne` (Support Throne) в окне `Программа` (Program) → `О программе` (About) (начиная с 1.4.0). Кнопка открывает страницу с информацией о пожертвованиях. В Throne для Android такой же пункт есть на экране `О приложении` (About) (после 2.0.3).
+Чтобы поддержать разработку Throne, нажмите `Поддержать Throne` (Support Throne) в окне `Программа` (Program) → `О программе` (About) (начиная с 1.4.0). Кнопка открывает страницу с информацией о пожертвованиях. В Throne для Android такой же пункт есть на экране `О приложении` (About) (начиная с 2.0.4).

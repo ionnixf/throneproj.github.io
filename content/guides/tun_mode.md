@@ -62,7 +62,7 @@ Some third-party packages cannot change the core themselves. They show "This ins
 
 Open `Settings` → `Tun Settings`. If TUN mode is on when you click `OK`, Throne shows "Restart Tun to take effect". Turn `Tun Mode` off and on again.
 
-In Simple mode, the window shows only `Tun Enable IPv6`, `Strict Route`, `Enable Tun Routing` and `Troubleshooting`. The other settings are hidden, but keep their values; see [Simple and Advanced mode](@/get_started/configuration.md#interface-mode).
+In Simple mode, the window shows only `Tun Enable IPv6`, `Strict Route`, `Enable Tun Routing` and `Restart Core`. The other settings are hidden, but keep their values; see [Simple and Advanced mode](@/get_started/configuration.md#interface-mode).
 
 | Setting | Default | What it does |
 | --- | --- | --- |
@@ -75,7 +75,7 @@ In Simple mode, the window shows only `Tun Enable IPv6`, `Strict Route`, `Enable
 | `IPv4 CIDR` | `172.19.0.1/24` | The IPv4 address of the adapter. Change it only if it clashes with a network you use. `Restore default addresses` resets both addresses. |
 | `IPv6 CIDR` | `fdfe:dcba:9876::1/96` | The IPv6 address of the adapter. Used only with `Tun Enable IPv6`. |
 | `Private Range Bypass` | on | Address ranges that go straight to your network adapter instead of through the core, one per line. `Restore default ranges` restores the list. Loopback and broadcast addresses always bypass the tunnel. |
-| `Troubleshooting` → `Reset` | – | Restarts the core process. Use it when TUN mode does not start. |
+| `Restart Core` | – | Stops the running profile and restarts the core. Use it when TUN mode does not start, then start the profile again. |
 
 The default `Private Range Bypass` list is `10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`, `169.254.0.0/16`, `224.0.0.0/4`, `fc00::/7`, `fe80::/10` and `ff00::/8`.
 
@@ -107,12 +107,11 @@ Two VPNs on the same computer compete for routes and DNS. Turn off other VPN app
 
 In TUN mode, the DNS queries of all apps reach Throne. A DNS leak test can still show the DNS server of your Internet provider for sites that your rules send direct. This is expected; see [DNS](@/guides/dns.md#leak-tests).
 
-**macOS:** while TUN mode runs, Throne sets the DNS server of the active network service, for example `Wi-Fi`, to `127.0.0.53`. The core answers there with Throne's DNS settings. You can see this in the macOS network settings. Since 1.4.0:
+**macOS:** since 1.4.0, while TUN mode runs, the core adds the TUN adapter to the network configuration of macOS as a network service of its own. Its DNS server is an address inside the tunnel: the address after the `IPv4 CIDR` address, `172.19.0.2` by default. macOS sends its DNS queries there, and the core answers them with Throne's DNS settings.
 
-- When the active network changes, for example from `Wi-Fi` to `Ethernet`, Throne moves the setting to the new service and puts back the old one.
-- When TUN mode stops, Throne puts back the DNS servers that the service had before, including servers that you set yourself.
-- If Throne or its core crashes or is killed, Throne puts the DNS servers back the next time its core starts, also after a restart of macOS.
-- If Throne cannot set the system DNS, TUN mode does not start; see [macOS troubleshooting](#troubleshooting-macos).
+- Throne does not change the DNS servers of your network services, for example `Wi-Fi`, and the macOS network settings do not show the TUN service.
+- When TUN mode stops, or when the core exits or crashes, macOS removes the TUN service again.
+- If the core cannot add the service, TUN mode does not start; see [macOS troubleshooting](#troubleshooting-macos).
 
 Before 1.4.0, Throne set the DNS server to the address of the TUN adapter and cleared the DNS servers when TUN mode stopped, so DNS servers that you had set yourself were lost. After a crash, macOS kept a DNS server that no longer answered.
 
@@ -164,13 +163,9 @@ xattr -d com.apple.quarantine /Applications/Throne.app
 
 **Standard account.** TUN mode needs an administrator account. Use the system proxy, or sign in with an administrator account.
 
-**"set up the system DNS" or "set the system DNS" when TUN mode starts.** Since 1.4.0, TUN mode does not start when Throne cannot point the system DNS at its core (see [DNS](#side-effects-dns)). The rest of the message says why:
+**"set the system DNS" when TUN mode starts.** Since 1.4.0, TUN mode does not start when the core cannot add the TUN service and its DNS server to macOS (see [DNS](#side-effects-dns)). The rest of the message says what failed. Click `Restart Core` in `Tun Settings`, then start the profile again.
 
-- "listen on 127.0.0.53:53": another program already uses the DNS port, for example a local DNS server or another VPN app. Quit it and start the profile again.
-- "the core is not running as root": the core has no root rights, for example because `Disable Privilege request` is on. Give the core its rights; see [macOS privileges](#privileges-macos).
-- "no enabled network service uses …": the active network adapter has no enabled network service in the macOS network settings.
-
-If the DNS server in the macOS network settings still is `127.0.0.53` after Throne has quit, start Throne once: its core puts back your DNS servers. Or remove `127.0.0.53` from the DNS servers of that network service yourself.
+If a network service in the macOS network settings still has the DNS server `127.0.0.53`, an earlier test version of 1.4.0 left it there. Start Throne once: when its core has root rights, it puts back the DNS servers that the service had before. Or remove `127.0.0.53` from the DNS servers of that network service yourself.
 
 For DNS leak hardening on Windows, see [Windows DNS Leak Protection](@/advanced/windows_tun_mode.md).
 

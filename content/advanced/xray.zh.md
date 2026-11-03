@@ -7,7 +7,7 @@ toc = true
 
 Throne 的核心基于 sing-box 构建，其中也包含 Xray。大多数配置档运行在 sing-box 上，部分 VLESS 配置档和所有 Xray 自定义配置运行在 Xray 上。本页说明 Throne 如何选择核心、如何针对 VLESS 链接更改这一选择，以及如何修复 Reality 连接错误。
 
-在简洁模式下，本页提到的大多数设置都会被隐藏：`基本设置`（Basic Settings）中的 `日志`（Logging）和 `核心`（Core）标签页、`Xray Geo 资源`（Xray Geo Assets）和 `Xray 信任系统证书`（Trust System Certificates in Xray），XDRIVE 的 `调优`（Tuning）组，以及 `分享`（Share）→ `导出配置`（Export config）。参见[简洁模式与高级模式](@/get_started/configuration.zh.md#interface-mode)。
+在简洁模式下，本页提到的大多数设置都会被隐藏：`基本设置`（Basic Settings）中的 `日志`（Logging）和 `核心`（Core）标签页、`Xray Geo 资源`（Xray Geo Assets）和 `Xray 信任系统证书`（Trust System Certificates in Xray），XDRIVE 和 mKCP 的 `调优`（Tuning）组，以及 `分享`（Share）→ `导出配置`（Export config）。参见[简洁模式与高级模式](@/get_started/configuration.zh.md#interface-mode)。
 
 ## 合二为一的两个核心 {#two-cores}
 
@@ -28,9 +28,12 @@ sing-box 始终在运行，负责本地代理端口、TUN 模式、路由规则�
 - XHTTP 传输（`type=xhttp`）及其 `extra` 设置；
 - VLESS 加密（`encryption` 的值不是 `none`）；
 - Finalmask；
+- mKCP 传输（`type=kcp`，自 1.4.0 起）；
 - 带 HTTP 头部并同时启用 TLS 的 TCP（`raw`）传输。
 
 XDRIVE 传输（自 1.4.0 起）同样只有 Xray 支持，但它没有链接格式。参见 [XDRIVE](#xdrive)。
+
+mKCP 通过 UDP 承载连接。要使用它，请在配置档编辑器的 `传输(网络)`（Network）中选择 `kcp`。在最终掩码（Finalmask）中加上 `xdns` 掩码后，mKCP 就成为 XDNS，一种 DNS 隧道。mKCP 的各字段参见 [XDNS](@/advanced/dns_tunnels.zh.md#xdns)。
 
 Xray 的消息同样显示在 `日志`（Logs）标签页中。其详细程度在 `设置`（Settings）→ `基本设置`（Basic Settings）→ `日志`（Logging）→ `Xray 日志级别`（Xray Log level）中设置。
 
@@ -111,7 +114,7 @@ Xray 只根据其内置的根证书检查服务器证书。如果服务器的证
 
 ## XDRIVE {#xdrive}
 
-自 1.4.0 起，`VLESS (Xray)` 配置档可以使用 XDRIVE 传输。使用 XDRIVE 时，Throne 和服务器之间不直接连接，而是以文件的形式，在双方都能访问的存储中交换流量：可以是 Google Drive 文件夹、其他提供 HTTP API 的存储服务，或者本机上的一个文件夹。只有在服务器已为 XDRIVE 配置好时才使用它，并使用服务器运营者提供的设置。
+自 1.4.0 起，`VLESS (Xray)` 配置档可以使用 XDRIVE 传输。使用 XDRIVE 时，Throne 和服务器之间不直接连接，而是以文件的形式，在双方都能访问的存储中交换流量：可以是 Google Drive 文件夹、S3 存储桶、其他提供 HTTP API 的存储服务，或者本机上的一个文件夹。只有在服务器已为 XDRIVE 配置好时才使用它，并使用服务器运营者提供的设置。
 
 XDRIVE 没有链接格式，因为链接会带上存储的密钥。请改为导入服务器的 Xray JSON 配置，或者 Throne 链接（`throne://add/…`）。带有 `type=xdrive` 的 `vless://` 链接会被拒绝，并显示“XDRIVE has no share-link format. Import the server's JSON configuration instead.”（XDRIVE 没有分享链接格式，请改为导入服务器的 JSON 配置）。分享 XDRIVE 配置档时，Throne 会提供它的 Throne 链接。
 
@@ -125,9 +128,14 @@ XDRIVE 没有链接格式，因为链接会带上存储的密钥。请改为导�
 
 | 字段 | 作用 |
 | --- | --- |
-| `服务`（Service） | `google-drive`（默认）：Google Drive 文件夹。`template`：由 `模板`（Template）描述其 HTTP API 的任意存储服务。`local`：本机上的文件夹。 |
-| `文件夹`（Folder） | `google-drive`：双方共享的文件夹的 ID。`local`：文件夹路径。`template`：模板中以 `{folder}` 读取的值。`google-drive` 和 `local` 必填。 |
+| `服务`（Service） | `google-drive`（默认）：Google Drive 文件夹。`s3`：任意兼容 S3 的存储中的存储桶，例如 AWS S3、MinIO 或 Cloudflare R2。`template`：由 `模板`（Template）描述其 HTTP API 的任意存储服务。`local`：本机上的文件夹。 |
+| `文件夹`（Folder） | `google-drive`：双方共享的文件夹的 ID。`s3`：双方共享的存储桶内的键前缀。`local`：文件夹路径。`template`：模板中以 `{folder}` 读取的值。`google-drive`、`s3` 和 `local` 必填。 |
 | `客户端 ID`（Client ID）、`客户端密钥`（Client Secret）、`刷新令牌`（Refresh Token） | 仅用于 `google-drive`，三项均必填：OAuth 客户端，以及拥有该文件夹的 Google 账户的刷新令牌。 |
+| `Endpoint` | 仅用于 `s3`，必填：S3 API 的 URL，例如 `https://s3.us-east-1.amazonaws.com`，或 MinIO、R2 的端点。必须以 `http://` 或 `https://` 开头，且不能包含凭据、查询或片段。 |
+| `Region` | 仅用于 `s3`：请求签名所用的区域。留空表示 `us-east-1`。 |
+| `Bucket` | 仅用于 `s3`，必填：双方共享的存储桶。 |
+| `Path-Style Addressing` | 仅用于 `s3`，默认开启：把存储桶放在 URL 路径中。关闭后，存储桶会成为端点主机名的一部分。这需要使用域名而不是 IP 地址的端点，并且存储桶名称只能由小写字母、数字、点和连字符组成。 |
+| `Access Key ID`、`Secret Access Key`、`Session Token` | 仅用于 `s3`：S3 凭据。前两项必填。`Session Token` 可选，用于临时凭据。 |
 | `密钥`（Secrets） | 仅用于 `template`：模板中以 `{secret0}`、`{secret1}` 等读取的值，以逗号分隔。 |
 | `模板`（Template） | 仅用于 `template`，必填：以 JSON 描述的存储 API 的 auth、put、get、list 和 delete 操作。点击按钮即可编辑。 |
 | `前置地址`（Front Address）、`前置端口`（Front Port） | 可选，不适用于 `local`：Throne 通过这个地址连接存储 API，而 TLS 中仍然使用 API 的主机名，这是一种域前置（domain fronting）。`前置端口` 默认为 443，只有与 `前置地址` 一起使用时才生效。 |
@@ -168,6 +176,7 @@ XDRIVE 没有链接格式，因为链接会带上存储的密钥。请改为导�
 
 - 同样的设置位于 `设置`（Settings）→ `核心`（Core）→ `Xray VLESS 偏好`（Xray VLESS preference），选项为 `仅 XHTTP`（XHTTP only）、`XHTTP 与 Reality`（XHTTP and Reality，默认）和 `全部 VLESS`（All VLESS）。它同样只在导入时生效，因此更改后请更新订阅。
 - 配置档类型同样为 `VLESS` 和 `VLESS (Xray)`，代理链中使用 Xray 的限制也相同。
-- 2.0.3 之后，Android 上的 `VLESS (Xray)` 配置档也可以使用 XDRIVE：在 `传输协议`（Network）中选择 `XDRIVE`。相关字段位于 `XDRIVE 设置`（XDRIVE settings）和 `XDRIVE 调优`（XDRIVE tuning）中，`密钥列表`（Secrets）每行填写一个值。
-- 2.0.3 之后，`设置`（Settings）→ `核心`（Core）→ `在 Xray 中信任系统证书`（Trust system certificates in Xray）的作用与桌面版相同。它信任 Android 自带的根证书，但不信任你自己安装的证书。
+- 自 2.0.4 起，Android 上的 `VLESS (Xray)` 配置档也可以使用 XDRIVE：在 `传输协议`（Network）中选择 `XDRIVE`。相关字段位于 `XDRIVE 设置`（XDRIVE settings）和 `XDRIVE 调优`（XDRIVE tuning）中，`密钥列表`（Secrets）每行填写一个值。`s3` 服务仅在桌面版中可用。
+- mKCP 传输和 XDNS 仅在桌面版中可用。
+- 自 2.0.4 起，`设置`（Settings）→ `核心`（Core）→ `在 Xray 中信任系统证书`（Trust system certificates in Xray）的作用与桌面版相同。它信任 Android 自带的根证书，但不信任你自己安装的证书。
 - 从 2.0.2 起，当带有 `geoip:` 或 `geosite:` 规则的 Xray 配置启动或测试时，Android 版 Throne 会自动下载 `geoip.dat` 和 `geosite.dat`，通知中会显示下载进度。在 `设置`（Settings）→ `核心`（Core）→ `Xray Geo 资源`（Xray geo assets）中选择下载来源：`来源`（Source）提供与桌面版相同的四个来源，也可以选择 `自定义`（Custom）地址。在 `文件`（Files）中点按某个文件可重新下载它，点按 `立即下载`（Download now）则下载两个文件。

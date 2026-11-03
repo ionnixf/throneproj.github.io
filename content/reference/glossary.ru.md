@@ -75,6 +75,10 @@ toc = true
 | Multiplex (mux) (мультиплексирование) | Передаёт много подключений внутри одного подключения к серверу с помощью smux, h2mux или yamux. | [Пресеты для обхода цензуры](@/advanced/presets.ru.md#multiplex) |
 | WARP | Бесплатный VPN-сервис Cloudflare, который Throne может добавить последним звеном после вашего профиля. | [Cloudflare WARP](@/advanced/warp.ru.md) |
 | MASQUE | Туннельный протокол поверх HTTP/3 или HTTP/2; в Throne есть тип профиля `MASQUE`, и WARP может его использовать. | [Cloudflare WARP](@/advanced/warp.ru.md) |
+| DNS tunnel (DNS-туннель) | Передаёт ваш трафик внутри DNS-запросов, для сетей, где проходит только DNS. В Throne есть типы профилей `DNSTT / VayDNS` и `MasterDNS`, а также XDNS. | [DNS-туннели](@/advanced/dns_tunnels.ru.md) |
+| Resolver (резолвер) | DNS-сервер, который отвечает на DNS-запросы за вас. DNS-туннель отправляет свои запросы резолверам, а они передают их серверу туннеля. | [DNS-туннели](@/advanced/dns_tunnels.ru.md#resolvers) |
+| mKCP | Транспорт Xray, который передаёт подключение по UDP. | [DNS-туннели](@/advanced/dns_tunnels.ru.md#xdns) |
+| XDNS | mKCP с маской `xdns` в Finalmask, которая отправляет пакеты mKCP как DNS-запросы: DNS-туннель в профиле `VLESS (Xray)`. | [DNS-туннели](@/advanced/dns_tunnels.ru.md#xdns) |
 
 ## Конфиденциальность, файлы и безопасность {#files-and-security}
 

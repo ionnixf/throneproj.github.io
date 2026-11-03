@@ -56,7 +56,7 @@ Good to know:
 2. Keep `Hide sensitive data` on. It is on by default and hides URLs, credentials, UUIDs, keys, public IP addresses and Wi-Fi names. Turn on `Hide destinations` to also hide the domains you visited.
 3. Tap `Share logs` or `Save logs…` and attach the file to the issue.
 
-After a crash, the app offers a cleaned-up log. See [Android Troubleshooting](@/android/troubleshooting.md#logs).
+For a detailed log, set `Settings` → `Core` → `Log level` to `debug` before you reproduce the problem. Since 2.0.5, the log also contains the Xray log of Xray profiles; for them, also set `Xray log level` on the same screen. After a crash, the app offers a cleaned-up log. See [Android Troubleshooting](@/android/troubleshooting.md#logs).
 
 ## Diagnostics {#diagnostics}
 

@@ -75,6 +75,10 @@ toc = true
 | Multiplex (mux)（多路复用） | 使用 smux、h2mux 或 yamux，在通往服务器的一条连接中承载多条连接。 | [反审查预设](@/advanced/presets.zh.md#multiplex) |
 | WARP | Cloudflare 的免费 VPN 服务，Throne 可以将其添加为你的配置档之后的最后一跳。 | [Cloudflare WARP](@/advanced/warp.zh.md) |
 | MASQUE | 一种基于 HTTP/3 或 HTTP/2 的隧道协议；Throne 有 `MASQUE` 配置档类型，WARP 也可以使用它。 | [Cloudflare WARP](@/advanced/warp.zh.md) |
+| DNS tunnel（DNS 隧道） | 把你的流量放在 DNS 查询中传输，适用于只放行 DNS 的网络。Throne 提供 `DNSTT / VayDNS` 和 `MasterDNS` 配置档类型，以及 XDNS。 | [DNS 隧道](@/advanced/dns_tunnels.zh.md) |
+| Resolver（解析器） | 替你回答 DNS 查询的 DNS 服务器。DNS 隧道把查询发给解析器，再由解析器转交给隧道服务器。 | [DNS 隧道](@/advanced/dns_tunnels.zh.md#resolvers) |
+| mKCP | Xray 的一种传输方式，通过 UDP 承载连接。 | [DNS 隧道](@/advanced/dns_tunnels.zh.md#xdns) |
+| XDNS | 在最终掩码（Finalmask）中带有 `xdns` 掩码的 mKCP，它把 mKCP 数据包作为 DNS 查询发送：即 `VLESS (Xray)` 配置档中的 DNS 隧道。 | [DNS 隧道](@/advanced/dns_tunnels.zh.md#xdns) |
 
 ## 隐私、文件与安全 {#files-and-security}
 

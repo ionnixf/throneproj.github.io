@@ -65,7 +65,7 @@ They follow the order of the profile list. After the last profile they start aga
 
 ### Reorder profiles {#reorder}
 
-You cannot drag profiles with a remote. Open the ⋮ menu of a profile and choose `Move up` or `Move down` instead. These items exist on every device, but they are hidden while a search filter is active. On the `Groups` screen, the ⋮ menu of a group has `Move up` and `Move down` too.
+You cannot drag profiles with a remote. Open the ⋮ menu of a profile and choose `Move up` or `Move down` instead. Since 2.0.5, these items appear only on Android TV devices; in 2.0.4 and older they exist on every device. They are hidden while a search filter is active. On the `Groups` screen, the ⋮ menu of a group has `Move up` and `Move down` too.
 
 ## Add profiles without a camera {#import}
 
