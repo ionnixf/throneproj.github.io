@@ -147,6 +147,10 @@ Open the `Logs` tab and look for errors when TUN mode starts. For general steps,
 sudo resolvectl dnsovertls throne-tun no
 ```
 
+**DNS stops working after TUN mode stops, with a local DNS proxy.** If a local proxy such as `dnscrypt-proxy`, `unbound` or `dnsmasq` serves DNS on `127.0.0.1`, its connection to an upstream server by IP can be caught in the tunnel. DNS can then stay broken after TUN mode stops. Flushing the DNS cache does not help, and only a restart of the network or of the proxy recovers DNS.
+
+To prevent it, add the upstream address to `Settings` → `Tun Settings` → `Private Range Bypass`, one address range per line. For `https://1.1.1.1/dns-query`, add `1.1.1.1/32`. The proxy then reaches that server through your network adapter, outside the tunnel. Turn TUN mode off and on again after you change the list, then restart the proxy so that it opens a new connection. In Simple mode this setting is hidden; see [Simple and Advanced mode](@/get_started/configuration.md#interface-mode).
+
 **Packages from AUR, Nix or other repositories.** They are maintained by the community. If TUN mode fails there, try the official build; see [FAQ](@/help/faq.md#third-party-packages).
 
 **Throne was started with `sudo`.** Quit it and start it as your normal user. Only the core needs root.

@@ -147,6 +147,10 @@ sudo setcap cap_net_admin,cap_net_raw,cap_net_bind_service,cap_sys_ptrace,cap_da
 sudo resolvectl dnsovertls throne-tun no
 ```
 
+**TUN 模式停止后 DNS 无法使用（本地 DNS 代理）。** 如果 `dnscrypt-proxy`、`unbound` 或 `dnsmasq` 等本地代理在 `127.0.0.1` 上提供 DNS 服务，它按 IP 与上游服务器建立的连接可能会被隧道捕获。TUN 模式停止后，DNS 可能仍然无法使用。刷新 DNS 缓存没有帮助，只有重启网络或该代理才能恢复 DNS。
+
+要避免此问题，请把上游地址添加到 `设置`（Settings）→ `Tun 设置`（Tun Settings）→ `私有地址范围绕过`（Private Range Bypass），每行一个地址范围。对于 `https://1.1.1.1/dns-query`，请添加 `1.1.1.1/32`。这样该代理会通过你的网卡在隧道之外访问该服务器。修改列表后，请将 TUN 模式关闭再重新开启，然后重启该代理，让它建立新连接。在简洁模式下此设置是隐藏的；参见[简洁模式与高级模式](@/get_started/configuration.zh.md#interface-mode)。
+
 **来自 AUR、Nix 或其他软件源的软件包。** 它们由社区维护。如果 TUN 模式在这些软件包中无法工作，请试用官方构建版本；参见[常见问题](@/help/faq.zh.md#third-party-packages)。
 
 **Throne 是用 `sudo` 启动的。** 请退出它，并以普通用户身份启动。只有核心需要 root 权限。
