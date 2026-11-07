@@ -6,43 +6,23 @@ sort_by = "weight"
 toc = true
 +++
 
-`Throne --headless` запускает Throne без окна: на сервере, роутере, Raspberry Pi, NAS или в контейнере. Это та же программа, что и приложение для компьютера, с тем же ядром, профилями, профилями маршрутизации и настройками, но она не показывает ни окна, ни значка в трее, ни диалогов. Вы управляете ею из терминала с помощью `thronectl` через [Throne API](@/advanced/api.ru.md), который headless Throne включает при первом запуске.
+`Throne --headless` запускает Throne без окна: на сервере, роутере, Raspberry Pi или в контейнере. Это та же программа, что и приложение для компьютера, с тем же ядром, профилями и настройками. Вы управляете ею с помощью `thronectl` через [Throne API](@/advanced/api.ru.md), который включён с первого запуска. Нужен Throne 1.4.0 или новее в Linux, macOS или Windows. В Throne для Android режима headless нет.
 
-Headless Throne доступен начиная с Throne 1.4.0 в Linux, macOS и Windows. В Throne для Android режима headless нет.
-
-Типичные сценарии:
-
-- **Прокси-сервер.** Throne запускает профиль, а другие устройства в сети пользуются его смешанным портом (HTTP и SOCKS). См. [Общий доступ к прокси для других устройств](@/guides/proxy_modes.ru.md#lan-sharing).
-- **Шлюз.** Throne работает в режиме TUN на устройстве, которое маршрутизирует трафик сети.
-- **Контейнер.** Образ Docker запускает Throne, а его данные хранятся в томе.
-- **Ваш собственный компьютер, без окна.** Пользовательский юнит systemd сохраняет подключение ваших профилей из приложения для компьютера после того, как вы выйдете из системы.
-
-Страницы этого раздела:
-
-- [Установка и службы](@/headless/installation.ru.md): пакеты для Linux, Docker, macOS и служба Windows.
-- [Управление через thronectl](@/headless/thronectl.ru.md): подключение `thronectl`, добавление подписок, перенос конфигурации из приложения для компьютера, изменение настроек.
-- [Веб-интерфейс](@/headless/web.ru.md): управление Throne из браузера с помощью `thronectl web`.
-- [Командная строка и каталог данных](@/headless/command_line.ru.md): все параметры и переменные, где хранятся данные, перезапуски и коды завершения.
-- [Проверки состояния и логи](@/headless/monitoring.ru.md): `Throne --check`, `Throne --health`, статус и логи systemd.
-- [Защита от потери доступа и восстановление](@/headless/recovery.ru.md): как Throne сохраняет доступ к API и что делать, если настройки лишили вас доступа.
-- [Устранение неполадок](@/headless/troubleshooting.ru.md): типичные проблемы и их решения.
+Типичные сценарии: прокси-сервер, смешанным портом которого [пользуются другие устройства](@/guides/proxy_modes.ru.md#lan-sharing), шлюз с TUN для сети, контейнер Docker или [пользовательский юнит systemd](@/headless/installation.ru.md#user-unit), который сохраняет подключение ваших профилей из приложения для компьютера после выхода из системы.
 
 ## Быстрый старт {#quick-start}
 
 В Debian 10, Ubuntu 20.04 или новее (amd64):
 
-1. Скачайте `Throne-<version>-debian-amd64.deb` со [страницы релизов](https://github.com/throneproj/Throne/releases). В Debian 12, Ubuntu 22.04 или новее вместо этого можно подключить [репозиторий APT](@/get_started/installation.ru.md#apt-repository).
+1. Скачайте `Throne-<version>-debian-amd64.deb` со [страницы релизов](https://github.com/throneproj/Throne/releases) или подключите [репозиторий APT](@/get_started/installation.ru.md#apt-repository) (Debian 12, Ubuntu 22.04 или новее).
 2. Установите пакет и запустите службу:
 
    ```bash
    sudo apt install ./Throne-<version>-debian-amd64.deb
    sudo systemctl enable --now throne
-   systemctl status throne
    ```
 
-   `systemctl status` показывает, чем занят Throne, например `Status: "Idle"`.
-
-3. Throne хранит данные в `/var/lib/throne`, а ключ API — в `/var/lib/throne/config/api.key`, который может читать только root. Скопируйте ключ в собственный файл:
+3. Скопируйте ключ API, который может читать только root, в собственный файл:
 
    ```bash
    mkdir -p ~/.config/throne
@@ -50,8 +30,7 @@ Headless Throne доступен начиная с Throne 1.4.0 в Linux, macOS 
    export THRONE_KEY_FILE=~/.config/throne/api-key
    ```
 
-4. Пакет также устанавливает `thronectl` — клиент командной строки — как `/usr/bin/thronectl`. Чтобы управлять Throne с другого компьютера, см. [Установка thronectl](@/headless/thronectl.ru.md#install-thronectl).
-5. Добавьте подписку и подключитесь:
+4. Добавьте подписку и подключитесь с помощью `thronectl`, который устанавливает пакет:
 
    ```bash
    thronectl status
@@ -60,88 +39,46 @@ Headless Throne доступен начиная с Throne 1.4.0 в Linux, macOS 
    thronectl connect 12
    ```
 
-   Замените `12` на ID профиля из списка `thronectl profiles` или используйте `thronectl connect best`, чтобы выбрать профиль с наименьшей задержкой.
+   Замените `12` на ID профиля из списка или используйте `thronectl connect best`, чтобы выбрать профиль с наименьшей задержкой.
 
-Теперь в Throne работает профиль, и Throne снова запускает его после каждой перезагрузки, пока вы не выполните `thronectl disconnect`. Чтобы перед запуском проверить, может ли устройство вообще запустить Throne, выполните `sudo /opt/Throne/Throne --check`. См. [Throne --check](@/headless/monitoring.ru.md#check).
+Throne снова запускает этот профиль после каждой перезагрузки, пока вы не выполните `thronectl disconnect`. Если что-то не работает, выполните `sudo /opt/Throne/Throne --check` (см. [Throne --check](@/headless/monitoring.ru.md#check)). Docker, macOS, Windows и другие варианты установки в Linux описаны в разделе [Установка и службы](@/headless/installation.ru.md).
 
 ## Как работает headless Throne {#how-it-works}
 
-Throne никогда не переходит в фоновый режим сам. Его запускает при загрузке, перезапускает после сбоя и останавливает менеджер служб: systemd в Linux, launchd в macOS, диспетчер управления службами (Service Control Manager) в Windows или Docker. В репозитории Throne есть готовый файл для каждого из них:
-
-| Файл | Что это |
-| --- | --- |
-| [`dist/linux/throne.service`](https://github.com/throneproj/Throne/blob/dev/dist/linux/throne.service) | Системный юнит systemd, работает от root. Пакеты `.deb` и `.rpm` устанавливают его как `/usr/lib/systemd/system/throne.service`. |
-| [`dist/linux/throne.env`](https://github.com/throneproj/Throne/blob/dev/dist/linux/throne.env) | Файл окружения для этого юнита, устанавливается как `/etc/throne/throne.env`. Каждая переменная в нём — закомментированный пример. |
-| [`dist/linux/caps.conf`](https://github.com/throneproj/Throne/blob/dev/dist/linux/caps.conf) | Необязательный drop-in-файл: запускать юнит от имени пользователя `throne` с возможностями (capabilities) вместо root. |
-| [`dist/linux/throne-user.service`](https://github.com/throneproj/Throne/blob/dev/dist/linux/throne-user.service) | Пользовательский юнит systemd, без root. |
-| [`dist/linux/throne-web.service`](https://github.com/throneproj/Throne/blob/dev/dist/linux/throne-web.service), [`throne-web.env`](https://github.com/throneproj/Throne/blob/dev/dist/linux/throne-web.env) | Юнит systemd для [веб-интерфейса](@/headless/web.ru.md#systemd), который запускает `thronectl web` от собственного пользователя, и его файл окружения. Пакеты устанавливают их как `/usr/lib/systemd/system/throne-web.service` и `/etc/throne/web.env`. |
-| [`dist/macos/moe.Throne.headless.plist`](https://github.com/throneproj/Throne/blob/dev/dist/macos/moe.Throne.headless.plist) | LaunchDaemon для launchd. |
-| [`dist/windows/install-service.bat`](https://github.com/throneproj/Throne/blob/dev/dist/windows/install-service.bat), [`uninstall-service.bat`](https://github.com/throneproj/Throne/blob/dev/dist/windows/uninstall-service.bat) | Установка и удаление службы Windows. |
-| [`docker/compose.yaml`](https://github.com/throneproj/Throne/blob/dev/docker/compose.yaml) | Пример Docker Compose для образа `ghcr.io/throneproj/throne`. |
-
-Что происходит, когда работает headless Throne:
-
-- Он хранит профили, группы, профили маршрутизации и настройки в [каталоге данных](@/headless/command_line.ru.md#data-dir), в той же базе данных `throne.db`, что и приложение для компьютера.
-- Throne API слушает `127.0.0.1:9095` с первого запуска, с ключом, который Throne генерирует в файл `config/api.key` в каталоге данных. `thronectl` использует этот ключ. См. [Подключение thronectl к Throne](@/headless/thronectl.ru.md#connect).
-- Он запоминает запущенный профиль и то, был ли включён TUN, и снова запускает их при каждом запуске, пока вы не отключитесь. `--no-resume` отключает это на один запуск.
-- Он сообщает своё состояние менеджеру служб и сам следит за ходом своей работы. Если ядро постоянно падает, профиль зависает или главный цикл останавливается, Throne завершается с кодом, по которому менеджер служб запускает его снова. См. [Коды завершения](@/headless/command_line.ru.md#exit-codes).
-- `Throne --health` спрашивает работающий Throne о его состоянии, а `Throne --check` сообщает, может ли компьютер его запустить. См. [Проверки состояния и логи](@/headless/monitoring.ru.md).
+- Его запускает, перезапускает и останавливает менеджер служб: systemd, launchd, диспетчер управления службами Windows или Docker. Throne никогда не переходит в фоновый режим сам.
+- Он хранит профили, группы, профили маршрутизации и настройки в [каталоге данных](@/headless/command_line.ru.md#data-dir), в той же базе `throne.db`, что и приложение для компьютера.
+- API слушает `127.0.0.1:9095` с ключом, который Throne создаёт в файле `config/api.key` в каталоге данных. См. [Подключение thronectl к Throne](@/headless/thronectl.ru.md#connect).
+- При каждом запуске он снова запускает последний профиль, с TUN, если TUN был включён. `--no-resume` пропускает это один раз.
+- Если ядро постоянно падает или профиль зависает, Throne завершается с кодом, по которому менеджер служб запускает его снова. См. [Коды завершения](@/headless/command_line.ru.md#exit-codes).
 
 ## Отличия от приложения для компьютера {#differences}
 
-Headless Throne ничего не спрашивает. То, о чём приложение для компьютера спрашивает в диалоге, headless Throne решает сам или записывает в лог:
+Headless Throne ничего не спрашивает. Он решает сам или записывает в лог:
 
-| Ситуация | Headless Throne |
-| --- | --- |
-| Уведомление или ошибка | Записывает это в лог. |
-| TUN нужны права | Отказывает с `needs_privileges`. `Throne --check` сообщает, чего не хватает. |
-| Профилю Xray нужны файлы geoip или geosite | Загружает их и пробует запустить профиль ещё раз. |
-| [Kill switch](@/advanced/kill_switch.ru.md) не может работать | Записывает в лог причину, сообщает `kill_switch_failed` и отказывается запускать профили. |
-| VPN-профиль запрашивает одноразовый код | Отвечает с помощью [записи OTP](@/advanced/vpn_profiles.ru.md#otp-manager) профиля, если она есть. |
-| VPN-профиль запрашивает что-то другое, например вход через веб | Отменяет запрос, когда истекает его срок, — не позже чем через 5 минут (`vpn_challenge_pending`). Если сервер отклоняет сохранённые учётные данные, это даёт `vpn_auth_failed`. |
-| Настройке нужен перезапуск программы | Записывает это в лог. Настройка применится после следующего перезапуска (`thronectl restart`). |
-| Условия использования WARP | Никогда их не принимает. |
+- Включение TUN без нужных прав завершается ошибкой `needs_privileges`. `Throne --check` сообщает, чего не хватает.
+- Если [kill switch](@/advanced/kill_switch.ru.md) не может работать, Throne сообщает `kill_switch_failed` и отказывается запускать профили.
+- VPN-профиль, который запрашивает одноразовый код, получает его из своей [записи OTP](@/advanced/vpn_profiles.ru.md#otp-manager). Любой другой запрос, например вход через веб, отменяется, когда истекает его срок, — не позже чем через 5 минут (`vpn_challenge_pending`). Если сервер отклоняет сохранённые учётные данные, это даёт `vpn_auth_failed`.
+- Настройка, которой нужен перезапуск программы, применяется после `thronectl restart`.
 
-Эти функции требуют окна и недоступны в headless Throne:
+Системного прокси (`thronectl proxy on` завершается ошибкой `system_proxy_unsupported`), значка в трее, глобальных горячих клавиш и встроенного обновления нет: обновляйте Throne через пакет, образ Docker или установщик. [Глубокие ссылки](@/advanced/deeplinks.ru.md) `throne://` и ассоциации файлов не работают; импортируйте через `thronectl import`.
 
-- Системный прокси (`thronectl proxy on` завершается ошибкой `system_proxy_unsupported`), значок в трее, глобальные горячие клавиши и редакторы.
-- Встроенное обновление, а также перезапуск с повышенными правами или с TUN. Обновляйте Throne через пакет, образ Docker или установщик.
-- [Глубокие ссылки](@/advanced/deeplinks.ru.md) `throne://` и ассоциации файлов. Вместо этого импортируйте через `thronectl import`.
-- Запросы входа у VPN-профилей, например SSO, кроме одноразовых кодов из записи OTP.
-- Регистрация WARP.
-- Настройки, которыми API не управляет, и восстановление профилей дополнительного ядра (Extra Core) через API.
-
-Настройте это в Throne для компьютера и перенесите с помощью [резервной копии](@/headless/thronectl.ru.md#from-desktop). Если вы используете пользовательский юнит systemd, остановите юнит и откройте приложение для компьютера: оба используют одни и те же данные.
+Записи OTP, учётные данные VPN и настройки, которыми API не управляет, настройте в Throne для компьютера и перенесите с помощью [резервной копии](@/headless/thronectl.ru.md#from-desktop). Пользовательский юнит systemd использует те же данные, что и приложение для компьютера: остановите юнит и откройте приложение.
 
 ## Работа рядом с Throne для компьютера {#beside-desktop}
 
-Интерфейс TUN (`throne-tun`), DNS-порт ядра (`dns_in_port`, по умолчанию 5533) и маршруты TUN принадлежат всему компьютеру, поэтому TUN на нём может одновременно использовать только один Throne. Headless Throne включает TUN, только если:
-
-- нет другого интерфейса `throne-tun` (проверяется в Linux и Windows),
-- ни один сетевой интерфейс не занимает адрес TUN (`tun_ipv4_cidr`, по умолчанию `172.19.0.1/24`) и
-- DNS-порт свободен, пока ни один профиль не запущен.
-
-Иначе `thronectl tun on` завершается ошибкой `tun_conflict`, а `thronectl status` показывает, что занимает TUN. Если TUN не удаётся снова включить при запуске, `Throne --health` сообщает `tun_unavailable`. Если мост Docker или другая сеть использует диапазон TUN Throne, перенесите TUN в свободный диапазон, а затем снова включите его:
+TUN на компьютере может одновременно использовать только один Throne, потому что интерфейс `throne-tun`, диапазон адресов TUN (`tun_ipv4_cidr`, по умолчанию `172.19.0.1/24`) и DNS-порт ядра (`dns_in_port`, по умолчанию 5533) принадлежат всему компьютеру. Если что-то из этого занято, `thronectl tun on` завершается ошибкой `tun_conflict`, а `thronectl status` показывает, что именно его занимает. Если мост Docker или другая сеть использует диапазон TUN, перенесите TUN в свободный диапазон; если DNS-порт занят другой программой, укажите Throne другой порт:
 
 ```bash
-thronectl settings set tun_ipv4_cidr=172.29.0.1/24
+thronectl settings set tun_ipv4_cidr=172.29.0.1/24    # или: dns_in_port=PORT
 thronectl tun on
 ```
 
-Если DNS-порт занят другой программой, укажите Throne свободный порт командой `thronectl settings set dns_in_port=PORT`.
+Пока работает headless Throne, Throne для компьютера на том же компьютере предупреждает об этом при запуске, отказывается включать TUN и не обновляется сам, если оба работают из одной установки.
 
-Headless Throne также отмечает, что он работает: в `/run/throne` от root (`/var/run/throne` в macOS), в `$XDG_RUNTIME_DIR/throne` от имени пользователя, а в Windows — как `Global\ThroneHeadless` (`Local\ThroneHeadless`, если он работает без повышенных прав и не как служба; такую отметку видно только в том же сеансе Windows). Тогда Throne для компьютера на том же компьютере:
-
-- при запуске предупреждает, что работает headless Throne,
-- отказывается включать TUN, пока работает headless Throne, и
-- не обновляется сам, пока headless Throne работает из той же установки.
-
-Два Throne никогда не используют один каталог данных. Если пользовательский юнит headless использует каталог данных приложения для компьютера, приложение для компьютера сообщает, что Throne работает в фоне, и завершается. Сначала остановите юнит командой `systemctl --user stop throne`. Второй headless Throne с собственным каталогом данных может работать рядом с первым; описанные выше проверки не дают им одновременно использовать TUN.
+Два Throne никогда не используют один каталог данных. Если пользовательский юнит использует каталог данных приложения для компьютера, приложение сообщает, что Throne работает в фоне, и завершается. Сначала остановите юнит: `systemctl --user stop throne`.
 
 ## Идентификатор устройства {#device-id}
 
-Некоторые подписки запрашивают идентификатор устройства (заголовок `x-hwid`, см. [User-Agent и HWID](@/guides/subscriptions.ru.md#user-agent-and-hwid)). В Linux Throne берёт его из `/etc/machine-id`, а если этого файла нет — из `/var/lib/dbus/machine-id`. Система без обоих файлов, например контейнер, при первом запуске получает сгенерированный идентификатор в `config/hwid`. Этот идентификатор остаётся с каталогом данных.
+Некоторые подписки запрашивают идентификатор устройства (см. [User-Agent и HWID](@/guides/subscriptions.ru.md#user-agent-and-hwid)). В Linux Throne берёт его из `/etc/machine-id`, а если этого файла нет — из `/var/lib/dbus/machine-id`. Если нет обоих файлов, как в контейнере, при первом запуске он создаёт идентификатор в `config/hwid`, который остаётся с каталогом данных. macOS использует аппаратный UUID, а Windows — `MachineGuid` из реестра.
 
 Официальный образ Docker поставляется без machine ID, поэтому каждый контейнер получает собственный идентификатор. Если вы собираете свой образ, не кладите в него файл `machine-id`: иначе каждый контейнер из этого образа будет отправлять один и тот же идентификатор.
-
-macOS использует аппаратный UUID, а Windows — `MachineGuid` из реестра.

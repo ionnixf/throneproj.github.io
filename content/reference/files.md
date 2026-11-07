@@ -1,147 +1,108 @@
 +++
 title = "Command Line, Files & Logs"
-description = "Command-line options of Throne desktop, where it keeps your data on each system, what the files in the config folder hold, the logs, and how to reset."
+description = "Command-line options of Throne desktop, where it keeps its data and logs, and how to reset it."
 weight = 30
 toc = true
 +++
 
-This page explains the command-line options of Throne desktop, where Throne stores your data, what each file is for, where to find the logs, and how to start over with default settings.
-
 ## Command line {#command-line}
-
-Throne accepts these options:
 
 | Option | What it does |
 | --- | --- |
 | `-appdata` | Keeps the data in your user folder instead of next to the program. See [Data folder](#data-folder). |
-| `-appdata <folder>` | Keeps the data in `<folder>`. Throne creates a `config` folder inside it. |
-| `-tray` | Starts with the window hidden. Only the tray icon appears. |
+| `-appdata <folder>` | Keeps the data in a `config` folder inside `<folder>`. |
+| `-tray` | Starts in the tray, with the window hidden. |
 | A `throne://` link | Handles the link as if you had clicked it. See [Deep Links](@/advanced/deeplinks.md). |
 | File paths or `file://` URLs | Imports the files, like `Program` → `Add profile from File(s)`. |
-| `--headless` | Runs Throne without a window, as a service or in a container (since 1.4.0). See [Headless Throne](@/headless/_index.md). |
-| `--check`, `--health`, `--print-connection` | Check whether this computer can run headless Throne, ask a running headless Throne how it is doing, or print the settings for `thronectl` (since 1.4.0). |
-
-Examples:
+| `--headless` | Runs Throne without a window, as a service or in a container. See [Headless Throne](@/headless/_index.md); its options are in [Command Line & Data Directory](@/headless/command_line.md). |
+| `--check`, `--health`, `--print-connection` | Check whether this computer can run headless Throne, ask a running one how it is doing, or print the settings for `thronectl`. |
 
 ```bash
-/opt/Throne/Throne -appdata
 ./Throne -appdata "$HOME/throne-test"
-./Throne -tray
 ```
 
 ```powershell
 .\Throne.exe -appdata D:\ThroneData
 ```
 
-- Throne reads the word after `-appdata` as the folder, unless it starts with `-`.
-- Only one Throne runs per data folder. If Throne is already running, a new start passes its link or files to the running Throne, brings its window to the front, and exits. If a headless Throne uses the data folder, the new start shows "Throne is running in the background" and exits; see [Troubleshooting](@/help/troubleshooting.md#background-throne).
-- Headless Throne has more options and its own data folder. See [Command Line & Data Directory](@/headless/command_line.md).
-- **macOS:** to pass options, run the program inside the app bundle, for example `/Applications/Throne.app/Contents/MacOS/Throne -tray`. Links that you click are passed to the running Throne by macOS.
+- Only one Throne runs per data folder. Starting it again passes the link or files to the running Throne and brings its window to the front. If a headless Throne uses the folder, the new start shows "Throne is running in the background" and exits, see [Troubleshooting](@/help/troubleshooting.md#background-throne).
+- **macOS:** to pass options, run the program inside the app bundle: `/Applications/Throne.app/Contents/MacOS/Throne -tray`.
 
 ## Data folder {#data-folder}
 
-Throne keeps your data in a folder named `config`. To open it, choose `Settings` → `Open Config Folder` (Advanced mode only, see [Simple and Advanced mode](@/get_started/configuration.md#interface-mode)).
+Throne keeps your data in a folder named `config`. `Settings` → `Open Config Folder` opens it (Advanced mode only, see [Simple and Advanced mode](@/get_started/configuration.md#interface-mode)).
 
-Throne works in one of two modes:
-
-- **Portable mode:** the `config` folder is inside the Throne program folder.
-- **Appdata mode:** the `config` folder is in your user folder. Throne uses this mode when it starts with `-appdata`, always on macOS, and when it cannot write to its own folder.
-
-In appdata mode, the folder is:
-
-| System | Data folder |
+| How you installed Throne | Data folder |
 | --- | --- |
-| Windows | `%LOCALAPPDATA%\Throne\config`, for example `C:\Users\<you>\AppData\Local\Throne\config` |
-| Linux | `~/.config/Throne/config`, or `$XDG_CONFIG_HOME/Throne/config` if you set `XDG_CONFIG_HOME` |
+| Windows or Linux ZIP | `config` in the unpacked `Throne` folder (portable) |
+| Windows installer, for the current user (default) | `config` in the install folder (portable), by default `%LOCALAPPDATA%\Throne\config` |
+| Windows installer, for all users | `%LOCALAPPDATA%\Throne\config` of each user |
+| Linux `.deb`, `.rpm` or install script | `~/.config/Throne/config`, or `$XDG_CONFIG_HOME/Throne/config` if you set `XDG_CONFIG_HOME` |
 | macOS | `~/Library/Preferences/Throne/config` |
 
-Which mode your copy uses depends on how you installed it:
-
-| How you installed Throne | Mode | Data folder |
-| --- | --- | --- |
-| Windows ZIP | Portable | `config` in the unpacked `Throne` folder |
-| Windows installer, for the current user (default) | Portable | `config` in the install folder, by default `%LOCALAPPDATA%\Throne\config` |
-| Windows installer, for all users | Appdata (automatic) | `%LOCALAPPDATA%\Throne\config` of each user |
-| Linux ZIP | Portable | `config` in the unpacked `Throne` folder |
-| Linux `.deb`, `.rpm` or install script | Appdata | `~/.config/Throne/config` |
-| macOS | Appdata | `~/Library/Preferences/Throne/config` |
-
-- The app-menu entry that the `.deb` and `.rpm` packages and the Linux install script create starts `/opt/Throne/Throne -appdata`.
-- If Throne cannot write to its own folder, for example in `Program Files`, it switches to appdata mode by itself. The first time, it copies your existing `config` folder there. After that, it keeps using the per-user folder, even when you run it as administrator.
+- A portable copy uses the per-user folder (`%LOCALAPPDATA%\Throne\config` on Windows, `~/.config/Throne/config` on Linux) when it starts with `-appdata`. It also switches there by itself when it cannot write to its own folder, such as in `Program Files`: it copies the existing `config` once and keeps using the per-user folder, even when you run it as administrator.
 - Packages from other sources (WinGet, Scoop, AUR, Nix) may use other folders. `Open Config Folder` always shows the right one.
-
-A few files are stored next to the `config` folder, not inside it: the Xray geo files `geoip.dat` and `geosite.dat`, and the `diagnostics` folder with the files from `Basic Settings` → `Diagnostics`. In portable mode this is the Throne program folder. In appdata mode it is the per-user folder, for example `%LOCALAPPDATA%\Throne`. When you give `-appdata` another folder, it is that folder since 1.4.0; at the first start, Throne copies the geo files there from the per-user folder. Before 1.4.0, these files stayed in the per-user folder.
+- The Xray geo files `geoip.dat` and `geosite.dat` and the `diagnostics` folder (from `Basic Settings` → `Diagnostics`) are next to the `config` folder, not inside it.
 
 ### Files in the config folder {#config-files}
 
 | File or folder | What it holds |
 | --- | --- |
-| `throne.db` | Your profiles, groups, routing profiles, OTP profiles and settings, in an SQLite database. While Throne runs, `throne.db-wal` and `throne.db-shm` appear next to it. |
-| `throne_stats.db` | Traffic history for `Tools` → `Traffic Stats`: data per minute for the last 48 hours, and data per hour for 90 days. `Basic Settings` → `Style` → `Disable Traffic Aggregation` stops it. |
-| `cache.db` | The cache of the core: downloaded rule-sets, the last choice of an auto selector and, if `Save Cache To File` is on, the DNS cache. |
-| `logs/` | Log files. See [Logs](#logs). |
+| `throne.db` | Profiles, groups, routing profiles, OTP profiles and settings (SQLite). `throne.db-wal` and `throne.db-shm` appear next to it while Throne runs. |
+| `throne_stats.db` | Traffic history for `Tools` → `Traffic Stats`: per minute for 48 hours, per hour for 90 days. `Basic Settings` → `Style` → `Disable Traffic Aggregation` stops it. |
+| `cache.db` | The core's cache: downloaded rule-sets, the last choice of each auto selector and, with `Save Cache To File` on, the DNS cache. |
+| `logs/` | Log files, see [Log file](#log-file). |
 | `crashes/` | Crash dumps (Windows only). The newest 5 are kept. |
-| `icons/` | Custom tray icons from `Basic Settings` → `Style` → `Enable Custom Icons`: `Off.png`, `Throne.png` (a profile runs), `Proxy.png`, `Tun.png` and, since 1.4.0, `Connecting.png`. Without `Connecting.png`, Throne shows `Off.png` while a profile starts or stops. |
-| `hwid` | Linux only, since 1.4.0: the device ID that Throne created because the system has no usable `/etc/machine-id` or `/var/lib/dbus/machine-id`. See [HWID](@/reference/privacy.md#hwid). |
-| `.lock` | Since 1.4.0: shows that a Throne uses this folder. Throne never deletes it. |
-| `dashboard/` | Files of a web dashboard for the Clash API. Throne creates the folder with a placeholder page; replace it with the dashboard files. |
+| `icons/` | Custom tray icons for `Basic Settings` → `Style` → `Enable Custom Icons`: `Off.png`, `Throne.png` (a profile runs), `Proxy.png`, `Tun.png` and `Connecting.png`. |
+| `hwid` | Linux only: the device ID that Throne created because the system has no usable `/etc/machine-id` or `/var/lib/dbus/machine-id`. See [HWID](@/reference/privacy.md#hwid). |
+| `.lock` | Shows that a Throne uses this folder. Throne never deletes it. |
+| `dashboard/` | A web dashboard for the Clash API. Replace the placeholder page with the dashboard files. |
 | `sb-dashboard/` | The web dashboard that `Tools` → `Open Web dashboard` opens. |
 
-To move your data to another computer or to Android, create a `.thrbackup` backup instead of copying files. See [Backup and restore](@/guides/backup.md#backup-restore).
+To move your data to another computer or to Android, use a `.thrbackup` backup instead of copying files. See [Backup and restore](@/guides/backup.md#backup-restore).
 
 ## Logs {#logs}
 
-The `Logs` tab at the bottom of the main window shows messages from Throne and from the core. Right-click the log to copy text or to `Clear` it.
+The `Logs` tab at the bottom of the main window shows messages from Throne and the core.
 
-- **Scrolling:** while you are at the bottom, the tab shows each new line. Since 1.4.0, when you scroll up, the view stays where it is and new lines wait. A `Jump to latest` button at the top right of the tab shows how many lines wait; click it, or scroll back to the bottom, to see them.
-- **Filter:** since 1.4.0, the filter button at the top right of the tab opens a filter bar. Type in `Filter logs` to show only the matching lines, with the matches highlighted. `Match case` and `Regular expression` change how the text matches, and the bar shows how many lines match. `Esc` or the filter button closes the bar and shows all lines again. This filter changes only the view, not the lines that Throne keeps.
-
-The log settings are in `Settings` → `Basic Settings` → `Logging` (Advanced mode only):
+Log settings are in `Settings` → `Basic Settings` → `Logging` (Advanced mode only):
 
 | Setting | Default | What it does |
 | --- | --- | --- |
-| `Max log lines` | `500` (`200` before 1.4.0) | How many lines the `Logs` tab keeps. |
-| `Sing-box Log level` | `info` | How much detail the core writes: `trace`, `debug`, `info`, `warn`, `error`, `fatal` or `panic`. |
-| `Xray Log level` | `warning` | How much detail Xray writes: `debug`, `info`, `warning`, `error` or `none`. |
-| `Log Filtering` | Off | `Enable Include Rules` shows only lines that match your keywords or regular expressions. `Enable Exclude Rules` hides matching lines. Lines that these rules hide never reach the `Logs` tab, but they are still in the log file. |
+| `Max log lines` | `500` | How many lines the `Logs` tab keeps. |
+| `Sing-box Log level` | `info` | How much the core writes: `trace`, `debug`, `info`, `warn`, `error`, `fatal` or `panic`. |
+| `Xray Log level` | `warning` | How much Xray writes: `debug`, `info`, `warning`, `error` or `none`. |
+| `Log Filtering` | Off | `Enable Include Rules` shows only lines that match your keywords or regular expressions, `Enable Exclude Rules` hides them. Hidden lines still go to the log file. |
 
-The `Auto-scroll log` setting was removed in 1.4.0.
-
-Since 1.4.0, the `Logs` tab uses a monospace font. To choose another one, use `Log Browser Font` and `Log Browser Font Size` in `Settings` → `Basic Settings` → `Style` (Advanced mode only). The list shows only monospace fonts. By default, Throne uses the first of Consolas, Menlo, SF Mono, DejaVu Sans Mono, Noto Sans Mono and Ubuntu Mono that is installed, in the size of the interface font.
-
-For a bug report, set `Sing-box Log level` to `debug`, start the profile again, and reproduce the problem. Then follow [Reporting a Bug](@/help/bug_reports.md#logs).
+To record a detailed log for a bug report, follow [Reporting a Bug](@/help/bug_reports.md#logs).
 
 ### Log file {#log-file}
 
-Throne also writes the log to `logs/throne.log` in the config folder.
+Throne also writes the log, with more detail, to `logs/throne.log` in the config folder.
 
-- The file starts with the Throne version, your operating system, the command-line options and the log folder.
-- It contains everything from the `Logs` tab and more detail from Throne itself.
-- Throne starts a new file at every start. When the file reaches 4 MB, Throne renames it to `throne.log.1` and starts a new one. It keeps up to three old parts, `throne.log.1` to `throne.log.3`.
-- If Throne did not quit cleanly, it keeps the log of that session as `crashed-YYYYMMDD-HHMMSS.log` in the same folder. The newest 5 are kept. At the next start, the `Logs` tab shows "[Warn] Throne did not shut down cleanly last time. Diagnostics were saved to: …", followed by the path of the log folder.
+- Throne starts a new file at every start. At 4 MB, it renames the file to `throne.log.1` and starts a new one, keeping up to three old parts (`throne.log.1` to `throne.log.3`).
+- If Throne did not quit cleanly, the log of that session is kept as `crashed-YYYYMMDD-HHMMSS.log` (the newest 5), and the next start shows a warning with the log folder in the `Logs` tab.
 
 {% alert_warning() %}
 Logs can contain the domains you visited and the addresses of your servers. Check a log before you share it publicly.
 {% end %}
 
-**Android:** open the drawer and tap `Logs`. `Share logs` and `Save logs…` export the log. `Hide sensitive data` is on by default. In the export, it hides passwords, keys, UUIDs, server names, public IP addresses, Wi-Fi names and the paths of URLs. The log level is in `Settings` → `Core` → `Log level` (default `warn`). See [Android Troubleshooting](@/android/troubleshooting.md#logs).
+**Android:** open `Logs` in the drawer. `Share logs` and `Save logs…` export the log, with sensitive data hidden by default. The log level is in `Settings` → `Core` → `Log level` (default `warn`). See [Android Troubleshooting](@/android/troubleshooting.md#logs).
 
 ## Reset Throne {#reset}
 
-Throne has no reset button. To start over with default settings, give Throne a new, empty config folder:
+Throne has no reset button. To start over with default settings, give it a new, empty config folder:
 
 1. To keep anything, create a backup first: `Settings` → `Basic Settings` → `Backup and Restore` → `Create Backup...`.
-2. Choose `Settings` → `Open Config Folder` to see where the folder is.
+2. `Settings` → `Open Config Folder` shows where the folder is.
 3. Quit Throne with `Exit` in the tray menu or the `Program` menu. Closing the window is not enough.
 4. Rename the `config` folder, for example to `config-old`.
 5. Start Throne. It creates a new `config` folder with default settings.
 
-To bring back part of your old data, use `Restore from Backup...` on the same tab and select only the parts you need. See [Backup and restore](@/guides/backup.md#backup-restore).
+To bring back parts of your old data, use `Restore from Backup...` on the same tab and select only those parts. To undo the reset, quit Throne, delete the new `config` folder and rename `config-old` back to `config`.
 
-To undo the reset, quit Throne, delete the new `config` folder, and rename `config-old` back to `config`.
+A reset does not touch what is stored outside the config folder: `Start with system` (an autostart entry of the system), the `throne://` link registration and the Xray geo files.
 
-A reset does not change what is stored outside the config folder: `Start with system` (it is an autostart entry of the operating system), the `throne://` link registration, and the Xray geo files.
+**Windows:** uninstalling a copy from the installer offers to delete the config folder too.
 
-**Windows:** if you installed Throne with the installer, uninstalling asks "Also delete your Throne profiles, settings and logs?". Choose `Yes` to delete the config folder too.
-
-**Android:** `Settings` → `Restore default settings` resets all settings but keeps your profiles, groups and routing profiles. The app then restarts. To remove everything, clear the app's data in the Android app settings. Throne for Android keeps its data in the app's private storage, which file managers cannot open, so use a `.thrbackup` backup to copy your data out.
+**Android:** `Settings` → `Restore default settings` resets all settings but keeps your profiles, groups and routing profiles, then restarts the app. To remove everything, clear the app's data in the Android app settings. File managers cannot open the app's data, so use a `.thrbackup` backup to copy it out.

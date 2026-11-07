@@ -5,67 +5,34 @@ weight = 80
 toc = true
 +++
 
-The Throne API (since 1.4.0) lets scripts, hotkey tools and other devices control Throne: start and stop profiles, switch TUN mode and the system proxy, change the routing profile, run tests, and read profiles and traffic statistics. It can also manage Throne: import profiles, add and update subscriptions, delete groups and profiles, change settings, back up and restore, and restart or quit Throne.
+The Throne API lets scripts, hotkey tools and other devices control and manage Throne desktop. `thronectl` is its command-line client, and `thronectl web` serves a [web UI](@/headless/web.md). To write your own client, use the Go library and the [API specification](https://github.com/throneproj/Throne-api/blob/main/spec/api.md) in the [Throne-api](https://github.com/throneproj/Throne-api) repository.
 
-`thronectl` is the command-line client of the API; `thronectl web` also serves a [web UI](@/headless/web.md) for the browser. This page explains how to turn the API on in Throne desktop, how to install and connect `thronectl`, and what each command does.
-
-[Headless Throne](@/headless/_index.md), which runs without a window on a server or in a container, has the API on from its first start, and you manage it with `thronectl`. [Managing with thronectl](@/headless/thronectl.md) shows how to connect to it and set it up.
-
-Throne for Android has no Throne API.
+[Headless Throne](@/headless/_index.md) has the API on from the start, see [Managing with thronectl](@/headless/thronectl.md). Throne for Android has no API.
 
 ## Turn on the API in Throne {#enable}
 
-The API is off by default.
-
-1. Open `Settings` → `Integration Settings` (Advanced mode only, see [Simple and Advanced mode](@/get_started/configuration.md#interface-mode)), then the `Throne API` tab.
+1. Open `Settings` → `Integration Settings` → `Throne API` (Advanced mode only, see [Simple and Advanced mode](@/get_started/configuration.md#interface-mode)).
 2. Tick `Enable the Throne API`. Throne fills in a new key.
-3. Click `OK`. `Status` shows `Listening on 127.0.0.1:9095`.
+3. Click `OK`.
 
-The tab has these controls:
+The API listens on `127.0.0.1:9095`, so only programs on this computer can connect. To let other devices connect, set `Listen on` to `Local network` and list them in `Allowed addresses`, such as `192.168.1.0/24, 10.0.0.5` (empty allows every address). Tick `Allow management from the local network` only if they should also send [admin requests](#admin-requests).
 
-| Control | What it does |
-| --- | --- |
-| `Enable the Throne API` | Turns the API on. |
-| `Listen on` | `This computer only` (default) listens on `127.0.0.1`, so only programs on this computer can connect. `Local network` listens on every address of the computer, so other devices can connect too. |
-| `Port` | The TCP port, `9095` by default. |
-| `Allowed addresses` | Only with `Local network`: the IP addresses and ranges that may connect, such as `192.168.1.0/24, 10.0.0.5`, separated by commas or spaces. Empty lets every address connect. Programs on this computer can always connect through `127.0.0.1`. |
-| `Allow management from the local network` | Only with `Local network`: other devices may also send [admin requests](#admin-requests), such as imports, settings changes and backups. Programs on this computer can always send them. |
-| `Key` | The secret key that clients need, 43 characters long. `Show` displays it, `Copy` copies it, and `Regenerate` makes a new one. |
-| `Copy for scripts` | Copies the two settings that `thronectl` reads, `THRONE_ADDR` and `THRONE_KEY`. With `Local network`, the address is the computer's address on your network. |
-| `Status` | Whether Throne listens, for example `Listening on port 9095 (local network)`, or why not, for example `Port 9095 is in use`. |
-
-- Changes take effect when you click `OK`. A new key, port or address closes the open connections. Scripts that use the old key stop working, so Throne asks before `Regenerate` replaces a saved key.
-- With `Local network`, the window warns that devices on your network can control Throne with the key. Your firewall may ask whether to allow Throne.
-- Throne writes every request that changes something to the log, with the address of the client, for example `[API] PUT /v1/connection from 127.0.0.1`. Lines that start with `[API]` also show refused connections.
-- If the [kill switch](@/advanced/kill_switch.md) is on and the API listens on the local network, the kill switch lets the API's replies out, so clients can still connect.
+`Copy for scripts` copies the `THRONE_ADDR` and `THRONE_KEY` settings that `thronectl` reads. `Regenerate` makes a new key; scripts with the old one stop working. The [kill switch](@/advanced/kill_switch.md) does not block API clients.
 
 ## Install thronectl {#install-thronectl}
 
-`thronectl` is a single program for Linux, Windows, macOS and FreeBSD. The `.deb` and `.rpm` packages and the Linux ZIP of Throne include it, and so does the Docker image of headless Throne. The Windows and macOS downloads of Throne do not.
+The Linux `.deb`, `.rpm` and ZIP downloads of Throne and the headless Docker image include `thronectl`. Otherwise, download it for Linux, Windows, macOS or FreeBSD from the [Throne-api releases](https://github.com/throneproj/Throne-api/releases) and put it in a folder on your `PATH`, or install it with Go:
 
-- Download it from the [Throne-api releases](https://github.com/throneproj/Throne-api/releases), unpack it, and put `thronectl` (`thronectl.exe` on Windows) in a folder on your `PATH`.
-- Or, with Go installed:
-
-  ```bash
-  go install github.com/throneproj/Throne-api/cmd/thronectl@latest
-  ```
-
-`thronectl version` prints its version.
+```bash
+go install github.com/throneproj/Throne-api/cmd/thronectl@latest
+```
 
 ## Connect thronectl to Throne {#connect}
 
-`thronectl` reads the address of Throne and the key from environment variables:
-
-| Variable | What it holds |
-| --- | --- |
-| `THRONE_ADDR` | The address and port, for example `127.0.0.1:9095`. Default: `127.0.0.1:9095`. |
-| `THRONE_KEY` | The key itself. |
-| `THRONE_KEY_FILE` | The path of a file that holds the key. |
-
-`thronectl` never takes the key as a command-line argument, so it does not end up in your shell history. Keep it in a file that only you can read and point `THRONE_KEY_FILE` at it:
+`thronectl` reads the address from `THRONE_ADDR` (default `127.0.0.1:9095`) and the key from `THRONE_KEY`, or from the file that `THRONE_KEY_FILE` names. It never takes the key as an argument, so keep it in a file that only you can read:
 
 1. In Throne, click `Copy for scripts`.
-2. Save the line `THRONE_KEY=…` without `THRONE_KEY=`, that is only the key, in a file, for example `~/.config/throne/api-key`. On Linux and macOS, run `chmod 600` on the file.
+2. Save only the key, without `THRONE_KEY=`, in a file such as `~/.config/throne/api-key`. On Linux and macOS, `chmod 600` it.
 3. Set the variables, for example in `~/.bashrc`:
 
    ```bash
@@ -73,88 +40,65 @@ The tab has these controls:
    export THRONE_KEY_FILE=~/.config/throne/api-key
    ```
 
-   In PowerShell, for example in `$PROFILE`:
+   In PowerShell (`$PROFILE`):
 
    ```powershell
    $env:THRONE_ADDR = "127.0.0.1:9095"
    $env:THRONE_KEY_FILE = "$HOME\throne-api-key.txt"
    ```
 
-4. Test the connection:
+4. Test it with `thronectl status`.
 
-   ```bash
-   thronectl status
-   ```
-
-These flags work before or after the command:
-
-| Flag | What it does |
-| --- | --- |
-| `--addr host:port` | The address of Throne. Default: `THRONE_ADDR`, else `127.0.0.1:9095`. |
-| `--key-file file` | Reads the key from this file. It wins over `THRONE_KEY` and `THRONE_KEY_FILE`. |
-| `--json` | Prints the answer of Throne as JSON instead of a table. |
-| `--timeout 30s` | Gives up after this time, `30s` by default. `0` waits as long as Throne needs. |
-
-In a systemd unit, `thronectl` also takes the key from the credential `api.key` (`LoadCredential=api.key:/path/to/key`) when none of the above gives one, as `throne-web.service` for the [web UI](@/headless/web.md#systemd) does.
-
-For headless Throne, `Throne --print-connection` prints the `export` lines for both variables. See [Connect thronectl to Throne](@/headless/thronectl.md#connect).
+Flags, before or after the command: `--addr host:port` and `--key-file file` override the variables, `--json` prints JSON instead of a table, and `--timeout 30s` sets how long to wait (`0` waits as long as Throne needs). Under systemd, `thronectl` also reads the key from the credential `api.key` (`LoadCredential=api.key:/path/to/key`). For headless Throne, see [Connect thronectl to Throne](@/headless/thronectl.md#connect).
 
 ## Commands {#commands}
 
-`thronectl help <command>` describes a command. `thronectl` shows profile, group, routing profile and test IDs in its lists; the commands take these IDs.
+`thronectl help <command>` describes a command. Commands take the IDs that the lists show.
 
 | Command | What it does |
 | --- | --- |
-| `status` | Shows the state, the running profile, the modes, the routing profile in use, the version of Throne and, if something else holds TUN, what it is. |
-| `groups` | Lists the groups with their IDs. `ROUTE` shows the group's own routing profile, or `active` when the group follows the active one. |
+| `status` | State, running profile, modes, routing profile, Throne version, and what else holds TUN, if anything. |
+| `groups` | Lists the groups, with their own routing profiles. |
 | `profiles [--group N] [--name REGEX] [--ids 1,2]` | Lists profiles with their last test results. |
-| `connect <id>` | Starts a profile. `--restart` restarts it if it is already running. |
+| `connect <id>` | Starts a profile. `--restart` restarts it if it already runs. |
 | `connect last` | Starts the running profile, else the last one, else the remembered one. |
-| `connect best [--group N] [--name REGEX] [--max-age 1h]` | Starts the profile with the lowest latency. It first tests the profiles that have no result newer than `--max-age`. The default group is the one that Throne shows. |
-| `disconnect` | Stops the running profile. |
-| `toggle` | `connect last` when nothing runs, else `disconnect`. |
-| `tun on`, `tun off`, `tun toggle` | Turns TUN mode on or off. |
-| `proxy on`, `proxy off`, `proxy toggle` | Turns the system proxy on or off. |
-| `routes` | Lists the routing profiles. `*` marks the active one. A note marks the one that the running profile's group uses, and the ones that a subscription group updates. |
-| `route <id>` | Makes a routing profile active and restarts the running profile, unless the running profile's group uses its own routing profile. |
-| `test latency`, `test ip`, `test speed` | Runs a URL test, an IP test or a speed test, and shows the results. Add `--group N` (with an optional `--name REGEX`) or profile IDs. |
-| `jobs`, `job <id>`, `cancel <id>` | Lists the recent tests, shows one test, stops a test. |
-| `clear` | Clears test results. Add `--group N` (with an optional `--name REGEX`) or profile IDs. |
-| `live` | Shows the current traffic rates. |
-| `traffic [--by profile] [--by app] [--since 24h]` | Shows traffic totals by profile (default) or by app. `--since` also takes days, such as `7d`. |
-| `logs [-n N] [-f]` | Prints the last `N` lines of Throne's log, 200 by default and 1000 at most. `-f` then prints new lines until you stop it, also when the connection drops or Throne restarts. With `--json`, one JSON object per line. |
-| `import [--group N] FILE` | Imports share links, a subscription body, or a Clash, sing-box, Xray, WireGuard or OpenVPN configuration from a file of up to 900 KiB. `-` reads standard input; `--url URL` makes Throne download a URL once. The default group is the one that Throne shows. |
-| `sub add <url> [--name NAME]` | Adds a subscription group, named after the host of the URL by default, and updates it. `--no-auto-update` leaves it out of automatic updates; `--no-update` does not download it now. `--route ID` gives the group its own routing profile; `--import-route` keeps the routing profile that the subscription provides. |
-| `sub update <id>…`, `sub update --all` | Updates subscription groups, or all groups that are not archived. |
+| `connect best [--group N] [--name REGEX] [--max-age 1h]` | Starts the profile with the lowest latency, first testing those without a result newer than `--max-age`. |
+| `disconnect`, `toggle` | Stops the running profile; `toggle` runs `connect last` when nothing runs. |
+| `tun on`, `tun off`, `tun toggle` | TUN mode. |
+| `proxy on`, `proxy off`, `proxy toggle` | The system proxy. |
+| `routes`, `route <id>` | Lists the routing profiles; activates one and restarts the running profile. |
+| `test latency`, `test ip`, `test speed` | Runs a URL, IP or speed test on `--group N` (optionally with `--name REGEX`) or on profile IDs. |
+| `jobs`, `job <id>`, `cancel <id>` | Lists the recent tests, shows one, stops one. |
+| `clear` | Clears test results, selected as for `test`. |
+| `live`, `traffic [--by profile] [--by app] [--since 24h]` | Current traffic rates; traffic totals. `--since` also takes days, such as `7d`. |
+| `logs [-n N] [-f]` | The last `N` lines of the log (default 200, at most 1000). `-f` follows new lines. |
+| `import [--group N] FILE` | Imports links, a subscription or a Clash, sing-box, Xray, WireGuard or OpenVPN config of up to 900 KiB. `-` reads standard input; `--url URL` makes Throne download a URL once. |
+| `sub add <url> [--name NAME]` | Adds a subscription group and updates it. Options: `--no-auto-update`, `--no-update`, `--route ID` (own routing profile), `--import-route` (keep the subscription's routing profile). |
+| `sub update <id>…`, `sub update --all` | Updates subscription groups, or all that are not archived. |
 | `group add <name>`, `group rm <id>` | Adds a group; deletes a group with its profiles. |
 | `profile rm <id>…`, `profile rm --group N [--name REGEX]` | Deletes profiles. |
-| `settings [get] [KEY…]` | Shows the settings that the API manages. See [Settings](#settings). |
-| `settings set KEY=VALUE…` | Changes settings. `true`, `false` and numbers are sent as such, anything else as text. |
-| `backup create [-o FILE] [--parts LIST]` | Writes a `.thrbackup` archive, by default `throne-backup-<time>.thrbackup`. |
-| `backup restore FILE [--parts LIST] [--yes]` | Shows what an archive holds, asks, restores it and restarts Throne. Default parts: `profiles,routes,otp,ip_lists`. |
-| `rulesets update` | Downloads the remote rule-sets of the running profile again. |
+| `settings [get] [KEY…]`, `settings set KEY=VALUE…` | Shows or changes [settings](#settings). |
+| `backup create [-o FILE] [--parts LIST]` | Writes a `.thrbackup` archive. |
+| `backup restore FILE [--parts LIST] [--yes]` | Shows an archive, asks, restores it and restarts Throne. Default parts: `profiles,routes,otp,ip_lists`. |
+| `rulesets update` | Downloads the running profile's remote rule-sets again. |
 | `geo`, `geo update [geoip] [geosite] [--only-missing]` | Shows the Xray geo files; downloads them again. |
-| `restart` | Restarts Throne. |
-| `shutdown [--yes]` | Quits Throne, after asking. |
-| `web [--listen ADDR] …`, `web passwd` | Serves the [web UI](@/headless/web.md), which manages Throne from a browser, until you stop it; sets its password. |
-| `keygen [-o FILE]` | Creates a new key: prints it, or writes it to a new file that only you can read. It does not connect to Throne. |
-| `call <METHOD> <PATH> [key=value…] [--body JSON]` | Sends any request of the [API specification](https://github.com/throneproj/Throne-api/blob/main/spec/api.md) and prints the answer. |
-| `completion bash`, `zsh`, `fish` or `powershell` | Prints a [shell completion](#completion) script. |
+| `restart`, `shutdown [--yes]` | Restarts Throne; quits it after asking. |
+| `web [--listen ADDR] …`, `web passwd` | Serves the [web UI](@/headless/web.md); sets its password. |
+| `keygen [-o FILE]` | Creates a new key, printed or written to a new file that only you can read. It does not connect to Throne. |
+| `call <METHOD> <PATH> [key=value…] [--body JSON]` | Sends any request of the [API specification](https://github.com/throneproj/Throne-api/blob/main/spec/api.md). |
+| `completion bash`, `zsh`, `fish` or `powershell` | Prints a [completion](#completion) script. |
 | `version` | Prints the version of `thronectl`. |
 
-Good to know:
-
-- `--name` is a regular expression that ignores case and may match any part of the name. Quote it in the shell, for example `--name 'DE|NL'`.
+- Without `--group`, `connect best` and `import` use the group Throne shows.
+- `--name` is a case-insensitive regular expression that may match any part of the name. Quote it: `--name 'DE|NL'`.
 - `--parts` takes a comma-separated list of `profiles`, `routes`, `settings`, `otp`, `ip_lists` and `icons`.
-- Commands that start or stop a profile wait for the result, up to `--timeout`. If Throne needs longer, `thronectl` shows the current state, such as `connecting`, and Throne finishes on its own. Imports, updates, deletions and downloads wait the same way. `--no-wait` returns at once.
-- Tests and geo downloads can take minutes, so give them a longer `--timeout`, for example `--timeout 15m`. A test that takes longer keeps running in Throne; follow it with `thronectl job <id>`.
-- Throne runs one test at a time, whether you start it from the window or through the API.
-- A group can connect with its own routing profile (see [Routing profile per group](@/guides/routing.md#group-routing)). `route` then changes only the routing profile of the other groups. Through the API, you can give a group its own routing profile only when `sub add` creates it; to change it later, use the group options in Throne's window.
-- `thronectl` exits with `0` on success; `1` for an error from Throne (printed as `error: <code>: <message>`), a failed subscription, rule-set or geo update, or a question answered with no; `2` for a wrong command or flag; `3` when it cannot connect, the key is rejected, or a file cannot be read.
+- Commands wait for the result up to `--timeout`; Throne finishes on its own if it needs longer. `--no-wait` returns at once. Give tests and geo downloads more time, such as `--timeout 15m`. Throne runs one test at a time.
+- `route` does not change groups that have their own [routing profile](@/guides/routing.md#group-routing). Through the API, a group gets one only from `sub add`; change it later in Throne's group options.
+- Exit codes: `0` success; `1` an error from Throne (`error: <code>: <message>`), a failed update, or a question answered with no; `2` a wrong command or flag; `3` no connection, a rejected key, or an unreadable file.
 
 ### Settings {#settings}
 
-`thronectl settings` shows the settings that the API can change, and `thronectl settings set` changes them, for example `thronectl settings set log_level=debug kill_switch=true`. Throne checks every value first and changes nothing if one is wrong.
+`thronectl settings set log_level=debug kill_switch=true` changes settings. `true`, `false` and numbers are sent as such, anything else as text. If one value is wrong, Throne changes nothing.
 
 | Area | Settings |
 | --- | --- |
@@ -165,53 +109,33 @@ Good to know:
 | Automatic updates | `sub_auto_update`, `sub_respect_server_interval`, `route_auto_update` (minutes, `0` is off) |
 | Kill switch | `kill_switch` |
 | TUN | `tun_strict_route`, `tun_auto_redirect` (Linux), `tun_mtu`, `tun_ipv6`, `tun_ipv4_cidr`, `tun_ipv6_cidr` |
-| Ports and APIs | `dns_in_port`, `dns_in_lan`, `clash_api_port`, `clash_listen_addr`, `singbox_api_port` |
+| Ports and APIs | `dns_in_port`, `dns_in_lan` ([DNS server for other devices](@/guides/dns.md#dns-server)), `clash_api_port`, `clash_listen_addr`, `singbox_api_port` |
 | DNS and time | `remote_dns`, `direct_dns`, `ntp_enabled`, `ntp_server`, `ntp_interval` |
 
-`dns_in_lan` lets other devices on your network use the core's DNS server on `dns_in_port`; see [DNS server for other devices](@/guides/dns.md#dns-server).
-
-Most changes to logs, the inbound, ports, DNS and NTP take effect when the running profile starts again. TUN settings need that restart only while the profile runs in TUN mode; otherwise they apply the next time TUN mode starts. While a restart is needed, `thronectl status` says so; `thronectl connect last --restart` applies them. The [settings table](https://github.com/throneproj/Throne-api/blob/main/spec/api.md#settings) of the specification has the allowed values.
+Most changes apply when the running profile restarts (TUN settings, when TUN mode starts again). `thronectl status` says when a restart is needed; `thronectl connect last --restart` does it. Allowed values: see the [settings table](https://github.com/throneproj/Throne-api/blob/main/spec/api.md#settings) of the specification.
 
 ## Admin requests {#admin-requests}
 
-These commands send admin requests: `logs`, `import`, `sub add`, `group add`, `group rm`, `profile rm`, `settings set`, `backup`, `restart` and `shutdown`. `logs` (`GET /v1/logs`) is one because the log names the sites that connections went to. The other commands, including `sub update`, `rulesets update` and `geo update`, are control requests. The key is the same for both kinds.
+`logs`, `import`, `sub add`, `group add`, `group rm`, `profile rm`, `settings set`, `backup`, `restart` and `shutdown` send admin requests (`logs` because the log names the sites you visited). The other commands send control requests, with the same key.
 
-- Throne answers admin requests only from its own computer, that is from `127.0.0.1` or `::1`.
-- From another device, they fail with `forbidden`, unless `Allow management from the local network` is on. Headless Throne needs `--api-admin-lan` instead.
-- Backup archives contain the passwords and keys of your profiles and your OTP secrets in plain text. `thronectl` creates them readable only by you. Keep them that way, and delete them when you no longer need them.
-- `backup restore` refuses an archive whose profiles would run programs or read files on the computer, such as Extra Core profiles (`invalid_archive`). Restore such an archive in the Throne window.
-- `backup restore` and `shutdown` ask before they act. In a script without a terminal, add `--yes`.
+Throne answers admin requests only from its own computer (`127.0.0.1` or `::1`). From other devices they fail with `forbidden`, unless `Allow management from the local network` is on (`--api-admin-lan` for headless Throne).
 
-A restore of `settings` keeps the settings that belong to this computer: the Throne API, the inbound and ports, TUN, the kill switch, `Remember last profile`, NTP, logging, the system proxy and the paths.
+- Backups contain your profiles' passwords and keys and your OTP secrets in plain text. `thronectl` makes them readable only by you; keep it that way and delete them when done.
+- `backup restore` refuses archives with profiles that run programs or read files, such as Extra Core profiles (`invalid_archive`). Restore those in the Throne window.
+- `backup restore` and `shutdown` ask first. In scripts without a terminal, add `--yes`.
+- Restoring `settings` keeps this computer's own settings, such as the Throne API, ports, TUN and the kill switch.
 
 ## Examples {#examples}
 
-Everyday commands:
-
 ```bash
-thronectl status
 thronectl profiles --group 3 --name 'DE|NL'
 thronectl connect 12
-thronectl tun on
-thronectl route 2
 thronectl --timeout 2m test latency --group 3
-thronectl traffic --by app --since 7d
 thronectl sub add 'https://sub.example.com/abc' --name Provider
-thronectl --timeout 2m sub update --all
-thronectl backup create -o throne.thrbackup
+thronectl connect best --max-age 10m   # retest results older than 10 minutes
 ```
 
-### Connect the best profile {#example-best}
-
-Connect the profile with the lowest latency in the group that Throne shows. Results older than ten minutes are tested again:
-
-```bash
-thronectl connect best --max-age 10m
-```
-
-### Connect the fastest profile {#example-speed}
-
-Run a speed test on the profiles of group 3 whose names contain `DE` or `NL`, then connect the fastest one. This needs [jq](https://jqlang.org/):
+Speed-test the profiles of group 3 whose names contain `DE` or `NL`, then connect the fastest (needs [jq](https://jqlang.org/)):
 
 ```bash
 best=$(thronectl --json --timeout 15m test speed --group 3 --name 'DE|NL' |
@@ -219,19 +143,7 @@ best=$(thronectl --json --timeout 15m test speed --group 3 --name 'DE|NL' |
 [ -n "$best" ] && thronectl connect "$best"
 ```
 
-### One key to connect and disconnect {#example-hotkey}
-
-To connect and disconnect with one key of a Stream Deck, a macro pad or a hotkey tool, let the key run:
-
-```bash
-thronectl toggle
-```
-
-Programs that start commands from a key often do not read your shell's settings. Set `THRONE_KEY_FILE` (and `THRONE_ADDR`, if needed) as an environment variable of your user account, or add `--key-file` to the command. Throne desktop also has [global hotkeys](@/reference/shortcuts.md#global-hotkeys) for `Start/Stop Profile` and `Toggle Tun Mode`.
-
-### PowerShell {#example-powershell}
-
-The speed test example in PowerShell:
+In PowerShell:
 
 ```powershell
 $job = thronectl --json --timeout 15m test speed --group 3 --name 'DE|NL' | ConvertFrom-Json
@@ -239,9 +151,13 @@ $best = $job.results | Where-Object download_bps -gt 0 | Sort-Object download_bp
 if ($best) { thronectl connect $best.id }
 ```
 
+### One key to connect and disconnect {#example-hotkey}
+
+Let a Stream Deck, macro pad or hotkey tool run `thronectl toggle`. Such tools often don't read your shell's settings: set `THRONE_KEY_FILE` (and `THRONE_ADDR`, if needed) as a user environment variable, or add `--key-file`. Throne also has [global hotkeys](@/reference/shortcuts.md#global-hotkeys) for `Start/Stop Profile` and `Toggle Tun Mode`.
+
 ## Shell completion {#completion}
 
-`thronectl completion <shell>` prints a script that completes commands, flags, setting names, backup parts and other fixed values in bash, zsh, fish and PowerShell. When Throne answers within a second, it also completes the IDs of profiles, groups, routing profiles and tests, with their names.
+`thronectl completion <shell>` prints a script that completes commands, flags and setting names, and, when Throne answers within a second, the IDs of profiles, groups, routing profiles and tests.
 
 ```bash
 # bash: in ~/.bashrc (on macOS, ~/.bash_profile)
@@ -258,20 +174,12 @@ thronectl completion fish > ~/.config/fish/completions/thronectl.fish
 thronectl completion powershell | Out-String | Invoke-Expression
 ```
 
-The scripts ask `thronectl` what to complete, so they stay correct when you update `thronectl`.
-
 ## Security {#security}
 
-- Whoever has the key controls the connection, the modes and the routing of Throne, and can read the names, addresses, test results and traffic of your profiles. From this computer, or from the local network when `Allow management from the local network` is on, the key also allows imports, deletions, settings changes and backups, which contain your credentials in plain text.
-- Keep the key out of command lines and scripts that others can read. Use a key file that only you can read, or `THRONE_KEY` from a password manager or secret store.
-- Every message between `thronectl` and Throne is encrypted and authenticated with the key, also on the local network. There is no forward secrecy: whoever learns the key can read traffic that was recorded earlier.
+- The key controls Throne's connection, modes and routing, and reads your profiles' names, addresses, test results and traffic. Where [admin requests](#admin-requests) are allowed, it also reads profile configurations and backups, which contain your credentials in plain text.
+- Keep the key out of command lines and scripts that others can read: use a key file only you can read, or `THRONE_KEY` from a secret store.
+- Traffic between `thronectl` and Throne is encrypted and authenticated with the key, but without forward secrecy: whoever learns the key can read recorded traffic.
 - If the key leaks, click `Regenerate` and give your scripts the new key. For headless Throne, see [Lockout Protection & Recovery](@/headless/recovery.md).
-- Keep `Listen on` at `This computer only` unless you need the API on the network. On the network, list the devices that may connect in `Allowed addresses`.
-- After 5 failed connection attempts within a minute from one address, Throne refuses that address for 60 seconds. This also locks out other clients at that address, for example behind the same router, until it passes. Throne never refuses `127.0.0.1`, or an address where a client logged in successfully in the last 10 minutes.
-- Responses never contain the credentials of your profiles or the URLs of your subscriptions. Backups are the exception.
-
-## Go library {#go-library}
-
-The [Throne-api](https://github.com/throneproj/Throne-api) repository also contains a Go library, `github.com/throneproj/Throne-api`, with a method for every request, and the [API specification](https://github.com/throneproj/Throne-api/blob/main/spec/api.md) with the wire protocol, so you can write a client in another language.
-
-A client that follows Throne does not need to poll. `GET /v1/events` waits until something changes and says what changed, such as the status, the groups, the profiles, the tests or the settings, so the client reads only that again. `GET /v1/logs` returns the log lines that came after the last ones the client has, and can also wait for them. `thronectl logs -f` and the [web UI](@/headless/web.md) use these two requests.
+- Keep `Listen on` at `This computer only` unless you need the API on the network.
+- After 5 failed attempts within a minute, Throne refuses that address for 60 seconds, also for other clients behind the same router. It never refuses `127.0.0.1`, or an address that logged in during the last 10 minutes.
+- Throne logs every request that changes something, with the client's address.

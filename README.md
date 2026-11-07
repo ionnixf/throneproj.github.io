@@ -25,6 +25,9 @@ English, Persian (فارسی), Russian (Русский) and Simplified Chinese (
    `title`, `description` and `weight` (the order within the section).
 2. Write for readers who may use a translator: short sentences, the app's exact
    English labels in backticks (`Settings` → `Tun Settings`), and numbered steps.
+   Keep it short: describe the current release (no "since 1.x" notes or history),
+   skip what the app already makes obvious, and link to the page that owns a topic
+   instead of repeating it.
 3. End every H2 with an explicit id, `## Simple rules {#simple-rules}`, and keep the
    same ids in every translation so links to a section work in all languages.
 4. Link other pages with Hwaro's `@/` syntax, pointing at the file in the same

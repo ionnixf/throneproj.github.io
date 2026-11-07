@@ -1,28 +1,15 @@
 +++
 title = "Recipes"
-description = "Step-by-step setups for common tasks: proxy only blocked sites, share the proxy, hotspot, calls and games, VMs, a corporate VPN and per-app routing."
+description = "Step-by-step setups for common tasks, with links to the pages that explain each feature."
 weight = 80
 toc = true
 +++
 
-This page gives short, step-by-step setups for common tasks. Each recipe links to the pages that explain the features in detail.
-
 ## Proxy only blocked sites {#proxy-only-blocked-sites}
 
-Send only blocked sites through the proxy and everything else directly. Local sites stay fast, and your server carries less traffic.
+**China or Russia:** download the profiles with `Routing` → `Download Profiles`, then choose `Proxy China Blocked`, `Proxy Russia Blocked`, `Proxy Antizapret` or `Proxy Refilter` in the `Routing` menu. See [Download ready-made profiles](@/guides/routing.md#download-profiles).
 
-**With a ready-made profile (China, Russia):**
-
-1. Open the `Routing` menu → `Download Profiles` and choose `China` or `Russia`.
-2. Keep `Auto update` ticked and click `OK`.
-3. Open the `Routing` menu again and choose `Proxy China Blocked`, or for Russia `Proxy Russia Blocked`, `Proxy Antizapret` or `Proxy Refilter`.
-
-**With your own list (any country):**
-
-1. Open `Settings` → `Routing Settings` → `Route` and click `New` → `Structured profile`.
-2. Enter a `Name`, for example `Blocked sites`, and set `Default outbound` to `direct`.
-3. On the `Basic` tab, write the sites in the `Proxy` box, one per line (see the example below).
-4. Click `OK`. On the `Common` tab, choose `Blocked sites` as `Routing Profile` and click `OK`.
+**Any country:** in `Settings` → `Routing Settings` → `Route`, click `New` → `Structured profile`, set `Default outbound` to `direct` and put the blocked sites in the `Proxy` box on the `Basic` tab, for example:
 
 ```text
 ruleset:geosite-youtube
@@ -31,77 +18,55 @@ ruleset:geoip-telegram
 suffix:example.com
 ```
 
-If a blocked site still does not load, it uses more domains than you listed. Open the site, find its connections in the `Connections` tab, right-click one and choose `Proxy`. In the window that opens, tick the domain, for example `*.example.com`, and click `OK`. Before 1.4.0, the menu item was `Append "<host>" to` → `Proxy`. For large services, a `geosite-` rule-set is easier than single domains. Some apps, such as Telegram, also connect to IP addresses, so add their `geoip-` rule-set and use `Tun Mode`. See [Routing](@/guides/routing.md#simple-rules).
+Then click `OK` and activate the profile from the `Routing` menu. If a site still does not load, add its other domains from the [Connections tab](@/guides/routing.md#connections-tab) (right-click → `Proxy`). Apps that connect to IP addresses, such as Telegram, also need their `geoip-` rule-set and `Tun Mode`. See [Simple rules](@/guides/routing.md#simple-rules).
 
 ## Share the proxy with other devices {#share-with-devices}
 
-Other devices on your network, such as a phone, a TV or a game console, can use Throne on your computer as their proxy.
+For phones, TVs, consoles and other computers on your network:
 
-1. Open the `Program` menu and turn on `Allow other devices to connect`. It is also in the tray menu.
-2. Look at the middle of the status bar. It now shows `Mixed: <address>:2080`: the address and port that other devices use.
-3. Recommended: open `Settings` → `Basic Settings` → `Common`, tick `Enable Authorization` and set `Inbound Username` and `Inbound Password`. These settings appear only in Advanced mode; see [Simple and Advanced mode](@/get_started/configuration.md#interface-mode).
-4. On the other device, set an HTTP or SOCKS5 proxy with that address and port, and the username and password if you set them.
+1. Choose `Program` → `Allow other devices to connect` and restart the running profile.
+2. On the other device, set an HTTP or SOCKS5 proxy with the address and port shown after `Mixed:` in the status bar, for example `192.168.1.20:2080`.
 
-Things to know:
-
-- Throne must keep running on the computer. The other device's traffic follows your active routing profile.
-- Authorization applies to everyone who uses the port, including apps on your computer that use the system proxy.
-- If a device cannot connect, check that the computer's firewall allows incoming connections to `ThroneCore`.
-- **Android:** turn on `Settings` → `Inbound` → `Allow connections from the LAN`. See [LAN sharing on Android](@/android/modes.md#lan-sharing).
-
-For more about the proxy port, see [LAN sharing](@/guides/proxy_modes.md#lan-sharing).
+Their traffic follows your active routing profile. Set a password and allow `ThroneCore` through the firewall, see [Share the proxy with other devices](@/guides/proxy_modes.md#lan-sharing). On Android, see [LAN sharing](@/android/modes.md#lan-sharing).
 
 ## Windows Mobile Hotspot with TUN mode {#hotspot}
 
-When Windows shares your normal network adapter through Mobile Hotspot or Internet Connection Sharing while `Tun Mode` is on, Throne shows "IPv4 forwarding breaks Tun mode". Windows then ignores the setting that keeps Throne's own connections out of the tunnel, so they loop back into it and fail.
+If Windows Mobile Hotspot or Internet Connection Sharing shares your normal network adapter while `Tun Mode` is on, TUN mode fails and Throne warns "IPv4 forwarding breaks Tun mode". Share Throne's TUN adapter instead, a workaround also reported in [#1916](https://github.com/throneproj/Throne/issues/1916):
 
-Throne's warning suggests a workaround, which users also reported in [#1916](https://github.com/throneproj/Throne/issues/1916): share the connection of Throne's TUN adapter instead.
-
-1. Turn on `Tun Mode` in Throne and start a profile.
-2. In Windows, open `Settings` → `Mobile hotspot` → `Share my internet connection from` and choose `throne-tun`.
+1. Turn on `Tun Mode` and start a profile.
+2. In Windows, open `Settings` → `Mobile hotspot` → `Share my internet connection from` and choose `throne-tun`, which exists only while `Tun Mode` is on.
 3. Turn on the hotspot.
 
-The `throne-tun` adapter exists only while `Tun Mode` is on. Connection sharing is a Windows feature that Throne does not control. If the workaround does not work for you, turn the hotspot off while you use `Tun Mode`, or let the devices use the proxy port instead (see [Share the proxy with other devices](#share-with-devices)).
+If this does not work, turn the hotspot off while you use `Tun Mode`, or let the devices use the [proxy port](#share-with-devices).
 
 ## Voice calls and games {#calls-and-games}
 
 Voice calls in Discord and Telegram, and many games, use UDP and often ignore the system proxy.
 
-- Use `Tun Mode`, so that this traffic reaches Throne at all.
-- Your server and its protocol must carry UDP. Not every protocol can (an HTTP proxy cannot), and some servers turn UDP off. If calls fail on one server, try another one.
-- For a low delay, choose a nearby server. See [URL test](@/guides/testing.md#url-test).
-- If a game does not need the proxy, send it direct: put its program in the `Direct` box, for example `processName:game.exe`.
-- For games and peer-to-peer apps that go direct in TUN mode, try `Settings` → `Tun Settings` → `L3 Bridge Bypass` (Advanced mode only, see [Simple and Advanced mode](@/get_started/configuration.md#interface-mode)). It sends direct UDP and ICMP traffic straight out of your network adapter, which is faster and keeps NAT working.
+- Use `Tun Mode`, so that this traffic reaches Throne.
+- Use a server whose protocol carries UDP; an HTTP proxy cannot, and some servers turn UDP off. If calls fail, try another server.
+- To send a game direct, put its program in the `Direct` box of your routing profile, for example `processName:game.exe`.
+- For games and peer-to-peer apps that go direct, turn on `L3 Bridge Bypass` in the [TUN settings](@/guides/tun_mode.md#settings) (Advanced mode only, see [Simple and Advanced mode](@/get_started/configuration.md#interface-mode)).
 
 ## Docker, WSL and virtual machines {#docker-wsl-vms}
 
-Containers, WSL and virtual machines have their own virtual networks. There are two ways to give them the proxy.
-
-**Point them at Throne's proxy port.** This is the simplest and most reliable way.
+Point them at Throne's proxy port:
 
 1. Turn on `Program` → `Allow other devices to connect`.
-2. Inside the container or virtual machine, set the proxy to `http://<address>:2080`. Use an address of your computer that the guest can reach, for example the one in the status bar.
+2. In the guest, set the proxy to `http://<address>:2080`, with an address of your computer that the guest can reach, such as the one in the status bar. The port also accepts SOCKS5.
 
-Many command-line tools on Linux read these variables:
+Many Linux command-line tools read these variables:
 
 ```bash
 export http_proxy=http://192.168.1.10:2080
 export https_proxy=http://192.168.1.10:2080
 ```
 
-The same port also accepts SOCKS5.
-
-**Use TUN mode on the computer.** Whether a guest's traffic enters the tunnel depends on how its virtual network is built. If guests lose their connection, or you cannot reach them from the computer, check these settings in `Settings` → `Tun Settings`:
-
-- Keep `Private Range Bypass` on (the default). It keeps private address ranges, which virtual networks usually use, out of the tunnel.
-- `Enable Tun Routing` also keeps the IP ranges of your `direct` rules out of the tunnel. Large rule-sets can cause high CPU use on Windows, so turn it on with care.
-- **Linux:** `Auto Redirect` (on by default) improves TUN routing with nftables. While it is on, this computer cannot act as a network gateway for other devices, and containers or virtual machines whose traffic it forwards can be affected. Use the proxy port for them instead.
-
-In Simple mode, `Private Range Bypass` and `Auto Redirect` are hidden, but keep their values. See [TUN Mode](@/guides/tun_mode.md#settings).
+If you use `Tun Mode` instead and guests lose their connection, see [TUN Mode](@/guides/tun_mode.md#side-effects-vms).
 
 ## Corporate VPN side by side {#corporate-vpn}
 
-To reach company resources through your corporate VPN while everything else uses Throne, keep the company's traffic away from the proxy. Choose one of these ways.
+Keep company traffic away from the proxy in one of these ways.
 
 **Send company traffic direct.** Add the company's domains and networks to the `Direct` box of your routing profile:
 
@@ -110,53 +75,35 @@ suffix:corp.example.com
 ip:10.20.0.0/16
 ```
 
-With `Enable DNS Routing` on (the default), the company's domains are looked up with Direct DNS instead of Remote DNS. In TUN mode, private ranges such as `10.0.0.0/8` already stay out of the tunnel (`Private Range Bypass`). For company networks in public ranges, turn on `Tun Settings` → `Enable Tun Routing`, which keeps the IP ranges of `direct` rules out of the tunnel.
+In TUN mode, private ranges such as `10.0.0.0/8` already bypass the tunnel; for company networks in public ranges, also turn on `Settings` → `Tun Settings` → `Enable Tun Routing`.
 
-**Bind to the VPN's network adapter.** Use this when direct traffic leaves through the wrong adapter.
+**Bind to the VPN's adapter**, if direct traffic leaves through the wrong adapter. With `Program` → `New profile`, create a profile of the type `Direct` (Advanced mode only, see [Simple and Advanced mode](@/get_started/configuration.md#interface-mode)), for example `Corporate`, and enter the VPN adapter's name in its `Advanced Settings` → `Bind Interface`. Then add an [advanced rule](@/guides/routing.md#advanced-rules) above your other rules that sends the company's `domain_suffix` and `ip_cidr` to `[group] Corporate` with the action `route`.
 
-1. Open `Program` → `New profile`, choose the type `Direct` and give it a name, for example `Corporate`. The type `Direct` is offered only in Advanced mode; see [Simple and Advanced mode](@/get_started/configuration.md#interface-mode).
-2. Click `Advanced Settings`, enter the name of the corporate VPN adapter in `Bind Interface` and click `OK`. Save the profile with `OK`.
-3. In your routing profile, add an [advanced rule](@/guides/routing.md#advanced-rules) with the company's `domain_suffix` and `ip_cidr`, the action `route`, and `outbound` set to `[group] Corporate`. Move it above your other rules.
+**Run the VPN inside Throne.** Throne can run an OpenVPN or OpenConnect profile next to your proxy, only for the networks that it announces. See [Split tunnel](@/advanced/vpn_profiles.md#split-tunnel).
 
-Since 1.4.0, you can also do step 3 from the `Connections` tab: right-click a connection to a company site, choose `Specific server`, choose `[group] Corporate` and tick the domain. Throne adds the rule at the end of the list, so check that no rule above it matches first. See [Connections tab](@/guides/routing.md#connections-tab).
-
-**Run the VPN inside Throne.** Throne can run an OpenVPN or OpenConnect profile next to your proxy, only for the networks that it announces. See [split tunnel](@/advanced/vpn_profiles.md#split-tunnel).
-
-Other VPN programs can interfere with `Tun Mode`. If problems appear only in TUN mode, use system proxy mode while the corporate VPN is connected.
+If problems appear only in TUN mode, use system proxy mode while the corporate VPN is connected.
 
 ## Per-app routing {#per-app}
 
-Choose which programs use the proxy.
+On the desktop, per-app rules work reliably only in `Tun Mode`.
 
-**Desktop:**
+1. Turn on `Tun Mode`, start the program and let it connect.
+2. In the `Connections` tab, right-click one of its connections and choose `Proxy`, `Direct`, `Block` or `Specific server`.
+3. Tick the program, for example `Process Telegram.exe`, click `OK`, then click `Restart` in the notice.
 
-1. Turn on `Tun Mode`. Only in TUN mode does the traffic of every program reach Throne.
-2. Start the program and let it connect.
-3. In the `Connections` tab, right-click one of its connections and choose `Proxy`, `Direct` or `Block`.
-4. In the window that opens, tick `Process` and the program name, for example `Process Telegram.exe`, and click `OK`. Before 1.4.0, the menu item was `Append process "<name>" to`.
-5. Click `Restart` in the "Settings changed, restart to apply" notice.
+To proxy only some programs, set `Default outbound` to `direct` and put them in the `Proxy` box, for example `processName:Telegram.exe`. To proxy all programs except some, put the exceptions in the `Direct` box. See [Connections tab](@/guides/routing.md#connections-tab) and [Simple rules](@/guides/routing.md#simple-rules).
 
-To send a program through one particular server instead, choose `Specific server` in step 3 (since 1.4.0), then choose the server and tick the program in step 4.
-
-You can also write the rules yourself on the `Basic` tab of your routing profile, for example `processName:Telegram.exe` or `processPath:C:\Program Files\App\app.exe`. Names must match exactly, including upper and lower case.
-
-- **Only some programs through the proxy:** set `Default outbound` to `direct` and put the programs in the `Proxy` box.
-- **All programs except some:** keep `Default outbound` at `proxy` and put the exceptions in the `Direct` box.
-
-If `Proxy`, `Direct`, `Block` and `Specific server` are disabled, the active routing profile cannot be changed from there, for example because it is a remote profile that updates itself. See [Connections tab](@/guides/routing.md#connections-tab).
-
-**Android:** choose the apps in `Settings` → `TUN / VPN` → `Apps VPN mode`, or use the `Apps` field of a routing rule. See [per-app proxy](@/android/modes.md#per-app-proxy).
+**Android:** choose the apps in `Settings` → `TUN / VPN` → `Apps VPN mode`, or use the `Apps` field of a routing rule. See [Per-app proxy](@/android/modes.md#per-app-proxy).
 
 ## Find a working CDN address {#cdn-address}
 
-If your provider's servers are behind a CDN such as Cloudflare, profiles can fail because the CDN addresses they use are blocked on your network, while other addresses of the same CDN still work. Since 1.4.0, the IP scanner can find such an address, and a group can send all its profiles to it. The IP scanner and the `Advanced` options of a group appear only in Advanced mode; see [Simple and Advanced mode](@/get_started/configuration.md#interface-mode).
+If your provider's servers are behind a CDN such as Cloudflare, profiles can fail because their CDN addresses are blocked on your network while other addresses of the same CDN work. To find such an address for a whole group (Advanced mode only, see [Simple and Advanced mode](@/get_started/configuration.md#interface-mode)):
 
 1. Open `Tools` → `IP Scanner`, click `New scan`, keep `Generic scan` and click `OK`.
-2. On the `Targets` tab, choose the `Base IP list` of your CDN, for example `Cloudflare CDN`, and enter the port of your profiles in `Ports`, usually `443`. Set `Stop after (results)` to a small number, for example `20`.
-3. On the `Phases` tab, keep `TCP connect`, tick `Config test` and choose one of the group's profiles as `Profile`.
-4. Click `Start` and wait until the scan completes.
-5. On the `Results` tab, click `Save as IP list` and enter a name.
-6. Open the options of the group, click `Advanced`, set `Server Address` to `IP list` and choose the new list. Click `OK` twice.
-7. Run a URL test of the group.
+2. On the `Targets` tab, choose your CDN's list as `Base IP list`, for example `Cloudflare CDN`, enter your profiles' port in `Ports` (usually `443`) and set `Stop after (results)` to a small number such as `20`.
+3. On the `Phases` tab, tick `Config test` and choose one of the group's profiles as `Profile`.
+4. Click `Start`. When the scan completes, click `Save as IP list` on the `Results` tab and enter a name.
+5. In the group's options, click `Advanced`, set `Server Address` to `IP list`, choose the new list and click `OK` twice.
+6. Run a URL test of the group.
 
-The profiles then connect to the first address of the list and keep sending the original domain as the TLS server name. This works only for profiles whose server really is behind that CDN, usually WebSocket, gRPC, HTTPUpgrade or XHTTP over TLS with a domain name. See [IP scanner](@/guides/testing.md#ip-scanner) and [Server address](@/guides/subscriptions.md#server-address).
+This works only for profiles whose server really is behind that CDN, usually WebSocket, gRPC, HTTPUpgrade or XHTTP over TLS with a domain name. See [Server address](@/guides/subscriptions.md#server-address).
