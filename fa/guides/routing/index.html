@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" >
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="تعیین کنید کدام ترافیک از پروکسی عبور کند، کدام مستقیم برود و کدام مسدود شود؛ با نمایه‌های آماده یا قوانین خودتان.">
+  <title>مسیریابی - Throne</title>
+
+  
+  <meta name="theme-color" content="#0b0b0c" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#fbfbfa" media="(prefers-color-scheme: light)">
+
+  
+  <script>
+    (function () {
+      var r = document.documentElement;
+      r.classList.add("js");
+      try {
+        var t = localStorage.getItem("throne-theme");
+        if (t === "light" || t === "dark") r.setAttribute("data-theme", t);
+      } catch (e) {}
+    })();
+  </script>
+
+  <meta name="google-site-verification" content="Zzz4doeS45o-EhP56mm1yoyfHSEEZJRJJt0tfj7vPGM" />
+  <script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+      m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+      m[i].l=1*new Date();
+      for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+      k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=111847353', 'ym');
+
+    
+    ym(111847353, 'init', {ssr:true, webvisor:false, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/111847353" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+
+  <meta property="og:title" content="مسیریابی">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://throneproj.github.io/fa/guides/routing/">
+  <meta property="og:description" content="تعیین کنید کدام ترافیک از پروکسی عبور کند، کدام مستقیم برود و کدام مسدود شود؛ با نمایه‌های آماده یا قوانین خودتان.">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="مسیریابی">
+  <meta name="twitter:description" content="تعیین کنید کدام ترافیک از پروکسی عبور کند، کدام مستقیم برود و کدام مسدود شود؛ با نمایه‌های آماده یا قوانین خودتان.">
+  <link rel="canonical" href="https://throneproj.github.io/fa/guides/routing/">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"مسیریابی","url":"https://throneproj.github.io/fa/guides/routing/","description":"تعیین کنید کدام ترافیک از پروکسی عبور کند، کدام مستقیم برود و کدام مسدود شود؛ با نمایه‌های آماده یا قوانین خودتان."}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Throne","item":"https://throneproj.github.io/fa/"},{"@type":"ListItem","position":2,"name":"راهنماها","item":"https://throneproj.github.io/fa/guides/"},{"@type":"ListItem","position":3,"name":"مسیریابی"}]}</script>
+  <link rel="alternate" hreflang="fa" href="https://throneproj.github.io/fa/guides/routing/">
+<link rel="alternate" hreflang="en" href="https://throneproj.github.io/guides/routing/">
+<link rel="alternate" hreflang="ru" href="https://throneproj.github.io/ru/guides/routing/">
+<link rel="alternate" hreflang="zh" href="https://throneproj.github.io/zh/guides/routing/">
+<link rel="alternate" hreflang="x-default" href="https://throneproj.github.io/guides/routing/">
+
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon.ico" sizes="any">
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon-96x96.png" type="image/png" sizes="96x96">
+  <link rel="apple-touch-icon" href="https://throneproj.github.io/logos/apple-touch-icon.png">
+  <link rel="manifest" href="https://throneproj.github.io/logos/site.webmanifest">
+
+  <link rel="preload" href="https://throneproj.github.io/fonts/geist-variable-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+  
+  <link rel="stylesheet" href="https://throneproj.github.io/assets/css/highlight/atom-one-dark.min.css">
+  <link rel="stylesheet" href="https://throneproj.github.io/css/style.css">
+  
+</head>
+<body>
+  <a class="skip-link" href="#main">پرش به محتوای اصلی</a>
+  
+<svg xmlns="http://www.w3.org/2000/svg" class="icon-sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 10a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+    <path d="M21 21l-6 -6" />
+  </symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M3 12h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7" />
+  </symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454l0 .008" />
+  </symbol>
+  <symbol id="i-contrast" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M12 17a5 5 0 0 0 0 -10v10" />
+  </symbol>
+  <symbol id="i-chevron-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M6 9l6 6l6 -6" />
+  </symbol>
+  <symbol id="i-menu-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 6l16 0" />
+    <path d="M4 12l16 0" />
+    <path d="M4 18l16 0" />
+  </symbol>
+  <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M18 6l-12 12" />
+    <path d="M6 6l12 12" />
+  </symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 9.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667l0 -8.666" />
+    <path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" />
+  </symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l5 5l10 -10" />
+  </symbol>
+  <symbol id="i-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l14 0" />
+    <path d="M13 18l6 -6" />
+    <path d="M13 6l6 6" />
+  </symbol>
+  <symbol id="i-arrow-up-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M17 7l-10 10" />
+    <path d="M8 7l9 0l0 9" />
+  </symbol>
+  <symbol id="i-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l14 0" />
+    <path d="M5 12l6 6" />
+    <path d="M5 12l6 -6" />
+  </symbol>
+  <symbol id="i-brand-github" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+  </symbol>
+  <symbol id="i-pencil" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+    <path d="M13.5 6.5l4 4" />
+  </symbol>
+  <symbol id="i-rocket" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 13a8 8 0 0 1 7 7a6 6 0 0 0 3 -5a9 9 0 0 0 6 -8a3 3 0 0 0 -3 -3a9 9 0 0 0 -8 6a6 6 0 0 0 -5 3" />
+    <path d="M7 14a6 6 0 0 0 -3 6a6 6 0 0 0 6 -3" />
+    <path d="M14 9a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+  </symbol>
+  <symbol id="i-terminal-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 9l3 3l-3 3" />
+    <path d="M13 15l3 0" />
+    <path d="M3 6a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2l0 -12" />
+  </symbol>
+  <symbol id="i-lifebuoy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M15 15l3.35 3.35" />
+    <path d="M9 15l-3.35 3.35" />
+    <path d="M5.65 5.65l3.35 3.35" />
+    <path d="M18.35 5.65l-3.35 3.35" />
+  </symbol>
+  <symbol id="i-list" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 6l11 0" />
+    <path d="M9 12l11 0" />
+    <path d="M9 18l11 0" />
+    <path d="M5 6l0 .01" />
+    <path d="M5 12l0 .01" />
+    <path d="M5 18l0 .01" />
+  </symbol>
+  <symbol id="i-code" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 8l-4 4l4 4" />
+    <path d="M17 8l4 4l-4 4" />
+    <path d="M14 4l-4 16" />
+  </symbol>
+  <symbol id="i-rss" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 19a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+    <path d="M4 4a16 16 0 0 1 16 16" />
+    <path d="M4 11a9 9 0 0 1 9 9" />
+  </symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12" />
+    <path d="M16 3v4" />
+    <path d="M8 3v4" />
+    <path d="M4 11h16" />
+    <path d="M11 15h1" />
+    <path d="M12 15v3" />
+  </symbol>
+</svg>
+
+<header class="site-header">
+  <div class="header-inner">
+    <button class="icon-btn hamburger" id="drawerToggle" aria-label="باز کردن منو" aria-expanded="false" aria-controls="sidebar">
+      <svg class="ic" aria-hidden="true"><use href="#i-menu-2"/></svg>
+    </button>
+
+    <a href="https://throneproj.github.io/fa/" class="header-logo" aria-label="صفحه اصلی Throne">
+      <img class="logo" src="https://throneproj.github.io/images/throne-logo.png" alt="Throne" width="1817" height="346">
+    </a>
+    <a class="header-version" href="https://github.com/throneproj/Throne/releases/tag/1.4.1" target="_blank" rel="noopener noreferrer">v1.4.1</a>
+
+    <nav class="header-nav" aria-label="اصلی">
+      <a href="https://throneproj.github.io/fa/get_started/">شروع کار</a>
+      <a href="https://throneproj.github.io/fa/downloads/">دانلود</a>
+    </nav>
+
+    <div class="header-right">
+      <button class="header-btn search-trigger" id="searchTrigger" aria-label="جستجو در مستندات">
+        <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+        <span>جستجو</span>
+        <kbd>Ctrl K</kbd>
+      </button>
+
+      
+      
+      <nav class="lang-switcher" aria-label="زبان">
+        
+        <a href="https://throneproj.github.io/guides/routing/" hreflang="en">EN</a>
+        
+        <a href="https://throneproj.github.io/fa/guides/routing/" hreflang="fa" aria-current="true">FA</a>
+        
+        <a href="https://throneproj.github.io/ru/guides/routing/" hreflang="ru">RU</a>
+        
+        <a href="https://throneproj.github.io/zh/guides/routing/" hreflang="zh">ZH</a>
+        
+      </nav>
+      
+
+      <a class="icon-btn" href="https://github.com/throneproj/Throne" target="_blank" rel="noopener noreferrer" aria-label="Throne در GitHub">
+        <svg class="ic" aria-hidden="true"><use href="#i-brand-github"/></svg>
+      </a>
+
+      
+      <button class="icon-btn theme-toggle" id="themeToggle" data-mode="auto" type="button" aria-label="تم">
+        <svg class="ic ic-auto" aria-hidden="true"><use href="#i-contrast"/></svg>
+        <svg class="ic ic-light" aria-hidden="true"><use href="#i-sun"/></svg>
+        <svg class="ic ic-dark" aria-hidden="true"><use href="#i-moon"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+<div class="search-overlay" id="searchOverlay" role="dialog" aria-modal="true" aria-label="جستجو در مستندات" hidden>
+  <div class="search-modal">
+    <div class="search-input-wrap">
+      <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+      <input type="search" id="searchInput" aria-label="جستجو در مستندات" placeholder="جستجو در مستندات" autocomplete="off" spellcheck="false">
+      <kbd id="searchClose" role="button" tabindex="0">Esc</kbd>
+    </div>
+    <div class="search-results" id="searchResults" role="listbox" aria-label="جستجو"></div>
+  </div>
+</div>
+<div class="docs-container">
+<div class="drawer-scrim" id="drawerScrim"></div>
+<aside class="docs-sidebar" id="sidebar">
+  <nav class="sidebar-nav" aria-label="مسیریابی مستندات">
+
+    
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>شروع کار</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/fa/get_started/">نمای کلی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/get_started/installation/">نصب</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/get_started/configuration/">شروع سریع</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group" open>
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>راهنماها</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/">نمای کلی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/subscriptions/">اشتراک‌ها و گروه‌ها</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/proxy_modes/">پروکسی سیستمی، TUN و اشتراک‌گذاری در شبکهٔ محلی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/tun_mode/">حالت TUN</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/routing/" aria-current="page">مسیریابی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/dns/">DNS</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/testing/">تست و انتخابگر خودکار</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/backup/">پشتیبان‌گیری، به‌روزرسانی و مهاجرت</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/recipes/">دستورالعمل‌های کاربردی</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Throne برای Android</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/fa/android/">نمای کلی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/android/installation/">نصب و ارتقا</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/android/permissions/">مجوزها و اجرا در پس‌زمینه</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/android/modes/">حالت‌های VPN و پروکسی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/android/widgets/">ویجت‌ها، کاشی و خودکارسازی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/android/tv/">Android TV</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/android/troubleshooting/">عیب‌یابی Android</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Throne بدون رابط گرافیکی (Headless)</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/fa/headless/">نمای کلی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/headless/installation/">نصب و سرویس‌ها</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/headless/thronectl/">مدیریت با thronectl</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/headless/web/">رابط وب</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/headless/command_line/">خط فرمان و پوشهٔ داده‌ها</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/headless/monitoring/">بررسی سلامت و گزارش‌ها</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/headless/recovery/">محافظت در برابر قطع دسترسی و بازیابی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/headless/troubleshooting/">عیب‌یابی</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>پیکربندی پیشرفته</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/">نمای کلی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/xray/">sing-box در برابر Xray</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/chains/">زنجیره‌های پروکسی و پیکربندی‌های سفارشی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/presets/">پیش‌تنظیم‌های ضدسانسور</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/warp/">Cloudflare WARP</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/dns_tunnels/">تونل‌های DNS</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/vpn_profiles/">OpenVPN، OpenConnect و Tailscale</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/windows_tun_mode/">محافظت از نشت DNS در Windows</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/kill_switch/">کیل‌سوییچ (Kill Switch)</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/deeplinks/">لینک‌های عمیق</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/api/">Throne API و thronectl</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>مرجع</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/fa/reference/">نمای کلی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/reference/protocols/">پروتکل‌ها و قالب‌های واردکردن</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/reference/shortcuts/">میانبرهای صفحه‌کلید و سینی سیستم</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/reference/files/">خط فرمان، فایل‌ها و گزارش‌ها</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/reference/privacy/">حریم خصوصی و درخواست‌های شبکه</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/reference/glossary/">واژه‌نامه</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>پشتیبانی</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/fa/help/">نمای کلی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/help/faq/">پرسش‌های متداول</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/help/troubleshooting/">عیب‌یابی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/help/bug_reports/">گزارش باگ</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/help/migrating/">مهاجرت از Nekoray / NekoBox</a></li>
+        
+        
+      </ul>
+    </details>
+    
+
+  </nav>
+</aside>
+  <main id="main" class="docs-main">
+    <article>
+      <h1 class="docs-title">مسیریابی</h1>
+      <p class="docs-lede">تعیین کنید کدام ترافیک از پروکسی عبور کند، کدام مستقیم برود و کدام مسدود شود؛ با نمایه‌های آماده یا قوانین خودتان.</p>
+      <div class="prose">
+        <p>مسیریابی تعیین می‌کند هر اتصال به کجا برود: از طریق پروکسی، مستقیم، یا هیچ‌جا. نمایهٔ داخلی <code>Default</code> همه‌چیز را از پروکسی عبور می‌دهد، پس فقط وقتی به این صفحه نیاز دارید که چیز دیگری بخواهید.</p>
+<h2 id="how-routing-works">مسیریابی چگونه کار می‌کند</h2>
+<p>نمایهٔ مسیریابی فهرستی از قوانین به‌همراه یک خروجی (outbound) پیش‌فرض است. Throne قوانین را از بالا به پایین بررسی می‌کند و نخستین قانون منطبق تعیین می‌کند اتصال به کجا برود. اگر هیچ قانونی منطبق نشود، خروجی پیش‌فرض به کار می‌رود.</p>
+<table>
+<thead>
+<tr>
+<th>خروجی</th>
+<th>ترافیک به کجا می‌رود</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>proxy</code></td>
+<td>از طریق نمایهٔ در حال اجرا، و وقتی WARP روشن است، از طریق WARP هم.</td>
+</tr>
+<tr>
+<td><code>direct</code></td>
+<td>مستقیم به اینترنت.</td>
+</tr>
+<tr>
+<td><code>block</code></td>
+<td>هیچ‌جا. اتصال رد می‌شود.</td>
+</tr>
+<tr>
+<td><code>warp-bypass</code></td>
+<td>از طریق نمایهٔ در حال اجرا، بدون WARP. <a href="/fa/advanced/warp/#warp-bypass">WARP</a> را ببینید.</td>
+</tr>
+<tr>
+<td>یک نمایهٔ ذخیره‌شده</td>
+<td>به‌جای آن، از طریق همین نمایه. فقط در قوانین پیشرفته.</td>
+</tr>
+</tbody>
+</table>
+<p>در هر زمان یک نمایهٔ مسیریابی فعال است. آن را از فهرست پایین منوی <code>مسیریابی</code> (Routing) یا از منوی سینی سیستم (tray) ← <code>Select Routing</code> عوض کنید. اتصال در حال اجرا با قوانین جدید دوباره راه‌اندازی می‌شود. یک گروه هم می‌تواند نمایهٔ مسیریابی خودش را داشته باشد؛ <a href="#group-routing">نمایهٔ مسیریابی برای هر گروه</a> را ببینید.</p>
+<h2 id="download-profiles">دانلود نمایه‌های آماده</h2>
+<ol>
+<li><code>مسیریابی</code> (Routing) ← <code>Download Profiles</code> را باز کنید و <code>China</code>، <code>Iran</code> یا <code>Russia</code> را انتخاب کنید.</li>
+<li>تیک <code>Auto update</code> را نگه دارید و روی <code>تایید</code> (OK) کلیک کنید.</li>
+<li>یکی از نمایه‌های جدید را در پایین منوی <code>مسیریابی</code> (Routing) انتخاب کنید. دانلود به‌تنهایی آن را فعال نمی‌کند.</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>نمایه</th>
+<th>کارکرد</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Bypass China</code>، <code>Bypass Iran</code>، <code>Bypass Russia</code></td>
+<td>همه‌چیز را از پروکسی عبور می‌دهد، به‌جز سایت‌ها و نشانی‌های IP همان کشور و شبکهٔ محلی شما.</td>
+</tr>
+<tr>
+<td><code>Proxy China Blocked</code>، <code>Proxy Russia Blocked</code></td>
+<td>همه‌چیز را مستقیم می‌فرستد، به‌جز سایت‌هایی که در آن کشور مسدودند.</td>
+</tr>
+<tr>
+<td><code>Proxy Antizapret</code>، <code>Proxy Refilter</code> (روسیه)</td>
+<td>همه‌چیز را مستقیم می‌فرستد، به‌جز سایت‌های موجود در فهرست مسدودی Antizapret یا Re:filter.</td>
+</tr>
+</tbody>
+</table>
+<p>اگر بیشتر سایت‌هایی که بازدید می‌کنید خارجی‌اند، از نمایهٔ «Bypass» استفاده کنید. نمایهٔ «Proxy … Blocked» ترافیک کمتری را از سرور شما عبور می‌دهد، اما سایت مسدودی که در فهرست نباشد باز نمی‌شود.</p>
+<p>فهرست‌ها در <a href="https://github.com/throneproj/routeprofiles">throneproj/routeprofiles</a> نگهداری می‌شوند. اگر دانلود ناموفق بود، <code>Remote Rule-set Mirror</code> دیگری انتخاب کنید (<a href="#rule-sets">مجموعه‌قوانین</a> را ببینید) و دوباره امتحان کنید.</p>
+<h2 id="profiles">نمایه‌های مسیریابی</h2>
+<p>نمایه‌های مسیریابی در زبانهٔ <code>مسیر</code> (Route) از <code>تنظیمات</code> (Settings) ← <code>تنظیمات مسیریابی</code> (Routing Settings) مدیریت می‌شوند، که نخستین گزینهٔ منوی <code>مسیریابی</code> (Routing) نیز هست. راست‌کلیک روی یک نمایه در منوی <code>مسیریابی</code> آن را مستقیم در ویرایشگر باز می‌کند. تغییرات با کلیک روی <code>تایید</code> (OK) اعمال می‌شوند؛ اگر اتصالی در حال اجراست، در اعلان «Settings changed, restart to apply» (تنظیمات تغییر کرد؛ برای اعمال، دوباره راه‌اندازی کنید) روی <code>Restart</code> کلیک کنید.</p>
+<p>سه نوع نمایه وجود دارد:</p>
+<ul>
+<li><strong>نمایه‌های ساخت‌یافته (structured)</strong> که در Throne با <a href="#simple-rules">قوانین ساده</a> و <a href="#advanced-rules">قوانین پیشرفته</a> ویرایش می‌شوند. بیشتر افراد فقط به همین‌ها نیاز دارند.</li>
+<li><strong><a href="#remote-profiles">نمایه‌های راه‌دور</a></strong> که از یک URL دانلود می‌شوند.</li>
+<li><strong><a href="#raw-profiles">نمایه‌های خام</a></strong> که به‌صورت JSON برای sing-box نوشته می‌شوند.</li>
+</ul>
+<p>برای ساختن یک نمایهٔ ساخت‌یافته:</p>
+<ol>
+<li>در زبانهٔ <code>مسیر</code> (Route)، روی <code>جدید</code> (New) ← <code>Structured profile</code> کلیک کنید.</li>
+<li>یک <code>نام</code> (Name) وارد کنید و <code>Default outbound</code> را انتخاب کنید.</li>
+<li>قوانین را در زبانهٔ <code>پایه</code> (Basic) یا <code>پیشرفته</code> (Advanced) اضافه کنید و روی <code>تایید</code> (OK) کلیک کنید.</li>
+<li>آن را از منوی <code>مسیریابی</code> (Routing) فعال کنید.</li>
+</ol>
+<p>زبانهٔ <code>DNS</code> یک نمایه می‌تواند سرورهای DNS مخصوص به خودش را به آن بدهد؛ <a href="/fa/guides/dns/#route-dns">DNS برای هر نمایهٔ مسیریابی</a> را ببینید. زبانهٔ <code>Endpoints</code> آن، که وقتی نمایه‌های OpenVPN یا OpenConnect داشته باشید نمایان می‌شود، آن‌ها را در کنار پروکسی اجرا می‌کند؛ <a href="/fa/advanced/vpn_profiles/#split-tunnel">تونل تفکیکی</a> را ببینید.</p>
+<p>زبانهٔ <code>متداول</code> (Common) این تنظیمات را هم دارد (فقط در حالت پیشرفته؛ <a href="/fa/get_started/configuration/#interface-mode">حالت ساده و پیشرفته</a> را ببینید):</p>
+<table>
+<thead>
+<tr>
+<th>تنظیم</th>
+<th>کارکرد</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Default Domain Strategy</code></td>
+<td>ترجیح IPv4 یا IPv6، وقتی Throne نشانی یک سرور یا سایتی را که مستقیم می‌رود پیدا می‌کند.</td>
+</tr>
+<tr>
+<td><code>Resolve Domain Strategy</code></td>
+<td>پیش از اجرای قوانین، نشانی IP هر دامنه را پیدا می‌کند تا قوانین IP هم با دامنه‌ها منطبق شوند.</td>
+</tr>
+<tr>
+<td><code>Remote Rule-set Mirror</code></td>
+<td>جایی که مجموعه‌قوانین و نمایه‌های ذخیره‌شده در GitHub از آن دانلود می‌شوند. پیش‌فرض: <code>jsDelivr(Cloudflare)</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="simple-rules">قوانین ساده</h2>
+<p>زبانهٔ <code>پایه</code> (Basic) هر نمایه چهار کادر دارد: <code>مستقیم</code> (Direct)، <code>پروکسی</code> (Proxy)، <code>مسدود کردن</code> (Block) و <code>Warp-bypass</code>. هر خط در یک کادر، ترافیک منطبق را به همان‌جا می‌فرستد.</p>
+<table>
+<thead>
+<tr>
+<th>خط</th>
+<th>منطبق می‌شود با</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>domain:example.com</code></td>
+<td>فقط <code>example.com</code>.</td>
+</tr>
+<tr>
+<td><code>suffix:example.com</code></td>
+<td><code>example.com</code> و همهٔ زیردامنه‌های آن.</td>
+</tr>
+<tr>
+<td><code>keyword:example</code></td>
+<td>هر دامنه‌ای که <code>example</code> را در خود داشته باشد.</td>
+</tr>
+<tr>
+<td><code>regex:^cdn[0-9]*\.example\.com$</code></td>
+<td>دامنه‌هایی که با یک عبارت باقاعده منطبق باشند (نحو Go RE2).</td>
+</tr>
+<tr>
+<td><code>ruleset:geosite-youtube</code></td>
+<td>همهٔ موارد یک <a href="#rule-sets">مجموعه‌قوانین</a>، با نام یا با URL فایل <code>.srs</code>.</td>
+</tr>
+<tr>
+<td><code>ip:10.0.0.0/8</code></td>
+<td>یک محدودهٔ IP، یا یک نشانی تکی مانند <code>1.2.3.4</code>.</td>
+</tr>
+<tr>
+<td><code>processName:Telegram.exe</code></td>
+<td>یک برنامه، بر اساس نام فایل.</td>
+</tr>
+<tr>
+<td><code>processPath:C:\Program Files\App\app.exe</code></td>
+<td>یک برنامه، بر اساس مسیر کامل.</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>در هر خط یک مورد بنویسید. پیشوندها به حروف بزرگ و کوچک حساس‌اند: <code>processName</code>، نه <code>processname</code>.</li>
+<li>نام فرآیند باید دقیقاً منطبق باشد، با رعایت حروف بزرگ و کوچک و پسوند <code>.exe</code> در Windows. <a href="#connections-tab">زبانهٔ اتصال‌ها</a> نام دقیق را نشان می‌دهد.</li>
+<li>ویرایشگر خط‌هایی را که نمی‌تواند به کار ببرد علامت‌گذاری می‌کند. پیش از جابه‌جایی بین زبانه‌ها آن‌ها را اصلاح کنید، چون جابه‌جایی آن‌ها را حذف می‌کند.</li>
+</ul>
+
+<aside class="callout callout--info">
+  <span class="callout-label">نکته</span>
+  <p>قوانین فرآیند فقط ترافیکی را می‌بینند که به Throne می‌رسد. در حالت پروکسی سیستمی، برنامه‌هایی که پروکسی را نادیده می‌گیرند هرگز به آن نمی‌رسند؛ پس قوانین فرآیند را همراه با <code>حالتvpn</code> (Tun Mode) به کار ببرید. <a href="/fa/guides/tun_mode/#enable">حالت TUN</a> را ببینید.</p>
+
+</aside>
+<p><strong>مثال: همه‌چیز به‌جز سایت‌های داخلی از پروکسی، و مسدود کردن تبلیغات.</strong> <code>Default outbound</code> را روی <code>proxy</code> بگذارید. در <code>مستقیم</code> (Direct):</p>
+<pre><code class="language-text hljs">ruleset:geosite-ir
+ruleset:geoip-ir
+</code></pre>
+<p>در <code>مسدود کردن</code> (Block):</p>
+<pre><code class="language-text hljs">ruleset:geosite-category-ads-all
+</code></pre>
+<p>به‌جای <code>ir</code>، کد کشور خودتان را بگذارید؛ برای نمونه <code>cn</code> یا <code>ru</code>.</p>
+<p><strong>مثال: فقط یک برنامه و یک سایت از پروکسی.</strong> <code>Default outbound</code> را روی <code>direct</code> بگذارید. در <code>پروکسی</code> (Proxy):</p>
+<pre><code class="language-text hljs">processName:Telegram.exe
+suffix:example.org
+</code></pre>
+<p>هر کادر به قوانینی در زبانهٔ <code>پیشرفته</code> (Advanced) تبدیل می‌شود، مانند <code>Simple Address Bypass</code> برای نشانی‌های کادر <code>مستقیم</code> (Direct) و <code>Simple Process Name Proxy</code> برای برنامه‌های کادر <code>پروکسی</code> (Proxy). این قوانین به ترتیب <code>مستقیم</code>، <code>مسدود کردن</code>، <code>پروکسی</code>، <code>Warp-bypass</code> اضافه می‌شوند و نخستین قانون منطبق برنده است، پس خطی در <code>پروکسی</code> اثری ندارد اگر خطی گسترده‌تر در <code>مستقیم</code> با همان ترافیک منطبق شود. برای ساختن یک استثنا، برای نمونه عبور دادن <code>example.ir</code> از پروکسی در حالی که <code>geosite-ir</code> مستقیم می‌رود، <code>suffix:example.ir</code> را به <code>پروکسی</code> اضافه کنید، سپس در زبانهٔ <code>پیشرفته</code> قانون <code>Simple Address Proxy</code> را بالاتر از قانونی ببرید که <code>geosite-ir</code> را در بر دارد.</p>
+<h2 id="advanced-rules">قوانین پیشرفته</h2>
+<p>زبانهٔ <code>پیشرفته</code> (Advanced) همهٔ قوانین نمایه را به ترتیب فهرست می‌کند. <code>بالا بردن</code> (Move Up) و <code>پایین آوردن</code> (Move Down) ترتیب را تغییر می‌دهند. برای غیرفعال کردن یک قانون بدون حذف آن، تیک کادر انتخابش را بردارید؛ این کار برای قوانین کادرهای زبانهٔ <code>پایه</code> (Basic) هم کار می‌کند. در حالت ساده، این زبانه فقط وقتی نمایان می‌شود که نمایه قوانینی داشته باشد که زبانهٔ <code>پایه</code> نمی‌تواند نشانشان دهد.</p>
+<p>برای افزودن یک قانون، روی <code>جدید</code> (New) کلیک کنید و یک <code>Action</code> انتخاب کنید. سپس ویژگی‌هایی را که لازم دارید در زبانهٔ <code>+</code> تیک بزنید و پر کنید، هر مورد در یک خط.</p>
+<table>
+<thead>
+<tr>
+<th>کنش</th>
+<th>کارکرد</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>route</code></td>
+<td>ترافیک منطبق را به <code>outbound</code> قانون می‌فرستد. قانون جدید تا وقتی <code>outbound</code> را تیک نزنید و گزینهٔ دیگری انتخاب نکنید، از <code>direct</code> استفاده می‌کند.</td>
+</tr>
+<tr>
+<td><code>reject</code></td>
+<td>ترافیک منطبق را مسدود می‌کند. در قوانین پیشرفته، به‌جای <code>block</code> از این استفاده کنید.</td>
+</tr>
+<tr>
+<td><code>hijack-dns</code></td>
+<td>به پرس‌وجوهای DNS با DNS خود Throne پاسخ می‌دهد.</td>
+</tr>
+<tr>
+<td><code>route-options</code></td>
+<td>گزینه‌هایی مانند <code>override_address</code> یا <code>tls_spoof</code> را تنظیم می‌کند و سپس با قوانین بعدی ادامه می‌دهد.</td>
+</tr>
+<tr>
+<td><code>sniff</code></td>
+<td>پروتکل و دامنهٔ یک اتصال را تشخیص می‌دهد و سپس ادامه می‌دهد.</td>
+</tr>
+<tr>
+<td><code>resolve</code></td>
+<td>نشانی IP دامنه را پیدا می‌کند و سپس ادامه می‌دهد.</td>
+</tr>
+<tr>
+<td><code>bypass</code></td>
+<td>فقط در Linux. <a href="https://sing-box.sagernet.org/configuration/route/rule_action/">مستندات sing-box</a> را ببینید.</td>
+</tr>
+</tbody>
+</table>
+<p><code>route</code>، <code>route-options</code> و <code>bypass</code> گزینه‌های <code>tls_fragment</code> و <code>tls_record_fragment</code> را هم دارند. این گزینه‌ها دست‌دهی (handshake) TLS را مانند گزینه‌های <a href="/fa/advanced/presets/#tls-fragment">قطعه‌بندی TLS</a> یک نمایه تقسیم می‌کنند، که به اتصال‌های <code>direct</code> به سایت‌هایی که یک فیلتر بر اساس نامشان مسدود می‌کند کمک می‌کند.</p>
+<table>
+<thead>
+<tr>
+<th>ویژگی‌ها</th>
+<th>با چه چیزی منطبق می‌شوند</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>domain</code>، <code>domain_suffix</code>، <code>domain_keyword</code>، <code>domain_regex</code></td>
+<td>دامنهٔ درخواستی.</td>
+</tr>
+<tr>
+<td><code>ip_cidr</code>، <code>ip_is_private</code></td>
+<td>نشانی مقصد.</td>
+</tr>
+<tr>
+<td><code>rule_set</code></td>
+<td>نام‌های مجموعه‌قوانین یا URLهای <code>.srs</code>.</td>
+</tr>
+<tr>
+<td><code>port</code>، <code>port_range</code></td>
+<td>پورت مقصد، برای نمونه <code>443</code> یا <code>1000:2000</code>.</td>
+</tr>
+<tr>
+<td><code>source_ip_cidr</code>، <code>source_port</code> و مانند آن‌ها</td>
+<td>مبدأ اتصال، برای نمونه دستگاه دیگری در شبکهٔ شما.</td>
+</tr>
+<tr>
+<td><code>process_name</code>، <code>process_path</code>، <code>process_path_regex</code></td>
+<td>برنامه‌ای روی همین رایانه.</td>
+</tr>
+<tr>
+<td><code>network</code>، <code>protocol</code>، <code>ip_version</code></td>
+<td><code>tcp</code>، <code>udp</code> یا <code>icmp</code>؛ یک پروتکل تشخیص‌داده‌شده مانند <code>tls</code> یا <code>bittorrent</code>؛ <code>4</code> یا <code>6</code>.</td>
+</tr>
+<tr>
+<td><code>inbound</code></td>
+<td><code>mixed-in</code> (پورت پروکسی) یا <code>tun-in</code> (حالت TUN).</td>
+</tr>
+<tr>
+<td><code>wifi_ssid</code>، <code>wifi_bssid</code></td>
+<td>شبکهٔ Wi-Fi که به آن وصل هستید. در macOS در دسترس نیست.</td>
+</tr>
+<tr>
+<td><code>invert</code></td>
+<td>باعث می‌شود قانون زمانی منطبق شود که شرط‌هایش منطبق نباشند.</td>
+</tr>
+</tbody>
+</table>
+<p>درون یک قانون، ویژگی‌های دامنه، IP و <code>rule_set</code> وقتی منطبق می‌شوند که هر یک از آن‌ها منطبق شود. همهٔ ویژگی‌های دیگر نیز باید منطبق شوند.</p>
+<p>برای فرستادن ترافیک از طریق یک سرور مشخص، <code>outbound</code> را تیک بزنید و یک نمایهٔ ذخیره‌شده را انتخاب کنید که به‌صورت <code>[group] name</code> نشان داده می‌شود. Throne آن را در کنار نمایه‌ای که آغاز کرده‌اید اجرا می‌کند. نمایه‌های هستهٔ اضافی (Extra Core) و پیکربندی‌های سفارشی کامل را نمی‌توان این‌گونه به کار برد.</p>
+<h2 id="rule-sets">مجموعه‌قوانین</h2>
+<p>مجموعه‌قوانین (rule-set) فهرستی از دامنه‌ها یا محدوده‌های IP در یک فایل جداگانه است. از آن به‌صورت <code>ruleset:&lt;name&gt;</code> در یک کادر، یا در ویژگی <code>rule_set</code> یک قانون پیشرفته استفاده کنید.</p>
+<ul>
+<li><strong>نام‌های داخلی</strong>: بیش از 2000 مورد. نام‌هایی که با <code>geosite-</code> شروع می‌شوند دامنه‌ها را در خود دارند، مانند <code>geosite-youtube</code> یا <code>geosite-category-ads-all</code>. نام‌هایی که با <code>geoip-</code> شروع می‌شوند محدوده‌های IP را در خود دارند، مانند <code>geoip-ir</code> یا <code>geoip-telegram</code>. ویرایشگر هنگام تایپ، نام‌ها را پیشنهاد می‌دهد.</li>
+<li><strong>فایل‌های خودتان</strong>: URL هر مجموعه‌قوانین باینری sing-box. نام فایل باید <code>.srs</code> را در خود داشته باشد.</li>
+</ul>
+<p>مجموعه‌قوانین هنگام آغاز یک نمایه دانلود می‌شوند. <code>مسیریابی</code> (Routing) ← <code>Update Rule-Sets</code> نسخه‌های تازه را دانلود می‌کند. اگر GitHub در شبکهٔ شما مسدود یا کُند است، <code>تنظیمات مسیریابی</code> (Routing Settings) ← <code>متداول</code> (Common) ← <code>Remote Rule-set Mirror</code> را تغییر دهید. این آینه (mirror) برای فهرست AdBlock و نمایه‌های مسیریابی ذخیره‌شده در GitHub نیز به کار می‌رود.</p>
+<h2 id="remote-profiles">نمایه‌های راه‌دور</h2>
+<p>نمایهٔ راه‌دور یک نمایهٔ ساخت‌یافته است که Throne آن را از یک URL دانلود می‌کند، مانند نمایه‌های <a href="#download-profiles">Download Profiles</a>. ارائه‌دهندگان نیز می‌توانند آن را به‌صورت یک <a href="/fa/advanced/deeplinks/#remoteroute">لینک <code>throne://remoteroute/</code></a> به اشتراک بگذارند.</p>
+<p>برای افزودن آن، در زبانهٔ <code>مسیر</code> (Route) روی <code>جدید</code> (New) ← <code>Remote profile</code> کلیک کنید، <code>URL</code> را وارد کنید، <code>Auto update</code> را تیک بزنید و روی <code>تایید</code> (OK) کلیک کنید. این URL می‌تواند یک لینک <code>throne://route/</code>، متن Base64 آن یا JSON نمایه را ارائه دهد. نمایه‌های خام نمی‌توانند راه‌دور باشند.</p>
+<p>به‌روزرسانی خودکار به <code>تنظیمات</code> (Settings) ← <code>تنظیمات پایه</code> (Basic Settings) ← <code>اشتراک</code> (Subscription) ← <code>Routing profiles auto update</code> هم نیاز دارد که به‌طور پیش‌فرض خاموش است (فقط در حالت پیشرفته). برای به‌روزرسانی فوری، روی <code>Update</code> در زبانهٔ <code>مسیر</code> (Route) کلیک کنید.</p>
+<aside class="callout callout--warning">
+  <span class="callout-label">هشدار</span>
+  <p>به‌روزرسانی، قوانین و خروجی پیش‌فرض نمایه را جایگزین می‌کند، پس تغییراتی که در آن داده‌اید از بین می‌روند. برای سفارشی کردن یک نمایهٔ راه‌دور، با <code>همزادسازی</code> (Clone) از آن رونوشت بگیرید و تیک <code>Auto update</code> را در رونوشت بردارید. قوانینی که غیرفعال کرده‌اید و تنظیمات DNS خود نمایه حفظ می‌شوند.</p>
+
+</aside>
+<h2 id="group-routing">نمایهٔ مسیریابی برای هر گروه</h2>
+<p>یک گروه می‌تواند به‌جای نمایهٔ منوی <code>مسیریابی</code> (Routing)، با نمایهٔ مسیریابی خودش وصل شود. برای نمونه، سرورهای یک ارائه‌دهنده می‌توانند از <code>Bypass Iran</code> استفاده کنند، در حالی که همهٔ گروه‌های دیگر از <code>Default</code> استفاده می‌کنند.</p>
+<ol>
+<li>روی زبانهٔ گروه راست‌کلیک کنید و <code>ویرایش گروه انتخاب‌شده</code> (Edit selected Group) را انتخاب کنید.</li>
+<li>یک <code>نمایه مسیریابی</code> (Routing Profile) انتخاب کنید. <code>پیش فرض (…)</code> (Default (…)) از منوی <code>مسیریابی</code> (Routing) پیروی می‌کند.</li>
+<li>روی <code>تایید</code> (OK) کلیک کنید.</li>
+</ol>
+<p>گروهِ نمایه‌ای که آغاز می‌کنید تعیین‌کننده است. برای یک زنجیره یا یک انتخابگر خودکار (auto selector)، این گروهِ خود زنجیره یا انتخابگر خودکار است، نه گروهِ نمایه‌های درون آن. عنوان پنجره و راهنمای ابزار (tooltip) سینی سیستم، نمایهٔ مسیریابیِ در حال استفاده را نشان می‌دهند و <a href="#connections-tab">زبانهٔ اتصال‌ها</a> همان نمایه را تغییر می‌دهد. نمایهٔ مسیریابی گروه، <a href="/fa/guides/dns/#route-dns">تنظیمات DNS</a> خودش را هم، اگر داشته باشد، با خود می‌آورد.</p>
+<h3 id="subscription-routing">از اشتراک</h3>
+<p>برخی ارائه‌دهندگان یک نمایهٔ مسیریابی را همراه با اشتراک، در قالب Happ، می‌فرستند. برای استفاده از آن، تنظیمات گروه را باز کنید، زیر <code>اشتراک</code> (Subscription) گزینهٔ <code>استفاده از نمایه مسیریابی اشتراک</code> (Use the subscription's routing profile) را تیک بزنید، روی <code>تایید</code> (OK) کلیک کنید و اشتراک را به‌روز کنید.</p>
+<p>Throne آن را به‌صورت یک نمایهٔ مسیریابی ساخت‌یافته با نامی که ارائه‌دهنده به آن داده ذخیره می‌کند. اگر <code>نمایه مسیریابی</code> (Routing Profile) گروه <code>پیش فرض (…)</code> (Default (…)) باشد، نمایهٔ جدید نمایهٔ مسیریابی گروه می‌شود. هر به‌روزرسانی، قوانین آن را جایگزین می‌کند. تنظیمات DNS اشتراک هرگز استفاده نمی‌شوند.</p>
+<ul>
+<li>برای تغییر همیشگی آن، با <code>همزادسازی</code> (Clone) از آن رونوشت بگیرید و رونوشت را به‌عنوان <code>نمایه مسیریابی</code> (Routing Profile) گروه انتخاب کنید.</li>
+<li>این نمایه به گروه تعلق دارد. حذف گروه، آن را هم حذف می‌کند.</li>
+</ul>
+<h2 id="raw-profiles">نمایه‌های خام</h2>
+<p>نمایهٔ خام یک شیء کامل <code>route</code> برای sing-box به‌صورت JSON است، برای قابلیت‌هایی که ویرایشگر قوانین ارائه نمی‌دهد. آن را با <code>جدید</code> (New) ← <code>Raw profile</code> بسازید.</p>
+<p>خروجی‌ها به‌صورت عدد نوشته می‌شوند: <code>-1</code> یعنی <code>proxy</code>، <code>-2</code> یعنی <code>direct</code>، <code>-5</code> یعنی <code>warp-bypass</code>، و شناسهٔ یک نمایه یعنی همان نمایهٔ ذخیره‌شده. ویرایشگر پس از <code>&quot;outbound&quot;:</code> نمایه‌های شما را پیشنهاد می‌دهد. اگر <code>final</code> وجود نداشته باشد، Throne از <code>proxy</code> استفاده می‌کند.</p>
+<p>نام‌های مجموعه‌قوانین داخلی در نمایه‌های خام تعریف نشده‌اند، و Throne مرحلهٔ DNS را که نمایه‌های ساخت‌یافته دریافت می‌کنند اضافه نمی‌کند. برای حالت TUN، قوانینتان را این‌گونه آغاز کنید:</p>
+<pre><code class="language-json hljs">{
+  &quot;rules&quot;: [
+    { &quot;action&quot;: &quot;sniff&quot; },
+    { &quot;protocol&quot;: &quot;dns&quot;, &quot;action&quot;: &quot;hijack-dns&quot; },
+    { &quot;domain_suffix&quot;: [&quot;example.com&quot;], &quot;outbound&quot;: -2 }
+  ],
+  &quot;final&quot;: -1
+}
+</code></pre>
+<p><code>Prevent modifications</code> JSON را دقیقاً همان‌طور که نوشته شده به کار می‌برد، که ممکن است DNS، نمایه‌های Xray و زنجیره‌ها را از کار بیندازد. AdBlock، <code>Enable DNS Routing</code> و کنش‌های زبانهٔ اتصال‌ها با نمایه‌های خام کار نمی‌کنند، و Throne برای Android نمی‌تواند از آن‌ها استفاده کند.</p>
+<h2 id="connections-tab">زبانهٔ اتصال‌ها</h2>
+<p>زبانهٔ <code>اتصال‌ها</code> (Connections) در پایین پنجرهٔ اصلی، اتصال‌های باز را به تفکیک برنامه فهرست می‌کند، همراه با مقصد، پروتکل، خروجی و ترافیک هر کدام. برای دیدن قانونی که یک اتصال با آن منطبق شده، نشانگر ماوس را روی ستون <code>خروجی</code> (Outbound) نگه دارید؛ <code>final</code> یعنی هیچ قانونی منطبق نشده است.</p>
+<p>برای تغییر مسیر چنین ترافیکی، روی یک اتصال راست‌کلیک کنید:</p>
+<ul>
+<li><code>مستقیم</code> (Direct)، <code>پروکسی</code> (Proxy) یا <code>Block</code> فهرستی از هدف‌ها را با کادرهای انتخاب نشان می‌دهد: هر سطح دامنه مانند <code>*.example.com</code>، نام سایت به‌صورت کلیدواژه، نشانی IP وقتی اتصال دامنه ندارد، و برنامه. هدفی که تیک بخورد به همان کادر در نمایهٔ مسیریابیِ در حال استفاده اضافه می‌شود و از هر کادر دیگری برداشته می‌شود.</li>
+<li><code>Specific server</code> همین کار را می‌کند، اما هدف‌ها را از سروری که انتخاب می‌کنید عبور می‌دهد.</li>
+</ul>
+<p>سپس در اعلان «Settings changed, restart to apply» (تنظیمات تغییر کرد؛ برای اعمال، دوباره راه‌اندازی کنید) روی <code>Restart</code> کلیک کنید. هدف به قانون موجودِ همان کادر افزوده می‌شود. اگر کادر خالی بود، قانون جدید آن به انتهای فهرست می‌رود، جایی که یک قانون گسترده‌تر در بالای آن همچنان می‌تواند زودتر منطبق شود؛ پس ترتیب را در زبانهٔ <code>پیشرفته</code> (Advanced) بررسی کنید.</p>
+<p>این کنش‌ها برای نمایه‌های خام، نمایه‌هایی با <code>Prevent modifications</code>، نمایه‌های راه‌دور با <code>Auto update</code> و نمایه‌هایی که یک اشتراک به‌روزشان می‌کند در دسترس نیستند. برای تغییر یک نمایهٔ راه‌دور یا نمایه‌ای از اشتراک، ابتدا از آن رونوشت بگیرید؛ <a href="#remote-profiles">نمایه‌های راه‌دور</a> و <a href="#subscription-routing">از اشتراک</a> را ببینید.</p>
+<p>اگر این زبانه نیست، <code>تنظیمات</code> (Settings) ← <code>تنظیمات پایه</code> (Basic Settings) ← <code>استایل</code> (Style) ← <code>آمار اتصال</code> (Connection statistics) را روشن کنید (فقط در حالت پیشرفته).</p>
+<h2 id="adblock">AdBlock</h2>
+<p><code>مسیریابی</code> (Routing) ← <code>Enable AdBlock</code> تبلیغات را در هر نمایهٔ ساخت‌یافته یا راه‌دوری که فعال باشد، با فهرست <code>adblocksingbox</code> از پروژهٔ 217heidai/adblockfilters مسدود می‌کند. این قانون پیش از قوانین خودتان اجرا می‌شود، پس تبلیغات هم برای ترافیک مستقیم و هم برای ترافیکی که از پروکسی می‌گذرد مسدود می‌شوند.</p>
+<p>اگر سایتی از کار افتاد، AdBlock را خاموش کنید تا ببینید آیا فهرست آن را مسدود می‌کند. برای مسدود کردن تبلیغات فقط در یک نمایه، به‌جای آن <code>ruleset:geosite-category-ads-all</code> را در کادر <code>مسدود کردن</code> (Block) همان نمایه بگذارید.</p>
+<h2 id="share-profiles">اشتراک‌گذاری نمایه‌ها</h2>
+<p>یک نمایه را در زبانهٔ <code>مسیر</code> (Route) انتخاب کنید و روی <code>استخراج</code> (Export) (<code>Ctrl+C</code>) کلیک کنید تا به‌صورت لینک <code>throne://route/</code> کپی شود.</p>
+<p>برای وارد کردن یک نمایه، روی لینک کلیک کنید، یا آن را کپی کنید و در پنجرهٔ اصلی <code>Ctrl+V</code> را فشار دهید. این کار نمایه را بدون فعال کردن اضافه می‌کند. <code>Import</code> (<code>Ctrl+V</code>) در زبانهٔ <code>مسیر</code> (Route) آن را انتخاب هم می‌کند، پس با کلیک روی <code>تایید</code> (OK) فعال می‌شود.</p>
+<p>لینک، نام، خروجی پیش‌فرض، قوانین (از جمله قوانین غیرفعال) و تنظیمات DNS خود نمایه را در بر دارد. قوانینی که ترافیک را به یک نمایهٔ ذخیره‌شده می‌فرستند، با نام به آن اشاره می‌کنند؛ اگر دستگاه دیگر نمایه‌ای با آن نام نداشته باشد، از <code>proxy</code> استفاده می‌کنند. نقطه‌های پایانی OpenVPN و OpenConnect بدون اطلاعات ورودشان به اشتراک گذاشته می‌شوند. برای قالب لینک، <a href="/fa/advanced/deeplinks/#route">لینک‌های عمیق</a> را ببینید.</p>
+<h2 id="android">در Android</h2>
+<p>Throne برای Android همین نمایه‌های مسیریابی، قوانین و مجموعه‌قوانین را دارد. <code>مسیریابی</code> (Routing) را از منوی کناری باز کنید و برای فعال کردن یک نمایه، روی آن بزنید. تفاوت‌ها:</p>
+<ul>
+<li><strong>قوانین برنامه.</strong> فیلد <code>برنامه‌ها</code> (Apps) با برنامه‌های Android منطبق می‌شود و <code>برنامه‌های ناشناخته</code> (Unknown apps) با اتصال‌هایی که برنامه‌شان پیدا نمی‌شود. <code>عبارت باقاعده نام بسته</code> (Package name regex) با نام بسته‌ها منطبق می‌شود. این قوانین در دسکتاپ هرگز منطبق نمی‌شوند.</li>
+<li><strong>قوانین شبکه.</strong> <code>نوع شبکه</code> (Network type) با Wi-Fi، دادهٔ تلفن همراه یا Ethernet منطبق می‌شود و <code>شبکه اندازه‌گیری‌شده</code> (Metered network) با شبکه‌های اندازه‌گیری‌شده (metered). دسکتاپ هنگام وارد کردن لینک، این قوانین را کنار می‌گذارد.</li>
+<li><strong>قوانین Wi-Fi</strong> به دسترسی به موقعیت مکانی با تنظیم «Allow all the time» (همیشه مجاز) و روشن بودن موقعیت مکانی نیاز دارند.</li>
+<li><strong>نمایه‌های خام</strong> و نقطه‌های پایانی VPN در لینک‌های واردشده پشتیبانی نمی‌شوند.</li>
+<li><code>AdBlock</code> و <code>به‌روزرسانی خودکار پروفایل‌های راه دور</code> (Auto update remote profiles) در <code>تنظیمات</code> (Settings) ← <code>مسیریابی</code> (Routing) قرار دارند.</li>
+<li>اگر یک مجموعه‌قوانین دانلود نشود، <code>به‌هرحال متصل شو</code> (Connect anyway) بدون آن وصل می‌شود. قوانین آن تا وقتی از راه پروکسی دانلود نشده است، با هیچ چیزی منطبق نمی‌شوند.</li>
+</ul>
+
+      </div>
+      
+      
+      
+      <footer class="docs-article-footer">
+        
+        <a class="edit-link" href="https://github.com/throneproj/throneproj.github.io/edit/main/content/guides/routing.fa.md" target="_blank" rel="noopener noreferrer">
+        
+          <svg class="ic" aria-hidden="true"><use href="#i-pencil"/></svg>
+          ویرایش این صفحه در GitHub
+        </a>
+        
+
+<nav class="prev-next" aria-label="مسیریابی صفحه">
+  
+  <a class="prevnext-prev" href="https://throneproj.github.io/fa/guides/tun_mode/">
+    <span class="prevnext-dir">قبلی</span>
+    حالت TUN
+  </a>
+  
+  
+  <a class="prevnext-next" href="https://throneproj.github.io/fa/guides/dns/">
+    <span class="prevnext-dir">بعدی</span>
+    DNS
+  </a>
+  
+</nav>
+
+      </footer>
+    </article>
+  </main>
+  
+<nav class="docs-toc" aria-label="در این صفحه">
+  <p class="docs-toc-title">
+    <svg class="ic" aria-hidden="true"><use href="#i-list"/></svg>
+    در این صفحه
+  </p>
+  <ul><li><a href="#how-routing-works">مسیریابی چگونه کار می‌کند</a></li><li><a href="#download-profiles">دانلود نمایه‌های آماده</a></li><li><a href="#profiles">نمایه‌های مسیریابی</a></li><li><a href="#simple-rules">قوانین ساده</a></li><li><a href="#advanced-rules">قوانین پیشرفته</a></li><li><a href="#rule-sets">مجموعه‌قوانین</a></li><li><a href="#remote-profiles">نمایه‌های راه‌دور</a></li><li><a href="#group-routing">نمایهٔ مسیریابی برای هر گروه</a><ul><li><a href="#subscription-routing">از اشتراک</a></li></ul></li><li><a href="#raw-profiles">نمایه‌های خام</a></li><li><a href="#connections-tab">زبانهٔ اتصال‌ها</a></li><li><a href="#adblock">AdBlock</a></li><li><a href="#share-profiles">اشتراک‌گذاری نمایه‌ها</a></li><li><a href="#android">در Android</a></li></ul>
+</nav>
+
+    </main>
+  </div>
+
+  
+<script src="https://throneproj.github.io/assets/js/highlight.min.js" defer></script>
+<script>
+  window.NOIR_BASE = "https://throneproj.github.io";
+  
+  window.NOIR_I18N = {
+    copy: "کپی",
+    copied: "کپی شد",
+    copyManual: "کلید Ctrl C را فشار دهید",
+    noResults: "نتیجه‌ای یافت نشد برای",
+    theme: "تم",
+    themeAuto: "خودکار",
+    themeLight: "روشن",
+    themeDark: "تاریک"
+  };
+</script>
+<script src="https://throneproj.github.io/js/theme.js" defer></script>
+<script src="https://throneproj.github.io/js/nav.js" defer></script>
+<script src="https://throneproj.github.io/js/code.js" defer></script>
+<script src="https://throneproj.github.io/js/toc.js" defer></script>
+<script src="https://throneproj.github.io/js/reveal.js" defer></script>
+<script src="https://throneproj.github.io/js/mermaid.js" defer></script>
+<script src="https://throneproj.github.io/js/search.js" defer></script>
+
+</body>
+</html>

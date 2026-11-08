@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Установка Throne в Windows, macOS или Linux, обновление до новых версий и сборка из исходного кода.">
+  <title>Установка - Throne</title>
+
+  
+  <meta name="theme-color" content="#0b0b0c" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#fbfbfa" media="(prefers-color-scheme: light)">
+
+  
+  <script>
+    (function () {
+      var r = document.documentElement;
+      r.classList.add("js");
+      try {
+        var t = localStorage.getItem("throne-theme");
+        if (t === "light" || t === "dark") r.setAttribute("data-theme", t);
+      } catch (e) {}
+    })();
+  </script>
+
+  <meta name="google-site-verification" content="Zzz4doeS45o-EhP56mm1yoyfHSEEZJRJJt0tfj7vPGM" />
+  <script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+      m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+      m[i].l=1*new Date();
+      for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+      k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=111847353', 'ym');
+
+    
+    ym(111847353, 'init', {ssr:true, webvisor:false, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/111847353" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+
+  <meta property="og:title" content="Установка">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://throneproj.github.io/ru/get_started/installation/">
+  <meta property="og:description" content="Установка Throne в Windows, macOS или Linux, обновление до новых версий и сборка из исходного кода.">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Установка">
+  <meta name="twitter:description" content="Установка Throne в Windows, macOS или Linux, обновление до новых версий и сборка из исходного кода.">
+  <link rel="canonical" href="https://throneproj.github.io/ru/get_started/installation/">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Установка","url":"https://throneproj.github.io/ru/get_started/installation/","description":"Установка Throne в Windows, macOS или Linux, обновление до новых версий и сборка из исходного кода."}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Throne","item":"https://throneproj.github.io/ru/"},{"@type":"ListItem","position":2,"name":"Начало работы","item":"https://throneproj.github.io/ru/get_started/"},{"@type":"ListItem","position":3,"name":"Установка"}]}</script>
+  <link rel="alternate" hreflang="ru" href="https://throneproj.github.io/ru/get_started/installation/">
+<link rel="alternate" hreflang="en" href="https://throneproj.github.io/get_started/installation/">
+<link rel="alternate" hreflang="fa" href="https://throneproj.github.io/fa/get_started/installation/">
+<link rel="alternate" hreflang="zh" href="https://throneproj.github.io/zh/get_started/installation/">
+<link rel="alternate" hreflang="x-default" href="https://throneproj.github.io/get_started/installation/">
+
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon.ico" sizes="any">
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon-96x96.png" type="image/png" sizes="96x96">
+  <link rel="apple-touch-icon" href="https://throneproj.github.io/logos/apple-touch-icon.png">
+  <link rel="manifest" href="https://throneproj.github.io/logos/site.webmanifest">
+
+  <link rel="preload" href="https://throneproj.github.io/fonts/geist-variable-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+  
+  <link rel="stylesheet" href="https://throneproj.github.io/assets/css/highlight/atom-one-dark.min.css">
+  <link rel="stylesheet" href="https://throneproj.github.io/css/style.css">
+  
+</head>
+<body>
+  <a class="skip-link" href="#main">Перейти к основному содержимому</a>
+  
+<svg xmlns="http://www.w3.org/2000/svg" class="icon-sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 10a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+    <path d="M21 21l-6 -6" />
+  </symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M3 12h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7" />
+  </symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454l0 .008" />
+  </symbol>
+  <symbol id="i-contrast" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M12 17a5 5 0 0 0 0 -10v10" />
+  </symbol>
+  <symbol id="i-chevron-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M6 9l6 6l6 -6" />
+  </symbol>
+  <symbol id="i-menu-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 6l16 0" />
+    <path d="M4 12l16 0" />
+    <path d="M4 18l16 0" />
+  </symbol>
+  <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M18 6l-12 12" />
+    <path d="M6 6l12 12" />
+  </symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 9.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667l0 -8.666" />
+    <path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" />
+  </symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l5 5l10 -10" />
+  </symbol>
+  <symbol id="i-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l14 0" />
+    <path d="M13 18l6 -6" />
+    <path d="M13 6l6 6" />
+  </symbol>
+  <symbol id="i-arrow-up-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M17 7l-10 10" />
+    <path d="M8 7l9 0l0 9" />
+  </symbol>
+  <symbol id="i-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l14 0" />
+    <path d="M5 12l6 6" />
+    <path d="M5 12l6 -6" />
+  </symbol>
+  <symbol id="i-brand-github" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+  </symbol>
+  <symbol id="i-pencil" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+    <path d="M13.5 6.5l4 4" />
+  </symbol>
+  <symbol id="i-rocket" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 13a8 8 0 0 1 7 7a6 6 0 0 0 3 -5a9 9 0 0 0 6 -8a3 3 0 0 0 -3 -3a9 9 0 0 0 -8 6a6 6 0 0 0 -5 3" />
+    <path d="M7 14a6 6 0 0 0 -3 6a6 6 0 0 0 6 -3" />
+    <path d="M14 9a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+  </symbol>
+  <symbol id="i-terminal-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 9l3 3l-3 3" />
+    <path d="M13 15l3 0" />
+    <path d="M3 6a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2l0 -12" />
+  </symbol>
+  <symbol id="i-lifebuoy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M15 15l3.35 3.35" />
+    <path d="M9 15l-3.35 3.35" />
+    <path d="M5.65 5.65l3.35 3.35" />
+    <path d="M18.35 5.65l-3.35 3.35" />
+  </symbol>
+  <symbol id="i-list" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 6l11 0" />
+    <path d="M9 12l11 0" />
+    <path d="M9 18l11 0" />
+    <path d="M5 6l0 .01" />
+    <path d="M5 12l0 .01" />
+    <path d="M5 18l0 .01" />
+  </symbol>
+  <symbol id="i-code" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 8l-4 4l4 4" />
+    <path d="M17 8l4 4l-4 4" />
+    <path d="M14 4l-4 16" />
+  </symbol>
+  <symbol id="i-rss" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 19a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+    <path d="M4 4a16 16 0 0 1 16 16" />
+    <path d="M4 11a9 9 0 0 1 9 9" />
+  </symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12" />
+    <path d="M16 3v4" />
+    <path d="M8 3v4" />
+    <path d="M4 11h16" />
+    <path d="M11 15h1" />
+    <path d="M12 15v3" />
+  </symbol>
+</svg>
+
+<header class="site-header">
+  <div class="header-inner">
+    <button class="icon-btn hamburger" id="drawerToggle" aria-label="Открыть навигацию" aria-expanded="false" aria-controls="sidebar">
+      <svg class="ic" aria-hidden="true"><use href="#i-menu-2"/></svg>
+    </button>
+
+    <a href="https://throneproj.github.io/ru/" class="header-logo" aria-label="Главная страница Throne">
+      <img class="logo" src="https://throneproj.github.io/images/throne-logo.png" alt="Throne" width="1817" height="346">
+    </a>
+    <a class="header-version" href="https://github.com/throneproj/Throne/releases/tag/1.4.1" target="_blank" rel="noopener noreferrer">v1.4.1</a>
+
+    <nav class="header-nav" aria-label="Основная навигация">
+      <a href="https://throneproj.github.io/ru/get_started/">Начало работы</a>
+      <a href="https://throneproj.github.io/ru/downloads/">Скачать</a>
+    </nav>
+
+    <div class="header-right">
+      <button class="header-btn search-trigger" id="searchTrigger" aria-label="Поиск по документации">
+        <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+        <span>Поиск</span>
+        <kbd>Ctrl K</kbd>
+      </button>
+
+      
+      
+      <nav class="lang-switcher" aria-label="Язык">
+        
+        <a href="https://throneproj.github.io/get_started/installation/" hreflang="en">EN</a>
+        
+        <a href="https://throneproj.github.io/fa/get_started/installation/" hreflang="fa">FA</a>
+        
+        <a href="https://throneproj.github.io/ru/get_started/installation/" hreflang="ru" aria-current="true">RU</a>
+        
+        <a href="https://throneproj.github.io/zh/get_started/installation/" hreflang="zh">ZH</a>
+        
+      </nav>
+      
+
+      <a class="icon-btn" href="https://github.com/throneproj/Throne" target="_blank" rel="noopener noreferrer" aria-label="Throne на GitHub">
+        <svg class="ic" aria-hidden="true"><use href="#i-brand-github"/></svg>
+      </a>
+
+      
+      <button class="icon-btn theme-toggle" id="themeToggle" data-mode="auto" type="button" aria-label="Тема">
+        <svg class="ic ic-auto" aria-hidden="true"><use href="#i-contrast"/></svg>
+        <svg class="ic ic-light" aria-hidden="true"><use href="#i-sun"/></svg>
+        <svg class="ic ic-dark" aria-hidden="true"><use href="#i-moon"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+<div class="search-overlay" id="searchOverlay" role="dialog" aria-modal="true" aria-label="Поиск по документации" hidden>
+  <div class="search-modal">
+    <div class="search-input-wrap">
+      <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+      <input type="search" id="searchInput" aria-label="Поиск по документации" placeholder="Поиск по документации" autocomplete="off" spellcheck="false">
+      <kbd id="searchClose" role="button" tabindex="0">Esc</kbd>
+    </div>
+    <div class="search-results" id="searchResults" role="listbox" aria-label="Поиск"></div>
+  </div>
+</div>
+<div class="docs-container">
+<div class="drawer-scrim" id="drawerScrim"></div>
+<aside class="docs-sidebar" id="sidebar">
+  <nav class="sidebar-nav" aria-label="Навигация по документации">
+
+    
+    
+    <details class="sidebar-group" open>
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Начало работы</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/ru/get_started/">Обзор</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/get_started/installation/" aria-current="page">Установка</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/get_started/configuration/">Быстрый старт</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Руководства</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/ru/guides/">Обзор</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/guides/subscriptions/">Подписки и группы</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/guides/proxy_modes/">Системный прокси, TUN и доступ из локальной сети</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/guides/tun_mode/">Режим TUN</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/guides/routing/">Маршрутизация</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/guides/dns/">DNS</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/guides/testing/">Тестирование и автовыбор</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/guides/backup/">Резервное копирование, обновление и перенос</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/guides/recipes/">Рецепты</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Throne для Android</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/ru/android/">Обзор</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/android/installation/">Установка и обновление</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/android/permissions/">Разрешения и работа в фоне</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/android/modes/">Режимы VPN и прокси</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/android/widgets/">Виджеты, плитка и автоматизация</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/android/tv/">Android TV</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/android/troubleshooting/">Устранение неполадок на Android</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Throne в режиме headless</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/ru/headless/">Обзор</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/headless/installation/">Установка и службы</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/headless/thronectl/">Управление через thronectl</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/headless/web/">Веб-интерфейс</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/headless/command_line/">Командная строка и каталог данных</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/headless/monitoring/">Проверки состояния и логи</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/headless/recovery/">Защита от потери доступа и восстановление</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/headless/troubleshooting/">Устранение неполадок</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Расширенная конфигурация</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/ru/advanced/">Обзор</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/advanced/xray/">sing-box или Xray</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/advanced/chains/">Цепочки прокси и пользовательские конфигурации</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/advanced/presets/">Пресеты для обхода цензуры</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/advanced/warp/">Cloudflare WARP</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/advanced/dns_tunnels/">DNS-туннели</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/advanced/vpn_profiles/">OpenVPN, OpenConnect и Tailscale</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/advanced/windows_tun_mode/">Защита от утечек DNS в Windows</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/advanced/kill_switch/">Kill Switch</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/advanced/deeplinks/">Глубокие ссылки</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/advanced/api/">Throne API и thronectl</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Справочник</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/ru/reference/">Обзор</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/reference/protocols/">Протоколы и форматы импорта</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/reference/shortcuts/">Сочетания клавиш и трей</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/reference/files/">Командная строка, файлы и логи</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/reference/privacy/">Конфиденциальность и сетевые запросы</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/reference/glossary/">Глоссарий</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Помощь</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/ru/help/">Обзор</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/help/faq/">FAQ</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/help/troubleshooting/">Устранение неполадок</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/help/bug_reports/">Как сообщить об ошибке</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/help/migrating/">Переход с Nekoray / NekoBox</a></li>
+        
+        
+      </ul>
+    </details>
+    
+
+  </nav>
+</aside>
+  <main id="main" class="docs-main">
+    <article>
+      <h1 class="docs-title">Установка</h1>
+      <p class="docs-lede">Установка Throne в Windows, macOS или Linux, обновление до новых версий и сборка из исходного кода.</p>
+      <div class="prose">
+        <p>Скачать файлы можно на <a href="/ru/downloads/">странице загрузок</a>. Об установке на Android см. <a href="/ru/android/installation/">Установка и обновление</a>.</p>
+<h2 id="windows">Windows</h2>
+<table>
+<thead>
+<tr>
+<th>Ваш компьютер</th>
+<th>Файл</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Любой компьютер с Windows, если вы не уверены</td>
+<td><code>Throne-&lt;version&gt;-windows-universal-installer.exe</code></td>
+</tr>
+<tr>
+<td>Windows 10 1809 или новее, x64</td>
+<td><code>Throne-&lt;version&gt;-windows64.zip</code></td>
+</tr>
+<tr>
+<td>Windows на ARM64</td>
+<td><code>Throne-&lt;version&gt;-windows-arm64.zip</code></td>
+</tr>
+<tr>
+<td>От Windows 7 SP1 до Windows 10 1803 (x64) или процессор без SSE4.2</td>
+<td><code>Throne-&lt;version&gt;-windowslegacy64.zip</code></td>
+</tr>
+<tr>
+<td>32-битная (x86) Windows 7 SP1 или новее</td>
+<td><code>Throne-&lt;version&gt;-windows32.zip</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="windows-installer">Установщик</h3>
+<p>Универсальный установщик сам выбирает подходящую для вашего компьютера сборку и устанавливает её в <code>%LOCALAPPDATA%\Throne</code>, без прав администратора. Ваши данные хранятся в её папке <code>config</code>. Если вместо этого установить Throne для всех пользователей в <code>Program Files</code>, Throne хранит ваши данные в <code>%LOCALAPPDATA%\Throne\config</code> и не может обновляться сам.</p>
+<p>Чтобы удалить Throne, удалите его из списка установленных приложений Windows. Программа удаления спросит, удалить ли заодно ваши профили и настройки.</p>
+<h3 id="windows-zip">Портативный ZIP</h3>
+<p>Распакуйте ZIP-архив в папку, в которую у вас есть права на запись, и запустите <code>Throne.exe</code> из папки <code>Throne</code>. Ваши данные хранятся в папке <code>config</code> рядом с ним, поэтому всю папку можно перемещать или копировать целиком как резервную копию.</p>
+<p>В отличие от установщика, копия из ZIP-архива открывает <a href="/ru/advanced/deeplinks/#receive">ссылки <code>throne://</code></a> только после того, как вы отметите <code>Настройки</code> (Settings) → <code>Основные настройки</code> (Basic Settings) → <code>Общие</code> (Common) → <code>Регистрировать обработчик ссылок throne:// при запуске</code> (Register throne:// links at startup) (только в расширенном режиме, см. <a href="/ru/get_started/configuration/#interface-mode">Простой и расширенный режим</a>).</p>
+<h2 id="macos">macOS</h2>
+<table>
+<thead>
+<tr>
+<th>Ваш Mac</th>
+<th>Файл</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Apple Silicon, macOS 14.4 или новее</td>
+<td><code>Throne-&lt;version&gt;-macos-arm64.zip</code></td>
+</tr>
+<tr>
+<td>Intel, macOS 14.4 или новее</td>
+<td><code>Throne-&lt;version&gt;-macos-amd64.zip</code></td>
+</tr>
+<tr>
+<td>Intel, macOS с 10.15 по 14.3</td>
+<td><code>Throne-&lt;version&gt;-macoslegacy-amd64.zip</code></td>
+</tr>
+</tbody>
+</table>
+<p>Установите ZIP-архив так, или используйте <a href="#homebrew">Homebrew</a>, который сделает это за вас:</p>
+<ol>
+<li>
+<p>Распакуйте ZIP-архив и переместите <code>Throne.app</code> в <code>/Applications</code> до первого запуска. Из <code>~/Downloads</code> Throne может не получить права, нужные для режима TUN.</p>
+</li>
+<li>
+<p>Throne не подписан Apple, поэтому снимите флаг карантина, иначе macOS сообщит, что Throne «is damaged and can't be opened» (повреждён, и его не удаётся открыть):</p>
+<pre><code class="language-bash hljs">xattr -d com.apple.quarantine /Applications/Throne.app
+</code></pre>
+</li>
+<li>
+<p>Откройте Throne.</p>
+</li>
+</ol>
+<p>Ваши данные хранятся в папке пользователя, поэтому <code>Throne.app</code> можно заменить без потери профилей. Для режима TUN нужна учётная запись администратора; см. <a href="/ru/guides/tun_mode/#privileges">Режим TUN</a>.</p>
+<h2 id="linux">Linux</h2>
+<table>
+<thead>
+<tr>
+<th>Файл</th>
+<th>Для чего подходит</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="#linux-script">Установочный скрипт</a></td>
+<td>Любой дистрибутив. Устанавливает ZIP-сборку в <code>/opt/Throne</code>.</td>
+</tr>
+<tr>
+<td><code>Throne-&lt;version&gt;-linux-amd64.zip</code>, <code>…-linux-arm64.zip</code></td>
+<td>Портативная копия в папке на ваш выбор</td>
+</tr>
+<tr>
+<td><code>Throne-&lt;version&gt;-debian-amd64.deb</code>, <code>…-debian-arm64.deb</code></td>
+<td>Debian, Ubuntu, Linux Mint и другие системы на основе Debian</td>
+</tr>
+<tr>
+<td><code>Throne-&lt;version&gt;-fedora-amd64.rpm</code>, <code>…-fedora-arm64.rpm</code></td>
+<td>Fedora и системы на основе RHEL</td>
+</tr>
+<tr>
+<td>Файлы, имена которых заканчиваются на <code>-system-qt.deb</code> или <code>-system-qt.rpm</code></td>
+<td>Те же пакеты, но с Qt вашей системы</td>
+</tr>
+<tr>
+<td><a href="#apt-repository">APT-репозиторий</a> и <a href="#rpm-repository">RPM-репозиторий</a></td>
+<td>Пакеты с системным Qt, которые поддерживает в актуальном состоянии ваш менеджер пакетов</td>
+</tr>
+</tbody>
+</table>
+<p>ZIP-файлы, установочный скрипт и обычные пакеты содержат собственную копию Qt, и им нужна glibc 2.28 или новее: Debian 10, Ubuntu 20.04, RHEL 8 (а также AlmaLinux и Rocky Linux 8), Raspberry Pi OS (64-bit) bullseye или новее. Пакеты <code>-system-qt</code> используют Qt 6 вашего дистрибутива, и им нужна glibc 2.34 или новее, например в Debian 12 или Ubuntu 22.04. Используйте их, если обычный пакет не запускается, например на старом процессоре, или если вы хотите, чтобы Throne использовал тему Qt вашего рабочего стола.</p>
+<aside class="callout callout--warning">
+  <span class="callout-label">Предупреждение</span>
+  <p>Не запускайте Throne через <code>sudo</code> или от имени root. Для режима TUN Throne выдаёт права root только своему ядру и запрашивает ваш пароль через <code>pkexec</code>. См. <a href="/ru/guides/tun_mode/#privileges">Режим TUN</a>.</p>
+
+</aside>
+<h3 id="linux-script">Установочный скрипт</h3>
+<p>Скрипту нужен Python 3:</p>
+<pre><code class="language-bash hljs">curl -fsSL https://raw.githubusercontent.com/throneproj/Throne/dev/script/install_linux.py | sudo python3
+</code></pre>
+<p>Выберите <code>Install</code> и ветку (<code>Stable</code> или <code>Unstable</code>) либо <code>Uninstall</code>. Чтобы обновить или удалить Throne, запустите ту же команду ещё раз. При удалении ваши настройки в <code>~/.config/Throne</code> сохраняются.</p>
+<h3 id="linux-zip">Портативный ZIP</h3>
+<pre><code class="language-bash hljs">unzip Throne-x.x.x-linux-amd64.zip
+cd Throne
+./Throne
+</code></pre>
+<p>Ваши данные хранятся в папке <code>config</code> внутри <code>Throne</code>.</p>
+<h3 id="deb">Debian и Ubuntu (.deb)</h3>
+<pre><code class="language-bash hljs">sudo apt install ./Throne-x.x.x-debian-amd64.deb
+</code></pre>
+<h3 id="rpm">Fedora и RHEL (.rpm)</h3>
+<pre><code class="language-bash hljs">sudo dnf install ./Throne-x.x.x-fedora-amd64.rpm
+</code></pre>
+<p>Оба пакета устанавливают Throne в <code>/opt/Throne</code> и хранят ваши данные в <code>~/.config/Throne</code>. Чтобы получать обновления через менеджер пакетов, используйте вместо этого репозиторий.</p>
+<h3 id="apt-repository">APT-репозиторий</h3>
+<p>Подписанный APT-репозиторий содержит пакеты с системным Qt для каждого стабильного релиза, для amd64 и arm64. Ему нужен Debian 12, Ubuntu 22.04 или новее; в более старых системах используйте обычный <code>.deb</code>.</p>
+<pre><code class="language-bash hljs">sudo install -d -m 0755 /etc/apt/keyrings
+sudo curl -fsSLo /etc/apt/keyrings/throne.asc https://throneproj.github.io/Throne/throne.asc
+sudo curl -fsSLo /etc/apt/sources.list.d/throne.list https://throneproj.github.io/Throne/apt/throne.list
+sudo apt update
+sudo apt install throne
+</code></pre>
+<p>После этого <code>sudo apt upgrade</code> обновляет и Throne.</p>
+<h3 id="rpm-repository">RPM-репозиторий</h3>
+<p>Подписанный RPM-репозиторий содержит пакеты с системным Qt для каждого стабильного релиза, для x86_64 и aarch64. Им нужны Qt 6.5 и glibc 2.34 или новее, поэтому в RHEL 8 и его пересборках используйте обычный <code>.rpm</code>.</p>
+<p>Fedora и RHEL 9 или новее:</p>
+<pre><code class="language-bash hljs">sudo curl -fsSLo /etc/yum.repos.d/throne.repo https://throneproj.github.io/Throne/rpm/throne.repo
+sudo dnf install throne --refresh
+</code></pre>
+<p>openSUSE и SLES:</p>
+<pre><code class="language-bash hljs">sudo zypper addrepo -fc https://throneproj.github.io/Throne/rpm/throne.repo
+sudo zypper install throne
+</code></pre>
+<p>При первом использовании <code>dnf</code> и <code>zypper</code> просят подтвердить доверие к ключу подписи.</p>
+
+<aside class="callout callout--info">
+  <span class="callout-label">Примечание</span>
+  <p>Если раньше вы установили обычный <code>.deb</code> или <code>.rpm</code>, первое обновление из репозитория заменит его пакетом с системным Qt, потому что оба пакета называются <code>throne</code>. Чтобы оставить обычный пакет, не добавляйте репозиторий.</p>
+
+</aside>
+<h2 id="package-managers">Менеджеры пакетов</h2>
+<aside class="callout callout--warning">
+  <span class="callout-label">Предупреждение</span>
+  <p>Пакеты WinGet, Scoop и Nix, а также пакеты AUR, кроме <code>throne</code>, создаёт сообщество. Они могут отставать от последнего релиза и работать не так, как официальные сборки. Если что-то не работает, сначала проверьте официальную сборку со <a href="/ru/downloads/">страницы загрузок</a>, а о проблемах с пакетом сообщайте его сопровождающему.</p>
+
+</aside>
+<h3 id="winget">WinGet</h3>
+<pre><code class="language-powershell hljs">winget install -e --id Throneproj.Throne
+</code></pre>
+<h3 id="scoop">Scoop</h3>
+<pre><code class="language-powershell hljs">scoop bucket add extras
+scoop install extras/throne
+</code></pre>
+<h3 id="homebrew">Homebrew</h3>
+<pre><code class="language-bash hljs">brew install --cask throneproj/tap/throne
+</code></pre>
+<p>В официальный tap попадает каждый стабильный релиз. Cask устанавливает <code>Throne.app</code> в <code>/Applications</code>, снимает флаг карантина и требует macOS 14.4 или новее; на старых Mac с Intel используйте ZIP-архив <code>macoslegacy</code>. Всегда указывайте полное имя: <code>brew install --cask throne</code> не находит Throne.</p>
+<p>Обновляйте Throne командой <code>brew upgrade --cask throne</code>; после этого Throne снова запрашивает права, нужные для режима TUN. <code>brew uninstall --zap --cask throne</code> также удаляет ваши данные в <code>~/Library/Preferences/Throne</code>.</p>
+<h3 id="aur">Arch Linux (AUR)</h3>
+<p>Установите <code>throne</code> с помощью AUR-помощника, например <code>yay -S throne</code> или <code>paru -S throne</code>. Пакет собирает Throne из исходного кода, устанавливает его в <code>/usr/lib/throne</code> и обновляется с каждым стабильным релизом. Ваши данные хранятся в <code>~/.config/Throne</code>.</p>
+<h3 id="nix">Nix</h3>
+<p>В NixOS добавьте это в конфигурацию:</p>
+<pre><code class="language-nix hljs">programs.throne = {
+  enable = true;
+  tunMode.enable = true; # optional, needed for TUN mode
+};
+</code></pre>
+<p>Или установите его через <code>nix-env</code>. В NixOS канал обычно называется <code>nixos</code>, в других дистрибутивах — <code>nixpkgs</code>:</p>
+<pre><code class="language-bash hljs">nix-env -iA nixos.throne
+</code></pre>
+<p>Чтобы попробовать Throne без установки, выполните <code>nix-shell -p throne</code>.</p>
+<h2 id="build-from-source">Сборка из исходного кода</h2>
+<p>Throne состоит из двух частей: интерфейса (<code>Throne</code>, C++ и Qt) и ядра (<code>ThroneCore</code>, Go). Ядро должно лежать рядом с исполняемым файлом <code>Throne</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Часть</th>
+<th>Требования</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Интерфейс</td>
+<td>CMake 3.20 или новее, компилятор C++20, Qt 6.2 или новее (Widgets, Network, LinguistTools, а в Linux также DBus), заголовочные файлы X11 и xcb для разработки в Linux</td>
+</tr>
+<tr>
+<td>Ядро</td>
+<td>Go 1.26 или новее, <code>protoc</code>, <code>protoc-gen-go</code> и <code>protoc-gen-go-grpc</code>. CGO: в Linux — набор инструментов Chromium из cronet-go (для NaïveProxy), в macOS — инструменты командной строки Xcode.</td>
+</tr>
+</tbody>
+</table>
+<p>Соберите интерфейс. Для сборки в папке <code>build</code> нужен файл <code>srslist.h</code> — список имён наборов правил:</p>
+<pre><code class="language-bash hljs">git clone https://github.com/throneproj/Throne.git ~/Throne
+cd ~/Throne
+mkdir build
+cd build
+curl -fLso srslist.h https://raw.githubusercontent.com/throneproj/routeprofiles/rule-set/srslist.h
+cmake -GNinja -DCMAKE_BUILD_TYPE=Release ..
+ninja
+</code></pre>
+<p>Затем соберите ядро скриптом <code>script/build_go.sh</code> и скопируйте его в папку с интерфейсом. В Linux сначала настройте набор инструментов cronet-go в том же терминале. <code>build_go.sh</code> удаляет папку <code>DEST</code> перед сборкой, поэтому укажите для неё отдельную папку:</p>
+<pre><code class="language-bash hljs">cd ~/Throne
+GOOS=linux GOARCH=amd64 DEST=&quot;$PWD/deployment/linux-amd64&quot; ./script/build_go.sh
+cp deployment/linux-amd64/ThroneCore build/
+</code></pre>
+<p>В macOS добавьте <code>-DNKR_PACKAGE_MACOS=1</code> к команде <code>cmake</code>, соберите ядро с <code>GOOS=darwin</code> и скопируйте <code>ThroneCore</code> в <code>Throne.app/Contents/MacOS/</code>. Точные шаги для всех платформ, включая набор инструментов cronet-go, версии плагинов protobuf, Windows и legacy-сборки, описаны в <code>.github/workflows/build.yml</code> в <a href="https://github.com/throneproj/Throne">репозитории Throne</a>.</p>
+<h2 id="updating">Обновление</h2>
+<p>Копии для Windows и Linux из ZIP-архива и установка через установщик Windows для текущего пользователя обновляются сами: <code>Программа</code> (Program) → <code>Проверить наличие обновлений</code> (Check For Update), затем <code>Обновить</code> (Update). Если из той же установки работает <a href="/ru/headless/">headless Throne</a>, сначала остановите его. Все остальные копии обновляйте тем же способом, которым устанавливали: запустите новый установщик, установите новый пакет, снова запустите установочный скрипт, замените <code>Throne.app</code> в macOS или воспользуйтесь менеджером пакетов. Ваши профили и настройки сохраняются.</p>
+<p>После обновления в Linux или macOS Throne может снова запросить права, необходимые для режима TUN. Бета-версии и резервное копирование описаны на странице <a href="/ru/guides/backup/#updating">Резервное копирование, обновление и перенос</a>.</p>
+<h2 id="troubleshooting">Устранение неполадок</h2>
+<p>Если после установки Throne не запускается или показывает ошибку, см. <a href="/ru/help/troubleshooting/#startup">Проблемы с запуском и рабочим окружением</a>. Если антивирус помечает Throne, см. <a href="/ru/help/faq/#antivirus">FAQ</a>.</p>
+
+      </div>
+      
+      
+      
+      <footer class="docs-article-footer">
+        
+        <a class="edit-link" href="https://github.com/throneproj/throneproj.github.io/edit/main/content/get_started/installation.ru.md" target="_blank" rel="noopener noreferrer">
+        
+          <svg class="ic" aria-hidden="true"><use href="#i-pencil"/></svg>
+          Редактировать эту страницу на GitHub
+        </a>
+        
+
+<nav class="prev-next" aria-label="Навигация по странице">
+  
+  <a class="prevnext-prev" href="https://throneproj.github.io/ru/get_started/">
+    <span class="prevnext-dir">Назад</span>
+    Начало работы
+  </a>
+  
+  
+  <a class="prevnext-next" href="https://throneproj.github.io/ru/get_started/configuration/">
+    <span class="prevnext-dir">Вперед</span>
+    Быстрый старт
+  </a>
+  
+</nav>
+
+      </footer>
+    </article>
+  </main>
+  
+<nav class="docs-toc" aria-label="На этой странице">
+  <p class="docs-toc-title">
+    <svg class="ic" aria-hidden="true"><use href="#i-list"/></svg>
+    На этой странице
+  </p>
+  <ul><li><a href="#windows">Windows</a><ul><li><a href="#windows-installer">Установщик</a></li><li><a href="#windows-zip">Портативный ZIP</a></li></ul></li><li><a href="#macos">macOS</a></li><li><a href="#linux">Linux</a><ul><li><a href="#linux-script">Установочный скрипт</a></li><li><a href="#linux-zip">Портативный ZIP</a></li><li><a href="#deb">Debian и Ubuntu (.deb)</a></li><li><a href="#rpm">Fedora и RHEL (.rpm)</a></li><li><a href="#apt-repository">APT-репозиторий</a></li><li><a href="#rpm-repository">RPM-репозиторий</a></li></ul></li><li><a href="#package-managers">Менеджеры пакетов</a><ul><li><a href="#winget">WinGet</a></li><li><a href="#scoop">Scoop</a></li><li><a href="#homebrew">Homebrew</a></li><li><a href="#aur">Arch Linux (AUR)</a></li><li><a href="#nix">Nix</a></li></ul></li><li><a href="#build-from-source">Сборка из исходного кода</a></li><li><a href="#updating">Обновление</a></li><li><a href="#troubleshooting">Устранение неполадок</a></li></ul>
+</nav>
+
+    </main>
+  </div>
+
+  
+<script src="https://throneproj.github.io/assets/js/highlight.min.js" defer></script>
+<script>
+  window.NOIR_BASE = "https://throneproj.github.io";
+  
+  window.NOIR_I18N = {
+    copy: "Копировать",
+    copied: "Скопировано",
+    copyManual: "Нажмите Ctrl C",
+    noResults: "Ничего не найдено по запросу",
+    theme: "Тема",
+    themeAuto: "авто",
+    themeLight: "светлая",
+    themeDark: "темная"
+  };
+</script>
+<script src="https://throneproj.github.io/js/theme.js" defer></script>
+<script src="https://throneproj.github.io/js/nav.js" defer></script>
+<script src="https://throneproj.github.io/js/code.js" defer></script>
+<script src="https://throneproj.github.io/js/toc.js" defer></script>
+<script src="https://throneproj.github.io/js/reveal.js" defer></script>
+<script src="https://throneproj.github.io/js/mermaid.js" defer></script>
+<script src="https://throneproj.github.io/js/search.js" defer></script>
+
+</body>
+</html>

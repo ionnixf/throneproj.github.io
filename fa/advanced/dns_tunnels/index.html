@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" >
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="در شبکه‌هایی که فقط DNS از آن‌ها عبور می‌کند، از راه پرس‌وجوهای DNS به سرور خود برسید: نمایه‌های DNSTT، VayDNS، MasterDNS و Xray XDNS.">
+  <title>تونل‌های DNS - Throne</title>
+
+  
+  <meta name="theme-color" content="#0b0b0c" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#fbfbfa" media="(prefers-color-scheme: light)">
+
+  
+  <script>
+    (function () {
+      var r = document.documentElement;
+      r.classList.add("js");
+      try {
+        var t = localStorage.getItem("throne-theme");
+        if (t === "light" || t === "dark") r.setAttribute("data-theme", t);
+      } catch (e) {}
+    })();
+  </script>
+
+  <meta name="google-site-verification" content="Zzz4doeS45o-EhP56mm1yoyfHSEEZJRJJt0tfj7vPGM" />
+  <script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+      m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+      m[i].l=1*new Date();
+      for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+      k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=111847353', 'ym');
+
+    
+    ym(111847353, 'init', {ssr:true, webvisor:false, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/111847353" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+
+  <meta property="og:title" content="تونل‌های DNS">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://throneproj.github.io/fa/advanced/dns_tunnels/">
+  <meta property="og:description" content="در شبکه‌هایی که فقط DNS از آن‌ها عبور می‌کند، از راه پرس‌وجوهای DNS به سرور خود برسید: نمایه‌های DNSTT، VayDNS، MasterDNS و Xray XDNS.">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="تونل‌های DNS">
+  <meta name="twitter:description" content="در شبکه‌هایی که فقط DNS از آن‌ها عبور می‌کند، از راه پرس‌وجوهای DNS به سرور خود برسید: نمایه‌های DNSTT، VayDNS، MasterDNS و Xray XDNS.">
+  <link rel="canonical" href="https://throneproj.github.io/fa/advanced/dns_tunnels/">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"تونل‌های DNS","url":"https://throneproj.github.io/fa/advanced/dns_tunnels/","description":"در شبکه‌هایی که فقط DNS از آن‌ها عبور می‌کند، از راه پرس‌وجوهای DNS به سرور خود برسید: نمایه‌های DNSTT، VayDNS، MasterDNS و Xray XDNS."}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Throne","item":"https://throneproj.github.io/fa/"},{"@type":"ListItem","position":2,"name":"پیکربندی پیشرفته","item":"https://throneproj.github.io/fa/advanced/"},{"@type":"ListItem","position":3,"name":"تونل‌های DNS"}]}</script>
+  <link rel="alternate" hreflang="fa" href="https://throneproj.github.io/fa/advanced/dns_tunnels/">
+<link rel="alternate" hreflang="en" href="https://throneproj.github.io/advanced/dns_tunnels/">
+<link rel="alternate" hreflang="ru" href="https://throneproj.github.io/ru/advanced/dns_tunnels/">
+<link rel="alternate" hreflang="zh" href="https://throneproj.github.io/zh/advanced/dns_tunnels/">
+<link rel="alternate" hreflang="x-default" href="https://throneproj.github.io/advanced/dns_tunnels/">
+
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon.ico" sizes="any">
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon-96x96.png" type="image/png" sizes="96x96">
+  <link rel="apple-touch-icon" href="https://throneproj.github.io/logos/apple-touch-icon.png">
+  <link rel="manifest" href="https://throneproj.github.io/logos/site.webmanifest">
+
+  <link rel="preload" href="https://throneproj.github.io/fonts/geist-variable-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+  
+  <link rel="stylesheet" href="https://throneproj.github.io/assets/css/highlight/atom-one-dark.min.css">
+  <link rel="stylesheet" href="https://throneproj.github.io/css/style.css">
+  
+</head>
+<body>
+  <a class="skip-link" href="#main">پرش به محتوای اصلی</a>
+  
+<svg xmlns="http://www.w3.org/2000/svg" class="icon-sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 10a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+    <path d="M21 21l-6 -6" />
+  </symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M3 12h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7" />
+  </symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454l0 .008" />
+  </symbol>
+  <symbol id="i-contrast" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M12 17a5 5 0 0 0 0 -10v10" />
+  </symbol>
+  <symbol id="i-chevron-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M6 9l6 6l6 -6" />
+  </symbol>
+  <symbol id="i-menu-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 6l16 0" />
+    <path d="M4 12l16 0" />
+    <path d="M4 18l16 0" />
+  </symbol>
+  <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M18 6l-12 12" />
+    <path d="M6 6l12 12" />
+  </symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 9.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667l0 -8.666" />
+    <path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" />
+  </symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l5 5l10 -10" />
+  </symbol>
+  <symbol id="i-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l14 0" />
+    <path d="M13 18l6 -6" />
+    <path d="M13 6l6 6" />
+  </symbol>
+  <symbol id="i-arrow-up-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M17 7l-10 10" />
+    <path d="M8 7l9 0l0 9" />
+  </symbol>
+  <symbol id="i-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l14 0" />
+    <path d="M5 12l6 6" />
+    <path d="M5 12l6 -6" />
+  </symbol>
+  <symbol id="i-brand-github" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+  </symbol>
+  <symbol id="i-pencil" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+    <path d="M13.5 6.5l4 4" />
+  </symbol>
+  <symbol id="i-rocket" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 13a8 8 0 0 1 7 7a6 6 0 0 0 3 -5a9 9 0 0 0 6 -8a3 3 0 0 0 -3 -3a9 9 0 0 0 -8 6a6 6 0 0 0 -5 3" />
+    <path d="M7 14a6 6 0 0 0 -3 6a6 6 0 0 0 6 -3" />
+    <path d="M14 9a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+  </symbol>
+  <symbol id="i-terminal-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 9l3 3l-3 3" />
+    <path d="M13 15l3 0" />
+    <path d="M3 6a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2l0 -12" />
+  </symbol>
+  <symbol id="i-lifebuoy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M15 15l3.35 3.35" />
+    <path d="M9 15l-3.35 3.35" />
+    <path d="M5.65 5.65l3.35 3.35" />
+    <path d="M18.35 5.65l-3.35 3.35" />
+  </symbol>
+  <symbol id="i-list" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 6l11 0" />
+    <path d="M9 12l11 0" />
+    <path d="M9 18l11 0" />
+    <path d="M5 6l0 .01" />
+    <path d="M5 12l0 .01" />
+    <path d="M5 18l0 .01" />
+  </symbol>
+  <symbol id="i-code" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 8l-4 4l4 4" />
+    <path d="M17 8l4 4l-4 4" />
+    <path d="M14 4l-4 16" />
+  </symbol>
+  <symbol id="i-rss" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 19a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+    <path d="M4 4a16 16 0 0 1 16 16" />
+    <path d="M4 11a9 9 0 0 1 9 9" />
+  </symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12" />
+    <path d="M16 3v4" />
+    <path d="M8 3v4" />
+    <path d="M4 11h16" />
+    <path d="M11 15h1" />
+    <path d="M12 15v3" />
+  </symbol>
+</svg>
+
+<header class="site-header">
+  <div class="header-inner">
+    <button class="icon-btn hamburger" id="drawerToggle" aria-label="باز کردن منو" aria-expanded="false" aria-controls="sidebar">
+      <svg class="ic" aria-hidden="true"><use href="#i-menu-2"/></svg>
+    </button>
+
+    <a href="https://throneproj.github.io/fa/" class="header-logo" aria-label="صفحه اصلی Throne">
+      <img class="logo" src="https://throneproj.github.io/images/throne-logo.png" alt="Throne" width="1817" height="346">
+    </a>
+    <a class="header-version" href="https://github.com/throneproj/Throne/releases/tag/1.4.1" target="_blank" rel="noopener noreferrer">v1.4.1</a>
+
+    <nav class="header-nav" aria-label="اصلی">
+      <a href="https://throneproj.github.io/fa/get_started/">شروع کار</a>
+      <a href="https://throneproj.github.io/fa/downloads/">دانلود</a>
+    </nav>
+
+    <div class="header-right">
+      <button class="header-btn search-trigger" id="searchTrigger" aria-label="جستجو در مستندات">
+        <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+        <span>جستجو</span>
+        <kbd>Ctrl K</kbd>
+      </button>
+
+      
+      
+      <nav class="lang-switcher" aria-label="زبان">
+        
+        <a href="https://throneproj.github.io/advanced/dns_tunnels/" hreflang="en">EN</a>
+        
+        <a href="https://throneproj.github.io/fa/advanced/dns_tunnels/" hreflang="fa" aria-current="true">FA</a>
+        
+        <a href="https://throneproj.github.io/ru/advanced/dns_tunnels/" hreflang="ru">RU</a>
+        
+        <a href="https://throneproj.github.io/zh/advanced/dns_tunnels/" hreflang="zh">ZH</a>
+        
+      </nav>
+      
+
+      <a class="icon-btn" href="https://github.com/throneproj/Throne" target="_blank" rel="noopener noreferrer" aria-label="Throne در GitHub">
+        <svg class="ic" aria-hidden="true"><use href="#i-brand-github"/></svg>
+      </a>
+
+      
+      <button class="icon-btn theme-toggle" id="themeToggle" data-mode="auto" type="button" aria-label="تم">
+        <svg class="ic ic-auto" aria-hidden="true"><use href="#i-contrast"/></svg>
+        <svg class="ic ic-light" aria-hidden="true"><use href="#i-sun"/></svg>
+        <svg class="ic ic-dark" aria-hidden="true"><use href="#i-moon"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+<div class="search-overlay" id="searchOverlay" role="dialog" aria-modal="true" aria-label="جستجو در مستندات" hidden>
+  <div class="search-modal">
+    <div class="search-input-wrap">
+      <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+      <input type="search" id="searchInput" aria-label="جستجو در مستندات" placeholder="جستجو در مستندات" autocomplete="off" spellcheck="false">
+      <kbd id="searchClose" role="button" tabindex="0">Esc</kbd>
+    </div>
+    <div class="search-results" id="searchResults" role="listbox" aria-label="جستجو"></div>
+  </div>
+</div>
+<div class="docs-container">
+<div class="drawer-scrim" id="drawerScrim"></div>
+<aside class="docs-sidebar" id="sidebar">
+  <nav class="sidebar-nav" aria-label="مسیریابی مستندات">
+
+    
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>شروع کار</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/fa/get_started/">نمای کلی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/get_started/installation/">نصب</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/get_started/configuration/">شروع سریع</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>راهنماها</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/">نمای کلی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/subscriptions/">اشتراک‌ها و گروه‌ها</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/proxy_modes/">پروکسی سیستمی، TUN و اشتراک‌گذاری در شبکهٔ محلی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/tun_mode/">حالت TUN</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/routing/">مسیریابی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/dns/">DNS</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/testing/">تست و انتخابگر خودکار</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/backup/">پشتیبان‌گیری، به‌روزرسانی و مهاجرت</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/recipes/">دستورالعمل‌های کاربردی</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Throne برای Android</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/fa/android/">نمای کلی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/android/installation/">نصب و ارتقا</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/android/permissions/">مجوزها و اجرا در پس‌زمینه</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/android/modes/">حالت‌های VPN و پروکسی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/android/widgets/">ویجت‌ها، کاشی و خودکارسازی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/android/tv/">Android TV</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/android/troubleshooting/">عیب‌یابی Android</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Throne بدون رابط گرافیکی (Headless)</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/fa/headless/">نمای کلی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/headless/installation/">نصب و سرویس‌ها</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/headless/thronectl/">مدیریت با thronectl</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/headless/web/">رابط وب</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/headless/command_line/">خط فرمان و پوشهٔ داده‌ها</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/headless/monitoring/">بررسی سلامت و گزارش‌ها</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/headless/recovery/">محافظت در برابر قطع دسترسی و بازیابی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/headless/troubleshooting/">عیب‌یابی</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group" open>
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>پیکربندی پیشرفته</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/">نمای کلی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/xray/">sing-box در برابر Xray</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/chains/">زنجیره‌های پروکسی و پیکربندی‌های سفارشی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/presets/">پیش‌تنظیم‌های ضدسانسور</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/warp/">Cloudflare WARP</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/dns_tunnels/" aria-current="page">تونل‌های DNS</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/vpn_profiles/">OpenVPN، OpenConnect و Tailscale</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/windows_tun_mode/">محافظت از نشت DNS در Windows</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/kill_switch/">کیل‌سوییچ (Kill Switch)</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/deeplinks/">لینک‌های عمیق</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/api/">Throne API و thronectl</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>مرجع</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/fa/reference/">نمای کلی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/reference/protocols/">پروتکل‌ها و قالب‌های واردکردن</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/reference/shortcuts/">میانبرهای صفحه‌کلید و سینی سیستم</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/reference/files/">خط فرمان، فایل‌ها و گزارش‌ها</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/reference/privacy/">حریم خصوصی و درخواست‌های شبکه</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/reference/glossary/">واژه‌نامه</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>پشتیبانی</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/fa/help/">نمای کلی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/help/faq/">پرسش‌های متداول</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/help/troubleshooting/">عیب‌یابی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/help/bug_reports/">گزارش باگ</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/help/migrating/">مهاجرت از Nekoray / NekoBox</a></li>
+        
+        
+      </ul>
+    </details>
+    
+
+  </nav>
+</aside>
+  <main id="main" class="docs-main">
+    <article>
+      <h1 class="docs-title">تونل‌های DNS</h1>
+      <p class="docs-lede">در شبکه‌هایی که فقط DNS از آن‌ها عبور می‌کند، از راه پرس‌وجوهای DNS به سرور خود برسید: نمایه‌های DNSTT، VayDNS، MasterDNS و Xray XDNS.</p>
+      <div class="prose">
+        <p>تونل DNS ترافیک شما را درون پرس‌وجوهای DNS حمل می‌کند، بنابراین در شبکه‌هایی کار می‌کند که همه‌چیز جز DNS را مسدود می‌کنند. این تونل بسیار کندتر از یک نمایهٔ معمولی است و اولین اتصال مدتی طول می‌کشد. فقط وقتی از آن استفاده کنید که نمایه‌های دیگرتان وصل نمی‌شوند.</p>
+<h2 id="how-it-works">تونل DNS چگونه کار می‌کند</h2>
+<p>Throne به سرور تونل وصل نمی‌شود. پرس‌وجوهای DNS را برای نام‌هایی زیر دامنهٔ تونل، برای مثال <code>t.example.com</code>، به ریزالورها می‌فرستد: سرورهای DNS شبکهٔ شما یا سرورهای عمومی مثل <code>8.8.8.8</code>. این دامنه به سرور تونل واگذار (delegate) شده است، بنابراین ریزالورها پرس‌وجوها را به آن می‌رسانند و سرور در پاسخ‌های DNS جواب می‌دهد.</p>
+<p>پس نمایهٔ تونل DNS نشانی و درگاه سرور ندارد. به دامنهٔ تونل، کلید سرور و <a href="#resolvers">ریزالورهایی</a> نیاز دارد که پرس‌وجوها را منتقل کنند. سرعت بیشتر به ریزالورها بستگی دارد: بسیاری از آن‌ها اندازه یا تعداد پرس‌وجوها را محدود می‌کنند یا پرس‌وجوهای غیرعادی را دور می‌اندازند.</p>
+<table>
+<thead>
+<tr>
+<th>نوع</th>
+<th><code>نوع</code> (Type)</th>
+<th>سرور</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="#dnstt">DNSTT و VayDNS</a></td>
+<td><code>DNSTT / VayDNS</code></td>
+<td><code>dnstt-server</code> یا <code>vaydns-server</code></td>
+</tr>
+<tr>
+<td><a href="#masterdns">MasterDNS</a></td>
+<td><code>MasterDNS</code></td>
+<td>MasterDnsVPN یا StormDNS</td>
+</tr>
+<tr>
+<td><a href="#xdns">XDNS</a></td>
+<td><code>VLESS (Xray)</code> با شبکهٔ <code>kcp</code> و ماسک <code>xdns</code></td>
+<td>Xray با mKCP و ماسک <code>xdns</code></td>
+</tr>
+</tbody>
+</table>
+<p>نمایه را با <code>برنامه</code> (Program) ← <code>نمایه جدید</code> (New profile) (<code>Ctrl+N</code>) بسازید، یا یک لینک یا پیکربندی را <a href="#import">وارد کنید</a>. برای Throne در Android، <a href="#android">Android</a> را ببینید.</p>
+<h2 id="dnstt">DNSTT و VayDNS</h2>
+<p><code>حالت</code> (Mode) پروتکل را انتخاب می‌کند: <code>DNSTT</code> (پیش‌فرض) برای <code>dnstt-server</code> یا <code>vaydns-server -dnstt-compat</code>، <code>VayDNS</code> برای <code>vaydns-server</code>، و <code>VayDNS (سازگار با dnstt)</code> (VayDNS (dnstt-compatible)) برای همان سرورهای <code>DNSTT</code>، همراه با <code>بیشینهٔ طول QNAME</code> (Max QNAME Length).</p>
+<table>
+<thead>
+<tr>
+<th>فیلد</th>
+<th>کارکرد</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>دامنه</code> (Domain)</td>
+<td>دامنهٔ تونل که به سرور واگذار شده است، برای مثال <code>t.example.com</code>.</td>
+</tr>
+<tr>
+<td><code>کلید عمومی</code> (Public Key)</td>
+<td>کلید عمومی سرور: 64 رقم شانزده‌شانزدهی (hex).</td>
+</tr>
+<tr>
+<td><code>نوع رکورد</code> (Record Type)، <code>اندازهٔ شناسهٔ کلاینت</code> (Client ID Size)</td>
+<td>فقط <code>VayDNS</code>. باید با سرور یکی باشند (برای اندازهٔ شناسه، <code>-clientid-size</code>).</td>
+</tr>
+<tr>
+<td><code>بیشینهٔ طول QNAME</code></td>
+<td>هر دو حالت VayDNS. پیش‌فرض 101 (<code>VayDNS</code>) یا 253 (سازگار با dnstt)، حداکثر 253. نام‌های بلندتر دادهٔ بیشتری حمل می‌کنند، اما برخی ریزالورها آن‌ها را دور می‌اندازند.</td>
+</tr>
+<tr>
+<td><code>بار مفید هر پرس‌وجو</code> (Payload per Query)</td>
+<td>دادهٔ تونلی که هر پرس‌وجو حمل می‌کند. باید دست‌کم 25 بایت باشد: دامنهٔ کوتاه‌تر یا <code>بیشینهٔ طول QNAME</code> بزرگ‌تری به کار ببرید.</td>
+</tr>
+</tbody>
+</table>
+<p>در گروه <code>پیشرفته</code> (Advanced) (فقط در حالت پیشرفته، <a href="/fa/get_started/configuration/#interface-mode">حالت ساده و پیشرفته</a> را ببینید)، <code>مهلت بیکاری</code> (Idle Timeout) را با سرور هماهنگ نگه دارید؛ <code>فاصلهٔ keepalive</code> (Keepalive Interval) باید کوتاه‌تر از آن باشد.</p>
+<p><code>بک‌اند</code> (Backend) ← <code>نوع</code> (Type) مشخص می‌کند که روی سرور چه چیزی پشت تونل اجرا می‌شود:</p>
+<ul>
+<li><code>هیچ‌کدام (فقط زنجیره)</code> (None (chain only)) (پیش‌فرض): سرور تونل را به یک سرور پروکسی دیگر می‌رساند. یک <a href="/fa/advanced/chains/#create-chain">زنجیره</a> بسازید که نمایهٔ تونل DNS در بالا و نمایهٔ آن سرور زیر آن باشد.</li>
+<li><code>SOCKS5</code> یا <code>Shadowsocks</code>: اطلاعات ورود آن را وارد کنید. برای حمل UDP، <code>UDP روی TCP</code> (UDP over TCP) را تیک بزنید.</li>
+<li><code>SSH</code>: <code>کاربر</code> (User) و <code>کلمه عبور</code> (Password) یا <code>کلید خصوصی</code> (Private Key) را مانند نمایهٔ <code>SSH</code> وارد کنید.</li>
+</ul>
+<h2 id="masterdns">MasterDNS</h2>
+<p>نمایه‌های <code>MasterDNS</code> با سرورهای MasterDnsVPN و StormDNS کار می‌کنند و فقط TCP حمل می‌کنند. این فیلدها باید با پیکربندی سرور یکی باشند:</p>
+<table>
+<thead>
+<tr>
+<th>فیلد</th>
+<th>تنظیم سرور</th>
+<th>چه وارد کنید</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>دامنه‌ها</code> (Domains)</td>
+<td><code>DOMAIN</code></td>
+<td>هر خط یکی، همه به همان سرور.</td>
+</tr>
+<tr>
+<td><code>حالت</code> (Mode)</td>
+<td><code>PROTOCOL_TYPE</code></td>
+<td><code>SOCKS5</code> (پیش‌فرض): سرور به‌جای شما به وب‌سایت وصل می‌شود. <code>TCP / زنجیرهٔ سفارشی</code> (TCP / custom chain): سرور هر اتصال را به مقصد ارسال خودش می‌فرستد، بنابراین نمایهٔ آن مقصد را زیر این نمایه زنجیر کنید.</td>
+</tr>
+<tr>
+<td><code>رمزگذاری</code> (Encryption)</td>
+<td><code>DATA_ENCRYPTION_METHOD</code></td>
+<td><code>none</code> (0)، <code>xor</code> (1، پیش‌فرض)، <code>chacha20</code> (2)، <code>aes-128-gcm</code> (3)، <code>aes-192-gcm</code> (4) یا <code>aes-256-gcm</code> (5).</td>
+</tr>
+<tr>
+<td><code>کلید</code> (Key)</td>
+<td><code>ENCRYPTION_KEY_FILE</code></td>
+<td>متن درون آن پرونده. با <code>none</code> لازم نیست.</td>
+</tr>
+</tbody>
+</table>
+<aside class="callout callout--warning">
+  <span class="callout-label">هشدار</span>
+  <p>MasterDNS فقط پرس‌وجوها را رمز می‌کند. پاسخ‌های سرور هرگز رمز یا احراز اصالت نمی‌شوند؛ <code>xor</code> فقط مبهم‌سازی می‌کند و <code>chacha20</code> احراز اصالت ندارد. فقط ترافیک رمزشده را از تونل بفرستید، برای مثال وب‌سایت‌های HTTPS، یا یک پروکسی رمزشده را زیر نمایهٔ MasterDNS زنجیر کنید.</p>
+
+</aside>
+<p>در گروه <code>انتقال داده</code> (Transfer)، <code>تکرار ارسال</code> (Duplication) (پیش‌فرض 3، حداکثر 10) هر بسته را از راه همین تعداد جفت ریزالور و دامنه می‌فرستد. سرور ممکن است فشرده‌سازی را نپذیرد. <code>پاسخ‌های کدگذاری‌شده با Base64</code> (Base64-encoded replies) به ریزالورهایی کمک می‌کند که رکوردهای TXT دودویی را خراب می‌کنند، اما یک‌چهارم دادهٔ کمتری حمل می‌کند.</p>
+<p>پیش از شروع نشست، Throne همهٔ جفت‌های دامنه و ریزالور را تست می‌کند تا بفهمد یک پرس‌وجو و یک پاسخ چه مقدار داده می‌توانند حمل کنند. ریزالورهایی که کمتر از <code>کمینهٔ بارگذاری</code> (Min Upload) یا <code>کمینهٔ بارگیری</code> (Min Download) در گروه <code>MTU</code> (38 و 200 بایت) باشند کنار گذاشته می‌شوند. اگر هیچ‌کدام از تست نگذرد، Throne تست را هر 5 ثانیه تکرار می‌کند.</p>
+<h2 id="xdns">XDNS</h2>
+<p>XDNS همان ترابرد mKCP در Xray با یک ماسک <code>xdns</code> در Finalmask است: Xray بسته‌های mKCP را به‌صورت پرس‌وجوهای DNS از راه ریزالورها می‌فرستد. روی سرور باید Xray با یک ورودی mKCP و یک ماسک <code>xdns</code> برای همان دامنه اجرا شود.</p>
+<p>ساده‌ترین راه، وارد کردن است: یک لینک <code>vless://</code> با <code>type=kcp</code> و ماسک در <code>fm</code>، پیکربندی JSON سرور در Xray، یا یک لینک Throne. لینک‌های <code>vless://</code> با <code>type=kcp</code> همیشه نمایهٔ <code>VLESS (Xray)</code> می‌شوند، هر چه <a href="/fa/advanced/xray/#vless-preference">انتخاب هسته برای لینک‌های VLESS</a> باشد.</p>
+<p>برای راه‌اندازی دستی:</p>
+<ol>
+<li>
+<p><code>برنامه</code> (Program) ← <code>نمایه جدید</code> (New profile) را باز کنید، <code>نوع</code> (Type) را <code>VLESS (Xray)</code> بگذارید و تنظیمات VLESS سرور را وارد کنید.</p>
+</li>
+<li>
+<p><code>شبکه</code> (Network) را <code>kcp</code> بگذارید.</p>
+</li>
+<li>
+<p>روی <code>Finalmask</code> کلیک کنید و یک ماسک <code>xdns</code> با دامنهٔ تونل و، در صورت تمایل، ریزالورها به فهرست <code>udp</code> اضافه کنید:</p>
+<pre><code class="language-json hljs">{
+  &quot;udp&quot;: [
+    {
+      &quot;type&quot;: &quot;xdns&quot;,
+      &quot;settings&quot;: {
+        &quot;domains&quot;: [{ &quot;names&quot;: [&quot;t.example.com&quot;] }],
+        &quot;resolvers&quot;: [{ &quot;addrs&quot;: [&quot;udp://8.8.8.8:53&quot;] }]
+      }
+    }
+  ]
+}
+</code></pre>
+</li>
+<li>
+<p>در صورت تمایل، ریزالورها را در ردیف <code>ریزالورها</code> (Resolvers) وارد کنید. این ریزالورها جای ریزالورهای ماسک را می‌گیرند.</p>
+</li>
+<li>
+<p>روی <code>تایید</code> (OK) کلیک کنید.</p>
+</li>
+</ol>
+<p>ماسک <code>xdns</code> باید آخرین ماسک در <code>udp</code> باشد و دست‌کم یک دامنه داشته باشد. اگر نه در ماسک و نه در ردیف <code>ریزالورها</code> ریزالوری نباشد، Xray نمی‌تواند وصل شود. یک ریزالور DNS-over-HTTPS (<code>https://…</code>) در ماسک به <code>tlsConfig</code> با <code>serverName</code> نیاز دارد، برای مثال <code>&quot;tlsConfig&quot;: {&quot;serverName&quot;: &quot;dns.google&quot;}</code>.</p>
+<p>برای استفاده از مقدارهای پیش‌فرض Xray، فیلدهای mKCP، مانند <code>MTU</code> و <code>TTI</code>، را خالی بگذارید. وقتی <code>چندگانه‌سازی</code> (Multiplex) روی <code>نگه داری مقدار پیشفرض</code> (Keep Default) است، Throne برای نمایه‌های XDNS، mux را روشن می‌کند؛ بدون mux، هر اتصال نشست mKCP جداگانه‌ای به همهٔ ریزالورها باز می‌کرد.</p>
+<h2 id="resolvers">ریزالورها</h2>
+<p>هر نمایهٔ تونل DNS یک کادر ریزالور دارد (گروه <code>ریزالورها</code> (Resolvers) برای DNSTT و MasterDNS، و ردیف <code>ریزالورها</code> برای XDNS)، در هر خط یک ریزالور. خط‌هایی که با <code>#</code> شروع می‌شوند توضیح‌اند. <code>فهرست IP</code> (IP list) نشانی‌های یک فهرست از <code>IP Scanner</code> را پس از خط‌های نوشته‌شده اضافه می‌کند، برای مثال نتایج یک <a href="#find-resolvers">اسکن ریزالور</a>.</p>
+<table>
+<thead>
+<tr>
+<th>خط</th>
+<th>DNSTT / VayDNS</th>
+<th>MasterDNS</th>
+<th>XDNS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>system</code>: سرورهای DNS سیستم شما</td>
+<td>بله</td>
+<td>بله</td>
+<td>خیر</td>
+</tr>
+<tr>
+<td>یک نشانی IP، در صورت نیاز با درگاه: <code>8.8.8.8</code>، <code>1.1.1.1:53</code>، <code>[2001:db8::1]:53</code></td>
+<td>بله</td>
+<td>بله</td>
+<td>بله</td>
+</tr>
+<tr>
+<td>یک بازه مانند <code>192.0.2.0/24</code></td>
+<td>تا 256 نشانی (<code>/24</code> یا بلندتر)</td>
+<td>تا 65536 نشانی (<code>/16</code> یا بلندتر)</td>
+<td>فقط از یک فهرست IP، تا 256 نشانی</td>
+</tr>
+<tr>
+<td><code>udp://</code> یا <code>tcp://</code> و یک نشانی</td>
+<td>بله</td>
+<td>خیر</td>
+<td>بله</td>
+</tr>
+<tr>
+<td><code>tls://</code> (DNS over TLS)</td>
+<td>بله</td>
+<td>خیر</td>
+<td>خیر</td>
+</tr>
+<tr>
+<td><code>https://</code> (DNS over HTTPS)، در صورت نیاز با مسیر</td>
+<td>بله</td>
+<td>خیر</td>
+<td>بله</td>
+</tr>
+</tbody>
+</table>
+<p>درگاه پیش‌فرض 53 است؛ DNSTT برای <code>tls://</code> درگاه 853 و برای <code>https://</code> درگاه 443 را به کار می‌برد. Throne حداکثر 4096 ریزالور برای DNSTT و 256 ریزالور برای XDNS به کار می‌برد. اگر هیچ ریزالوری نباشد، DNSTT و MasterDNS از <code>system</code> استفاده می‌کنند و XDNS ریزالورهای ماسک <code>xdns</code> را نگه می‌دارد.</p>
+<p><code>راهبرد</code> (Strategy) تعیین می‌کند پرس‌وجوها به کجا بروند:</p>
+<ul>
+<li>DNSTT و VayDNS: <code>round_robin</code> (پیش‌فرض) به نوبت از هر ریزالور استفاده می‌کند، <code>failover</code> از اولین ریزالوری که کار می‌کند، و <code>fanout</code> هم‌زمان از همهٔ ریزالورهایی که کار می‌کنند.</li>
+<li>MasterDNS: <code>least_loss</code> (پیش‌فرض) از ریزالوری استفاده می‌کند که کمترین اتلاف را دارد. راهبردهای دیگر به نوبت، تصادفی، بر اساس تأخیر یا بر اساس ترکیبی از اتلاف و تأخیر انتخاب می‌کنند.</li>
+<li>XDNS: Xray به نوبت از همهٔ ریزالورها استفاده می‌کند.</li>
+</ul>
+<h2 id="find-resolvers">یافتن ریزالورهای کارآمد</h2>
+<p>بسیاری از ریزالورها پرس‌وجوهای تونل را منتقل نمی‌کنند. اسکن ریزالور نشانی‌ها را به‌عنوان ریزالورهای نمایهٔ شما امتحان می‌کند و آن‌هایی را که کار می‌کنند نگه می‌دارد:</p>
+<ol>
+<li>نمایه را ذخیره کنید و دوباره باز کنید. تا وقتی نمایه ذخیره نشده باشد، <code>یافتن ریزالور…</code> (Find resolvers…) غیرفعال می‌ماند.</li>
+<li>روی <code>یافتن ریزالور…</code> کنار <code>فهرست IP</code> (IP list) کلیک کنید. Throne اسکن ریزالور DNS این نمایه را در <code>IP Scanner</code> باز می‌کند.</li>
+<li>در زبانهٔ <code>Targets</code>، نشانی‌هایی را که باید امتحان شوند در <code>Base IP list</code> انتخاب کنید، برای مثال <code>Iran DNS resolvers</code> یا <code>Russia DNS resolvers</code>، و اسکن را آغاز کنید.</li>
+<li>در زبانهٔ <code>Results</code>، روی <code>استفاده به‌عنوان ریزالور</code> (Use as resolvers) کلیک کنید. نتایج، <code>فهرست IP</code> نمایه می‌شوند. خط‌هایی که خودتان نوشته‌اید می‌مانند و اول به کار می‌روند.</li>
+</ol>
+<p><a href="/fa/guides/testing/#dns-scan">اسکن ریزالورهای DNS</a> را ببینید.</p>
+<h2 id="import">وارد کردن و اشتراک‌گذاری</h2>
+<p>Throne این‌ها را از کلیپ‌بورد، پرونده‌ها، کدهای QR و اشتراک‌ها وارد می‌کند:</p>
+<table>
+<thead>
+<tr>
+<th>قالب</th>
+<th>نتیجه</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>لینک‌های <code>dnst://</code></td>
+<td>یک نمایهٔ <code>DNSTT / VayDNS</code>، یا وقتی نوع تونل در لینک <code>masterdns</code> باشد، یک نمایهٔ <code>MasterDNS</code>.</td>
+</tr>
+<tr>
+<td>لینک‌های <code>slipnet://</code> از SlipNet 16 تا 28</td>
+<td>یک نمایهٔ <code>DNSTT / VayDNS</code>. نمایه‌های NoizDNS به DNSTT ساده تبدیل می‌شوند، بدون روش دور زدن DPI در NoizDNS. لینک‌های رمزشدهٔ SlipNet خوانده نمی‌شوند.</td>
+</tr>
+<tr>
+<td>لینک‌های <code>masterdns://</code> و <code>stormdns://</code></td>
+<td>یک نمایهٔ <code>MasterDNS</code>.</td>
+</tr>
+<tr>
+<td>JSON در sing-box با خروجی‌های <code>dnstt</code> یا <code>masterdns</code></td>
+<td>نمایه‌های <code>DNSTT / VayDNS</code> و <code>MasterDNS</code>.</td>
+</tr>
+<tr>
+<td>لینک‌های <code>vless://</code> با <code>type=kcp</code>، JSON در Xray با شبکهٔ <code>kcp</code></td>
+<td>نمایه‌های <code>VLESS (Xray)</code>؛ با ماسک <code>xdns</code>، نمایهٔ XDNS.</td>
+</tr>
+<tr>
+<td>لینک‌های <code>throne://add/</code></td>
+<td>هر کدام از این‌ها، با همهٔ تنظیمات.</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>یک لینک <code>dnst://</code> سرویس پشت تونل را نام می‌برد: <code>socks</code>، <code>ssh</code>، <code>shadowsocks</code>، یا <code>custom</code> برای <code>هیچ‌کدام (فقط زنجیره)</code>. MasterDNS فقط <code>socks</code> و <code>custom</code> را می‌پذیرد.</li>
+<li>اگر لینک یک پروکسی هم برای اجرا روی تونل داشته باشد، Throne دربارهٔ آن هشدار می‌دهد. آن پروکسی را جداگانه وارد کنید و زیر نمایهٔ تونل DNS زنجیر کنید.</li>
+</ul>
+<p>برای اشتراک‌گذاری یک نمایه، در منوی راست‌کلیک آن <code>اشتراک گذاری</code> (Share) را انتخاب کنید. نمایه‌های DNSTT و MasterDNS یک لینک <code>dnst://</code> و نمایه‌های XDNS یک لینک <code>vless://</code> می‌دهند. این لینک‌ها ریزالورها و فهرست IP شما را ندارند، و برای MasterDNS فقط دامنهٔ اول را دارند. لینک Throne همهٔ تنظیمات را به‌جز فهرست IP نگه می‌دارد. <a href="/fa/reference/protocols/#share-links">لینک‌های اشتراک‌گذاری</a> را ببینید.</p>
+<h2 id="testing">تست</h2>
+<p>تست‌های URL و تست‌های IP با نمایه‌های تونل DNS کار می‌کنند. اولین درخواست تونل را باز می‌کند و این کار به پرس‌وجوهای کند زیادی نیاز دارد، بنابراین Throne به آن برای DNSTT و XDNS، 30 ثانیه و برای MasterDNS، 90 ثانیه زمان بیشتر می‌دهد؛ زنجیره مجموع آن‌ها را می‌گیرد. تأخیری که نشان داده می‌شود از درخواست دوم به دست می‌آید. <a href="/fa/guides/testing/#url-test">تست URL</a> را ببینید.</p>
+<p>اگر تست ناموفق بود، علت را در زبانهٔ <code>گزارش‌ها</code> (Logs) ببینید، <code>دامنه</code> و <code>کلید عمومی</code> (DNSTT) یا <code>دامنه‌ها</code>، <code>رمزگذاری</code> و <code>کلید</code> (MasterDNS) را با سرور مقایسه کنید، و ریزالورهای دیگر یا یک <a href="#find-resolvers">اسکن ریزالور</a> را امتحان کنید.</p>
+<h2 id="android">Android</h2>
+<p>Throne برای Android همین تونل‌های DNS را دارد و همین لینک‌ها را وارد می‌کند، حتی وقتی در برنامهٔ دیگری روی آن‌ها بزنید. تفاوت‌ها:</p>
+<ul>
+<li>نمایه را با <code>اضافه‌کردن پراکسی جدید</code> (Add profile) ← <code>تنظیمات دستی</code> (Manual settings) ← <code>DNSTT / VayDNS</code> یا <code>MasterDNS</code> بسازید. برای XDNS، <code>VLESS (Xray)</code> را انتخاب کنید، <code>شبکه</code> (Network) را <code>mKCP</code> بگذارید و ماسک <code>xdns</code> را در <code>Finalmask</code> اضافه کنید.</li>
+<li>فهرست IP و اسکن ریزالور وجود ندارد: فقط ریزالورهایی که در نمایه نوشته شده‌اند به کار می‌روند.</li>
+<li>تست‌های URL برای اولین درخواست زمان بیشتری نمی‌گیرند.</li>
+</ul>
+
+      </div>
+      
+      
+      
+      <footer class="docs-article-footer">
+        
+        <a class="edit-link" href="https://github.com/throneproj/throneproj.github.io/edit/main/content/advanced/dns_tunnels.fa.md" target="_blank" rel="noopener noreferrer">
+        
+          <svg class="ic" aria-hidden="true"><use href="#i-pencil"/></svg>
+          ویرایش این صفحه در GitHub
+        </a>
+        
+
+<nav class="prev-next" aria-label="مسیریابی صفحه">
+  
+  <a class="prevnext-prev" href="https://throneproj.github.io/fa/advanced/warp/">
+    <span class="prevnext-dir">قبلی</span>
+    Cloudflare WARP
+  </a>
+  
+  
+  <a class="prevnext-next" href="https://throneproj.github.io/fa/advanced/vpn_profiles/">
+    <span class="prevnext-dir">بعدی</span>
+    OpenVPN، OpenConnect و Tailscale
+  </a>
+  
+</nav>
+
+      </footer>
+    </article>
+  </main>
+  
+<nav class="docs-toc" aria-label="در این صفحه">
+  <p class="docs-toc-title">
+    <svg class="ic" aria-hidden="true"><use href="#i-list"/></svg>
+    در این صفحه
+  </p>
+  <ul><li><a href="#how-it-works">تونل DNS چگونه کار می‌کند</a></li><li><a href="#dnstt">DNSTT و VayDNS</a></li><li><a href="#masterdns">MasterDNS</a></li><li><a href="#xdns">XDNS</a></li><li><a href="#resolvers">ریزالورها</a></li><li><a href="#find-resolvers">یافتن ریزالورهای کارآمد</a></li><li><a href="#import">وارد کردن و اشتراک‌گذاری</a></li><li><a href="#testing">تست</a></li><li><a href="#android">Android</a></li></ul>
+</nav>
+
+    </main>
+  </div>
+
+  
+<script src="https://throneproj.github.io/assets/js/highlight.min.js" defer></script>
+<script>
+  window.NOIR_BASE = "https://throneproj.github.io";
+  
+  window.NOIR_I18N = {
+    copy: "کپی",
+    copied: "کپی شد",
+    copyManual: "کلید Ctrl C را فشار دهید",
+    noResults: "نتیجه‌ای یافت نشد برای",
+    theme: "تم",
+    themeAuto: "خودکار",
+    themeLight: "روشن",
+    themeDark: "تاریک"
+  };
+</script>
+<script src="https://throneproj.github.io/js/theme.js" defer></script>
+<script src="https://throneproj.github.io/js/nav.js" defer></script>
+<script src="https://throneproj.github.io/js/code.js" defer></script>
+<script src="https://throneproj.github.io/js/toc.js" defer></script>
+<script src="https://throneproj.github.io/js/reveal.js" defer></script>
+<script src="https://throneproj.github.io/js/mermaid.js" defer></script>
+<script src="https://throneproj.github.io/js/search.js" defer></script>
+
+</body>
+</html>

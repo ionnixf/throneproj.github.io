@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Import and set up OpenVPN, OpenConnect and Tailscale profiles, sign in with one-time codes, and run a work VPN next to your proxy.">
+  <title>OpenVPN, OpenConnect &amp; Tailscale - Throne</title>
+
+  
+  <meta name="theme-color" content="#0b0b0c" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#fbfbfa" media="(prefers-color-scheme: light)">
+
+  
+  <script>
+    (function () {
+      var r = document.documentElement;
+      r.classList.add("js");
+      try {
+        var t = localStorage.getItem("throne-theme");
+        if (t === "light" || t === "dark") r.setAttribute("data-theme", t);
+      } catch (e) {}
+    })();
+  </script>
+
+  <meta name="google-site-verification" content="Zzz4doeS45o-EhP56mm1yoyfHSEEZJRJJt0tfj7vPGM" />
+  <script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+      m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+      m[i].l=1*new Date();
+      for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+      k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=111847353', 'ym');
+
+    
+    ym(111847353, 'init', {ssr:true, webvisor:false, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/111847353" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+
+  <meta property="og:title" content="OpenVPN, OpenConnect &amp; Tailscale">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://throneproj.github.io/advanced/vpn_profiles/">
+  <meta property="og:description" content="Import and set up OpenVPN, OpenConnect and Tailscale profiles, sign in with one-time codes, and run a work VPN next to your proxy.">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="OpenVPN, OpenConnect &amp; Tailscale">
+  <meta name="twitter:description" content="Import and set up OpenVPN, OpenConnect and Tailscale profiles, sign in with one-time codes, and run a work VPN next to your proxy.">
+  <link rel="canonical" href="https://throneproj.github.io/advanced/vpn_profiles/">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"OpenVPN, OpenConnect \u0026 Tailscale","url":"https://throneproj.github.io/advanced/vpn_profiles/","description":"Import and set up OpenVPN, OpenConnect and Tailscale profiles, sign in with one-time codes, and run a work VPN next to your proxy."}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Throne","item":"https://throneproj.github.io/"},{"@type":"ListItem","position":2,"name":"Advanced Configuration","item":"https://throneproj.github.io/advanced/"},{"@type":"ListItem","position":3,"name":"OpenVPN, OpenConnect \u0026 Tailscale"}]}</script>
+  <link rel="alternate" hreflang="en" href="https://throneproj.github.io/advanced/vpn_profiles/">
+<link rel="alternate" hreflang="fa" href="https://throneproj.github.io/fa/advanced/vpn_profiles/">
+<link rel="alternate" hreflang="ru" href="https://throneproj.github.io/ru/advanced/vpn_profiles/">
+<link rel="alternate" hreflang="zh" href="https://throneproj.github.io/zh/advanced/vpn_profiles/">
+<link rel="alternate" hreflang="x-default" href="https://throneproj.github.io/advanced/vpn_profiles/">
+
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon.ico" sizes="any">
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon-96x96.png" type="image/png" sizes="96x96">
+  <link rel="apple-touch-icon" href="https://throneproj.github.io/logos/apple-touch-icon.png">
+  <link rel="manifest" href="https://throneproj.github.io/logos/site.webmanifest">
+
+  <link rel="preload" href="https://throneproj.github.io/fonts/geist-variable-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+  
+  <link rel="stylesheet" href="https://throneproj.github.io/assets/css/highlight/atom-one-dark.min.css">
+  <link rel="stylesheet" href="https://throneproj.github.io/css/style.css">
+  
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  
+<svg xmlns="http://www.w3.org/2000/svg" class="icon-sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 10a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+    <path d="M21 21l-6 -6" />
+  </symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M3 12h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7" />
+  </symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454l0 .008" />
+  </symbol>
+  <symbol id="i-contrast" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M12 17a5 5 0 0 0 0 -10v10" />
+  </symbol>
+  <symbol id="i-chevron-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M6 9l6 6l6 -6" />
+  </symbol>
+  <symbol id="i-menu-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 6l16 0" />
+    <path d="M4 12l16 0" />
+    <path d="M4 18l16 0" />
+  </symbol>
+  <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M18 6l-12 12" />
+    <path d="M6 6l12 12" />
+  </symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 9.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667l0 -8.666" />
+    <path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" />
+  </symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l5 5l10 -10" />
+  </symbol>
+  <symbol id="i-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l14 0" />
+    <path d="M13 18l6 -6" />
+    <path d="M13 6l6 6" />
+  </symbol>
+  <symbol id="i-arrow-up-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M17 7l-10 10" />
+    <path d="M8 7l9 0l0 9" />
+  </symbol>
+  <symbol id="i-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l14 0" />
+    <path d="M5 12l6 6" />
+    <path d="M5 12l6 -6" />
+  </symbol>
+  <symbol id="i-brand-github" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+  </symbol>
+  <symbol id="i-pencil" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+    <path d="M13.5 6.5l4 4" />
+  </symbol>
+  <symbol id="i-rocket" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 13a8 8 0 0 1 7 7a6 6 0 0 0 3 -5a9 9 0 0 0 6 -8a3 3 0 0 0 -3 -3a9 9 0 0 0 -8 6a6 6 0 0 0 -5 3" />
+    <path d="M7 14a6 6 0 0 0 -3 6a6 6 0 0 0 6 -3" />
+    <path d="M14 9a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+  </symbol>
+  <symbol id="i-terminal-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 9l3 3l-3 3" />
+    <path d="M13 15l3 0" />
+    <path d="M3 6a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2l0 -12" />
+  </symbol>
+  <symbol id="i-lifebuoy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M15 15l3.35 3.35" />
+    <path d="M9 15l-3.35 3.35" />
+    <path d="M5.65 5.65l3.35 3.35" />
+    <path d="M18.35 5.65l-3.35 3.35" />
+  </symbol>
+  <symbol id="i-list" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 6l11 0" />
+    <path d="M9 12l11 0" />
+    <path d="M9 18l11 0" />
+    <path d="M5 6l0 .01" />
+    <path d="M5 12l0 .01" />
+    <path d="M5 18l0 .01" />
+  </symbol>
+  <symbol id="i-code" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 8l-4 4l4 4" />
+    <path d="M17 8l4 4l-4 4" />
+    <path d="M14 4l-4 16" />
+  </symbol>
+  <symbol id="i-rss" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 19a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+    <path d="M4 4a16 16 0 0 1 16 16" />
+    <path d="M4 11a9 9 0 0 1 9 9" />
+  </symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12" />
+    <path d="M16 3v4" />
+    <path d="M8 3v4" />
+    <path d="M4 11h16" />
+    <path d="M11 15h1" />
+    <path d="M12 15v3" />
+  </symbol>
+</svg>
+
+<header class="site-header">
+  <div class="header-inner">
+    <button class="icon-btn hamburger" id="drawerToggle" aria-label="Open navigation" aria-expanded="false" aria-controls="sidebar">
+      <svg class="ic" aria-hidden="true"><use href="#i-menu-2"/></svg>
+    </button>
+
+    <a href="https://throneproj.github.io/" class="header-logo" aria-label="Throne homepage">
+      <img class="logo" src="https://throneproj.github.io/images/throne-logo.png" alt="Throne" width="1817" height="346">
+    </a>
+    <a class="header-version" href="https://github.com/throneproj/Throne/releases/tag/1.4.1" target="_blank" rel="noopener noreferrer">v1.4.1</a>
+
+    <nav class="header-nav" aria-label="Primary">
+      <a href="https://throneproj.github.io/get_started/">Get Started</a>
+      <a href="https://throneproj.github.io/downloads/">Downloads</a>
+    </nav>
+
+    <div class="header-right">
+      <button class="header-btn search-trigger" id="searchTrigger" aria-label="Search documentation">
+        <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+        <span>Search</span>
+        <kbd>Ctrl K</kbd>
+      </button>
+
+      
+      
+      <nav class="lang-switcher" aria-label="Language">
+        
+        <a href="https://throneproj.github.io/advanced/vpn_profiles/" hreflang="en" aria-current="true">EN</a>
+        
+        <a href="https://throneproj.github.io/fa/advanced/vpn_profiles/" hreflang="fa">FA</a>
+        
+        <a href="https://throneproj.github.io/ru/advanced/vpn_profiles/" hreflang="ru">RU</a>
+        
+        <a href="https://throneproj.github.io/zh/advanced/vpn_profiles/" hreflang="zh">ZH</a>
+        
+      </nav>
+      
+
+      <a class="icon-btn" href="https://github.com/throneproj/Throne" target="_blank" rel="noopener noreferrer" aria-label="Throne on GitHub">
+        <svg class="ic" aria-hidden="true"><use href="#i-brand-github"/></svg>
+      </a>
+
+      
+      <button class="icon-btn theme-toggle" id="themeToggle" data-mode="auto" type="button" aria-label="Theme">
+        <svg class="ic ic-auto" aria-hidden="true"><use href="#i-contrast"/></svg>
+        <svg class="ic ic-light" aria-hidden="true"><use href="#i-sun"/></svg>
+        <svg class="ic ic-dark" aria-hidden="true"><use href="#i-moon"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+<div class="search-overlay" id="searchOverlay" role="dialog" aria-modal="true" aria-label="Search documentation" hidden>
+  <div class="search-modal">
+    <div class="search-input-wrap">
+      <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+      <input type="search" id="searchInput" aria-label="Search documentation" placeholder="Search the docs" autocomplete="off" spellcheck="false">
+      <kbd id="searchClose" role="button" tabindex="0">Esc</kbd>
+    </div>
+    <div class="search-results" id="searchResults" role="listbox" aria-label="Search"></div>
+  </div>
+</div>
+<div class="docs-container">
+<div class="drawer-scrim" id="drawerScrim"></div>
+<aside class="docs-sidebar" id="sidebar">
+  <nav class="sidebar-nav" aria-label="Documentation">
+
+    
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Get Started</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/get_started/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/get_started/installation/">Installation</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/get_started/configuration/">Quick Start</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Guides</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/guides/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/subscriptions/">Subscriptions & Groups</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/proxy_modes/">System Proxy, TUN & LAN</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/tun_mode/">TUN Mode</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/routing/">Routing</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/dns/">DNS</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/testing/">Testing & Auto Selector</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/backup/">Backup, Updates & Migration</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/recipes/">Recipes</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Throne for Android</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/android/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/installation/">Installation & Upgrade</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/permissions/">Permissions & Background</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/modes/">VPN & Proxy Modes</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/widgets/">Widgets, Tile & Automation</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/tv/">Android TV</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/troubleshooting/">Troubleshooting</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Headless Throne</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/headless/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/headless/installation/">Installation & Services</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/headless/thronectl/">Managing with thronectl</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/headless/web/">Web UI</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/headless/command_line/">Command Line & Data Directory</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/headless/monitoring/">Health Checks & Logs</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/headless/recovery/">Lockout Protection & Recovery</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/headless/troubleshooting/">Troubleshooting</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group" open>
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Advanced Configuration</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/xray/">sing-box vs Xray</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/chains/">Chains & Custom Configs</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/presets/">Anti-Censorship Presets</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/warp/">Cloudflare WARP</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/dns_tunnels/">DNS Tunnels</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/vpn_profiles/" aria-current="page">OpenVPN, OpenConnect & Tailscale</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/windows_tun_mode/">Windows DNS Leak Protection</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/kill_switch/">Kill Switch</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/deeplinks/">Deep Links</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/api/">Throne API & thronectl</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Reference</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/reference/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/reference/protocols/">Protocols & Import Formats</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/reference/shortcuts/">Keyboard Shortcuts & Tray</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/reference/files/">Command Line, Files & Logs</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/reference/privacy/">Privacy & Network Requests</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/reference/glossary/">Glossary</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Help</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/help/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/help/faq/">FAQ</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/help/troubleshooting/">Troubleshooting</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/help/bug_reports/">Reporting a Bug</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/help/migrating/">Coming from Nekoray / NekoBox</a></li>
+        
+        
+      </ul>
+    </details>
+    
+
+  </nav>
+</aside>
+  <main id="main" class="docs-main">
+    <article>
+      <h1 class="docs-title">OpenVPN, OpenConnect &amp; Tailscale</h1>
+      <p class="docs-lede">Import and set up OpenVPN, OpenConnect and Tailscale profiles, sign in with one-time codes, and run a work VPN next to your proxy.</p>
+      <div class="prose">
+        <p>Throne connects to OpenVPN servers and to Cisco AnyConnect and compatible VPNs (OpenConnect), and joins Tailscale networks. The VPN clients are built in, so you do not need to install OpenVPN or OpenConnect.</p>
+<h2 id="openvpn">OpenVPN</h2>
+<p>Import a <code>.ovpn</code> file with <code>Program</code> → <code>Add profile from File(s)</code> (<code>Ctrl+O</code>), or drag it onto the main window.</p>
+<ul>
+<li>Only client profiles with <code>dev tun</code> work. TAP profiles and server configs are rejected.</li>
+<li>PKCS#12 bundles are not supported. Export the CA, certificate and key as PEM and paste them into <code>CA Certificate</code>, <code>Client Certificate</code> and <code>Client Key</code>.</li>
+<li>If the file reads the login from a separate file (<code>auth-user-pass</code>), enter <code>Username</code> and <code>Password</code> in the profile.</li>
+<li>Options that Throne cannot use are listed in the log.</li>
+</ul>
+<h2 id="openconnect">OpenConnect</h2>
+<p><code>Flavor</code> selects the server type: empty or <code>anyconnect</code> (Cisco AnyConnect and compatible), <code>gp</code> (Palo Alto GlobalProtect), <code>fortinet</code>, <code>f5</code> (F5 BIG-IP), <code>pulse</code> (Pulse Connect Secure) or <code>nc</code> (Juniper Network Connect).</p>
+<p>Throne imports AnyConnect XML profiles (one profile per server), <code>openconnect</code> command lines such as <code>openconnect --protocol=gp --user=alice vpn.example.com</code>, and config files with a <code>protocol=</code> line, from a file, the clipboard or a subscription.</p>
+<p><code>Auth Group</code> preselects a group, realm or gateway. Some GlobalProtect, F5 and Fortinet portals need the path part of their URL in <code>Server Path</code>.</p>
+<h2 id="vpn-options">Options for both VPN types</h2>
+<ul>
+<li><strong><code>Only route advertised network</code></strong> (on by default): only traffic to the networks that the VPN server advertises enters the tunnel; other traffic that reaches the profile is blocked. Turn it off for a VPN that should carry all traffic. An <code>.ovpn</code> file with <code>redirect-gateway</code> turns it off on import.</li>
+<li><strong><code>Tunnel DNS</code></strong>: <code>Prefer</code> (default) resolves only the names that the server claims (its split-DNS domains) through the VPN's DNS servers. <code>Strict</code> also sends every remote DNS query there, so names they cannot answer fail. <code>None</code> ignores them.</li>
+</ul>
+<h2 id="sign-in">Signing in</h2>
+<p>Throne signs in with the saved <code>Username</code> and <code>Password</code>. When the server asks for more, a <code>VPN Authentication</code> window opens:</p>
+<ul>
+<li><strong>A question or form</strong>, such as a second password: fill it in and click <code>Submit</code>.</li>
+<li><strong>A sign-in page:</strong> click <code>Open in Browser</code>, sign in there, then close the window.</li>
+<li><strong>Single sign-on that works only inside a browser</strong> is not supported yet. Use a username and password, or for OpenConnect a session <code>Cookie</code> in the profile's <code>Advanced</code> settings.</li>
+</ul>
+<p>If the server rejects the saved login, Throne asks for one for this session only. The <code>Runtime Stats</code> tab (Advanced mode only, see <a href="/get_started/configuration/#interface-mode">Simple and Advanced mode</a>) shows the state of each VPN connection.</p>
+<h2 id="otp-manager">OTP Manager</h2>
+<p>Many work VPNs ask for a one-time code from an authenticator app. Throne has its own: <code>Tools</code> → <code>OTP Manager</code> (Advanced mode only).</p>
+<ul>
+<li><strong>Add an entry</strong> with <code>Import</code> → <code>From link or text...</code> (<code>otpauth://</code> links, Google Authenticator's <code>otpauth-migration://</code> export, JSON or a Base32 secret), <code>Add manually...</code>, <code>From clipboard</code> or <code>From QR image file...</code>. <code>Scan QR Code</code> finds a QR code on your screen.</li>
+<li><strong>Copy a code</strong> by clicking its entry, or from <code>OTP Codes</code> in the tray menu.</li>
+<li><code>Delete</code> removes an entry for good.</li>
+</ul>
+<p>OTP entries are part of <a href="/guides/backup/#backup-restore">backups</a> (<code>OTP profiles</code>), so keep backup files private.</p>
+<h3 id="bind-otp">Use a code with a VPN profile</h3>
+<ol>
+<li>Open the OpenVPN or OpenConnect profile and choose the entry in <code>OTP</code>.</li>
+<li>If the server expects the code as part of the password, put <code>{otp}</code> where the code goes, such as <code>MyPassword{otp}</code>. For OpenConnect, <code>{otp}</code> also works in the software token and form fields.</li>
+<li>Click <code>OK</code>.</li>
+</ol>
+<p>Throne then fills in a fresh code on every connect and answers the server's code prompts by itself. For an OpenVPN static challenge, enter its text in <code>Static Challenge</code>.</p>
+<h2 id="split-tunnel">Split tunnel: a work VPN next to your proxy</h2>
+<p>A routing profile can start OpenVPN or OpenConnect profiles next to the profile you run. Traffic to the networks that the VPN advertises goes through the VPN; everything else follows the routing profile.</p>
+<ol>
+<li>Open <code>Routing</code> → <code>Routing Settings</code> → <code>Route</code>, select the routing profile you use and click <code>Edit</code>.</li>
+<li>On the <code>Endpoints</code> tab (Advanced mode only), choose the VPN profile and click <code>Add</code>, then <code>OK</code>. The tab appears once you have an OpenVPN or OpenConnect profile.</li>
+<li>Make sure this routing profile is active, then start your normal profile. The VPN starts with it.</li>
+</ol>
+<p>Each endpoint adds a <code>… route prefer</code> rule to the <code>Advanced</code> tab. You can only move it: rules above it are checked first.</p>
+<ul>
+<li>A profile used as an endpoint cannot also be the profile you start, or a hop of it.</li>
+<li>An endpoint can be a chain whose exit is an OpenVPN or OpenConnect profile. <code>Allow routing to inner hops</code> also routes to such hops inside the chain.</li>
+<li>Endpoint hops cannot run on Xray, and cannot be Extra Core or full-config profiles.</li>
+</ul>
+<p>For a complete example, see <a href="/guides/recipes/#corporate-vpn">Recipes</a>.</p>
+<h2 id="tailscale">Tailscale</h2>
+<p>A Tailscale profile joins your tailnet, so you can reach your Tailscale devices or use one as an exit node. Create one with <code>Program</code> → <code>New profile</code> → <code>Type</code> <code>Tailscale</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Auth key</code></td>
+<td>The key to log in to your tailnet, from the Tailscale admin console.</td>
+</tr>
+<tr>
+<td><code>Control URL</code></td>
+<td>Change it only for a self-hosted control server.</td>
+</tr>
+<tr>
+<td><code>Hostname</code></td>
+<td>This device&#39;s name in the tailnet.</td>
+</tr>
+<tr>
+<td><code>Exit node</code></td>
+<td>A tailnet device to send internet traffic through. <code>Exit node allow lan access</code> keeps your local network reachable.</td>
+</tr>
+<tr>
+<td><code>Accept routes</code></td>
+<td>Use the subnet routes that other devices advertise.</td>
+</tr>
+<tr>
+<td><code>Advertise exit node</code>, <code>Advertise routes</code></td>
+<td>Offer this computer as an exit node, or offer subnets (comma-separated).</td>
+</tr>
+<tr>
+<td><code>Ephemeral</code></td>
+<td>The tailnet removes this device after it goes offline.</td>
+</tr>
+<tr>
+<td><code>State directory</code>, <code>Global DNS</code></td>
+<td>Where the login is stored (<code>$HOME/.tailscale</code>), and whether Tailscale&#39;s DNS also uses the tailnet&#39;s global name servers.</td>
+</tr>
+</tbody>
+</table>
+<p>Tailnet names (under <code>ts.net</code>) are resolved with Tailscale's DNS, other names with your normal DNS settings. URL tests and the auto selector skip Tailscale profiles.</p>
+<h2 id="android">Android</h2>
+<ul>
+<li>OpenVPN and OpenConnect profiles work, with the same import formats, but without OTP, <code>Only route advertised network</code> and <code>Tunnel DNS</code>. They must sign in with the saved username and password. OTP entries from a desktop backup are not restored.</li>
+<li>Routing-profile endpoints (split tunnel) do not run. A routing profile from a desktop backup keeps them, but Android does not start them.</li>
+<li>Tailscale profiles are not supported. On both platforms, the auto selector skips OpenVPN and OpenConnect profiles.</li>
+</ul>
+
+      </div>
+      
+      
+      
+      <footer class="docs-article-footer">
+        
+        <a class="edit-link" href="https://github.com/throneproj/throneproj.github.io/edit/main/content/advanced/vpn_profiles.md" target="_blank" rel="noopener noreferrer">
+        
+          <svg class="ic" aria-hidden="true"><use href="#i-pencil"/></svg>
+          Edit this page on GitHub
+        </a>
+        
+
+<nav class="prev-next" aria-label="Page navigation">
+  
+  <a class="prevnext-prev" href="https://throneproj.github.io/advanced/dns_tunnels/">
+    <span class="prevnext-dir">Previous</span>
+    DNS Tunnels
+  </a>
+  
+  
+  <a class="prevnext-next" href="https://throneproj.github.io/advanced/windows_tun_mode/">
+    <span class="prevnext-dir">Next</span>
+    Windows DNS Leak Protection
+  </a>
+  
+</nav>
+
+      </footer>
+    </article>
+  </main>
+  
+<nav class="docs-toc" aria-label="On this page">
+  <p class="docs-toc-title">
+    <svg class="ic" aria-hidden="true"><use href="#i-list"/></svg>
+    On this page
+  </p>
+  <ul><li><a href="#openvpn">OpenVPN</a></li><li><a href="#openconnect">OpenConnect</a></li><li><a href="#vpn-options">Options for both VPN types</a></li><li><a href="#sign-in">Signing in</a></li><li><a href="#otp-manager">OTP Manager</a><ul><li><a href="#bind-otp">Use a code with a VPN profile</a></li></ul></li><li><a href="#split-tunnel">Split tunnel: a work VPN next to your proxy</a></li><li><a href="#tailscale">Tailscale</a></li><li><a href="#android">Android</a></li></ul>
+</nav>
+
+    </main>
+  </div>
+
+  
+<script src="https://throneproj.github.io/assets/js/highlight.min.js" defer></script>
+<script>
+  window.NOIR_BASE = "https://throneproj.github.io";
+  
+  window.NOIR_I18N = {
+    copy: "Copy",
+    copied: "Copied",
+    copyManual: "Press Ctrl C",
+    noResults: "No results for",
+    theme: "Theme",
+    themeAuto: "auto",
+    themeLight: "light",
+    themeDark: "dark"
+  };
+</script>
+<script src="https://throneproj.github.io/js/theme.js" defer></script>
+<script src="https://throneproj.github.io/js/nav.js" defer></script>
+<script src="https://throneproj.github.io/js/code.js" defer></script>
+<script src="https://throneproj.github.io/js/toc.js" defer></script>
+<script src="https://throneproj.github.io/js/reveal.js" defer></script>
+<script src="https://throneproj.github.io/js/mermaid.js" defer></script>
+<script src="https://throneproj.github.io/js/search.js" defer></script>
+
+</body>
+</html>

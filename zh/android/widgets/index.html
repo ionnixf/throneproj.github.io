@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="通过主屏幕小部件、通知、快捷设置图块、快捷方式以及 Tasker 等自动化应用控制 Throne for Android。">
+  <title>小部件、图块与自动化 - Throne</title>
+
+  
+  <meta name="theme-color" content="#0b0b0c" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#fbfbfa" media="(prefers-color-scheme: light)">
+
+  
+  <script>
+    (function () {
+      var r = document.documentElement;
+      r.classList.add("js");
+      try {
+        var t = localStorage.getItem("throne-theme");
+        if (t === "light" || t === "dark") r.setAttribute("data-theme", t);
+      } catch (e) {}
+    })();
+  </script>
+
+  <meta name="google-site-verification" content="Zzz4doeS45o-EhP56mm1yoyfHSEEZJRJJt0tfj7vPGM" />
+  <script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+      m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+      m[i].l=1*new Date();
+      for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+      k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=111847353', 'ym');
+
+    
+    ym(111847353, 'init', {ssr:true, webvisor:false, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/111847353" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+
+  <meta property="og:title" content="小部件、图块与自动化">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://throneproj.github.io/zh/android/widgets/">
+  <meta property="og:description" content="通过主屏幕小部件、通知、快捷设置图块、快捷方式以及 Tasker 等自动化应用控制 Throne for Android。">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="小部件、图块与自动化">
+  <meta name="twitter:description" content="通过主屏幕小部件、通知、快捷设置图块、快捷方式以及 Tasker 等自动化应用控制 Throne for Android。">
+  <link rel="canonical" href="https://throneproj.github.io/zh/android/widgets/">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"小部件、图块与自动化","url":"https://throneproj.github.io/zh/android/widgets/","description":"通过主屏幕小部件、通知、快捷设置图块、快捷方式以及 Tasker 等自动化应用控制 Throne for Android。"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Throne","item":"https://throneproj.github.io/zh/"},{"@type":"ListItem","position":2,"name":"Throne for Android","item":"https://throneproj.github.io/zh/android/"},{"@type":"ListItem","position":3,"name":"小部件、图块与自动化"}]}</script>
+  <link rel="alternate" hreflang="zh" href="https://throneproj.github.io/zh/android/widgets/">
+<link rel="alternate" hreflang="en" href="https://throneproj.github.io/android/widgets/">
+<link rel="alternate" hreflang="fa" href="https://throneproj.github.io/fa/android/widgets/">
+<link rel="alternate" hreflang="ru" href="https://throneproj.github.io/ru/android/widgets/">
+<link rel="alternate" hreflang="x-default" href="https://throneproj.github.io/android/widgets/">
+
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon.ico" sizes="any">
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon-96x96.png" type="image/png" sizes="96x96">
+  <link rel="apple-touch-icon" href="https://throneproj.github.io/logos/apple-touch-icon.png">
+  <link rel="manifest" href="https://throneproj.github.io/logos/site.webmanifest">
+
+  <link rel="preload" href="https://throneproj.github.io/fonts/geist-variable-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+  
+  <link rel="stylesheet" href="https://throneproj.github.io/assets/css/highlight/atom-one-dark.min.css">
+  <link rel="stylesheet" href="https://throneproj.github.io/css/style.css">
+  
+</head>
+<body>
+  <a class="skip-link" href="#main">跳转到主要内容</a>
+  
+<svg xmlns="http://www.w3.org/2000/svg" class="icon-sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 10a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+    <path d="M21 21l-6 -6" />
+  </symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M3 12h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7" />
+  </symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454l0 .008" />
+  </symbol>
+  <symbol id="i-contrast" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M12 17a5 5 0 0 0 0 -10v10" />
+  </symbol>
+  <symbol id="i-chevron-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M6 9l6 6l6 -6" />
+  </symbol>
+  <symbol id="i-menu-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 6l16 0" />
+    <path d="M4 12l16 0" />
+    <path d="M4 18l16 0" />
+  </symbol>
+  <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M18 6l-12 12" />
+    <path d="M6 6l12 12" />
+  </symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 9.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667l0 -8.666" />
+    <path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" />
+  </symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l5 5l10 -10" />
+  </symbol>
+  <symbol id="i-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l14 0" />
+    <path d="M13 18l6 -6" />
+    <path d="M13 6l6 6" />
+  </symbol>
+  <symbol id="i-arrow-up-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M17 7l-10 10" />
+    <path d="M8 7l9 0l0 9" />
+  </symbol>
+  <symbol id="i-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l14 0" />
+    <path d="M5 12l6 6" />
+    <path d="M5 12l6 -6" />
+  </symbol>
+  <symbol id="i-brand-github" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+  </symbol>
+  <symbol id="i-pencil" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+    <path d="M13.5 6.5l4 4" />
+  </symbol>
+  <symbol id="i-rocket" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 13a8 8 0 0 1 7 7a6 6 0 0 0 3 -5a9 9 0 0 0 6 -8a3 3 0 0 0 -3 -3a9 9 0 0 0 -8 6a6 6 0 0 0 -5 3" />
+    <path d="M7 14a6 6 0 0 0 -3 6a6 6 0 0 0 6 -3" />
+    <path d="M14 9a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+  </symbol>
+  <symbol id="i-terminal-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 9l3 3l-3 3" />
+    <path d="M13 15l3 0" />
+    <path d="M3 6a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2l0 -12" />
+  </symbol>
+  <symbol id="i-lifebuoy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M15 15l3.35 3.35" />
+    <path d="M9 15l-3.35 3.35" />
+    <path d="M5.65 5.65l3.35 3.35" />
+    <path d="M18.35 5.65l-3.35 3.35" />
+  </symbol>
+  <symbol id="i-list" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 6l11 0" />
+    <path d="M9 12l11 0" />
+    <path d="M9 18l11 0" />
+    <path d="M5 6l0 .01" />
+    <path d="M5 12l0 .01" />
+    <path d="M5 18l0 .01" />
+  </symbol>
+  <symbol id="i-code" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 8l-4 4l4 4" />
+    <path d="M17 8l4 4l-4 4" />
+    <path d="M14 4l-4 16" />
+  </symbol>
+  <symbol id="i-rss" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 19a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+    <path d="M4 4a16 16 0 0 1 16 16" />
+    <path d="M4 11a9 9 0 0 1 9 9" />
+  </symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12" />
+    <path d="M16 3v4" />
+    <path d="M8 3v4" />
+    <path d="M4 11h16" />
+    <path d="M11 15h1" />
+    <path d="M12 15v3" />
+  </symbol>
+</svg>
+
+<header class="site-header">
+  <div class="header-inner">
+    <button class="icon-btn hamburger" id="drawerToggle" aria-label="打开导航" aria-expanded="false" aria-controls="sidebar">
+      <svg class="ic" aria-hidden="true"><use href="#i-menu-2"/></svg>
+    </button>
+
+    <a href="https://throneproj.github.io/zh/" class="header-logo" aria-label="Throne 首页">
+      <img class="logo" src="https://throneproj.github.io/images/throne-logo.png" alt="Throne" width="1817" height="346">
+    </a>
+    <a class="header-version" href="https://github.com/throneproj/Throne/releases/tag/1.4.1" target="_blank" rel="noopener noreferrer">v1.4.1</a>
+
+    <nav class="header-nav" aria-label="主导航">
+      <a href="https://throneproj.github.io/zh/get_started/">开始使用</a>
+      <a href="https://throneproj.github.io/zh/downloads/">下载</a>
+    </nav>
+
+    <div class="header-right">
+      <button class="header-btn search-trigger" id="searchTrigger" aria-label="搜索文档">
+        <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+        <span>搜索</span>
+        <kbd>Ctrl K</kbd>
+      </button>
+
+      
+      
+      <nav class="lang-switcher" aria-label="语言">
+        
+        <a href="https://throneproj.github.io/android/widgets/" hreflang="en">EN</a>
+        
+        <a href="https://throneproj.github.io/fa/android/widgets/" hreflang="fa">FA</a>
+        
+        <a href="https://throneproj.github.io/ru/android/widgets/" hreflang="ru">RU</a>
+        
+        <a href="https://throneproj.github.io/zh/android/widgets/" hreflang="zh" aria-current="true">ZH</a>
+        
+      </nav>
+      
+
+      <a class="icon-btn" href="https://github.com/throneproj/Throne" target="_blank" rel="noopener noreferrer" aria-label="Throne 在 GitHub">
+        <svg class="ic" aria-hidden="true"><use href="#i-brand-github"/></svg>
+      </a>
+
+      
+      <button class="icon-btn theme-toggle" id="themeToggle" data-mode="auto" type="button" aria-label="主题">
+        <svg class="ic ic-auto" aria-hidden="true"><use href="#i-contrast"/></svg>
+        <svg class="ic ic-light" aria-hidden="true"><use href="#i-sun"/></svg>
+        <svg class="ic ic-dark" aria-hidden="true"><use href="#i-moon"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+<div class="search-overlay" id="searchOverlay" role="dialog" aria-modal="true" aria-label="搜索文档" hidden>
+  <div class="search-modal">
+    <div class="search-input-wrap">
+      <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+      <input type="search" id="searchInput" aria-label="搜索文档" placeholder="搜索文档" autocomplete="off" spellcheck="false">
+      <kbd id="searchClose" role="button" tabindex="0">Esc</kbd>
+    </div>
+    <div class="search-results" id="searchResults" role="listbox" aria-label="搜索"></div>
+  </div>
+</div>
+<div class="docs-container">
+<div class="drawer-scrim" id="drawerScrim"></div>
+<aside class="docs-sidebar" id="sidebar">
+  <nav class="sidebar-nav" aria-label="文档导航">
+
+    
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>开始使用</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/zh/get_started/">概览</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/get_started/installation/">安装</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/get_started/configuration/">快速入门</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>使用指南</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/zh/guides/">概览</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/guides/subscriptions/">订阅与分组</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/guides/proxy_modes/">系统代理、TUN 与局域网共享</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/guides/tun_mode/">TUN 模式</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/guides/routing/">路由</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/guides/dns/">DNS</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/guides/testing/">测试与自动选择器</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/guides/backup/">备份、更新与迁移</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/guides/recipes/">常用方案</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group" open>
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Throne for Android</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/zh/android/">概览</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/android/installation/">安装与升级</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/android/permissions/">权限与后台运行</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/android/modes/">VPN 与代理模式</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/android/widgets/" aria-current="page">小部件、图块与自动化</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/android/tv/">Android TV</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/android/troubleshooting/">Android 故障排除</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>无界面 Throne</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/zh/headless/">概览</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/headless/installation/">安装与服务</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/headless/thronectl/">使用 thronectl 管理</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/headless/web/">Web 界面</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/headless/command_line/">命令行与数据目录</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/headless/monitoring/">健康检查与日志</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/headless/recovery/">防锁定与恢复</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/headless/troubleshooting/">故障排除</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>进阶配置</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/zh/advanced/">概览</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/advanced/xray/">sing-box 与 Xray</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/advanced/chains/">代理链与自定义配置</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/advanced/presets/">反审查预设</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/advanced/warp/">Cloudflare WARP</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/advanced/dns_tunnels/">DNS 隧道</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/advanced/vpn_profiles/">OpenVPN、OpenConnect 与 Tailscale</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/advanced/windows_tun_mode/">Windows DNS 泄漏防护</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/advanced/kill_switch/">Kill Switch（断网保护）</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/advanced/deeplinks/">深度链接</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/advanced/api/">Throne API 与 thronectl</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>参考</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/zh/reference/">概览</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/reference/protocols/">协议与导入格式</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/reference/shortcuts/">键盘快捷键与托盘</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/reference/files/">命令行、文件与日志</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/reference/privacy/">隐私与网络请求</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/reference/glossary/">术语表</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>帮助</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/zh/help/">概览</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/help/faq/">常见问题</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/help/troubleshooting/">故障排除</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/help/bug_reports/">报告 Bug</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/help/migrating/">从 Nekoray / NekoBox 迁移</a></li>
+        
+        
+      </ul>
+    </details>
+    
+
+  </nav>
+</aside>
+  <main id="main" class="docs-main">
+    <article>
+      <h1 class="docs-title">小部件、图块与自动化</h1>
+      <p class="docs-lede">通过主屏幕小部件、通知、快捷设置图块、快捷方式以及 Tasker 等自动化应用控制 Throne for Android。</p>
+      <div class="prose">
+        <h2 id="widgets">小部件</h2>
+<table>
+<thead>
+<tr>
+<th>小部件</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>开关</code>（Toggle）（1×1）</td>
+<td>显示连接状态；点按它可启动或停止连接。把它调宽后，还会显示配置名称。</td>
+</tr>
+<tr>
+<td><code>状态</code>（Status）（4×1）</td>
+<td>显示配置、所属分组和状态，连接期间则显示代理速度。点按中间部分可启动或停止连接，点按箭头可切换到上一个或下一个配置。</td>
+</tr>
+</tbody>
+</table>
+<p>添加小部件：长按主屏幕上的空白区域，打开启动器的小部件列表，然后将 <code>开关</code> 或 <code>状态</code> 拖到主屏幕上。</p>
+<p>箭头会按配置列表中的顺序，在当前配置所属的分组内移动。Throne 已连接时，箭头会切换连接；已停止时，只会更改所选配置。</p>
+<h2 id="notification">通知</h2>
+<p>Throne 运行时会显示一条通知，其中包含配置名称和当前速度。点按该通知即可打开 Throne。它的选项位于 <code>设置</code>（Settings）→ <code>外观</code>（Appearance）：<code>在通知中显示组名</code>（Show group name in notification）、<code>显示直连速度</code>（Show direct speed）（默认开启）和 <code>通知按钮</code>（Notification buttons）。</p>
+<p>最多可以选择三个按钮。默认按钮为 <code>停止</code>（Stop）、<code>下一个</code>（Next）和 <code>切换…</code>（Switch…）。</p>
+<table>
+<thead>
+<tr>
+<th>按钮</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>停止</code></td>
+<td>停止连接。</td>
+</tr>
+<tr>
+<td><code>上一个</code>（Previous）、<code>下一个</code></td>
+<td>切换到当前分组中的上一个或下一个配置，与 <code>状态</code> 小部件的箭头相同。</td>
+</tr>
+<tr>
+<td><code>切换…</code></td>
+<td>打开你的配置列表以便切换。</td>
+</tr>
+<tr>
+<td><code>重置连接</code>（Reset connections）</td>
+<td>关闭所有已打开的连接，使应用重新连接。</td>
+</tr>
+</tbody>
+</table>
+<p>如果更改按钮时 Throne 已连接，请在 Throne 显示“重载代理服务以应用修改”时点按 <code>应用</code>（Apply）。如果你看不到通知，请参见<a href="/zh/android/permissions/#notifications">通知</a>。</p>
+<h2 id="quick-settings-tile">快捷设置图块</h2>
+<p>要添加 <code>Throne</code> 图块，请打开快捷设置，点按编辑按钮（在大多数手机上是一个铅笔图标），然后将该图块拖到已启用的图块中。点按图块可启动或停止连接；如果手机已锁定，Android 会先要求你解锁。长按图块可打开 Throne。</p>
+<h2 id="shortcuts">快捷方式</h2>
+<p>在 Android 7.1 及更高版本上，长按 Throne 图标即可看到 <code>切换</code>（Toggle）、<code>启用</code>（Enable）、<code>禁用</code>（Disable）和 <code>扫描二维码</code>（Scan QR code）快捷方式。你可以把它们拖到主屏幕上。首次打开 Throne 后，这些快捷方式才会出现。</p>
+<p>要把单个配置放到主屏幕上（Android 8.0 及更高版本）：</p>
+<ol>
+<li>用配置所在行的 <code>编辑</code>（Edit）按钮打开该配置；在双列布局和紧凑行中，请使用该行的 ⋮ → <code>编辑</code>。</li>
+<li>在配置编辑器中，点按 ⋮ → <code>创建快捷方式</code>（Create shortcut），并在启动器的对话框中确认。</li>
+</ol>
+<p>该快捷方式会以此配置启动 Throne；如果正在运行其他配置，则切换到此配置；如果正在运行的就是此配置，则停止 Throne。</p>
+<h2 id="automation">自动化</h2>
+<p>Tasker 或 MacroDroid 等自动化应用可以启动 Throne（包名 <code>com.nb4a.throne</code>）的以下 Activity。请输入完整的类名：<code>.QuickToggleShortcut</code> 这样的简写无效。</p>
+<table>
+<thead>
+<tr>
+<th>类</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>io.nekohasekai.sagernet.QuickToggleShortcut</code></td>
+<td>启动所选配置；正在运行时停止连接。</td>
+</tr>
+<tr>
+<td><code>io.nekohasekai.sagernet.ui.QuickEnableShortcut</code></td>
+<td>Throne 已停止时启动所选配置。</td>
+</tr>
+<tr>
+<td><code>io.nekohasekai.sagernet.ui.QuickDisableShortcut</code></td>
+<td>正在运行时停止连接。</td>
+</tr>
+<tr>
+<td><code>io.nekohasekai.sagernet.ui.ScannerActivity</code></td>
+<td>打开二维码扫描器；在没有相机的设备上改为打开图片选择器。</td>
+</tr>
+</tbody>
+</table>
+<p>在自动化应用中，使用通过 Intent 启动 Activity 的操作，它通常叫做“Send Intent”（目标为 Activity）或“Launch activity”。填写包名和类名，操作（Action）留空或填写 <code>android.intent.action.MAIN</code>。</p>
+<p><code>QuickToggleShortcut</code> 接受一个名为 <code>profile</code> 的可选 extra，其值为配置 ID；带有它时，其作用与该配置的<a href="#shortcuts">配置快捷方式</a>相同。该 extra 的类型必须为 long；如果作为普通整数或文本发送，则会被忽略。应用中没有任何界面会列出配置 ID，因此对于单个配置，使用配置快捷方式更简单。</p>
+<p>在电脑上用 adb 测试（<code>--el</code> 用于发送 long 类型的 extra；请将 <code>12</code> 替换为配置 ID）：</p>
+<pre><code class="language-bash hljs">adb shell am start -n com.nb4a.throne/io.nekohasekai.sagernet.ui.QuickEnableShortcut
+adb shell am start -a android.intent.action.MAIN -n com.nb4a.throne/io.nekohasekai.sagernet.QuickToggleShortcut --el profile 12
+</code></pre>
+<ul>
+<li>在进行自动化之前，先在 Throne 应用中连接一次，以便 Android 已经授予 VPN 权限。</li>
+<li>如果没有任何反应，自动化应用可能需要从后台启动 Activity 的权限；在许多手机上，这就是“显示在其他应用的上层”权限。</li>
+<li>要在手机启动时连接，请改用<a href="/zh/android/permissions/#auto-connect">自动连接</a>（Auto connect）或始终开启的 VPN。</li>
+<li>自动化应用也可以打开 <code>throne://</code> 链接，例如用于添加订阅。参见<a href="/zh/advanced/deeplinks/#android">深度链接</a>。</li>
+<li>Throne 的内部广播（例如 <code>io.nekohasekai.sagernet.SWITCH_NEXT</code>）受签名权限保护，其他应用无法发送它们。</li>
+</ul>
+
+      </div>
+      
+      
+      
+      <footer class="docs-article-footer">
+        
+        <a class="edit-link" href="https://github.com/throneproj/throneproj.github.io/edit/main/content/android/widgets.zh.md" target="_blank" rel="noopener noreferrer">
+        
+          <svg class="ic" aria-hidden="true"><use href="#i-pencil"/></svg>
+          在 GitHub 上编辑此页
+        </a>
+        
+
+<nav class="prev-next" aria-label="页面导航">
+  
+  <a class="prevnext-prev" href="https://throneproj.github.io/zh/android/modes/">
+    <span class="prevnext-dir">上一页</span>
+    VPN 与代理模式
+  </a>
+  
+  
+  <a class="prevnext-next" href="https://throneproj.github.io/zh/android/tv/">
+    <span class="prevnext-dir">下一页</span>
+    Android TV
+  </a>
+  
+</nav>
+
+      </footer>
+    </article>
+  </main>
+  
+<nav class="docs-toc" aria-label="本页导航">
+  <p class="docs-toc-title">
+    <svg class="ic" aria-hidden="true"><use href="#i-list"/></svg>
+    本页导航
+  </p>
+  <ul><li><a href="#widgets">小部件</a></li><li><a href="#notification">通知</a></li><li><a href="#quick-settings-tile">快捷设置图块</a></li><li><a href="#shortcuts">快捷方式</a></li><li><a href="#automation">自动化</a></li></ul>
+</nav>
+
+    </main>
+  </div>
+
+  
+<script src="https://throneproj.github.io/assets/js/highlight.min.js" defer></script>
+<script>
+  window.NOIR_BASE = "https://throneproj.github.io";
+  
+  window.NOIR_I18N = {
+    copy: "复制",
+    copied: "已复制",
+    copyManual: "请按 Ctrl C",
+    noResults: "未找到相关结果：",
+    theme: "主题",
+    themeAuto: "自动",
+    themeLight: "浅色",
+    themeDark: "深色"
+  };
+</script>
+<script src="https://throneproj.github.io/js/theme.js" defer></script>
+<script src="https://throneproj.github.io/js/nav.js" defer></script>
+<script src="https://throneproj.github.io/js/code.js" defer></script>
+<script src="https://throneproj.github.io/js/toc.js" defer></script>
+<script src="https://throneproj.github.io/js/reveal.js" defer></script>
+<script src="https://throneproj.github.io/js/mermaid.js" defer></script>
+<script src="https://throneproj.github.io/js/search.js" defer></script>
+
+</body>
+</html>

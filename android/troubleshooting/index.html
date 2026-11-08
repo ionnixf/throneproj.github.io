@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Fix common problems in Throne for Android.">
+  <title>Android Troubleshooting - Throne</title>
+
+  
+  <meta name="theme-color" content="#0b0b0c" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#fbfbfa" media="(prefers-color-scheme: light)">
+
+  
+  <script>
+    (function () {
+      var r = document.documentElement;
+      r.classList.add("js");
+      try {
+        var t = localStorage.getItem("throne-theme");
+        if (t === "light" || t === "dark") r.setAttribute("data-theme", t);
+      } catch (e) {}
+    })();
+  </script>
+
+  <meta name="google-site-verification" content="Zzz4doeS45o-EhP56mm1yoyfHSEEZJRJJt0tfj7vPGM" />
+  <script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+      m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+      m[i].l=1*new Date();
+      for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+      k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=111847353', 'ym');
+
+    
+    ym(111847353, 'init', {ssr:true, webvisor:false, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/111847353" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+
+  <meta property="og:title" content="Android Troubleshooting">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://throneproj.github.io/android/troubleshooting/">
+  <meta property="og:description" content="Fix common problems in Throne for Android.">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Android Troubleshooting">
+  <meta name="twitter:description" content="Fix common problems in Throne for Android.">
+  <link rel="canonical" href="https://throneproj.github.io/android/troubleshooting/">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Android Troubleshooting","url":"https://throneproj.github.io/android/troubleshooting/","description":"Fix common problems in Throne for Android."}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Throne","item":"https://throneproj.github.io/"},{"@type":"ListItem","position":2,"name":"Throne for Android","item":"https://throneproj.github.io/android/"},{"@type":"ListItem","position":3,"name":"Android Troubleshooting"}]}</script>
+  <link rel="alternate" hreflang="en" href="https://throneproj.github.io/android/troubleshooting/">
+<link rel="alternate" hreflang="fa" href="https://throneproj.github.io/fa/android/troubleshooting/">
+<link rel="alternate" hreflang="ru" href="https://throneproj.github.io/ru/android/troubleshooting/">
+<link rel="alternate" hreflang="zh" href="https://throneproj.github.io/zh/android/troubleshooting/">
+<link rel="alternate" hreflang="x-default" href="https://throneproj.github.io/android/troubleshooting/">
+
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon.ico" sizes="any">
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon-96x96.png" type="image/png" sizes="96x96">
+  <link rel="apple-touch-icon" href="https://throneproj.github.io/logos/apple-touch-icon.png">
+  <link rel="manifest" href="https://throneproj.github.io/logos/site.webmanifest">
+
+  <link rel="preload" href="https://throneproj.github.io/fonts/geist-variable-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+  
+  <link rel="stylesheet" href="https://throneproj.github.io/assets/css/highlight/atom-one-dark.min.css">
+  <link rel="stylesheet" href="https://throneproj.github.io/css/style.css">
+  
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  
+<svg xmlns="http://www.w3.org/2000/svg" class="icon-sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 10a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+    <path d="M21 21l-6 -6" />
+  </symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M3 12h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7" />
+  </symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454l0 .008" />
+  </symbol>
+  <symbol id="i-contrast" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M12 17a5 5 0 0 0 0 -10v10" />
+  </symbol>
+  <symbol id="i-chevron-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M6 9l6 6l6 -6" />
+  </symbol>
+  <symbol id="i-menu-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 6l16 0" />
+    <path d="M4 12l16 0" />
+    <path d="M4 18l16 0" />
+  </symbol>
+  <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M18 6l-12 12" />
+    <path d="M6 6l12 12" />
+  </symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 9.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667l0 -8.666" />
+    <path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" />
+  </symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l5 5l10 -10" />
+  </symbol>
+  <symbol id="i-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l14 0" />
+    <path d="M13 18l6 -6" />
+    <path d="M13 6l6 6" />
+  </symbol>
+  <symbol id="i-arrow-up-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M17 7l-10 10" />
+    <path d="M8 7l9 0l0 9" />
+  </symbol>
+  <symbol id="i-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l14 0" />
+    <path d="M5 12l6 6" />
+    <path d="M5 12l6 -6" />
+  </symbol>
+  <symbol id="i-brand-github" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+  </symbol>
+  <symbol id="i-pencil" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+    <path d="M13.5 6.5l4 4" />
+  </symbol>
+  <symbol id="i-rocket" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 13a8 8 0 0 1 7 7a6 6 0 0 0 3 -5a9 9 0 0 0 6 -8a3 3 0 0 0 -3 -3a9 9 0 0 0 -8 6a6 6 0 0 0 -5 3" />
+    <path d="M7 14a6 6 0 0 0 -3 6a6 6 0 0 0 6 -3" />
+    <path d="M14 9a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+  </symbol>
+  <symbol id="i-terminal-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 9l3 3l-3 3" />
+    <path d="M13 15l3 0" />
+    <path d="M3 6a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2l0 -12" />
+  </symbol>
+  <symbol id="i-lifebuoy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M15 15l3.35 3.35" />
+    <path d="M9 15l-3.35 3.35" />
+    <path d="M5.65 5.65l3.35 3.35" />
+    <path d="M18.35 5.65l-3.35 3.35" />
+  </symbol>
+  <symbol id="i-list" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 6l11 0" />
+    <path d="M9 12l11 0" />
+    <path d="M9 18l11 0" />
+    <path d="M5 6l0 .01" />
+    <path d="M5 12l0 .01" />
+    <path d="M5 18l0 .01" />
+  </symbol>
+  <symbol id="i-code" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 8l-4 4l4 4" />
+    <path d="M17 8l4 4l-4 4" />
+    <path d="M14 4l-4 16" />
+  </symbol>
+  <symbol id="i-rss" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 19a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+    <path d="M4 4a16 16 0 0 1 16 16" />
+    <path d="M4 11a9 9 0 0 1 9 9" />
+  </symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12" />
+    <path d="M16 3v4" />
+    <path d="M8 3v4" />
+    <path d="M4 11h16" />
+    <path d="M11 15h1" />
+    <path d="M12 15v3" />
+  </symbol>
+</svg>
+
+<header class="site-header">
+  <div class="header-inner">
+    <button class="icon-btn hamburger" id="drawerToggle" aria-label="Open navigation" aria-expanded="false" aria-controls="sidebar">
+      <svg class="ic" aria-hidden="true"><use href="#i-menu-2"/></svg>
+    </button>
+
+    <a href="https://throneproj.github.io/" class="header-logo" aria-label="Throne homepage">
+      <img class="logo" src="https://throneproj.github.io/images/throne-logo.png" alt="Throne" width="1817" height="346">
+    </a>
+    <a class="header-version" href="https://github.com/throneproj/Throne/releases/tag/1.4.1" target="_blank" rel="noopener noreferrer">v1.4.1</a>
+
+    <nav class="header-nav" aria-label="Primary">
+      <a href="https://throneproj.github.io/get_started/">Get Started</a>
+      <a href="https://throneproj.github.io/downloads/">Downloads</a>
+    </nav>
+
+    <div class="header-right">
+      <button class="header-btn search-trigger" id="searchTrigger" aria-label="Search documentation">
+        <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+        <span>Search</span>
+        <kbd>Ctrl K</kbd>
+      </button>
+
+      
+      
+      <nav class="lang-switcher" aria-label="Language">
+        
+        <a href="https://throneproj.github.io/android/troubleshooting/" hreflang="en" aria-current="true">EN</a>
+        
+        <a href="https://throneproj.github.io/fa/android/troubleshooting/" hreflang="fa">FA</a>
+        
+        <a href="https://throneproj.github.io/ru/android/troubleshooting/" hreflang="ru">RU</a>
+        
+        <a href="https://throneproj.github.io/zh/android/troubleshooting/" hreflang="zh">ZH</a>
+        
+      </nav>
+      
+
+      <a class="icon-btn" href="https://github.com/throneproj/Throne" target="_blank" rel="noopener noreferrer" aria-label="Throne on GitHub">
+        <svg class="ic" aria-hidden="true"><use href="#i-brand-github"/></svg>
+      </a>
+
+      
+      <button class="icon-btn theme-toggle" id="themeToggle" data-mode="auto" type="button" aria-label="Theme">
+        <svg class="ic ic-auto" aria-hidden="true"><use href="#i-contrast"/></svg>
+        <svg class="ic ic-light" aria-hidden="true"><use href="#i-sun"/></svg>
+        <svg class="ic ic-dark" aria-hidden="true"><use href="#i-moon"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+<div class="search-overlay" id="searchOverlay" role="dialog" aria-modal="true" aria-label="Search documentation" hidden>
+  <div class="search-modal">
+    <div class="search-input-wrap">
+      <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+      <input type="search" id="searchInput" aria-label="Search documentation" placeholder="Search the docs" autocomplete="off" spellcheck="false">
+      <kbd id="searchClose" role="button" tabindex="0">Esc</kbd>
+    </div>
+    <div class="search-results" id="searchResults" role="listbox" aria-label="Search"></div>
+  </div>
+</div>
+<div class="docs-container">
+<div class="drawer-scrim" id="drawerScrim"></div>
+<aside class="docs-sidebar" id="sidebar">
+  <nav class="sidebar-nav" aria-label="Documentation">
+
+    
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Get Started</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/get_started/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/get_started/installation/">Installation</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/get_started/configuration/">Quick Start</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Guides</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/guides/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/subscriptions/">Subscriptions & Groups</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/proxy_modes/">System Proxy, TUN & LAN</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/tun_mode/">TUN Mode</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/routing/">Routing</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/dns/">DNS</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/testing/">Testing & Auto Selector</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/backup/">Backup, Updates & Migration</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/recipes/">Recipes</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group" open>
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Throne for Android</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/android/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/installation/">Installation & Upgrade</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/permissions/">Permissions & Background</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/modes/">VPN & Proxy Modes</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/widgets/">Widgets, Tile & Automation</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/tv/">Android TV</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/troubleshooting/" aria-current="page">Troubleshooting</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Headless Throne</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/headless/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/headless/installation/">Installation & Services</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/headless/thronectl/">Managing with thronectl</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/headless/web/">Web UI</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/headless/command_line/">Command Line & Data Directory</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/headless/monitoring/">Health Checks & Logs</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/headless/recovery/">Lockout Protection & Recovery</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/headless/troubleshooting/">Troubleshooting</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Advanced Configuration</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/xray/">sing-box vs Xray</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/chains/">Chains & Custom Configs</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/presets/">Anti-Censorship Presets</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/warp/">Cloudflare WARP</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/dns_tunnels/">DNS Tunnels</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/vpn_profiles/">OpenVPN, OpenConnect & Tailscale</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/windows_tun_mode/">Windows DNS Leak Protection</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/kill_switch/">Kill Switch</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/deeplinks/">Deep Links</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/api/">Throne API & thronectl</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Reference</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/reference/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/reference/protocols/">Protocols & Import Formats</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/reference/shortcuts/">Keyboard Shortcuts & Tray</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/reference/files/">Command Line, Files & Logs</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/reference/privacy/">Privacy & Network Requests</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/reference/glossary/">Glossary</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Help</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/help/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/help/faq/">FAQ</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/help/troubleshooting/">Troubleshooting</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/help/bug_reports/">Reporting a Bug</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/help/migrating/">Coming from Nekoray / NekoBox</a></li>
+        
+        
+      </ul>
+    </details>
+    
+
+  </nav>
+</aside>
+  <main id="main" class="docs-main">
+    <article>
+      <h1 class="docs-title">Android Troubleshooting</h1>
+      <p class="docs-lede">Fix common problems in Throne for Android.</p>
+      <div class="prose">
+        <p>Find the message or symptom you see. Messages are quoted as the app shows them in English. For Throne desktop, see <a href="/help/troubleshooting/">Troubleshooting</a>.</p>
+<h2 id="connection">The VPN does not start or has no traffic</h2>
+<p>When a start fails, Throne shows the reason at the bottom of the screen, with a <code>Logs</code> button.</p>
+<table>
+<thead>
+<tr>
+<th>Message</th>
+<th>Cause</th>
+<th>What to do</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&quot;Permission denied to create a VPN service&quot;</td>
+<td>You declined the VPN request, or another VPN app is set to Always-on VPN.</td>
+<td>Connect again and allow the request. If none appears, turn off Always-on VPN for the other app in Android&#39;s VPN settings.</td>
+</tr>
+<tr>
+<td>&quot;VPN confirmation unavailable&quot;</td>
+<td>The device has no screen for the VPN request.</td>
+<td>See <a href="/android/permissions/#vpn-permission">VPN permission</a>.</td>
+</tr>
+<tr>
+<td>&quot;Failed: …&quot; with &quot;configure tun interface&quot;</td>
+<td>Android refused to create the VPN interface.</td>
+<td>Disconnect other VPN apps, make sure none is set to Always-on VPN, and restart the device.</td>
+</tr>
+<tr>
+<td>&quot;Failed: Profile … has a type this build cannot use: …&quot;</td>
+<td>The profile type exists only on desktop, such as Tailscale or Extra Core.</td>
+<td>Use another profile.</td>
+</tr>
+<tr>
+<td>&quot;Could not connect: the network&#39;s DNS (…) did not answer. …&quot; (or &quot;the system DNS&quot;)</td>
+<td><code>Direct DNS</code> did not answer. By default (<code>localhost</code>), it is the DNS server of the current network.</td>
+<td>Tap <code>DNS</code> in the message and set <code>Direct DNS</code> to a server that answers on this network, for example <code>tls://1.1.1.1</code>. See <a href="/guides/dns/#android">DNS on Android</a>.</td>
+</tr>
+<tr>
+<td>&quot;Could not download the rule-sets: …&quot;</td>
+<td>A rule uses a rule-set that was never downloaded, and the download failed.</td>
+<td>Tap <code>Connect anyway</code>, then <code>Connect</code>. These rules match nothing until the download works.</td>
+</tr>
+<tr>
+<td>&quot;Could not download geoip.dat from …&quot; (or <code>geosite.dat</code>)</td>
+<td>An Xray config with <code>geoip:</code> or <code>geosite:</code> rules needs the file.</td>
+<td>Tap <code>Geo assets</code>, connect with another profile and tap <code>Download now</code>, or choose another <code>Source</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>For any other &quot;Failed: …&quot; message, tap <code>Logs</code> and read the last lines.</p>
+<h3 id="no-traffic">Connected, but nothing loads</h3>
+<ol>
+<li>Tap the bar at the bottom of the screen. &quot;HTTP: … ms&quot; means that the profile works; &quot;Failed: …&quot; means that the profile or its server does not.</li>
+<li>If it failed, use ⋮ → <code>Test</code> → <code>URL test</code> and select a profile that works. See <a href="/guides/testing/">Testing &amp; Auto Selector</a>.</li>
+<li>If <code>Settings</code> → <code>TUN / VPN</code> → <code>Apps VPN mode</code> is on, turn it off and test again. See <a href="/android/modes/#per-app-proxy">Per-app proxy</a>.</li>
+<li>Set <code>Settings</code> → <code>Routing</code> → <code>Current routing profile</code> to <code>Default</code> and test again. If that helps, a rule in your routing profile is the cause. If Throne says that the group uses its own routing profile, set the group's <code>Routing profile</code> to <code>Default (…)</code> instead.</li>
+<li>Try another <code>Remote DNS</code> in <code>Settings</code> → <code>DNS</code>, or in the routing profile if it uses its own DNS servers. See <a href="/guides/dns/">DNS</a>.</li>
+<li>If you turned on <code>Tun IPv6</code> or <code>Tun routing</code> in <code>Settings</code> → <code>TUN / VPN</code>, turn them off. If some apps or websites fail while others work, set <code>MTU</code> there to <code>1500</code> and reconnect.</li>
+<li>To check whether VPN mode is the cause, set <code>Settings</code> → <code>General</code> → <code>Service mode</code> to <code>Proxy only</code>, connect, and set an app's own proxy setting to SOCKS5 <code>127.0.0.1</code>, port <code>2080</code>. If that app works, check steps 3 and 6 again.</li>
+</ol>
+<h3 id="blocked-without-vpn">No internet while Throne is off</h3>
+<ul>
+<li>Android's Always-on VPN with &quot;Block connections without VPN&quot; blocks all traffic while Throne is not connected. Connect Throne, or turn the option off in Android's VPN settings. See <a href="/android/permissions/#always-on">Always-on VPN</a>.</li>
+<li>With <code>Settings</code> → <code>DNS</code> → <code>Enable FakeDNS</code>, some apps lose their connection when Throne stops. Restart those apps, or turn off <code>Enable FakeDNS</code>.</li>
+</ul>
+<h2 id="killed-in-background">Throne stops in the background</h2>
+<p>Signs: the VPN disconnects while the screen is off, the connection stops working after you unlock the phone, or the notification disappears.</p>
+<ol>
+<li><code>Settings</code> → <code>General</code> → <code>Battery optimization</code> must show &quot;Unrestricted&quot;. If it does not, tap it. See <a href="/android/permissions/#battery">Battery optimization</a>.</li>
+<li>In <code>Settings</code> → <code>General</code> → <code>Background &amp; auto-start</code>, allow Throne to start automatically and to run in the background. See <a href="/android/permissions/#oem">Manufacturer settings</a>.</li>
+<li>Keep <code>Reset outbound connections when device wakes from sleep</code> and <code>Reset outbound connections when network changes</code> on (the defaults) in <code>Settings</code> → <code>General</code>, so that apps connect again after deep sleep or a lost network.</li>
+<li>Turn on Always-on VPN, so that Android starts Throne again by itself. See <a href="/android/permissions/#always-on">Always-on VPN</a>.</li>
+<li>On some devices, swiping Throne away from the recent apps stops it. Leave it there, or lock it there.</li>
+</ol>
+<h2 id="subscriptions">Subscription problems</h2>
+<p>A manual update shows its errors at the bottom of the screen. Automatic updates write them only to <code>Logs</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Message</th>
+<th>Cause</th>
+<th>What to do</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&quot;Request with proxy but no profile started.&quot;</td>
+<td><code>Settings</code> → <code>Subscriptions</code> → <code>Use proxy</code> is on, and Throne is not connected.</td>
+<td>Connect first, or turn off <code>Use proxy</code>.</td>
+</tr>
+<tr>
+<td>&quot;Error transferring … - server replied: …&quot;</td>
+<td>The server refused the request, for example with 403 or 404.</td>
+<td>Check the URL. Many providers accept only some apps: set the user agent your provider names, or turn on HWID sending.</td>
+</tr>
+<tr>
+<td>&quot;No profiles found in the subscription; it was left unchanged.&quot;</td>
+<td>The answer has no profiles that Throne can read.</td>
+<td>Often the same user agent or HWID problem. Also check the <a href="/reference/protocols/#import-formats">import formats</a>.</td>
+</tr>
+<tr>
+<td>&quot;The server returned a web page instead of a subscription. …&quot;</td>
+<td>Often a CAPTCHA or a bot check.</td>
+<td>Try another <code>TLS version</code>, <code>HTTP version</code> or <code>User agent</code> in the group&#39;s <code>Advanced</code> settings.</td>
+</tr>
+<tr>
+<td>&quot;The name filters left out all … profiles of the subscription; it was left unchanged.&quot;</td>
+<td>The group&#39;s name filters removed every profile.</td>
+<td>Check <code>Only names matching</code> and <code>Remove names matching</code> under <code>Filter</code> in the group&#39;s settings.</td>
+</tr>
+<tr>
+<td>&quot;Insecure redirect&quot;, &quot;Too many redirects&quot; or &quot;Response larger than 64 MB&quot;</td>
+<td>The server redirected <code>https://</code> to <code>http://</code> (Throne does not follow that), redirects in a loop, or sends more than 64 MB.</td>
+<td>Check the URL with your provider.</td>
+</tr>
+</tbody>
+</table>
+<p>The user agent and HWID are in <code>Settings</code> → <code>Subscriptions</code>, and for one group in <code>Groups</code> → the group's <code>Edit</code> button → <code>Advanced</code>. See <a href="/guides/subscriptions/#user-agent-and-hwid">User-Agent and HWID</a>.</p>
+<h3 id="direct-updates">The provider accepts updates only from your own connection</h3>
+<p>While Throne is connected, its own requests, such as subscription updates, follow your routing profile too. If your provider accepts updates only from your own internet connection, add a rule that sends the subscription's domain to <code>direct</code>:</p>
+<ol>
+<li>Open <code>Routing</code> in the drawer, then the menu of the current routing profile → <code>Edit</code> → <code>Add rule</code>.</li>
+<li>Set <code>Outbound</code> to <code>direct</code>, enter the host name of the subscription URL (for example <code>sub.example.com</code>) in <code>Domain suffix</code>, and save the rule and the routing profile. The rule must be above other rules that match the same domain.</li>
+</ol>
+<p>If the provider wants the request to come from one of its servers, choose that server as the <code>Outbound</code> instead.</p>
+<h2 id="routing">Routing errors</h2>
+<table>
+<thead>
+<tr>
+<th>Message</th>
+<th>Cause</th>
+<th>What to do</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&quot;The routing profile is referencing outbounds that no longer exist, consider revising your settings&quot;</td>
+<td>A rule sends traffic to a deleted server profile, for example after a subscription update.</td>
+<td>Edit the routing profile: rules with a deleted server show &quot;Missing server (#…)&quot;. Choose another outbound.</td>
+</tr>
+<tr>
+<td>&quot;Unknown rule-set &quot;…&quot; in rule &quot;…&quot; of routing profile &quot;…&quot;&quot; or &quot;The rule-set list is not available. …&quot;</td>
+<td>A rule uses a rule-set name that Throne does not know, or the list of names was not downloaded.</td>
+<td>In <code>Routing</code>, tap <code>Refresh repository list</code>, or use the URL of an <code>.srs</code> file.</td>
+</tr>
+<tr>
+<td>&quot;raw routing profiles are not supported on Android&quot;</td>
+<td>You imported a raw routing profile from Throne desktop.</td>
+<td>Use a structured or remote routing profile.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="warp">WARP errors</h2>
+<table>
+<thead>
+<tr>
+<th>Message</th>
+<th>Cause</th>
+<th>What to do</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&quot;WARP is enabled but its config has not been generated. …&quot; (when you connect: &quot;Failed: Warp is enabled but …&quot;)</td>
+<td>There is no WARP config for the selected mode.</td>
+<td>In <code>Settings</code> → <code>Routing</code> → <code>WARP</code>, tap <code>Generate WARP config</code>.</td>
+</tr>
+<tr>
+<td>&quot;Failed to generate WARP config&quot;</td>
+<td>The registration at Cloudflare failed. Some networks block it.</td>
+<td>Connect to a working profile, turn on <code>Settings</code> → <code>Subscriptions</code> → <code>Use proxy</code>, and generate again.</td>
+</tr>
+<tr>
+<td>No message, but nothing loads while WARP is on</td>
+<td>In <code>WireGuard</code> and <code>AmneziaWG</code> mode, WARP needs a profile that forwards UDP.</td>
+<td>Set <code>Mode</code> to <code>MASQUE</code> and <code>HTTP version</code> to <code>HTTP/2</code>, which needs only TCP, and generate a config for it.</td>
+</tr>
+</tbody>
+</table>
+<p>See <a href="/advanced/warp/">Cloudflare WARP</a>.</p>
+<h2 id="updates">Update problems</h2>
+<ul>
+<li>&quot;The download is signed with a different key than this build, …&quot;: your copy was not signed with the Throne release key. Create a backup (drawer → <code>Tools</code> → <code>Create backup</code>), uninstall Throne, install the APK from GitHub and restore the backup.</li>
+<li>&quot;This update cannot be installed from the app (…). …&quot;: tap <code>Open in browser</code>, download the APK for your device and install it over the current app.</li>
+<li>&quot;Could not check for updates&quot;: Throne could not reach GitHub. Connect to a working profile and try again.</li>
+<li>Android cannot install Throne for Android 2.0 or newer over 1.x. See <a href="/android/installation/#upgrading">Upgrading from 1.x or NekoBox</a>.</li>
+</ul>
+<h2 id="desktop-vs-android">A profile works on desktop but not on Android</h2>
+<ol>
+<li>Tailscale and Extra Core profiles do not work on Android, and TLS spoof settings are ignored.</li>
+<li>Throne for Android does not import subscription profiles that its core cannot run, for example with a transport that sing-box does not have, or XHTTP on a profile type other than VLESS. <code>Logs</code> shows why each one was skipped.</li>
+<li>An Xray config with <code>geoip:</code> or <code>geosite:</code> rules needs <code>geoip.dat</code> and <code>geosite.dat</code>, which Throne downloads from the <code>Source</code> in <code>Settings</code> → <code>Core</code> → <code>Xray geo assets</code>. If the installed file lacks a category that the config needs, choose a source that has it, such as the one your desktop uses.</li>
+<li>Compare <code>Settings</code> → <code>Presets</code> and, in <code>Settings</code> → <code>Core</code>, <code>Xray VLESS preference</code> and <code>Trust system certificates in Xray</code>. The VLESS preference is applied at import, so update the subscription after you change it. On Android, trusting system certificates does not include certificates that you installed yourself.</li>
+<li>To get the same settings as on desktop, restore a desktop backup. See <a href="/guides/backup/#desktop-android">Moving between desktop and Android</a>.</li>
+</ol>
+<h2 id="logs">Logs</h2>
+<p>Open <code>Logs</code> in the drawer. It shows the core log and, for Xray profiles, the Xray log in lines marked <code>xray:</code>.</p>
+<p><code>Share logs</code> and <code>Save logs…</code> create one text file with the versions, the device model, the core logs of this and the previous connection, and the app's system log.</p>
+<p><code>Hide sensitive data</code> in the menu is on by default; keep it on. It hides URL paths, credentials, keys, server addresses, host names, public IP addresses and Wi-Fi names in the file. <code>Hide destinations</code> also hides the domain names in connection and DNS lines. The hiding is best effort: read the file before you post it.</p>
+<p>For more detail, set <code>Settings</code> → <code>Core</code> → <code>Log level</code> to <code>info</code> or <code>debug</code> and tap <code>Apply</code> to restart the app. For Xray profiles, also set <code>Xray log level</code> on the same screen: Xray lines appear only when both levels allow them. Reproduce the problem, share the logs, then set the levels back to <code>warn</code> and <code>warning</code>.</p>
+<h3 id="diagnostics">Diagnostics</h3>
+<p>For freezes, high CPU use or a fast-draining battery, the developers may ask for a Diagnostics file. It records what the core does for 30 seconds and contains nothing from your configs.</p>
+<ol>
+<li>Bring Throne into the state with the problem.</li>
+<li>Open <code>Settings</code> → <code>Diagnostics</code> and turn on the options the developers asked for: <code>Lock contention</code>, <code>Execution trace (larger file)</code> or <code>Include Throne logs</code>. With logs included, keep <code>Hide sensitive data</code> on.</li>
+<li>Tap <code>Start</code>. The recording goes on when you leave the screen, so you can reproduce the problem meanwhile.</li>
+<li>Tap <code>Share</code> or <code>Save…</code> and attach the file <code>throne-profile-&lt;date&gt;-&lt;time&gt;.zip</code>.</li>
+</ol>
+<h2 id="report">Reporting a problem</h2>
+<aside class="callout callout--warning">
+  <span class="callout-label">Warning</span>
+  <p>Never post subscription URLs, share links, backups or configurations in public. Anyone who has them can use your subscription.</p>
+
+</aside>
+<p>Report problems at <a href="https://github.com/throneproj/ThroneForAndroid/issues">github.com/throneproj/ThroneForAndroid/issues</a> with what you did, what you expected and what happened, the file from <code>Share logs</code> with <code>Hide sensitive data</code> on, the profile type (for example VLESS with REALITY) and the service mode. See also <a href="/help/bug_reports/">Reporting a Bug</a>.</p>
+
+      </div>
+      
+      
+      
+      <footer class="docs-article-footer">
+        
+        <a class="edit-link" href="https://github.com/throneproj/throneproj.github.io/edit/main/content/android/troubleshooting.md" target="_blank" rel="noopener noreferrer">
+        
+          <svg class="ic" aria-hidden="true"><use href="#i-pencil"/></svg>
+          Edit this page on GitHub
+        </a>
+        
+
+<nav class="prev-next" aria-label="Page navigation">
+  
+  <a class="prevnext-prev" href="https://throneproj.github.io/android/tv/">
+    <span class="prevnext-dir">Previous</span>
+    Android TV
+  </a>
+  
+  
+  <a class="prevnext-next" href="https://throneproj.github.io/headless/">
+    <span class="prevnext-dir">Next</span>
+    Headless Throne
+  </a>
+  
+</nav>
+
+      </footer>
+    </article>
+  </main>
+  
+<nav class="docs-toc" aria-label="On this page">
+  <p class="docs-toc-title">
+    <svg class="ic" aria-hidden="true"><use href="#i-list"/></svg>
+    On this page
+  </p>
+  <ul><li><a href="#connection">The VPN does not start or has no traffic</a><ul><li><a href="#no-traffic">Connected, but nothing loads</a></li><li><a href="#blocked-without-vpn">No internet while Throne is off</a></li></ul></li><li><a href="#killed-in-background">Throne stops in the background</a></li><li><a href="#subscriptions">Subscription problems</a><ul><li><a href="#direct-updates">The provider accepts updates only from your own connection</a></li></ul></li><li><a href="#routing">Routing errors</a></li><li><a href="#warp">WARP errors</a></li><li><a href="#updates">Update problems</a></li><li><a href="#desktop-vs-android">A profile works on desktop but not on Android</a></li><li><a href="#logs">Logs</a><ul><li><a href="#diagnostics">Diagnostics</a></li></ul></li><li><a href="#report">Reporting a problem</a></li></ul>
+</nav>
+
+    </main>
+  </div>
+
+  
+<script src="https://throneproj.github.io/assets/js/highlight.min.js" defer></script>
+<script>
+  window.NOIR_BASE = "https://throneproj.github.io";
+  
+  window.NOIR_I18N = {
+    copy: "Copy",
+    copied: "Copied",
+    copyManual: "Press Ctrl C",
+    noResults: "No results for",
+    theme: "Theme",
+    themeAuto: "auto",
+    themeLight: "light",
+    themeDark: "dark"
+  };
+</script>
+<script src="https://throneproj.github.io/js/theme.js" defer></script>
+<script src="https://throneproj.github.io/js/nav.js" defer></script>
+<script src="https://throneproj.github.io/js/code.js" defer></script>
+<script src="https://throneproj.github.io/js/toc.js" defer></script>
+<script src="https://throneproj.github.io/js/reveal.js" defer></script>
+<script src="https://throneproj.github.io/js/mermaid.js" defer></script>
+<script src="https://throneproj.github.io/js/search.js" defer></script>
+
+</body>
+</html>

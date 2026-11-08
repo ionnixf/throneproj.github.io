@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" >
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Throne را با thronectl web از مرورگر مدیریت کنید: راه‌اندازی، دسترسی از دستگاه دیگر و امن نگه داشتن آن.">
+  <title>رابط وب - Throne</title>
+
+  
+  <meta name="theme-color" content="#0b0b0c" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#fbfbfa" media="(prefers-color-scheme: light)">
+
+  
+  <script>
+    (function () {
+      var r = document.documentElement;
+      r.classList.add("js");
+      try {
+        var t = localStorage.getItem("throne-theme");
+        if (t === "light" || t === "dark") r.setAttribute("data-theme", t);
+      } catch (e) {}
+    })();
+  </script>
+
+  <meta name="google-site-verification" content="Zzz4doeS45o-EhP56mm1yoyfHSEEZJRJJt0tfj7vPGM" />
+  <script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+      m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+      m[i].l=1*new Date();
+      for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+      k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=111847353', 'ym');
+
+    
+    ym(111847353, 'init', {ssr:true, webvisor:false, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/111847353" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+
+  <meta property="og:title" content="رابط وب">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://throneproj.github.io/fa/headless/web/">
+  <meta property="og:description" content="Throne را با thronectl web از مرورگر مدیریت کنید: راه‌اندازی، دسترسی از دستگاه دیگر و امن نگه داشتن آن.">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="رابط وب">
+  <meta name="twitter:description" content="Throne را با thronectl web از مرورگر مدیریت کنید: راه‌اندازی، دسترسی از دستگاه دیگر و امن نگه داشتن آن.">
+  <link rel="canonical" href="https://throneproj.github.io/fa/headless/web/">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"رابط وب","url":"https://throneproj.github.io/fa/headless/web/","description":"Throne را با thronectl web از مرورگر مدیریت کنید: راه‌اندازی، دسترسی از دستگاه دیگر و امن نگه داشتن آن."}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Throne","item":"https://throneproj.github.io/fa/"},{"@type":"ListItem","position":2,"name":"Throne بدون رابط گرافیکی (Headless)","item":"https://throneproj.github.io/fa/headless/"},{"@type":"ListItem","position":3,"name":"رابط وب"}]}</script>
+  <link rel="alternate" hreflang="fa" href="https://throneproj.github.io/fa/headless/web/">
+<link rel="alternate" hreflang="en" href="https://throneproj.github.io/headless/web/">
+<link rel="alternate" hreflang="ru" href="https://throneproj.github.io/ru/headless/web/">
+<link rel="alternate" hreflang="zh" href="https://throneproj.github.io/zh/headless/web/">
+<link rel="alternate" hreflang="x-default" href="https://throneproj.github.io/headless/web/">
+
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon.ico" sizes="any">
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon-96x96.png" type="image/png" sizes="96x96">
+  <link rel="apple-touch-icon" href="https://throneproj.github.io/logos/apple-touch-icon.png">
+  <link rel="manifest" href="https://throneproj.github.io/logos/site.webmanifest">
+
+  <link rel="preload" href="https://throneproj.github.io/fonts/geist-variable-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+  
+  <link rel="stylesheet" href="https://throneproj.github.io/assets/css/highlight/atom-one-dark.min.css">
+  <link rel="stylesheet" href="https://throneproj.github.io/css/style.css">
+  
+</head>
+<body>
+  <a class="skip-link" href="#main">پرش به محتوای اصلی</a>
+  
+<svg xmlns="http://www.w3.org/2000/svg" class="icon-sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 10a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+    <path d="M21 21l-6 -6" />
+  </symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M3 12h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7" />
+  </symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454l0 .008" />
+  </symbol>
+  <symbol id="i-contrast" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M12 17a5 5 0 0 0 0 -10v10" />
+  </symbol>
+  <symbol id="i-chevron-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M6 9l6 6l6 -6" />
+  </symbol>
+  <symbol id="i-menu-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 6l16 0" />
+    <path d="M4 12l16 0" />
+    <path d="M4 18l16 0" />
+  </symbol>
+  <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M18 6l-12 12" />
+    <path d="M6 6l12 12" />
+  </symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 9.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667l0 -8.666" />
+    <path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" />
+  </symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l5 5l10 -10" />
+  </symbol>
+  <symbol id="i-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l14 0" />
+    <path d="M13 18l6 -6" />
+    <path d="M13 6l6 6" />
+  </symbol>
+  <symbol id="i-arrow-up-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M17 7l-10 10" />
+    <path d="M8 7l9 0l0 9" />
+  </symbol>
+  <symbol id="i-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l14 0" />
+    <path d="M5 12l6 6" />
+    <path d="M5 12l6 -6" />
+  </symbol>
+  <symbol id="i-brand-github" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+  </symbol>
+  <symbol id="i-pencil" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+    <path d="M13.5 6.5l4 4" />
+  </symbol>
+  <symbol id="i-rocket" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 13a8 8 0 0 1 7 7a6 6 0 0 0 3 -5a9 9 0 0 0 6 -8a3 3 0 0 0 -3 -3a9 9 0 0 0 -8 6a6 6 0 0 0 -5 3" />
+    <path d="M7 14a6 6 0 0 0 -3 6a6 6 0 0 0 6 -3" />
+    <path d="M14 9a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+  </symbol>
+  <symbol id="i-terminal-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 9l3 3l-3 3" />
+    <path d="M13 15l3 0" />
+    <path d="M3 6a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2l0 -12" />
+  </symbol>
+  <symbol id="i-lifebuoy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M15 15l3.35 3.35" />
+    <path d="M9 15l-3.35 3.35" />
+    <path d="M5.65 5.65l3.35 3.35" />
+    <path d="M18.35 5.65l-3.35 3.35" />
+  </symbol>
+  <symbol id="i-list" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 6l11 0" />
+    <path d="M9 12l11 0" />
+    <path d="M9 18l11 0" />
+    <path d="M5 6l0 .01" />
+    <path d="M5 12l0 .01" />
+    <path d="M5 18l0 .01" />
+  </symbol>
+  <symbol id="i-code" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 8l-4 4l4 4" />
+    <path d="M17 8l4 4l-4 4" />
+    <path d="M14 4l-4 16" />
+  </symbol>
+  <symbol id="i-rss" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 19a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+    <path d="M4 4a16 16 0 0 1 16 16" />
+    <path d="M4 11a9 9 0 0 1 9 9" />
+  </symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12" />
+    <path d="M16 3v4" />
+    <path d="M8 3v4" />
+    <path d="M4 11h16" />
+    <path d="M11 15h1" />
+    <path d="M12 15v3" />
+  </symbol>
+</svg>
+
+<header class="site-header">
+  <div class="header-inner">
+    <button class="icon-btn hamburger" id="drawerToggle" aria-label="باز کردن منو" aria-expanded="false" aria-controls="sidebar">
+      <svg class="ic" aria-hidden="true"><use href="#i-menu-2"/></svg>
+    </button>
+
+    <a href="https://throneproj.github.io/fa/" class="header-logo" aria-label="صفحه اصلی Throne">
+      <img class="logo" src="https://throneproj.github.io/images/throne-logo.png" alt="Throne" width="1817" height="346">
+    </a>
+    <a class="header-version" href="https://github.com/throneproj/Throne/releases/tag/1.4.1" target="_blank" rel="noopener noreferrer">v1.4.1</a>
+
+    <nav class="header-nav" aria-label="اصلی">
+      <a href="https://throneproj.github.io/fa/get_started/">شروع کار</a>
+      <a href="https://throneproj.github.io/fa/downloads/">دانلود</a>
+    </nav>
+
+    <div class="header-right">
+      <button class="header-btn search-trigger" id="searchTrigger" aria-label="جستجو در مستندات">
+        <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+        <span>جستجو</span>
+        <kbd>Ctrl K</kbd>
+      </button>
+
+      
+      
+      <nav class="lang-switcher" aria-label="زبان">
+        
+        <a href="https://throneproj.github.io/headless/web/" hreflang="en">EN</a>
+        
+        <a href="https://throneproj.github.io/fa/headless/web/" hreflang="fa" aria-current="true">FA</a>
+        
+        <a href="https://throneproj.github.io/ru/headless/web/" hreflang="ru">RU</a>
+        
+        <a href="https://throneproj.github.io/zh/headless/web/" hreflang="zh">ZH</a>
+        
+      </nav>
+      
+
+      <a class="icon-btn" href="https://github.com/throneproj/Throne" target="_blank" rel="noopener noreferrer" aria-label="Throne در GitHub">
+        <svg class="ic" aria-hidden="true"><use href="#i-brand-github"/></svg>
+      </a>
+
+      
+      <button class="icon-btn theme-toggle" id="themeToggle" data-mode="auto" type="button" aria-label="تم">
+        <svg class="ic ic-auto" aria-hidden="true"><use href="#i-contrast"/></svg>
+        <svg class="ic ic-light" aria-hidden="true"><use href="#i-sun"/></svg>
+        <svg class="ic ic-dark" aria-hidden="true"><use href="#i-moon"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+<div class="search-overlay" id="searchOverlay" role="dialog" aria-modal="true" aria-label="جستجو در مستندات" hidden>
+  <div class="search-modal">
+    <div class="search-input-wrap">
+      <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+      <input type="search" id="searchInput" aria-label="جستجو در مستندات" placeholder="جستجو در مستندات" autocomplete="off" spellcheck="false">
+      <kbd id="searchClose" role="button" tabindex="0">Esc</kbd>
+    </div>
+    <div class="search-results" id="searchResults" role="listbox" aria-label="جستجو"></div>
+  </div>
+</div>
+<div class="docs-container">
+<div class="drawer-scrim" id="drawerScrim"></div>
+<aside class="docs-sidebar" id="sidebar">
+  <nav class="sidebar-nav" aria-label="مسیریابی مستندات">
+
+    
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>شروع کار</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/fa/get_started/">نمای کلی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/get_started/installation/">نصب</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/get_started/configuration/">شروع سریع</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>راهنماها</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/">نمای کلی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/subscriptions/">اشتراک‌ها و گروه‌ها</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/proxy_modes/">پروکسی سیستمی، TUN و اشتراک‌گذاری در شبکهٔ محلی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/tun_mode/">حالت TUN</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/routing/">مسیریابی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/dns/">DNS</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/testing/">تست و انتخابگر خودکار</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/backup/">پشتیبان‌گیری، به‌روزرسانی و مهاجرت</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/recipes/">دستورالعمل‌های کاربردی</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Throne برای Android</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/fa/android/">نمای کلی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/android/installation/">نصب و ارتقا</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/android/permissions/">مجوزها و اجرا در پس‌زمینه</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/android/modes/">حالت‌های VPN و پروکسی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/android/widgets/">ویجت‌ها، کاشی و خودکارسازی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/android/tv/">Android TV</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/android/troubleshooting/">عیب‌یابی Android</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group" open>
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Throne بدون رابط گرافیکی (Headless)</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/fa/headless/">نمای کلی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/headless/installation/">نصب و سرویس‌ها</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/headless/thronectl/">مدیریت با thronectl</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/headless/web/" aria-current="page">رابط وب</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/headless/command_line/">خط فرمان و پوشهٔ داده‌ها</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/headless/monitoring/">بررسی سلامت و گزارش‌ها</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/headless/recovery/">محافظت در برابر قطع دسترسی و بازیابی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/headless/troubleshooting/">عیب‌یابی</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>پیکربندی پیشرفته</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/">نمای کلی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/xray/">sing-box در برابر Xray</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/chains/">زنجیره‌های پروکسی و پیکربندی‌های سفارشی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/presets/">پیش‌تنظیم‌های ضدسانسور</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/warp/">Cloudflare WARP</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/dns_tunnels/">تونل‌های DNS</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/vpn_profiles/">OpenVPN، OpenConnect و Tailscale</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/windows_tun_mode/">محافظت از نشت DNS در Windows</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/kill_switch/">کیل‌سوییچ (Kill Switch)</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/deeplinks/">لینک‌های عمیق</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/api/">Throne API و thronectl</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>مرجع</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/fa/reference/">نمای کلی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/reference/protocols/">پروتکل‌ها و قالب‌های واردکردن</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/reference/shortcuts/">میانبرهای صفحه‌کلید و سینی سیستم</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/reference/files/">خط فرمان، فایل‌ها و گزارش‌ها</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/reference/privacy/">حریم خصوصی و درخواست‌های شبکه</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/reference/glossary/">واژه‌نامه</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>پشتیبانی</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/fa/help/">نمای کلی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/help/faq/">پرسش‌های متداول</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/help/troubleshooting/">عیب‌یابی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/help/bug_reports/">گزارش باگ</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/help/migrating/">مهاجرت از Nekoray / NekoBox</a></li>
+        
+        
+      </ul>
+    </details>
+    
+
+  </nav>
+</aside>
+  <main id="main" class="docs-main">
+    <article>
+      <h1 class="docs-title">رابط وب</h1>
+      <p class="docs-lede">Throne را با thronectl web از مرورگر مدیریت کنید: راه‌اندازی، دسترسی از دستگاه دیگر و امن نگه داشتن آن.</p>
+      <div class="prose">
+        <p><code>thronectl web</code> یک رابط وب برای Throne بدون رابط گرافیکی، و برای Throne دسکتاپی که <a href="/fa/advanced/api/">Throne API</a> در آن روشن است، ارائه می‌دهد. این یک وب‌سرور کوچک، یعنی دروازه (gateway)، و بخشی از <code>thronectl</code> است: از طریق API و با همان نشانی و کلیدی که فرمان‌های دیگر <code>thronectl</code> به کار می‌برند با Throne صحبت می‌کند.</p>
+<h2 id="quick-start">شروع سریع</h2>
+<p>دروازه را روی همان دستگاه Throne اجرا کنید، جایی که Throne به همهٔ درخواست‌های آن، از جمله <a href="/fa/headless/thronectl/#remote">درخواست‌های مدیریتی</a>، پاسخ می‌دهد.</p>
+<h3 id="docker">Docker</h3>
+<p>ایمیج Docker وقتی <code>THRONE_WEB_LISTEN</code> تنظیم شده باشد، دروازه را در همان کانتینر اجرا می‌کند. در فایل <a href="https://github.com/throneproj/Throne/blob/dev/docker/compose.yaml"><code>compose.yaml</code></a>، این را به سرویس <code>throne</code> اضافه کنید:</p>
+<pre><code class="language-yaml hljs">services:
+  throne:
+    environment:
+      THRONE_WEB_LISTEN: &quot;*:9096&quot;
+    ports: [&quot;2080:2080&quot;, &quot;9096:9096&quot;]
+</code></pre>
+<p>روی میزبانی که از اینترنت قابل دسترسی است، فقط نشانی LAN را منتشر کنید، برای مثال <code>&quot;192.168.1.2:9096:9096&quot;</code>. با <code>docker run</code>، <code>-e THRONE_WEB_LISTEN='*:9096' -p 9096:9096</code> را اضافه کنید.</p>
+<pre><code class="language-bash hljs">docker compose up -d
+docker compose logs throne
+</code></pre>
+<p>گزارش، گذرواژه و اثر انگشت گواهی را نشان می‌دهد. <code>https://&lt;host&gt;:9096/</code> را باز کنید، <a href="#lan">اثر انگشت را بررسی کنید</a> و وارد شوید.</p>
+<p>دروازه وضعیت خود را در <code>/var/lib/throne/web</code> روی volume داده‌ها نگه می‌دارد. 3 ثانیه پس از خروج دوباره شروع می‌شود، بنابراین یک <a href="#options">گزینهٔ</a> نادرست <code>THRONE_WEB_*</code> در گزارش تکرار می‌شود.</p>
+<h3 id="systemd">بسته‌های Linux (systemd)</h3>
+<p>بسته‌های <code>.deb</code> و <code>.rpm</code>، <code>throne-web.service</code> را نصب می‌کنند که <code>thronectl web</code> را در کنار <code>throne.service</code> با یک کاربر پویا (dynamic user) مخصوص خودش اجرا می‌کند، با کلید Throne به‌عنوان یک credential و وضعیتش در <code>/var/lib/throne-web</code>:</p>
+<pre><code class="language-bash hljs">sudo systemctl enable --now throne-web
+sudo journalctl -u throne-web | grep 'web UI password'
+</code></pre>
+<p>روی <code>127.0.0.1:9096</code> گوش می‌دهد: آن را از طریق یک <a href="#ssh-tunnel">تونل SSH</a> باز کنید. برای تغییر گزینه‌هایش، آن‌ها را در <code>/etc/throne/web.env</code> از حالت توضیح خارج کنید و <code>sudo systemctl restart throne-web</code> را اجرا کنید؛ ارتقاها تغییرات شما را نگه می‌دارند. هرگز کلید یا گذرواژه را در این فایل نگذارید.</p>
+<ul>
+<li>کاربر یونیت نمی‌تواند فایل‌هایی را بخواند که فقط root می‌تواند بخواند، مانند کلید TLS یا فایل گذرواژه. آن‌ها را با <code>LoadCredential=</code> بدهید (<code>sudo systemctl edit throne-web</code>)، همان‌طور که <code>/etc/throne/web.env</code> نشان می‌دهد.</li>
+<li>پورتی پایین‌تر از 1024 به <code>CAP_NET_BIND_SERVICE</code> در <code>AmbientCapabilities=</code> و <code>CapabilityBoundingSet=</code> نیاز دارد.</li>
+</ul>
+<h3 id="manual">به‌صورت دستی، روی هر سیستمی</h3>
+<p>روی دستگاه Throne، <a href="/fa/headless/thronectl/#connect">thronectl را به Throne متصل کنید</a> و دروازه را شروع کنید:</p>
+<pre><code class="language-bash hljs">export THRONE_KEY_FILE=~/.config/throne/api-key
+thronectl web
+</code></pre>
+<p>دروازه گذرواژه را یک بار چاپ می‌کند و تا وقتی <code>Ctrl+C</code> را بزنید، <code>http://127.0.0.1:9096/</code> را ارائه می‌دهد. برای Throne دسکتاپ، ابتدا <a href="/fa/advanced/api/#enable">API را روشن کنید</a> و <a href="/fa/advanced/api/#connect">thronectl را متصل کنید</a>.</p>
+<h2 id="remote">دسترسی از دستگاه دیگر</h2>
+<p>دروازه روی <code>127.0.0.1:9096</code> گوش می‌دهد که فقط دستگاه Throne به آن می‌رسد.</p>
+<h3 id="ssh-tunnel">تونل SSH</h3>
+<pre><code class="language-bash hljs">ssh -L 9096:127.0.0.1:9096 user@host
+</code></pre>
+<p>تا وقتی نشست باز است، <code>http://localhost:9096/</code> را روی رایانهٔ خودتان باز کنید (برای Docker، <code>https://</code>). اگر پورت 9096 آنجا در حال استفاده است، پورت محلی دیگری به کار ببرید، برای مثال <code>-L 19096:127.0.0.1:9096</code>.</p>
+<h3 id="lan">شبکهٔ محلی (HTTPS)</h3>
+<pre><code class="language-bash hljs">thronectl web --listen '*:9096'
+</code></pre>
+<p><code>*:9096</code> روی همهٔ نشانی‌های دستگاه گوش می‌دهد و <code>192.168.1.2:9096</code> فقط روی یکی. روی یک نشانی شبکه، دروازه با HTTPS ارائه می‌شود. اگر به آن گواهی ندهید، یک گواهی خودامضا می‌سازد و در هر بار شروع، اثر انگشت SHA-256 آن را چاپ می‌کند؛ صفحهٔ <code>System</code> هم آن را نشان می‌دهد. مرورگر هشدار می‌دهد که گواهی قابل اعتماد نیست: جزئیات گواهی را باز کنید و فقط اگر اثر انگشت SHA-256 آن با اثر انگشت چاپ‌شده یکسان بود آن را بپذیرید. اگر فرق داشتند، چیزی میان شما و دستگاه اتصال را رهگیری می‌کند: وارد نشوید.</p>
+<p>پورت 9096 را در فایروال دستگاه، و فقط برای شبکهٔ خودتان، باز کنید.</p>
+<ul>
+<li>گواهی برای <code>localhost</code>، نام میزبان و نشانی‌هایی صادر می‌شود که دستگاه در آن زمان داشت، و 10 سال اعتبار دارد. برای گواهی جدید، برای مثال پس از تغییر نشانی، پوشهٔ <code>tls</code> را در پوشهٔ وضعیت (state directory) حذف کنید و دروازه را دوباره راه‌اندازی کنید.</li>
+<li>برای استفاده از گواهی خودتان، زنجیرهٔ گواهی و کلید خصوصی را به‌صورت فایل‌های PEM با <code>--tls-cert</code> و <code>--tls-key</code> بدهید. پس از تمدید آن‌ها، دروازه را دوباره راه‌اندازی کنید.</li>
+</ul>
+<h3 id="reverse-proxy">پشت پروکسی معکوس</h3>
+<p>دروازه را روی loopback نگه دارید و نام میزبان خود را به آن بدهید:</p>
+<pre><code class="language-bash hljs">thronectl web --allow-host throne.example.com
+</code></pre>
+<p>اگر پروکسی روی دستگاه یا کانتینر دیگری اجرا می‌شود، دروازه باید با <code>--tls off</code> روی یک نشانی شبکه گوش دهد. فقط به پروکسی اجازهٔ رسیدن به آن را بدهید: گذرواژه بدون رمزگذاری از آن عبور می‌کند. پروکسی باید:</p>
+<ul>
+<li><strong>هدر <code>Host</code> را بدون تغییر عبور دهد</strong>، وگرنه تغییرات با <code>403 csrf</code> شکست می‌خورند. nginx این هدر را عوض می‌کند، مگر اینکه آن را تنظیم کنید؛ Caddy آن را نگه می‌دارد.</li>
+<li><strong>بدنهٔ درخواست‌ها را تا 512 MiB بپذیرد</strong>، یعنی بزرگ‌ترین پشتیبانی که رابط وب بازیابی می‌کند. nginx فقط 1 MiB می‌پذیرد، مگر اینکه <code>client_max_body_size</code> را تنظیم کنید.</li>
+<li><strong>پاسخ‌ها را بافر نکند</strong>: به‌روزرسانی‌های زنده و گزارش به‌صورت جریان (stream) می‌آیند. هدر <code>X-Accel-Buffering: no</code> دروازه، بافر کردن را در nginx خاموش می‌کند.</li>
+</ul>
+<p>nginx:</p>
+<pre><code class="language-nginx hljs">server {
+    listen 443 ssl;
+    server_name throne.example.com;
+    ssl_certificate     /etc/ssl/certs/throne.example.com.pem;
+    ssl_certificate_key /etc/ssl/private/throne.example.com.key;
+
+    location / {
+        proxy_pass http://127.0.0.1:9096;
+        proxy_set_header Host $http_host;
+        client_max_body_size 512m;
+    }
+}
+</code></pre>
+<p>Caddy:</p>
+<pre><code class="language-text hljs">throne.example.com {
+    reverse_proxy 127.0.0.1:9096
+}
+</code></pre>
+<p>پشت پروکسی، همهٔ مرورگرها از نشانی پروکسی می‌آیند، بنابراین ورودهای ناموفق از یک مرورگر، <a href="#security">دسترسی</a> بقیه را هم قطع می‌کند.</p>
+<h2 id="password">گذرواژه</h2>
+<p>رابط وب یک گذرواژه دارد و حساب کاربری ندارد. دروازه در نخستین شروع، یک گذرواژهٔ تصادفی می‌سازد، هش آن را در فایل <code>password</code> در پوشهٔ وضعیت خود ذخیره می‌کند و گذرواژه را یک بار چاپ می‌کند: در <code>docker compose logs throne</code>، در <code>sudo journalctl -u throne-web | grep 'web UI password'</code>، یا در ترمینالی که <code>thronectl web</code> را در آن شروع کردید.</p>
+<p>این خط در آن گزارش می‌ماند، که root، گروه‌های <code>adm</code> و <code>systemd-journal</code> و هر کسی که اجازهٔ اجرای <code>docker</code> را دارد می‌توانند آن را بخوانند. پس از نخستین ورود گذرواژه را تغییر دهید: در صفحهٔ <code>System</code>، یا با <code>thronectl web passwd</code> که با کاربر دروازه و با همان پوشهٔ وضعیت اجرا شود. گذرواژه دست‌کم 8 نویسه لازم دارد، و تغییر آن همهٔ دیگران را از حساب خارج می‌کند.</p>
+<pre><code class="language-bash hljs">docker compose exec throne thronectl web passwd              # Docker
+sudo thronectl web passwd --state-dir /var/lib/throne-web    # systemd unit
+</code></pre>
+<p><strong>گذرواژهٔ فراموش‌شده.</strong> با <code>thronectl web passwd</code> یک گذرواژهٔ جدید بگذارید، یا فایل <code>password</code> را حذف کنید و دروازه را دوباره راه‌اندازی کنید تا گذرواژهٔ جدیدی چاپ کند.</p>
+<p><strong>فایل گذرواژه.</strong> <code>--password-file FILE</code> (<code>THRONE_WEB_PASSWORD_FILE</code>) گذرواژه را به‌جای هش ذخیره‌شده، به‌صورت متن ساده از یک فایل می‌خواند، برای مثال از یک Docker secret در <code>/run/secrets/</code>. دروازه هر 5 ثانیه فایل را دوباره می‌خواند و وقتی تغییر کند همه را از حساب خارج می‌کند. برای تغییر گذرواژه، خود فایل را تغییر دهید.</p>
+<p><strong>نشست‌ها.</strong> یک ورود تا وقتی معتبر است که مرورگر 12 ساعت بی‌کار نمانده باشد، و حداکثر 7 روز. راه‌اندازی دوبارهٔ دروازه همه را از حساب خارج می‌کند. دروازه حداکثر 64 نشست نگه می‌دارد؛ یک ورود بیشتر، نشستی را پایان می‌دهد که زمان بیشتری از آخرین استفاده‌اش گذشته است.</p>
+<h2 id="features">رابط وب چه چیزهایی را پوشش می‌دهد</h2>
+<table>
+<thead>
+<tr>
+<th>صفحه</th>
+<th>کارهایی که می‌توانید انجام دهید</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Status</code></td>
+<td>وضعیت، نمایهٔ در حال اجرا و سرعت؛ اتصال و قطع اتصال؛ TUN و پروکسی سیستم (فقط در Throne دسکتاپ)؛ نمایهٔ مسیریابی؛ تست‌های در حال اجرا.</td>
+</tr>
+<tr>
+<td><code>Profiles</code></td>
+<td>مرور، فیلتر، تست، اتصال، ویرایش و حذف نمایه‌ها، یا اتصال بهترین نمایهٔ یک گروه. وارد کردن لینک‌های اشتراک‌گذاری، یک فایل یا یک URL. افزودن، به‌روزرسانی و حذف گروه‌ها و اشتراک‌ها.</td>
+</tr>
+<tr>
+<td><code>Routing</code></td>
+<td>افزودن، ویرایش و حذف نمایه‌های مسیریابی. روشن و خاموش کردن WARP، انتخاب حالت آن و ثبت آن (که شرایط WARP شرکت Cloudflare را می‌پذیرد).</td>
+</tr>
+<tr>
+<td><code>Traffic</code></td>
+<td>سرعت، و مجموع ترافیک بر اساس نمایه یا برنامه برای 24 ساعت، 7 روز یا 30 روز.</td>
+</tr>
+<tr>
+<td><code>Connections</code></td>
+<td>اتصال‌های باز و بسته‌شده، با پردازه، مقصد، خروجی (outbound) و قانون؛ بستن یکی یا همه.</td>
+</tr>
+<tr>
+<td><code>Logs</code></td>
+<td>گزارش Throne همان‌طور که نوشته می‌شود؛ صفحه جدیدترین 5000 خط را نگه می‌دارد.</td>
+</tr>
+<tr>
+<td><code>Settings</code></td>
+<td>تنظیماتی که API مدیریت می‌کند، فایل‌های geo، و مجموعه‌قوانین نمایهٔ در حال اجرا.</td>
+</tr>
+<tr>
+<td><code>Backup</code></td>
+<td>دانلود یک پشتیبان، یا بارگذاری یکی و بازیابی بخش‌هایی که انتخاب می‌کنید.</td>
+</tr>
+<tr>
+<td><code>System</code></td>
+<td>نسخه‌ها، اینکه دروازه دسترسی مدیریتی دارد یا نه، اثر انگشت گواهی، گذرواژه، خروج از حساب، راه‌اندازی دوباره و خاموش کردن Throne.</td>
+</tr>
+</tbody>
+</table>
+<p>تغییراتی که در پنجرهٔ Throne، با <code>thronectl</code> یا با به‌روزرسانی یک اشتراک انجام می‌شوند، ظرف چند ثانیه دیده می‌شوند.</p>
+<h3 id="desktop-only">آنچه در دسکتاپ می‌ماند</h3>
+<p>رابط وب این‌ها را ویرایش نمی‌کند:</p>
+<ul>
+<li>حساب‌های OTP،</li>
+<li>نمایهٔ مسیریابی خودِ یک گروه (برای یک اشتراک جدید، <a href="/fa/headless/thronectl/#profiles"><code>thronectl sub add</code></a> آن را تنظیم می‌کند)،</li>
+<li>نقاط پایانی (endpoints) OpenVPN و OpenConnect یک نمایهٔ مسیریابی،</li>
+<li>نمایه‌های هستهٔ اضافی (Extra Core)، و نمایه‌هایی با تنظیماتی که فقط پنجرهٔ Throne می‌تواند تنظیم کند، مانند پیوند به یک حساب OTP،</li>
+<li>تنظیماتی که API مدیریت نمی‌کند.</li>
+</ul>
+<p>این‌ها را در یک Throne دسکتاپ تنظیم کنید و <a href="/fa/headless/thronectl/#from-desktop">با یک پشتیبان منتقل کنید</a>، که در صفحهٔ <code>Backup</code> یا با <code>thronectl backup restore</code> بازیابی می‌شود. پشتیبان‌هایی که نمایهٔ هستهٔ اضافی دارند رد می‌شوند.</p>
+<h2 id="options">گزینه‌ها</h2>
+<p>پرچم (flag) بر متغیر خودش مقدم است.</p>
+<table>
+<thead>
+<tr>
+<th>پرچم</th>
+<th>متغیر</th>
+<th>پیش‌فرض و معنا</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--listen ADDR</code></td>
+<td><code>THRONE_WEB_LISTEN</code></td>
+<td><code>127.0.0.1:9096</code>. <code>PORT</code> (روی <code>127.0.0.1</code>)، <code>IP:PORT</code>، <code>[IPv6]:PORT</code> و <code>*:PORT</code> (همهٔ نشانی‌ها) را می‌پذیرد، اما نام میزبان را نه.</td>
+</tr>
+<tr>
+<td><code>--state-dir DIR</code></td>
+<td><code>THRONE_WEB_STATE_DIR</code></td>
+<td>هش گذرواژه و گواهی خودامضا. پیش‌فرض: <code>$STATE_DIRECTORY</code> از systemd، وگرنه <code>~/.config/thronectl/web</code> در Linux، <code>~/Library/Application Support/thronectl/web</code> در macOS، <code>%AppData%\thronectl\web</code> در Windows.</td>
+</tr>
+<tr>
+<td><code>--tls auto|on|off</code></td>
+<td><code>THRONE_WEB_TLS</code></td>
+<td><code>auto</code> (پیش‌فرض): HTTPS روی نشانی شبکه، HTTP ساده روی loopback. <code>on</code>: HTTPS روی loopback هم. <code>off</code>: HTTP ساده؛ روی نشانی شبکه فقط پشت یک پروکسی معکوس با TLS.</td>
+</tr>
+<tr>
+<td><code>--tls-cert FILE</code>، <code>--tls-key FILE</code></td>
+<td><code>THRONE_WEB_TLS_CERT</code>، <code>THRONE_WEB_TLS_KEY</code></td>
+<td>زنجیرهٔ گواهی و کلید خصوصی خودتان در قالب PEM، به‌جای گواهی خودامضا. با <code>auto</code>، روی loopback هم HTTPS را روشن می‌کنند.</td>
+</tr>
+<tr>
+<td><code>--allow-host LIST</code></td>
+<td><code>THRONE_WEB_ALLOW_HOST</code></td>
+<td>نام‌های میزبان دیگری که مرورگرها می‌توانند به کار ببرند، مانند نام یک پروکسی معکوس، جداشده با ویرگول یا فاصله. دروازه برای مقابله با DNS rebinding به نام‌های دیگر با <code>421 Misdirected Request</code> پاسخ می‌دهد: روی loopback فقط همین نام‌ها، <code>localhost</code>، <code>127.0.0.1</code> و <code>::1</code> را می‌پذیرد؛ روی نشانی شبکه هر نامی را، مگر اینکه این گزینه تنظیم شده باشد.</td>
+</tr>
+<tr>
+<td><code>--password-file FILE</code></td>
+<td><code>THRONE_WEB_PASSWORD_FILE</code></td>
+<td>گذرواژه به‌صورت متن ساده، به‌جای هش ذخیره‌شده. <a href="#password">گذرواژه</a> را ببینید.</td>
+</tr>
+</tbody>
+</table>
+<p>دروازه Throne را همان‌طور پیدا می‌کند که هر فرمان <code>thronectl</code>، و زیر systemd کلید را از credential به نام <code>api.key</code> هم می‌خواند. <code>thronectl web</code> وقتی با <code>Ctrl+C</code> یا <code>SIGTERM</code> متوقف شود با کد 0 خارج می‌شود؛ با کد 2 برای گزینه یا متغیر نادرست، نبود کلید، فایل گذرواژه یا فایل <code>password</code> معیوب، یا گواهی‌ای که بارگذاری نمی‌شود؛ و با کد 3 وقتی نمی‌تواند گوش دهد یا برای خطای دیگری.</p>
+<h2 id="security">امنیت</h2>
+<ul>
+<li><strong>رابط وب یک کلاینت مدیریتی است.</strong> هر کسی که وارد شود می‌تواند همان کارهایی را بکند که <code>thronectl</code> می‌کند، از جمله دانلود پشتیبان‌ها که اطلاعات ورود نمایه‌ها و رمزهای OTP شما را به‌صورت متن ساده دارند، و خاموش کردن Throne. گذرواژه را فقط به کسانی بدهید که اجازهٔ مدیریت Throne را دارند.</li>
+<li><strong>کلید API نزد دروازه می‌ماند.</strong> مرورگر فقط یک کوکی نشست و یک توکن نشست می‌گیرد.</li>
+<li><strong>محدودیت‌های ورود.</strong> پس از 5 ورود ناموفق در 5 دقیقه از یک نشانی (برای IPv6، از یک شبکهٔ ‎/64)، دروازه ورود از آن نشانی را به مدت 60 ثانیه رد می‌کند، و پس از هر شکست بعدی دو برابر بیشتر، تا حداکثر 15 دقیقه. وقتی در مجموع بیش از 30 ورود در یک دقیقه ناموفق باشد، هر ورودی را تا پایان آن دقیقه رد می‌کند.</li>
+<li><strong>loopback و تونل SSH را ترجیح دهید.</strong> روی شبکه از HTTPS استفاده کنید و اثر انگشت گواهی را بررسی کنید، یا از گواهی‌ای استفاده کنید که مرورگرها به آن اعتماد دارند. HTTP ساده روی یک نشانی شبکه، گذرواژه و نشست را بدون رمزگذاری می‌فرستد.</li>
+<li><strong>دروازه را روی دستگاه Throne اجرا کنید</strong>، تا API در Throne بتواند روی loopback بماند.</li>
+</ul>
+<h2 id="troubleshooting">عیب‌یابی</h2>
+<table>
+<thead>
+<tr>
+<th>نشانه</th>
+<th>علت و راه‌حل</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Throne is not reachable. Retrying…</code> (<code>throne_unreachable</code>)</td>
+<td>Throne اجرا نمی‌شود، API آن خاموش است، یا دروازه نشانی نادرستی دارد. <code>thronectl status</code> را با تنظیمات دروازه اجرا کنید.</td>
+</tr>
+<tr>
+<td><code>Throne refuses the web UI</code> یا <code>Throne refused the connection</code> (<code>throne_rejected</code>)</td>
+<td>کلید دروازه نادرست است. کلید فعلی Throne (<code>config/api.key</code> در پوشهٔ داده‌ها) را به آن بدهید و دوباره راه‌اندازی‌اش کنید. از دستگاه دیگر، 5 تلاش ناموفق از نشانی آن، حتی از سوی کلاینت دیگری با کلید قدیمی، آن را 60 ثانیه مسدود می‌کند.</td>
+</tr>
+<tr>
+<td><code>The web UI&#39;s connection to Throne lacks admin rights</code> (<code>forbidden</code>)</td>
+<td>دروازه روی دستگاه Throne اجرا نمی‌شود. آن را آنجا اجرا کنید، یا اجازه دهید Throne از شبکه به درخواست‌های مدیریتی پاسخ دهد: <code>--api-admin-lan</code> برای Throne بدون رابط گرافیکی، <code>اجازهٔ مدیریت از شبکهٔ محلی</code> (Allow management from the local network) در برنامهٔ دسکتاپ.</td>
+</tr>
+<tr>
+<td><code>421 Misdirected Request: this host name is not accepted</code></td>
+<td>دروازه را با <code>localhost</code> یا یک نشانی IP باز کنید، یا نام را با <a href="#options"><code>--allow-host</code></a> اضافه کنید.</td>
+</tr>
+<tr>
+<td>پشت پروکسی معکوس، ورود شکست می‌خورد: <code>The web UI server refused the request because it came from another origin</code> (<code>403 csrf</code>)</td>
+<td>پروکسی هدر <code>Host</code> را تغییر می‌دهد: <a href="#reverse-proxy">پشت پروکسی معکوس</a> را ببینید.</td>
+</tr>
+<tr>
+<td><code>Too many failed attempts. Try again in … s.</code> (<code>rate_limited</code>)</td>
+<td>صبر کنید تا شمارش معکوس تمام شود.</td>
+</tr>
+<tr>
+<td><code>thronectl web</code> خارج می‌شود: <code>address already in use; --listen picks another address</code></td>
+<td>برنامهٔ دیگری، یا یک <code>thronectl web</code> دیگر، پورت 9096 را گرفته است. آن را متوقف کنید، یا <code>--listen</code> دیگری بدهید.</td>
+</tr>
+<tr>
+<td>بازیابی پشتیبان از طریق nginx با <code>413</code> شکست می‌خورد</td>
+<td><code>client_max_body_size 512m;</code> را تنظیم کنید.</td>
+</tr>
+<tr>
+<td><code>The password comes from a password file</code></td>
+<td>فایلی را که <code>--password-file</code> نام می‌برد تغییر دهید.</td>
+</tr>
+</tbody>
+</table>
+
+      </div>
+      
+      
+      
+      <footer class="docs-article-footer">
+        
+        <a class="edit-link" href="https://github.com/throneproj/throneproj.github.io/edit/main/content/headless/web.fa.md" target="_blank" rel="noopener noreferrer">
+        
+          <svg class="ic" aria-hidden="true"><use href="#i-pencil"/></svg>
+          ویرایش این صفحه در GitHub
+        </a>
+        
+
+<nav class="prev-next" aria-label="مسیریابی صفحه">
+  
+  <a class="prevnext-prev" href="https://throneproj.github.io/fa/headless/thronectl/">
+    <span class="prevnext-dir">قبلی</span>
+    مدیریت با thronectl
+  </a>
+  
+  
+  <a class="prevnext-next" href="https://throneproj.github.io/fa/headless/command_line/">
+    <span class="prevnext-dir">بعدی</span>
+    خط فرمان و پوشهٔ داده‌ها
+  </a>
+  
+</nav>
+
+      </footer>
+    </article>
+  </main>
+  
+<nav class="docs-toc" aria-label="در این صفحه">
+  <p class="docs-toc-title">
+    <svg class="ic" aria-hidden="true"><use href="#i-list"/></svg>
+    در این صفحه
+  </p>
+  <ul><li><a href="#quick-start">شروع سریع</a><ul><li><a href="#docker">Docker</a></li><li><a href="#systemd">بسته‌های Linux (systemd)</a></li><li><a href="#manual">به‌صورت دستی، روی هر سیستمی</a></li></ul></li><li><a href="#remote">دسترسی از دستگاه دیگر</a><ul><li><a href="#ssh-tunnel">تونل SSH</a></li><li><a href="#lan">شبکهٔ محلی (HTTPS)</a></li><li><a href="#reverse-proxy">پشت پروکسی معکوس</a></li></ul></li><li><a href="#password">گذرواژه</a></li><li><a href="#features">رابط وب چه چیزهایی را پوشش می‌دهد</a><ul><li><a href="#desktop-only">آنچه در دسکتاپ می‌ماند</a></li></ul></li><li><a href="#options">گزینه‌ها</a></li><li><a href="#security">امنیت</a></li><li><a href="#troubleshooting">عیب‌یابی</a></li></ul>
+</nav>
+
+    </main>
+  </div>
+
+  
+<script src="https://throneproj.github.io/assets/js/highlight.min.js" defer></script>
+<script>
+  window.NOIR_BASE = "https://throneproj.github.io";
+  
+  window.NOIR_I18N = {
+    copy: "کپی",
+    copied: "کپی شد",
+    copyManual: "کلید Ctrl C را فشار دهید",
+    noResults: "نتیجه‌ای یافت نشد برای",
+    theme: "تم",
+    themeAuto: "خودکار",
+    themeLight: "روشن",
+    themeDark: "تاریک"
+  };
+</script>
+<script src="https://throneproj.github.io/js/theme.js" defer></script>
+<script src="https://throneproj.github.io/js/nav.js" defer></script>
+<script src="https://throneproj.github.io/js/code.js" defer></script>
+<script src="https://throneproj.github.io/js/toc.js" defer></script>
+<script src="https://throneproj.github.io/js/reveal.js" defer></script>
+<script src="https://throneproj.github.io/js/mermaid.js" defer></script>
+<script src="https://throneproj.github.io/js/search.js" defer></script>
+
+</body>
+</html>

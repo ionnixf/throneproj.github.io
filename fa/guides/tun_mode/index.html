@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" >
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="حالت TUN را روشن کنید، دسترسی‌های لازم را در Windows، Linux و macOS به Throne بدهید، تنظیمات TUN را تغییر دهید و مشکلات رایج TUN را برطرف کنید.">
+  <title>حالت TUN - Throne</title>
+
+  
+  <meta name="theme-color" content="#0b0b0c" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#fbfbfa" media="(prefers-color-scheme: light)">
+
+  
+  <script>
+    (function () {
+      var r = document.documentElement;
+      r.classList.add("js");
+      try {
+        var t = localStorage.getItem("throne-theme");
+        if (t === "light" || t === "dark") r.setAttribute("data-theme", t);
+      } catch (e) {}
+    })();
+  </script>
+
+  <meta name="google-site-verification" content="Zzz4doeS45o-EhP56mm1yoyfHSEEZJRJJt0tfj7vPGM" />
+  <script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+      m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+      m[i].l=1*new Date();
+      for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+      k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=111847353', 'ym');
+
+    
+    ym(111847353, 'init', {ssr:true, webvisor:false, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/111847353" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+
+  <meta property="og:title" content="حالت TUN">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://throneproj.github.io/fa/guides/tun_mode/">
+  <meta property="og:description" content="حالت TUN را روشن کنید، دسترسی‌های لازم را در Windows، Linux و macOS به Throne بدهید، تنظیمات TUN را تغییر دهید و مشکلات رایج TUN را برطرف کنید.">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="حالت TUN">
+  <meta name="twitter:description" content="حالت TUN را روشن کنید، دسترسی‌های لازم را در Windows، Linux و macOS به Throne بدهید، تنظیمات TUN را تغییر دهید و مشکلات رایج TUN را برطرف کنید.">
+  <link rel="canonical" href="https://throneproj.github.io/fa/guides/tun_mode/">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"حالت TUN","url":"https://throneproj.github.io/fa/guides/tun_mode/","description":"حالت TUN را روشن کنید، دسترسی‌های لازم را در Windows، Linux و macOS به Throne بدهید، تنظیمات TUN را تغییر دهید و مشکلات رایج TUN را برطرف کنید."}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Throne","item":"https://throneproj.github.io/fa/"},{"@type":"ListItem","position":2,"name":"راهنماها","item":"https://throneproj.github.io/fa/guides/"},{"@type":"ListItem","position":3,"name":"حالت TUN"}]}</script>
+  <link rel="alternate" hreflang="fa" href="https://throneproj.github.io/fa/guides/tun_mode/">
+<link rel="alternate" hreflang="en" href="https://throneproj.github.io/guides/tun_mode/">
+<link rel="alternate" hreflang="ru" href="https://throneproj.github.io/ru/guides/tun_mode/">
+<link rel="alternate" hreflang="zh" href="https://throneproj.github.io/zh/guides/tun_mode/">
+<link rel="alternate" hreflang="x-default" href="https://throneproj.github.io/guides/tun_mode/">
+
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon.ico" sizes="any">
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon-96x96.png" type="image/png" sizes="96x96">
+  <link rel="apple-touch-icon" href="https://throneproj.github.io/logos/apple-touch-icon.png">
+  <link rel="manifest" href="https://throneproj.github.io/logos/site.webmanifest">
+
+  <link rel="preload" href="https://throneproj.github.io/fonts/geist-variable-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+  
+  <link rel="stylesheet" href="https://throneproj.github.io/assets/css/highlight/atom-one-dark.min.css">
+  <link rel="stylesheet" href="https://throneproj.github.io/css/style.css">
+  
+</head>
+<body>
+  <a class="skip-link" href="#main">پرش به محتوای اصلی</a>
+  
+<svg xmlns="http://www.w3.org/2000/svg" class="icon-sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 10a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+    <path d="M21 21l-6 -6" />
+  </symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M3 12h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7" />
+  </symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454l0 .008" />
+  </symbol>
+  <symbol id="i-contrast" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M12 17a5 5 0 0 0 0 -10v10" />
+  </symbol>
+  <symbol id="i-chevron-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M6 9l6 6l6 -6" />
+  </symbol>
+  <symbol id="i-menu-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 6l16 0" />
+    <path d="M4 12l16 0" />
+    <path d="M4 18l16 0" />
+  </symbol>
+  <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M18 6l-12 12" />
+    <path d="M6 6l12 12" />
+  </symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 9.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667l0 -8.666" />
+    <path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" />
+  </symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l5 5l10 -10" />
+  </symbol>
+  <symbol id="i-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l14 0" />
+    <path d="M13 18l6 -6" />
+    <path d="M13 6l6 6" />
+  </symbol>
+  <symbol id="i-arrow-up-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M17 7l-10 10" />
+    <path d="M8 7l9 0l0 9" />
+  </symbol>
+  <symbol id="i-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l14 0" />
+    <path d="M5 12l6 6" />
+    <path d="M5 12l6 -6" />
+  </symbol>
+  <symbol id="i-brand-github" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+  </symbol>
+  <symbol id="i-pencil" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+    <path d="M13.5 6.5l4 4" />
+  </symbol>
+  <symbol id="i-rocket" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 13a8 8 0 0 1 7 7a6 6 0 0 0 3 -5a9 9 0 0 0 6 -8a3 3 0 0 0 -3 -3a9 9 0 0 0 -8 6a6 6 0 0 0 -5 3" />
+    <path d="M7 14a6 6 0 0 0 -3 6a6 6 0 0 0 6 -3" />
+    <path d="M14 9a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+  </symbol>
+  <symbol id="i-terminal-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 9l3 3l-3 3" />
+    <path d="M13 15l3 0" />
+    <path d="M3 6a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2l0 -12" />
+  </symbol>
+  <symbol id="i-lifebuoy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M15 15l3.35 3.35" />
+    <path d="M9 15l-3.35 3.35" />
+    <path d="M5.65 5.65l3.35 3.35" />
+    <path d="M18.35 5.65l-3.35 3.35" />
+  </symbol>
+  <symbol id="i-list" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 6l11 0" />
+    <path d="M9 12l11 0" />
+    <path d="M9 18l11 0" />
+    <path d="M5 6l0 .01" />
+    <path d="M5 12l0 .01" />
+    <path d="M5 18l0 .01" />
+  </symbol>
+  <symbol id="i-code" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 8l-4 4l4 4" />
+    <path d="M17 8l4 4l-4 4" />
+    <path d="M14 4l-4 16" />
+  </symbol>
+  <symbol id="i-rss" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 19a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+    <path d="M4 4a16 16 0 0 1 16 16" />
+    <path d="M4 11a9 9 0 0 1 9 9" />
+  </symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12" />
+    <path d="M16 3v4" />
+    <path d="M8 3v4" />
+    <path d="M4 11h16" />
+    <path d="M11 15h1" />
+    <path d="M12 15v3" />
+  </symbol>
+</svg>
+
+<header class="site-header">
+  <div class="header-inner">
+    <button class="icon-btn hamburger" id="drawerToggle" aria-label="باز کردن منو" aria-expanded="false" aria-controls="sidebar">
+      <svg class="ic" aria-hidden="true"><use href="#i-menu-2"/></svg>
+    </button>
+
+    <a href="https://throneproj.github.io/fa/" class="header-logo" aria-label="صفحه اصلی Throne">
+      <img class="logo" src="https://throneproj.github.io/images/throne-logo.png" alt="Throne" width="1817" height="346">
+    </a>
+    <a class="header-version" href="https://github.com/throneproj/Throne/releases/tag/1.4.1" target="_blank" rel="noopener noreferrer">v1.4.1</a>
+
+    <nav class="header-nav" aria-label="اصلی">
+      <a href="https://throneproj.github.io/fa/get_started/">شروع کار</a>
+      <a href="https://throneproj.github.io/fa/downloads/">دانلود</a>
+    </nav>
+
+    <div class="header-right">
+      <button class="header-btn search-trigger" id="searchTrigger" aria-label="جستجو در مستندات">
+        <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+        <span>جستجو</span>
+        <kbd>Ctrl K</kbd>
+      </button>
+
+      
+      
+      <nav class="lang-switcher" aria-label="زبان">
+        
+        <a href="https://throneproj.github.io/guides/tun_mode/" hreflang="en">EN</a>
+        
+        <a href="https://throneproj.github.io/fa/guides/tun_mode/" hreflang="fa" aria-current="true">FA</a>
+        
+        <a href="https://throneproj.github.io/ru/guides/tun_mode/" hreflang="ru">RU</a>
+        
+        <a href="https://throneproj.github.io/zh/guides/tun_mode/" hreflang="zh">ZH</a>
+        
+      </nav>
+      
+
+      <a class="icon-btn" href="https://github.com/throneproj/Throne" target="_blank" rel="noopener noreferrer" aria-label="Throne در GitHub">
+        <svg class="ic" aria-hidden="true"><use href="#i-brand-github"/></svg>
+      </a>
+
+      
+      <button class="icon-btn theme-toggle" id="themeToggle" data-mode="auto" type="button" aria-label="تم">
+        <svg class="ic ic-auto" aria-hidden="true"><use href="#i-contrast"/></svg>
+        <svg class="ic ic-light" aria-hidden="true"><use href="#i-sun"/></svg>
+        <svg class="ic ic-dark" aria-hidden="true"><use href="#i-moon"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+<div class="search-overlay" id="searchOverlay" role="dialog" aria-modal="true" aria-label="جستجو در مستندات" hidden>
+  <div class="search-modal">
+    <div class="search-input-wrap">
+      <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+      <input type="search" id="searchInput" aria-label="جستجو در مستندات" placeholder="جستجو در مستندات" autocomplete="off" spellcheck="false">
+      <kbd id="searchClose" role="button" tabindex="0">Esc</kbd>
+    </div>
+    <div class="search-results" id="searchResults" role="listbox" aria-label="جستجو"></div>
+  </div>
+</div>
+<div class="docs-container">
+<div class="drawer-scrim" id="drawerScrim"></div>
+<aside class="docs-sidebar" id="sidebar">
+  <nav class="sidebar-nav" aria-label="مسیریابی مستندات">
+
+    
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>شروع کار</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/fa/get_started/">نمای کلی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/get_started/installation/">نصب</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/get_started/configuration/">شروع سریع</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group" open>
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>راهنماها</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/">نمای کلی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/subscriptions/">اشتراک‌ها و گروه‌ها</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/proxy_modes/">پروکسی سیستمی، TUN و اشتراک‌گذاری در شبکهٔ محلی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/tun_mode/" aria-current="page">حالت TUN</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/routing/">مسیریابی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/dns/">DNS</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/testing/">تست و انتخابگر خودکار</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/backup/">پشتیبان‌گیری، به‌روزرسانی و مهاجرت</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/recipes/">دستورالعمل‌های کاربردی</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Throne برای Android</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/fa/android/">نمای کلی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/android/installation/">نصب و ارتقا</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/android/permissions/">مجوزها و اجرا در پس‌زمینه</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/android/modes/">حالت‌های VPN و پروکسی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/android/widgets/">ویجت‌ها، کاشی و خودکارسازی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/android/tv/">Android TV</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/android/troubleshooting/">عیب‌یابی Android</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Throne بدون رابط گرافیکی (Headless)</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/fa/headless/">نمای کلی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/headless/installation/">نصب و سرویس‌ها</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/headless/thronectl/">مدیریت با thronectl</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/headless/web/">رابط وب</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/headless/command_line/">خط فرمان و پوشهٔ داده‌ها</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/headless/monitoring/">بررسی سلامت و گزارش‌ها</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/headless/recovery/">محافظت در برابر قطع دسترسی و بازیابی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/headless/troubleshooting/">عیب‌یابی</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>پیکربندی پیشرفته</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/">نمای کلی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/xray/">sing-box در برابر Xray</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/chains/">زنجیره‌های پروکسی و پیکربندی‌های سفارشی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/presets/">پیش‌تنظیم‌های ضدسانسور</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/warp/">Cloudflare WARP</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/dns_tunnels/">تونل‌های DNS</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/vpn_profiles/">OpenVPN، OpenConnect و Tailscale</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/windows_tun_mode/">محافظت از نشت DNS در Windows</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/kill_switch/">کیل‌سوییچ (Kill Switch)</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/deeplinks/">لینک‌های عمیق</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/api/">Throne API و thronectl</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>مرجع</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/fa/reference/">نمای کلی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/reference/protocols/">پروتکل‌ها و قالب‌های واردکردن</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/reference/shortcuts/">میانبرهای صفحه‌کلید و سینی سیستم</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/reference/files/">خط فرمان، فایل‌ها و گزارش‌ها</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/reference/privacy/">حریم خصوصی و درخواست‌های شبکه</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/reference/glossary/">واژه‌نامه</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>پشتیبانی</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/fa/help/">نمای کلی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/help/faq/">پرسش‌های متداول</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/help/troubleshooting/">عیب‌یابی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/help/bug_reports/">گزارش باگ</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/help/migrating/">مهاجرت از Nekoray / NekoBox</a></li>
+        
+        
+      </ul>
+    </details>
+    
+
+  </nav>
+</aside>
+  <main id="main" class="docs-main">
+    <article>
+      <h1 class="docs-title">حالت TUN</h1>
+      <p class="docs-lede">حالت TUN را روشن کنید، دسترسی‌های لازم را در Windows، Linux و macOS به Throne بدهید، تنظیمات TUN را تغییر دهید و مشکلات رایج TUN را برطرف کنید.</p>
+      <div class="prose">
+        <p>در حالت TUN، Throne یک آداپتور شبکهٔ مجازی می‌سازد و ترافیک کل رایانه را از آن عبور می‌دهد، از جمله پرس‌وجوهای DNS و برنامه‌هایی که تنظیمات پروکسی را نادیده می‌گیرند. برای انتخاب میان حالت TUN و پروکسی سیستمی، <a href="/fa/guides/proxy_modes/#which-mode">از کدام حالت استفاده کنیم</a> را ببینید.</p>
+<h2 id="enable">روشن کردن حالت TUN</h2>
+<ol>
+<li>در پنجرهٔ اصلی تیک <code>حالتvpn</code> (Tun Mode) را بزنید، یا در منوی سینی سیستم (tray) از <code>Operation Mode</code> ← <code>حالتvpn</code> (Tun Mode) استفاده کنید.</li>
+<li>بار اول، Throne دسترسی‌هایی را که حالت TUN لازم دارد درخواست می‌کند. درخواست را بپذیرید؛ <a href="#privileges">دسترسی‌ها</a> را ببینید.</li>
+<li>اگر هیچ نمایه‌ای در حال اجرا نیست، یک نمایه را اجرا کنید.</li>
+</ol>
+<p>روشن یا خاموش کردن حالت TUN، نمایهٔ در حال اجرا را دوباره راه‌اندازی می‌کند. حالت TUN فقط تا وقتی کار می‌کند که نمایه‌ای در حال اجرا باشد؛ برای مسدود کردن ترافیک تا وقتی هیچ نمایه‌ای در حال اجرا نیست، <a href="/fa/advanced/kill_switch/">کیل‌سوییچ</a> را روشن کنید.</p>
+<h2 id="privileges">دسترسی‌ها</h2>
+<p>حالت TUN برای ساختن آداپتور و تغییر مسیرهای (routes) رایانه به دسترسی‌های سیستمی نیاز دارد. اگر خودتان این دسترسی‌ها را می‌دهید، برای مثال با capabilityهای Linux که پایین‌تر آمده است، <code>تنظیمات</code> (Settings) ← <code>تنظیمات پایه</code> (Basic Settings) ← <code>امنیت</code> (Security) ← <code>غیرفعال کردن درخواست دسترسی</code> (Disable Privilege request) جلوی درخواست Throne را می‌گیرد (فقط در حالت پیشرفته؛ <a href="/fa/get_started/configuration/#interface-mode">حالت ساده و پیشرفته</a> را ببینید).</p>
+<h3 id="privileges-windows">Windows</h3>
+<ul>
+<li>Throne باید با دسترسی مدیر (administrator) اجرا شود. بار اولی که تیک <code>حالتvpn</code> (Tun Mode) را می‌زنید، روی <code>بله</code> (Yes) کلیک کنید و درخواست Windows را بپذیرید: Throne با دسترسی مدیر و با حالت TUN روشن دوباره اجرا می‌شود. اگر سپس Windows Firewall دربارهٔ <code>ThroneCore</code> پرسید، آن را مجاز کنید.</li>
+<li>از آن پس، Throne هر بار که شروع به کار می‌کند دسترسی مدیر را درخواست می‌کند. برای جلوگیری از این کار، تیک <code>تنظیمات</code> (Settings) ← <code>تنظیمات پایه</code> (Basic Settings) ← <code>امنیت</code> (Security) ← <code>همیشه به‌عنوان کاربر استاندارد شروع شود</code> (Always Start as Standard User) را بزنید (فقط در حالت پیشرفته)؛ در این صورت Throne هنگام روشن کردن حالت TUN درخواست می‌کند.</li>
+<li>اگر <code>برنامه</code> (Program) ← <code>با سیستم شروع شود</code> (Start with system) را در حالی روشن کنید که Throne با دسترسی مدیر اجرا می‌شود، Throne هنگام ورود به حساب کاربری بدون هیچ پرسشی با دسترسی مدیر شروع به کار می‌کند.</li>
+</ul>
+<p><a href="/fa/help/faq/#tun-admin">پرسش‌های متداول</a> را هم ببینید.</p>
+<h3 id="privileges-linux">Linux</h3>
+<ul>
+<li>فقط هسته، یعنی <code>ThroneCore</code>، به دسترسی root نیاز دارد. بار اولی که تیک <code>حالتvpn</code> (Tun Mode) را می‌زنید، روی <code>بله</code> (Yes) کلیک کنید و گذرواژهٔ خود را وارد کنید: Throne با <code>pkexec</code> (بخشی از polkit) مالک <code>ThroneCore</code> را root می‌کند و بیت SUID آن را روشن می‌کند. سپس دوباره تیک <code>حالتvpn</code> (Tun Mode) را بزنید.</li>
+<li>هرگز خود Throne را با <code>sudo</code> اجرا نکنید.</li>
+<li>به‌جای بیت SUID، می‌توانید این پنج capability را به هسته بدهید. Throne فقط وقتی هسته را می‌پذیرد که هر پنج مورد را داشته باشد:</li>
+</ul>
+<pre><code class="language-bash hljs">sudo setcap cap_net_admin,cap_net_raw,cap_net_bind_service,cap_sys_ptrace,cap_dac_read_search+ep /path/to/Throne/ThroneCore
+</code></pre>
+<p>برخی بسته‌های شخص ثالث نمی‌توانند خودشان هسته را تغییر دهند و به‌جای آن دستورالعمل‌های خود بسته را نشان می‌دهند. <a href="/fa/help/faq/#linux-suid">پرسش‌های متداول</a> را هم ببینید.</p>
+<h3 id="privileges-macos">macOS</h3>
+<ul>
+<li>پیش از روشن کردن حالت TUN، <code>Throne.app</code> را به <code>/Applications</code> منتقل کنید. تا وقتی برنامه در <code>Downloads</code> است، تنظیم دسترسی‌ها ممکن است ناموفق باشد.</li>
+<li>بار اولی که تیک <code>حالتvpn</code> (Tun Mode) را می‌زنید، روی <code>بله</code> (Yes) کلیک کنید. Terminal با یک فرمان <code>sudo</code> برای هسته باز می‌شود. گذرواژهٔ خود را همان‌جا وارد کنید، سپس دوباره تیک <code>حالتvpn</code> (Tun Mode) را بزنید.</li>
+<li><code>sudo</code> به حساب کاربری مدیر (administrator) نیاز دارد. با حساب کاربری استاندارد، به‌جای آن از پروکسی سیستمی استفاده کنید.</li>
+</ul>
+<h2 id="settings">تنظیمات TUN</h2>
+<p><code>تنظیمات</code> (Settings) ← <code>تنظیمات vpn</code> (Tun Settings) را باز کنید. اگر حالت TUN روشن است، برای اعمال تغییرات آن را خاموش و دوباره روشن کنید. در حالت ساده فقط <code>فعال کردن IPv6 برای Tun</code> (Tun Enable IPv6)، <code>مسیر سخت‌گیرانه</code> (Strict Route)، <code>فعال کردن مسیریابی Tun</code> (Enable Tun Routing) و <code>راه‌اندازی مجدد هسته</code> (Restart Core) نمایش داده می‌شوند (<a href="/fa/get_started/configuration/#interface-mode">حالت ساده و پیشرفته</a> را ببینید).</p>
+<table>
+<thead>
+<tr>
+<th>تنظیم</th>
+<th>پیش‌فرض</th>
+<th>کارکرد</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>MTU</code></td>
+<td><code>1500</code></td>
+<td>بزرگ‌ترین اندازهٔ بسته در آداپتور، از 1000 تا 10000. با <code>فعال کردن IPv6 برای Tun</code>، دست‌کم 1280 بگذارید، وگرنه ممکن است IPv6 کار نکند.</td>
+</tr>
+<tr>
+<td><code>فعال کردن IPv6 برای Tun</code> (Tun Enable IPv6)</td>
+<td>خاموش</td>
+<td>ترافیک IPv6 را از تونل عبور می‌دهد. فقط اگر سرور شما از IPv6 پشتیبانی می‌کند، آن را روشن کنید.</td>
+</tr>
+<tr>
+<td><code>مسیر سخت‌گیرانه</code> (Strict Route)</td>
+<td>روشن در Windows 10 و نسخه‌های بعدی، خاموش در بقیه</td>
+<td>در Windows، پرس‌وجوهای DNS را که تونل را دور می‌زنند مسدود می‌کند؛ <a href="/fa/advanced/windows_tun_mode/#strict-route">محافظت از نشت DNS در Windows</a> را ببینید.</td>
+</tr>
+<tr>
+<td><code>فعال کردن مسیریابی Tun</code> (Enable Tun Routing)</td>
+<td>خاموش</td>
+<td>محدوده‌های IP و مجموعه‌قوانین (rule-set) <code>geoip-*</code> را که مسیریابی شما به <code>direct</code> می‌فرستد بیرون از تونل نگه می‌دارد. مجموعه‌قوانین بزرگ می‌توانند در Windows مصرف CPU را بسیار بالا ببرند.</td>
+</tr>
+<tr>
+<td><code>Auto Redirect</code></td>
+<td>روشن</td>
+<td>فقط Linux. مسیریابی و سرعت را با nftables بهبود می‌دهد. تا وقتی روشن است، این رایانه نمی‌تواند دروازهٔ شبکه (gateway) برای دستگاه‌های دیگر باشد.</td>
+</tr>
+<tr>
+<td><code>L3 Bridge Bypass</code></td>
+<td>خاموش</td>
+<td>ترافیک مستقیم UDP و ICMP را یک‌راست از آداپتور شبکه بیرون می‌فرستد: سریع‌تر است و NAT را برای بازی‌ها و P2P سالم نگه می‌دارد. در Windows روی ARM در دسترس نیست.</td>
+</tr>
+<tr>
+<td><code>CIDR IPv4</code> (IPv4 CIDR)، <code>CIDR IPv6</code> (IPv6 CIDR)</td>
+<td><code>172.19.0.1/24</code>، <code>fdfe:dcba:9876::1/96</code></td>
+<td>نشانی‌های آداپتور. فقط اگر با شبکه‌ای که استفاده می‌کنید تداخل دارند، آن‌ها را تغییر دهید.</td>
+</tr>
+<tr>
+<td><code>Private Range Bypass</code></td>
+<td>روشن</td>
+<td>محدوده‌های نشانی که به‌جای عبور از تونل مستقیماً به آداپتور شبکهٔ شما می‌روند، هر کدام در یک خط.</td>
+</tr>
+<tr>
+<td><code>راه‌اندازی مجدد هسته</code> (Restart Core)</td>
+<td>–</td>
+<td>نمایهٔ در حال اجرا را متوقف می‌کند و هسته را دوباره راه‌اندازی می‌کند؛ برای وقتی که حالت TUN شروع نمی‌شود.</td>
+</tr>
+</tbody>
+</table>
+<p>فهرست پیش‌فرض <code>Private Range Bypass</code> این است: <code>10.0.0.0/8</code>، <code>172.16.0.0/12</code>، <code>192.168.0.0/16</code>، <code>169.254.0.0/16</code>، <code>224.0.0.0/4</code>، <code>fc00::/7</code>، <code>fe80::/10</code> و <code>ff00::/8</code>.</p>
+<h2 id="side-effects">اثرهای جانبی</h2>
+<h3 id="side-effects-vms">شبکهٔ محلی و ماشین‌های مجازی</h3>
+<p>با روشن بودن <code>Private Range Bypass</code>، چاپگرها، درایوهای شبکه، روتر و دیگر دستگاه‌های محلی مستقیماً و بیرون از تونل در دسترس‌اند، مگر اینکه یک قانون مسیریابی محدودهٔ آن‌ها را به پروکسی بفرستد یا مسدود کند. Docker، WSL و ماشین‌های مجازی هم به همین شکل تونل را دور می‌زنند؛ اگر شبکهٔ آن‌ها از محدوده‌ای استفاده می‌کند که در فهرست نیست، آن را اضافه کنید. <a href="/fa/guides/recipes/#docker-wsl-vms">دستورالعمل‌های کاربردی</a> را ببینید.</p>
+<h3 id="side-effects-hotspot">هات‌اسپات موبایل در Windows</h3>
+<p>اگر Mobile Hotspot یا Internet Connection Sharing در Windows آداپتور شبکهٔ معمول شما را به اشتراک بگذارد، حالت TUN از کار می‌افتد و Throne هشدار «IPv4 forwarding breaks Tun mode» (فعال بودن IPv4 forwarding حالت TUN را مختل می‌کند) را می‌دهد. در تنظیمات Mobile hotspot، گزینهٔ «Share my internet connection from» (اشتراک‌گذاری اتصال اینترنت من از) را روی <code>throne-tun</code> بگذارید، یا تا وقتی از حالت TUN استفاده می‌کنید هات‌اسپات را خاموش کنید. <a href="/fa/guides/recipes/#hotspot">دستورالعمل‌های کاربردی</a> را ببینید.</p>
+<h3 id="side-effects-vpn">VPNهای دیگر</h3>
+<p>دو VPN روی یک رایانه بر سر مسیرها و DNS با هم رقابت می‌کنند. تا وقتی حالت TUN روشن است، برنامه‌های VPN دیگر را خاموش کنید. برای دسترسی هم‌زمان به شبکهٔ شرکت، <a href="/fa/guides/recipes/#corporate-vpn">دستورالعمل‌های کاربردی</a> را ببینید.</p>
+<h3 id="side-effects-dns">DNS</h3>
+<p>همهٔ پرس‌وجوهای DNS به Throne می‌رسند، اما یک تست نشت DNS ممکن است برای سایت‌هایی که مستقیم می‌روند، همچنان ارائه‌دهندهٔ اینترنت شما را نشان دهد؛ <a href="/fa/guides/dns/#leak-tests">DNS</a> را ببینید.</p>
+<p>در macOS، تا وقتی حالت TUN در حال اجراست، Throne سرور DNS سرویس‌های شبکهٔ شما، برای نمونه <code>Wi-Fi</code>، را روی <code>127.0.0.53</code> می‌گذارد، جایی که هسته با تنظیمات DNS برنامهٔ Throne پاسخ می‌دهد. وقتی حالت TUN متوقف می‌شود، Throne سرورهای قبلی شما را برمی‌گرداند.</p>
+<h2 id="troubleshooting">عیب‌یابی</h2>
+<p>زبانهٔ <code>گزارش‌ها</code> (Logs) را باز کنید و هنگام شروع حالت TUN به دنبال خطاها بگردید. برای مراحل کلی، <a href="/fa/help/troubleshooting/#tun">عیب‌یابی</a> را ببینید.</p>
+<h3 id="troubleshooting-windows">Windows</h3>
+<p><strong>وصل است، اما هیچ چیزی بارگذاری نمی‌شود.</strong> ممکن است Windows Firewall جلوی <code>ThroneCore</code> را بگیرد. آن را در <code>Windows Security</code> → <code>Firewall &amp; network protection</code> → <code>Allow an app through firewall</code> برای شبکه‌های خصوصی و عمومی مجاز کنید.</p>
+<p><strong>آنتی‌ویروس.</strong> برخی آنتی‌ویروس‌ها، برای مثال Avast و ESET، جلوی آداپتور یا هسته را می‌گیرند. برای پوشهٔ Throne یک استثنا اضافه کنید.</p>
+<p><strong>«Strict routing unavailable» (مسیریابی سخت‌گیرانه در دسترس نیست).</strong> در <code>تنظیمات vpn</code> (Tun Settings) تیک <code>مسیر سخت‌گیرانه</code> (Strict Route) را بردارید و نمایه را دوباره اجرا کنید. بدون آن، پرس‌وجوهای DNS ممکن است نشت کنند؛ <a href="/fa/advanced/windows_tun_mode/">محافظت از نشت DNS در Windows</a> را ببینید.</p>
+<p><strong>«Tun device misbehaving» (دستگاه Tun درست کار نمی‌کند).</strong> برای راه‌اندازی دوبارهٔ هسته روی <code>بازنشانی</code> (Reset) کلیک کنید، سپس نمایه را دوباره اجرا کنید.</p>
+<p><strong>«آداپتور Tun باقی‌مانده» (Leftover Tun adapter).</strong> پس از کرش یا بستن اجباری برنامه، ممکن است Windows آداپتور نشست قبلی را نگه دارد. روی <code>آغاز دوباره</code> (Start Again) کلیک کنید. اگر باز هم ناموفق بود، Windows را دوباره راه‌اندازی کنید.</p>
+<p><strong>حالت TUN خیلی دیر شروع می‌شود.</strong> Throne هنگام شروع حالت TUN حافظهٔ نهان DNS در Windows را پاک می‌کند، و با یک فایل HOSTS بسیار بزرگ، برای مثال یک فهرست مسدودسازی تبلیغات، این کار بسیار کند است. فایل HOSTS را کوچک‌تر کنید.</p>
+<h3 id="troubleshooting-linux">Linux</h3>
+<p><strong>«Please install &quot;pkexec&quot; first.» (لطفاً ابتدا pkexec را نصب کنید).</strong> polkit را با مدیر بستهٔ سیستم خود نصب کنید، یا capabilityهایی را که در <a href="#privileges-linux">دسترسی‌ها در Linux</a> آمده است تنظیم کنید.</p>
+<p><strong>خطای «file exists» هنگام شروع حالت TUN.</strong> <code>Auto Redirect</code> را در <code>تنظیمات vpn</code> (Tun Settings) خاموش کنید.</p>
+<p><strong>DNS با systemd-resolved کار نمی‌کند.</strong> اگر <code>DNSOverTLS</code> برای همهٔ رابط‌ها در <code>/etc/systemd/resolved.conf</code> روشن باشد، حالت TUN خراب می‌شود. آن را همان‌جا خاموش کنید، یا تا وقتی آداپتور Throne وجود دارد، برای این آداپتور خاموش کنید:</p>
+<pre><code class="language-bash hljs">sudo resolvectl dnsovertls throne-tun no
+</code></pre>
+<p><strong>DNS پس از خاموش شدن حالت TUN کار نمی‌کند (پروکسی DNS محلی).</strong> اتصال یک پروکسی DNS محلی روی <code>127.0.0.1</code>، مانند <code>dnscrypt-proxy</code>، <code>unbound</code> یا <code>dnsmasq</code>، به یک سرور بالادستی بر پایهٔ IP ممکن است در تونل گرفتار شود؛ با راه‌اندازی دوبارهٔ پروکسی، DNS برمی‌گردد. برای جلوگیری از این مشکل، نشانی سرور بالادستی را در <code>تنظیمات vpn</code> (Tun Settings) به <code>Private Range Bypass</code> اضافه کنید، برای مثال <code>1.1.1.1/32</code> برای <code>https://1.1.1.1/dns-query</code> (فقط در حالت پیشرفته؛ <a href="/fa/get_started/configuration/#interface-mode">حالت ساده و پیشرفته</a> را ببینید). سپس حالت TUN را خاموش و دوباره روشن کنید و پروکسی را دوباره راه‌اندازی کنید.</p>
+<p><strong>بسته‌های AUR، Nix یا مخازن دیگر.</strong> این بسته‌ها را جامعهٔ کاربران نگهداری می‌کند. اگر حالت TUN در آن‌ها کار نمی‌کند، نسخهٔ رسمی را امتحان کنید؛ <a href="/fa/help/faq/#third-party-packages">پرسش‌های متداول</a> را ببینید.</p>
+<h3 id="troubleshooting-macos">macOS</h3>
+<p><strong>خطایی دربارهٔ «the system DNS» هنگام شروع حالت TUN.</strong> هسته نتوانست DNS سیستم را به سمت خودش بگذارد (<a href="#side-effects-dns">DNS</a> را ببینید)؛ ادامهٔ پیام می‌گوید چرا. در <code>تنظیمات vpn</code> (Tun Settings) روی <code>راه‌اندازی مجدد هسته</code> (Restart Core) کلیک کنید، سپس نمایه را دوباره اجرا کنید.</p>
+<p><strong>پس از بستن اجباری یا کرش Throne، DNS کار نمی‌کند.</strong> اگر یک سرویس شبکه هنوز سرور DNS <code>127.0.0.53</code> را دارد، Throne را یک بار اجرا کنید: هستهٔ آن سرورهای قبلی شما را برمی‌گرداند. یا خودتان <code>127.0.0.53</code> را در تنظیمات شبکهٔ macOS از آن سرویس حذف کنید.</p>
+<h2 id="android">در Android</h2>
+<p>در حالت <code>VPN</code>، Throne برای Android مانند حالت TUN کار می‌کند. تنظیمات آن در <code>تنظیمات</code> (Settings) ← <code>TUN / VPN</code> است؛ <a href="/fa/android/modes/#tun-settings">حالت‌های VPN و پروکسی</a> را ببینید.</p>
+
+      </div>
+      
+      
+      
+      <footer class="docs-article-footer">
+        
+        <a class="edit-link" href="https://github.com/throneproj/throneproj.github.io/edit/main/content/guides/tun_mode.fa.md" target="_blank" rel="noopener noreferrer">
+        
+          <svg class="ic" aria-hidden="true"><use href="#i-pencil"/></svg>
+          ویرایش این صفحه در GitHub
+        </a>
+        
+
+<nav class="prev-next" aria-label="مسیریابی صفحه">
+  
+  <a class="prevnext-prev" href="https://throneproj.github.io/fa/guides/proxy_modes/">
+    <span class="prevnext-dir">قبلی</span>
+    پروکسی سیستمی، TUN و اشتراک‌گذاری در شبکهٔ محلی
+  </a>
+  
+  
+  <a class="prevnext-next" href="https://throneproj.github.io/fa/guides/routing/">
+    <span class="prevnext-dir">بعدی</span>
+    مسیریابی
+  </a>
+  
+</nav>
+
+      </footer>
+    </article>
+  </main>
+  
+<nav class="docs-toc" aria-label="در این صفحه">
+  <p class="docs-toc-title">
+    <svg class="ic" aria-hidden="true"><use href="#i-list"/></svg>
+    در این صفحه
+  </p>
+  <ul><li><a href="#enable">روشن کردن حالت TUN</a></li><li><a href="#privileges">دسترسی‌ها</a><ul><li><a href="#privileges-windows">Windows</a></li><li><a href="#privileges-linux">Linux</a></li><li><a href="#privileges-macos">macOS</a></li></ul></li><li><a href="#settings">تنظیمات TUN</a></li><li><a href="#side-effects">اثرهای جانبی</a><ul><li><a href="#side-effects-vms">شبکهٔ محلی و ماشین‌های مجازی</a></li><li><a href="#side-effects-hotspot">هات‌اسپات موبایل در Windows</a></li><li><a href="#side-effects-vpn">VPNهای دیگر</a></li><li><a href="#side-effects-dns">DNS</a></li></ul></li><li><a href="#troubleshooting">عیب‌یابی</a><ul><li><a href="#troubleshooting-windows">Windows</a></li><li><a href="#troubleshooting-linux">Linux</a></li><li><a href="#troubleshooting-macos">macOS</a></li></ul></li><li><a href="#android">در Android</a></li></ul>
+</nav>
+
+    </main>
+  </div>
+
+  
+<script src="https://throneproj.github.io/assets/js/highlight.min.js" defer></script>
+<script>
+  window.NOIR_BASE = "https://throneproj.github.io";
+  
+  window.NOIR_I18N = {
+    copy: "کپی",
+    copied: "کپی شد",
+    copyManual: "کلید Ctrl C را فشار دهید",
+    noResults: "نتیجه‌ای یافت نشد برای",
+    theme: "تم",
+    themeAuto: "خودکار",
+    themeLight: "روشن",
+    themeDark: "تاریک"
+  };
+</script>
+<script src="https://throneproj.github.io/js/theme.js" defer></script>
+<script src="https://throneproj.github.io/js/nav.js" defer></script>
+<script src="https://throneproj.github.io/js/code.js" defer></script>
+<script src="https://throneproj.github.io/js/toc.js" defer></script>
+<script src="https://throneproj.github.io/js/reveal.js" defer></script>
+<script src="https://throneproj.github.io/js/mermaid.js" defer></script>
+<script src="https://throneproj.github.io/js/search.js" defer></script>
+
+</body>
+</html>

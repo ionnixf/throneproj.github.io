@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="借助现成的路由配置档或你自己编写的规则，决定哪些流量经过代理、哪些直连、哪些被阻止。">
+  <title>路由 - Throne</title>
+
+  
+  <meta name="theme-color" content="#0b0b0c" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#fbfbfa" media="(prefers-color-scheme: light)">
+
+  
+  <script>
+    (function () {
+      var r = document.documentElement;
+      r.classList.add("js");
+      try {
+        var t = localStorage.getItem("throne-theme");
+        if (t === "light" || t === "dark") r.setAttribute("data-theme", t);
+      } catch (e) {}
+    })();
+  </script>
+
+  <meta name="google-site-verification" content="Zzz4doeS45o-EhP56mm1yoyfHSEEZJRJJt0tfj7vPGM" />
+  <script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+      m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+      m[i].l=1*new Date();
+      for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+      k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=111847353', 'ym');
+
+    
+    ym(111847353, 'init', {ssr:true, webvisor:false, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/111847353" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+
+  <meta property="og:title" content="路由">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://throneproj.github.io/zh/guides/routing/">
+  <meta property="og:description" content="借助现成的路由配置档或你自己编写的规则，决定哪些流量经过代理、哪些直连、哪些被阻止。">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="路由">
+  <meta name="twitter:description" content="借助现成的路由配置档或你自己编写的规则，决定哪些流量经过代理、哪些直连、哪些被阻止。">
+  <link rel="canonical" href="https://throneproj.github.io/zh/guides/routing/">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"路由","url":"https://throneproj.github.io/zh/guides/routing/","description":"借助现成的路由配置档或你自己编写的规则，决定哪些流量经过代理、哪些直连、哪些被阻止。"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Throne","item":"https://throneproj.github.io/zh/"},{"@type":"ListItem","position":2,"name":"使用指南","item":"https://throneproj.github.io/zh/guides/"},{"@type":"ListItem","position":3,"name":"路由"}]}</script>
+  <link rel="alternate" hreflang="zh" href="https://throneproj.github.io/zh/guides/routing/">
+<link rel="alternate" hreflang="en" href="https://throneproj.github.io/guides/routing/">
+<link rel="alternate" hreflang="fa" href="https://throneproj.github.io/fa/guides/routing/">
+<link rel="alternate" hreflang="ru" href="https://throneproj.github.io/ru/guides/routing/">
+<link rel="alternate" hreflang="x-default" href="https://throneproj.github.io/guides/routing/">
+
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon.ico" sizes="any">
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon-96x96.png" type="image/png" sizes="96x96">
+  <link rel="apple-touch-icon" href="https://throneproj.github.io/logos/apple-touch-icon.png">
+  <link rel="manifest" href="https://throneproj.github.io/logos/site.webmanifest">
+
+  <link rel="preload" href="https://throneproj.github.io/fonts/geist-variable-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+  
+  <link rel="stylesheet" href="https://throneproj.github.io/assets/css/highlight/atom-one-dark.min.css">
+  <link rel="stylesheet" href="https://throneproj.github.io/css/style.css">
+  
+</head>
+<body>
+  <a class="skip-link" href="#main">跳转到主要内容</a>
+  
+<svg xmlns="http://www.w3.org/2000/svg" class="icon-sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 10a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+    <path d="M21 21l-6 -6" />
+  </symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M3 12h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7" />
+  </symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454l0 .008" />
+  </symbol>
+  <symbol id="i-contrast" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M12 17a5 5 0 0 0 0 -10v10" />
+  </symbol>
+  <symbol id="i-chevron-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M6 9l6 6l6 -6" />
+  </symbol>
+  <symbol id="i-menu-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 6l16 0" />
+    <path d="M4 12l16 0" />
+    <path d="M4 18l16 0" />
+  </symbol>
+  <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M18 6l-12 12" />
+    <path d="M6 6l12 12" />
+  </symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 9.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667l0 -8.666" />
+    <path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" />
+  </symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l5 5l10 -10" />
+  </symbol>
+  <symbol id="i-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l14 0" />
+    <path d="M13 18l6 -6" />
+    <path d="M13 6l6 6" />
+  </symbol>
+  <symbol id="i-arrow-up-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M17 7l-10 10" />
+    <path d="M8 7l9 0l0 9" />
+  </symbol>
+  <symbol id="i-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l14 0" />
+    <path d="M5 12l6 6" />
+    <path d="M5 12l6 -6" />
+  </symbol>
+  <symbol id="i-brand-github" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+  </symbol>
+  <symbol id="i-pencil" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+    <path d="M13.5 6.5l4 4" />
+  </symbol>
+  <symbol id="i-rocket" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 13a8 8 0 0 1 7 7a6 6 0 0 0 3 -5a9 9 0 0 0 6 -8a3 3 0 0 0 -3 -3a9 9 0 0 0 -8 6a6 6 0 0 0 -5 3" />
+    <path d="M7 14a6 6 0 0 0 -3 6a6 6 0 0 0 6 -3" />
+    <path d="M14 9a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+  </symbol>
+  <symbol id="i-terminal-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 9l3 3l-3 3" />
+    <path d="M13 15l3 0" />
+    <path d="M3 6a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2l0 -12" />
+  </symbol>
+  <symbol id="i-lifebuoy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M15 15l3.35 3.35" />
+    <path d="M9 15l-3.35 3.35" />
+    <path d="M5.65 5.65l3.35 3.35" />
+    <path d="M18.35 5.65l-3.35 3.35" />
+  </symbol>
+  <symbol id="i-list" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 6l11 0" />
+    <path d="M9 12l11 0" />
+    <path d="M9 18l11 0" />
+    <path d="M5 6l0 .01" />
+    <path d="M5 12l0 .01" />
+    <path d="M5 18l0 .01" />
+  </symbol>
+  <symbol id="i-code" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 8l-4 4l4 4" />
+    <path d="M17 8l4 4l-4 4" />
+    <path d="M14 4l-4 16" />
+  </symbol>
+  <symbol id="i-rss" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 19a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+    <path d="M4 4a16 16 0 0 1 16 16" />
+    <path d="M4 11a9 9 0 0 1 9 9" />
+  </symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12" />
+    <path d="M16 3v4" />
+    <path d="M8 3v4" />
+    <path d="M4 11h16" />
+    <path d="M11 15h1" />
+    <path d="M12 15v3" />
+  </symbol>
+</svg>
+
+<header class="site-header">
+  <div class="header-inner">
+    <button class="icon-btn hamburger" id="drawerToggle" aria-label="打开导航" aria-expanded="false" aria-controls="sidebar">
+      <svg class="ic" aria-hidden="true"><use href="#i-menu-2"/></svg>
+    </button>
+
+    <a href="https://throneproj.github.io/zh/" class="header-logo" aria-label="Throne 首页">
+      <img class="logo" src="https://throneproj.github.io/images/throne-logo.png" alt="Throne" width="1817" height="346">
+    </a>
+    <a class="header-version" href="https://github.com/throneproj/Throne/releases/tag/1.4.1" target="_blank" rel="noopener noreferrer">v1.4.1</a>
+
+    <nav class="header-nav" aria-label="主导航">
+      <a href="https://throneproj.github.io/zh/get_started/">开始使用</a>
+      <a href="https://throneproj.github.io/zh/downloads/">下载</a>
+    </nav>
+
+    <div class="header-right">
+      <button class="header-btn search-trigger" id="searchTrigger" aria-label="搜索文档">
+        <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+        <span>搜索</span>
+        <kbd>Ctrl K</kbd>
+      </button>
+
+      
+      
+      <nav class="lang-switcher" aria-label="语言">
+        
+        <a href="https://throneproj.github.io/guides/routing/" hreflang="en">EN</a>
+        
+        <a href="https://throneproj.github.io/fa/guides/routing/" hreflang="fa">FA</a>
+        
+        <a href="https://throneproj.github.io/ru/guides/routing/" hreflang="ru">RU</a>
+        
+        <a href="https://throneproj.github.io/zh/guides/routing/" hreflang="zh" aria-current="true">ZH</a>
+        
+      </nav>
+      
+
+      <a class="icon-btn" href="https://github.com/throneproj/Throne" target="_blank" rel="noopener noreferrer" aria-label="Throne 在 GitHub">
+        <svg class="ic" aria-hidden="true"><use href="#i-brand-github"/></svg>
+      </a>
+
+      
+      <button class="icon-btn theme-toggle" id="themeToggle" data-mode="auto" type="button" aria-label="主题">
+        <svg class="ic ic-auto" aria-hidden="true"><use href="#i-contrast"/></svg>
+        <svg class="ic ic-light" aria-hidden="true"><use href="#i-sun"/></svg>
+        <svg class="ic ic-dark" aria-hidden="true"><use href="#i-moon"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+<div class="search-overlay" id="searchOverlay" role="dialog" aria-modal="true" aria-label="搜索文档" hidden>
+  <div class="search-modal">
+    <div class="search-input-wrap">
+      <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+      <input type="search" id="searchInput" aria-label="搜索文档" placeholder="搜索文档" autocomplete="off" spellcheck="false">
+      <kbd id="searchClose" role="button" tabindex="0">Esc</kbd>
+    </div>
+    <div class="search-results" id="searchResults" role="listbox" aria-label="搜索"></div>
+  </div>
+</div>
+<div class="docs-container">
+<div class="drawer-scrim" id="drawerScrim"></div>
+<aside class="docs-sidebar" id="sidebar">
+  <nav class="sidebar-nav" aria-label="文档导航">
+
+    
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>开始使用</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/zh/get_started/">概览</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/get_started/installation/">安装</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/get_started/configuration/">快速入门</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group" open>
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>使用指南</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/zh/guides/">概览</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/guides/subscriptions/">订阅与分组</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/guides/proxy_modes/">系统代理、TUN 与局域网共享</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/guides/tun_mode/">TUN 模式</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/guides/routing/" aria-current="page">路由</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/guides/dns/">DNS</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/guides/testing/">测试与自动选择器</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/guides/backup/">备份、更新与迁移</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/guides/recipes/">常用方案</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Throne for Android</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/zh/android/">概览</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/android/installation/">安装与升级</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/android/permissions/">权限与后台运行</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/android/modes/">VPN 与代理模式</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/android/widgets/">小部件、图块与自动化</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/android/tv/">Android TV</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/android/troubleshooting/">Android 故障排除</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>无界面 Throne</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/zh/headless/">概览</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/headless/installation/">安装与服务</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/headless/thronectl/">使用 thronectl 管理</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/headless/web/">Web 界面</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/headless/command_line/">命令行与数据目录</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/headless/monitoring/">健康检查与日志</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/headless/recovery/">防锁定与恢复</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/headless/troubleshooting/">故障排除</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>进阶配置</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/zh/advanced/">概览</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/advanced/xray/">sing-box 与 Xray</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/advanced/chains/">代理链与自定义配置</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/advanced/presets/">反审查预设</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/advanced/warp/">Cloudflare WARP</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/advanced/dns_tunnels/">DNS 隧道</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/advanced/vpn_profiles/">OpenVPN、OpenConnect 与 Tailscale</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/advanced/windows_tun_mode/">Windows DNS 泄漏防护</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/advanced/kill_switch/">Kill Switch（断网保护）</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/advanced/deeplinks/">深度链接</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/advanced/api/">Throne API 与 thronectl</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>参考</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/zh/reference/">概览</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/reference/protocols/">协议与导入格式</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/reference/shortcuts/">键盘快捷键与托盘</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/reference/files/">命令行、文件与日志</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/reference/privacy/">隐私与网络请求</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/reference/glossary/">术语表</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>帮助</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/zh/help/">概览</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/help/faq/">常见问题</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/help/troubleshooting/">故障排除</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/help/bug_reports/">报告 Bug</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/help/migrating/">从 Nekoray / NekoBox 迁移</a></li>
+        
+        
+      </ul>
+    </details>
+    
+
+  </nav>
+</aside>
+  <main id="main" class="docs-main">
+    <article>
+      <h1 class="docs-title">路由</h1>
+      <p class="docs-lede">借助现成的路由配置档或你自己编写的规则，决定哪些流量经过代理、哪些直连、哪些被阻止。</p>
+      <div class="prose">
+        <p>路由决定每个连接的去向：经过代理、直连，或者哪里也不去。内置的 <code>Default</code> 配置档会让所有流量经过代理，所以只有在你需要其他效果时才需要本页。</p>
+<h2 id="how-routing-works">路由的工作原理</h2>
+<p>路由配置档由一组规则和一个默认出站组成。Throne 从上到下检查这些规则，第一条匹配的规则决定连接的去向。如果没有任何规则匹配，则使用默认出站。</p>
+<table>
+<thead>
+<tr>
+<th>出站</th>
+<th>流量去向</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>proxy</code></td>
+<td>经过正在运行的配置档；开启 WARP 时还会经过 WARP。</td>
+</tr>
+<tr>
+<td><code>direct</code></td>
+<td>直接连接互联网。</td>
+</tr>
+<tr>
+<td><code>block</code></td>
+<td>哪里也不去。连接会被拒绝。</td>
+</tr>
+<tr>
+<td><code>warp-bypass</code></td>
+<td>经过正在运行的配置档，但不经过 WARP。参见 <a href="/zh/advanced/warp/#warp-bypass">WARP</a>。</td>
+</tr>
+<tr>
+<td>已保存的配置档</td>
+<td>改为经过该配置档。仅可在高级规则中使用。</td>
+</tr>
+</tbody>
+</table>
+<p>同一时间只有一个路由配置档处于活动状态。可以在 <code>路由</code>（Routing）菜单底部的列表中切换，或通过托盘菜单 → <code>选择路由</code>（Select Routing）切换。正在运行的连接会以新规则重启。分组也可以使用自己的路由配置档，参见<a href="#group-routing">按分组设置路由配置档</a>。</p>
+<h2 id="download-profiles">下载现成的配置档</h2>
+<ol>
+<li>打开 <code>路由</code>（Routing）→ <code>下载配置档</code>（Download Profiles），然后选择 <code>China</code>、<code>Iran</code> 或 <code>Russia</code>。</li>
+<li>保持勾选 <code>自动更新</code>（Auto update），然后点击 <code>确定</code>（OK）。</li>
+<li>在 <code>路由</code> 菜单底部选择其中一个新配置档。仅下载并不会启用它。</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>配置档</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Bypass China</code>、<code>Bypass Iran</code>、<code>Bypass Russia</code></td>
+<td>除该国的网站和 IP 地址以及你的本地网络外，其余流量全部走代理。</td>
+</tr>
+<tr>
+<td><code>Proxy China Blocked</code>、<code>Proxy Russia Blocked</code></td>
+<td>所有流量都直连，但在该国被封锁的网站除外。</td>
+</tr>
+<tr>
+<td><code>Proxy Antizapret</code>、<code>Proxy Refilter</code>（俄罗斯）</td>
+<td>所有流量都直连，但 Antizapret 或 Re:filter 封锁列表中的网站除外。</td>
+</tr>
+</tbody>
+</table>
+<p>如果你访问的大多数网站都在境外，请使用“Bypass”类配置档。“Proxy … Blocked”类配置档经过你服务器的流量更少，但被封锁却不在列表中的网站将无法打开。</p>
+<p>这些列表维护在 <a href="https://github.com/throneproj/routeprofiles">throneproj/routeprofiles</a> 中。如果下载失败，请另选一个 <code>远程规则集镜像</code>（Remote Rule-set Mirror，参见<a href="#rule-sets">规则集</a>），然后重试。</p>
+<h2 id="profiles">路由配置档</h2>
+<p>路由配置档在 <code>设置</code>（Settings）→ <code>路由设置</code>（Routing Settings）的 <code>路由</code>（Route）标签页上管理，<code>路由</code>（Routing）菜单的第一项也能打开它。在 <code>路由</code> 菜单中右键点击某个配置档，可以直接在编辑器中打开它。更改在你点击 <code>确定</code>（OK）后生效；如果有连接正在运行，请点击“设置已更改，重启进行应用”提示中的 <code>重启</code>（Restart）。</p>
+<p>配置档分为三种：</p>
+<ul>
+<li><strong>结构化配置档</strong>，在 Throne 中通过<a href="#simple-rules">简单规则</a>和<a href="#advanced-rules">高级规则</a>编辑。大多数人只需要这一种。</li>
+<li><strong><a href="#remote-profiles">远程配置档</a></strong>，从 URL 下载。</li>
+<li><strong><a href="#raw-profiles">原始配置档</a></strong>，以 sing-box JSON 编写。</li>
+</ul>
+<p>创建结构化配置档的步骤：</p>
+<ol>
+<li>在 <code>路由</code>（Route）标签页上，点击 <code>新建</code>（New）→ <code>结构化配置档</code>（Structured profile）。</li>
+<li>输入 <code>名称</code>（Name），并选择 <code>默认出站</code>（Default outbound）。</li>
+<li>在 <code>基本</code>（Basic）或 <code>高级</code>（Advanced）标签页上添加规则，然后点击 <code>确定</code>（OK）。</li>
+<li>在 <code>路由</code>（Routing）菜单中启用它。</li>
+</ol>
+<p>配置档的 <code>DNS</code> 标签页可以为它设置自己的 DNS 服务器，参见<a href="/zh/guides/dns/#route-dns">按路由配置档设置 DNS</a>。当你有 OpenVPN 或 OpenConnect 配置档时会出现 <code>端点</code>（Endpoints）标签页，它会让这些配置档与代理同时运行，参见<a href="/zh/advanced/vpn_profiles/#split-tunnel">分离隧道</a>。</p>
+<p><code>通用</code>（Common）标签页上还有以下设置（仅高级模式，参见<a href="/zh/get_started/configuration/#interface-mode">简洁模式与高级模式</a>）：</p>
+<table>
+<thead>
+<tr>
+<th>设置</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>默认域策略</code>（Default Domain Strategy）</td>
+<td>Throne 解析服务器或直连网站的地址时，对 IPv4 或 IPv6 的偏好。</td>
+</tr>
+<tr>
+<td><code>解析域策略</code>（Resolve Domain Strategy）</td>
+<td>在规则运行之前解析每个域名，这样 IP 规则也能匹配域名。</td>
+</tr>
+<tr>
+<td><code>远程规则集镜像</code>（Remote Rule-set Mirror）</td>
+<td>存放在 GitHub 上的规则集和配置档从何处下载。默认值：<code>jsDelivr(Cloudflare)</code>。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="simple-rules">简单规则</h2>
+<p>配置档的 <code>基本</code>（Basic）标签页中有四个输入框：<code>直连</code>（Direct）、<code>代理</code>（Proxy）、<code>阻止</code>（Block）和 <code>Warp-bypass</code>。输入框中的每一行都会把匹配的流量发送到对应的去向。</p>
+<table>
+<thead>
+<tr>
+<th>行</th>
+<th>匹配</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>domain:example.com</code></td>
+<td>仅 <code>example.com</code>。</td>
+</tr>
+<tr>
+<td><code>suffix:example.com</code></td>
+<td><code>example.com</code> 及其所有子域名。</td>
+</tr>
+<tr>
+<td><code>keyword:example</code></td>
+<td>所有包含 <code>example</code> 的域名。</td>
+</tr>
+<tr>
+<td><code>regex:^cdn[0-9]*\.example\.com$</code></td>
+<td>匹配某个正则表达式（Go RE2 语法）的域名。</td>
+</tr>
+<tr>
+<td><code>ruleset:geosite-youtube</code></td>
+<td><a href="#rule-sets">规则集</a>中的所有内容，按名称或 <code>.srs</code> URL 指定。</td>
+</tr>
+<tr>
+<td><code>ip:10.0.0.0/8</code></td>
+<td>一个 IP 范围，或单个地址，例如 <code>1.2.3.4</code>。</td>
+</tr>
+<tr>
+<td><code>processName:Telegram.exe</code></td>
+<td>某个程序，按文件名匹配。</td>
+</tr>
+<tr>
+<td><code>processPath:C:\Program Files\App\app.exe</code></td>
+<td>某个程序，按完整路径匹配。</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>每行写一个条目。前缀区分大小写：写 <code>processName</code>，而不是 <code>processname</code>。</li>
+<li>进程名必须完全匹配，包括大小写，在 Windows 上还包括 <code>.exe</code>。<a href="#connections-tab">连接标签页</a>会显示确切的名称。</li>
+<li>编辑器会标出无法使用的行。请在切换标签页之前修正它们，因为切换标签页会丢弃这些行。</li>
+</ul>
+
+<aside class="callout callout--info">
+  <span class="callout-label">注意</span>
+  <p>进程规则只能看到到达 Throne 的流量。在系统代理模式下，忽略代理的程序根本不会到达 Throne，因此请将进程规则与 <code>Tun 模式</code>（Tun Mode）配合使用。参见 <a href="/zh/guides/tun_mode/#enable">TUN 模式</a>。</p>
+
+</aside>
+<p><strong>示例：除本国网站外全部走代理，并屏蔽广告。</strong> 将 <code>默认出站</code>（Default outbound）设为 <code>proxy</code>。在 <code>直连</code>（Direct）中填写：</p>
+<pre><code class="language-text hljs">ruleset:geosite-ir
+ruleset:geoip-ir
+</code></pre>
+<p>在 <code>阻止</code>（Block）中填写：</p>
+<pre><code class="language-text hljs">ruleset:geosite-category-ads-all
+</code></pre>
+<p>将 <code>ir</code> 替换为你所在国家的代码，例如 <code>cn</code> 或 <code>ru</code>。</p>
+<p><strong>示例：只让一个程序和一个网站走代理。</strong> 将 <code>默认出站</code>（Default outbound）设为 <code>direct</code>。在 <code>代理</code>（Proxy）中填写：</p>
+<pre><code class="language-text hljs">processName:Telegram.exe
+suffix:example.org
+</code></pre>
+<p>每个输入框都会变成 <code>高级</code>（Advanced）标签页上的规则，例如 <code>直连</code> 中的地址会变成 <code>Simple Address Bypass</code>，<code>代理</code> 中的程序会变成 <code>Simple Process Name Proxy</code>。它们按 <code>直连</code>、<code>阻止</code>、<code>代理</code>、<code>Warp-bypass</code> 的顺序添加，而第一条匹配的规则胜出，因此如果 <code>直连</code> 中范围更广的某一行匹配了同样的流量，<code>代理</code> 中的行就不会生效。要设置例外，例如在 <code>geosite-ir</code> 走直连时让 <code>example.ir</code> 走代理，请将 <code>suffix:example.ir</code> 添加到 <code>代理</code>，然后在 <code>高级</code> 标签页上把 <code>Simple Address Proxy</code> 移到包含 <code>geosite-ir</code> 的规则之上。</p>
+<h2 id="advanced-rules">高级规则</h2>
+<p><code>高级</code>（Advanced）标签页按顺序列出配置档的所有规则。<code>上移</code>（Move Up）和 <code>下移</code>（Move Down）用于调整顺序。取消勾选某条规则的复选框即可禁用它而不删除；这同样适用于 <code>基本</code>（Basic）输入框生成的规则。在简洁模式下，只有当配置档中有 <code>基本</code> 标签页无法显示的规则时，才会显示该标签页。</p>
+<p>要添加规则，请点击 <code>新建</code>（New）并选择一个 <code>动作</code>（Action）。然后在 <code>+</code> 标签页上勾选所需的属性并填写，每行一个条目。</p>
+<table>
+<thead>
+<tr>
+<th>动作</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>route</code></td>
+<td>将匹配的流量发送到规则的 <code>outbound</code>。新规则使用 <code>direct</code>，直到你勾选 <code>outbound</code> 并选择其他出站。</td>
+</tr>
+<tr>
+<td><code>reject</code></td>
+<td>阻止匹配的流量。在高级规则中，请用它代替 <code>block</code>。</td>
+</tr>
+<tr>
+<td><code>hijack-dns</code></td>
+<td>用 Throne 的 DNS 应答 DNS 查询。</td>
+</tr>
+<tr>
+<td><code>route-options</code></td>
+<td>设置 <code>override_address</code> 或 <code>tls_spoof</code> 等选项，然后继续执行后续规则。</td>
+</tr>
+<tr>
+<td><code>sniff</code></td>
+<td>探测连接的协议和域名，然后继续。</td>
+</tr>
+<tr>
+<td><code>resolve</code></td>
+<td>查询域名的 IP 地址，然后继续。</td>
+</tr>
+<tr>
+<td><code>bypass</code></td>
+<td>仅限 Linux。参见 <a href="https://sing-box.sagernet.org/configuration/route/rule_action/">sing-box 文档</a>。</td>
+</tr>
+</tbody>
+</table>
+<p><code>route</code>、<code>route-options</code> 和 <code>bypass</code> 还提供 <code>tls_fragment</code> 和 <code>tls_record_fragment</code>。它们会像配置档的 <a href="/zh/advanced/presets/#tls-fragment">TLS 分片</a>选项一样拆分 TLS 握手，有助于 <code>direct</code> 连接访问被过滤器按名称拦截的网站。</p>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>匹配内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>domain</code>、<code>domain_suffix</code>、<code>domain_keyword</code>、<code>domain_regex</code></td>
+<td>请求的域名。</td>
+</tr>
+<tr>
+<td><code>ip_cidr</code>、<code>ip_is_private</code></td>
+<td>目标地址。</td>
+</tr>
+<tr>
+<td><code>rule_set</code></td>
+<td>规则集名称或 <code>.srs</code> URL。</td>
+</tr>
+<tr>
+<td><code>port</code>、<code>port_range</code></td>
+<td>目标端口，例如 <code>443</code> 或 <code>1000:2000</code>。</td>
+</tr>
+<tr>
+<td><code>source_ip_cidr</code>、<code>source_port</code> 等</td>
+<td>连接的来源，例如你网络中的另一台设备。</td>
+</tr>
+<tr>
+<td><code>process_name</code>、<code>process_path</code>、<code>process_path_regex</code></td>
+<td>本机上的程序。</td>
+</tr>
+<tr>
+<td><code>network</code>、<code>protocol</code>、<code>ip_version</code></td>
+<td><code>tcp</code>、<code>udp</code> 或 <code>icmp</code>；探测到的协议，例如 <code>tls</code> 或 <code>bittorrent</code>；<code>4</code> 或 <code>6</code>。</td>
+</tr>
+<tr>
+<td><code>inbound</code></td>
+<td><code>mixed-in</code>（代理端口）或 <code>tun-in</code>（TUN 模式）。</td>
+</tr>
+<tr>
+<td><code>wifi_ssid</code>、<code>wifi_bssid</code></td>
+<td>你所连接的 Wi-Fi 网络。在 macOS 上不可用。</td>
+</tr>
+<tr>
+<td><code>invert</code></td>
+<td>让规则在其条件不匹配时匹配。</td>
+</tr>
+</tbody>
+</table>
+<p>在同一条规则中，域名、IP 和 <code>rule_set</code> 属性只要有任意一个匹配即可。其他所有属性也必须同时匹配。</p>
+<p>要让流量经过指定的服务器，请勾选 <code>outbound</code> 并选择一个已保存的配置档，它显示为 <code>[group] name</code>。Throne 会在你启动的配置档之外同时运行它。额外核心（Extra Core）配置档和完整的自定义配置不能这样使用。</p>
+<h2 id="rule-sets">规则集</h2>
+<p>规则集是存放在单独文件中的域名或 IP 范围列表。可以在输入框中以 <code>ruleset:&lt;name&gt;</code> 的形式使用，或在高级规则的 <code>rule_set</code> 属性中使用。</p>
+<ul>
+<li><strong>内置名称</strong>：2000 多个。以 <code>geosite-</code> 开头的名称包含域名，例如 <code>geosite-youtube</code> 或 <code>geosite-category-ads-all</code>。以 <code>geoip-</code> 开头的名称包含 IP 范围，例如 <code>geoip-ir</code> 或 <code>geoip-telegram</code>。编辑器会在你输入时提示名称。</li>
+<li><strong>你自己的文件</strong>：任何 sing-box 二进制规则集的 URL。文件名必须包含 <code>.srs</code>。</li>
+</ul>
+<p>规则集会在配置档启动时下载。<code>路由</code>（Routing）→ <code>更新规则集</code>（Update Rule-Sets）会下载最新副本。如果 GitHub 在你的网络中被封锁或速度很慢，请更改 <code>路由设置</code>（Routing Settings）→ <code>通用</code>（Common）→ <code>远程规则集镜像</code>（Remote Rule-set Mirror）。该镜像同样适用于 AdBlock 列表和存放在 GitHub 上的路由配置档。</p>
+<h2 id="remote-profiles">远程配置档</h2>
+<p>远程配置档是 Throne 从 URL 下载的结构化配置档，例如通过<a href="#download-profiles">下载配置档</a>获得的那些。服务商也可以通过 <a href="/zh/advanced/deeplinks/#remoteroute"><code>throne://remoteroute/</code> 链接</a>分享远程配置档。</p>
+<p>要添加远程配置档，请在 <code>路由</code>（Route）标签页上点击 <code>新建</code>（New）→ <code>远程配置档</code>（Remote profile），输入 <code>URL</code>，勾选 <code>自动更新</code>（Auto update），然后点击 <code>确定</code>（OK）。该 URL 可以提供 <code>throne://route/</code> 链接、链接的 Base64 文本或配置档的 JSON。原始配置档不能作为远程配置档。</p>
+<p>自动更新还需要开启 <code>设置</code>（Settings）→ <code>基本设置</code>（Basic Settings）→ <code>订阅</code>（Subscription）→ <code>路由配置档自动更新</code>（Routing profiles auto update），该项默认关闭（仅高级模式）。要立即更新，请点击 <code>路由</code>（Route）标签页上的 <code>更新</code>（Update）。</p>
+<aside class="callout callout--warning">
+  <span class="callout-label">警告</span>
+  <p>更新会替换配置档的规则和默认出站，因此你对它所做的更改会丢失。要自定义远程配置档，请先 <code>克隆</code>（Clone）它，然后在副本中取消勾选 <code>自动更新</code>（Auto update）。你禁用的规则和配置档自己的 DNS 设置会保留。</p>
+
+</aside>
+<h2 id="group-routing">按分组设置路由配置档</h2>
+<p>分组可以使用自己的路由配置档连接，而不是使用 <code>路由</code>（Routing）菜单中的那个。例如，某个服务商的服务器可以使用 <code>Bypass Iran</code>，而其他所有分组都使用 <code>Default</code>。</p>
+<ol>
+<li>右键点击该分组的标签页并选择 <code>编辑选定分组</code>（Edit selected Group）。</li>
+<li>选择一个 <code>路由配置档</code>（Routing Profile）。<code>默认（…）</code>（Default (…)）跟随 <code>路由</code> 菜单。</li>
+<li>点击 <code>确定</code>（OK）。</li>
+</ol>
+<p>由你启动的配置档所在的分组决定。对于代理链或自动选择器，看的是代理链或自动选择器本身所在的分组，而不是其中各个配置档所在的分组。窗口标题和托盘提示会显示正在使用的路由配置档，<a href="#connections-tab">连接标签页</a>修改的也是这个配置档。分组的路由配置档也会带上它自己的 <a href="/zh/guides/dns/#route-dns">DNS 设置</a>（如果有的话）。</p>
+<h3 id="subscription-routing">来自订阅</h3>
+<p>有些服务商会随订阅一起发送 Happ 格式的路由配置档。要使用它，请打开分组设置，在 <code>订阅</code>（Subscription）下勾选 <code>使用订阅提供的路由配置档</code>（Use the subscription's routing profile），点击 <code>确定</code>（OK），然后更新该订阅。</p>
+<p>Throne 会把它保存为一个结构化路由配置档，使用服务商给出的名称。如果该分组的 <code>路由配置档</code>（Routing Profile）是 <code>默认（…）</code>（Default (…)），新配置档会成为该分组的路由配置档。每次更新都会替换它的规则。订阅中的 DNS 设置从不使用。</p>
+<ul>
+<li>要永久修改它，请 <code>克隆</code>（Clone）它，并把副本选为该分组的 <code>路由配置档</code>（Routing Profile）。</li>
+<li>该配置档属于这个分组。删除分组会同时删除它。</li>
+</ul>
+<h2 id="raw-profiles">原始配置档</h2>
+<p>原始配置档是一个完整的 JSON 格式的 sing-box <code>route</code> 对象，用于规则编辑器未提供的功能。可通过 <code>新建</code>（New）→ <code>原始配置档</code>（Raw profile）创建。</p>
+<p>出站以数字表示：<code>-1</code> 是 <code>proxy</code>，<code>-2</code> 是 <code>direct</code>，<code>-5</code> 是 <code>warp-bypass</code>，配置档 ID 则表示该已保存的配置档。在 <code>&quot;outbound&quot;:</code> 之后，编辑器会提示你的配置档。如果缺少 <code>final</code>，Throne 会使用 <code>proxy</code>。</p>
+<p>原始配置档中没有定义内置规则集名称，Throne 也不会添加结构化配置档会获得的 DNS 步骤。对于 TUN 模式，请像这样开始编写规则：</p>
+<pre><code class="language-json hljs">{
+  &quot;rules&quot;: [
+    { &quot;action&quot;: &quot;sniff&quot; },
+    { &quot;protocol&quot;: &quot;dns&quot;, &quot;action&quot;: &quot;hijack-dns&quot; },
+    { &quot;domain_suffix&quot;: [&quot;example.com&quot;], &quot;outbound&quot;: -2 }
+  ],
+  &quot;final&quot;: -1
+}
+</code></pre>
+<p><code>防止修改</code>（Prevent modifications）会完全按原样使用该 JSON，这可能导致 DNS、Xray 配置档和代理链失效。AdBlock、<code>启用 DNS 路由</code>（Enable DNS Routing）以及连接标签页的操作都不适用于原始配置档，Throne for Android 也无法使用原始配置档。</p>
+<h2 id="connections-tab">连接标签页</h2>
+<p>主窗口底部的 <code>连接</code>（Connections）标签页按程序分组列出当前打开的连接，并显示它们的目标、协议、出站和流量。将鼠标悬停在 <code>出站</code>（Outbound）列上可以查看连接匹配的规则；<code>final</code> 表示没有规则匹配。</p>
+<p>右键点击某个连接，可以更改此类流量的去向：</p>
+<ul>
+<li><code>直连</code>（Direct）、<code>代理</code>（Proxy）或 <code>阻止</code>（Block）会列出带复选框的目标：每一级域名（例如 <code>*.example.com</code>）、作为关键字的网站名称、连接没有域名时的 IP 地址，以及程序。勾选的目标会被添加到正在使用的路由配置档的对应输入框中，并从其他输入框中移除。</li>
+<li><code>Specific server</code> 的作用相同，但会让目标经由你选择的服务器。</li>
+</ul>
+<p>然后点击“设置已更改，重启进行应用”提示中的 <code>重启</code>（Restart）。目标会加入该输入框已有的规则。如果该输入框原本为空，它的新规则会添加到列表末尾，位于其上方、范围更广的规则仍可能先匹配，因此请在 <code>高级</code>（Advanced）标签页上检查顺序。</p>
+<p>对于原始配置档、启用了 <code>防止修改</code>（Prevent modifications）的配置档、开启了 <code>自动更新</code>（Auto update）的远程配置档，以及由订阅更新的配置档，这些操作不可用。要修改远程配置档或来自订阅的配置档，请先克隆它，参见<a href="#remote-profiles">远程配置档</a>和<a href="#subscription-routing">来自订阅</a>。</p>
+<p>如果没有该标签页，请开启 <code>设置</code>（Settings）→ <code>基本设置</code>（Basic Settings）→ <code>样式</code>（Style）→ <code>连接统计</code>（Connection statistics）（仅高级模式）。</p>
+<h2 id="adblock">AdBlock（广告屏蔽）</h2>
+<p><code>路由</code>（Routing）→ <code>启用 AdBlock (广告屏蔽)</code>（Enable AdBlock）会使用 217heidai/adblockfilters 项目的 <code>adblocksingbox</code> 列表，在当前活动的结构化或远程配置档中屏蔽广告。它在你自己的规则之前运行，因此无论是直连流量还是代理流量，广告都会被屏蔽。</p>
+<p>如果某个网站无法正常使用，请关闭 AdBlock，检查是否是该列表屏蔽了它。如果只想在某一个配置档中屏蔽广告，请改为在该配置档的 <code>阻止</code>（Block）输入框中填写 <code>ruleset:geosite-category-ads-all</code>。</p>
+<h2 id="share-profiles">分享配置档</h2>
+<p>在 <code>路由</code>（Route）标签页上选中一个配置档，然后点击 <code>导出</code>（Export）（<code>Ctrl+C</code>），即可将其复制为 <code>throne://route/</code> 链接。</p>
+<p>要导入配置档，请点击链接，或者复制链接后在主窗口中按 <code>Ctrl+V</code>。这会添加该配置档，但不会将其设为活动配置档。在 <code>路由</code>（Route）标签页上使用 <code>导入</code>（Import）（<code>Ctrl+V</code>）还会选中它，因此点击 <code>确定</code>（OK）后它就会成为活动配置档。</p>
+<p>链接包含名称、默认出站、规则（包括已禁用的规则）以及配置档自己的 DNS 设置。将流量发送到已保存配置档的规则会按名称引用该配置档；如果另一台设备上没有同名配置档，这些规则会使用 <code>proxy</code>。OpenVPN 和 OpenConnect 端点在分享时不包含其凭据。关于链接格式，请参见<a href="/zh/advanced/deeplinks/#route">深度链接</a>。</p>
+<h2 id="android">Android 版</h2>
+<p>Throne for Android 拥有相同的路由配置档、规则和规则集。从侧边菜单打开 <code>路由</code>（Routing），点按某个配置档即可将其设为活动配置档。不同之处如下：</p>
+<ul>
+<li><strong>应用规则。</strong> <code>应用</code>（Apps）字段匹配 Android 应用；<code>未知应用</code>（Unknown apps）匹配找不到所属应用的连接。<code>包名正则</code>（Package name regex）匹配包名。这些规则在桌面版上永远不会匹配。</li>
+<li><strong>网络规则。</strong> <code>网络类型</code>（Network type）匹配 Wi-Fi、移动数据或以太网，<code>按流量计费网络</code>（Metered network）匹配按流量计费的网络。桌面版在导入链接时会排除这些规则。</li>
+<li><strong>Wi-Fi 规则</strong>需要将位置权限设为“始终允许”（Allow all the time），并开启位置信息。</li>
+<li>不支持<strong>原始配置档</strong>，也不支持导入的链接中的 VPN 端点。</li>
+<li><code>AdBlock</code> 和 <code>自动更新远程配置</code>（Auto update remote profiles）位于 <code>设置</code>（Settings）→ <code>路由</code>（Routing）中。</li>
+<li>如果某个规则集无法下载，<code>仍然连接</code>（Connect anyway）会在没有它的情况下连接。在通过代理下载到它之前，使用它的规则不会匹配任何内容。</li>
+</ul>
+
+      </div>
+      
+      
+      
+      <footer class="docs-article-footer">
+        
+        <a class="edit-link" href="https://github.com/throneproj/throneproj.github.io/edit/main/content/guides/routing.zh.md" target="_blank" rel="noopener noreferrer">
+        
+          <svg class="ic" aria-hidden="true"><use href="#i-pencil"/></svg>
+          在 GitHub 上编辑此页
+        </a>
+        
+
+<nav class="prev-next" aria-label="页面导航">
+  
+  <a class="prevnext-prev" href="https://throneproj.github.io/zh/guides/tun_mode/">
+    <span class="prevnext-dir">上一页</span>
+    TUN 模式
+  </a>
+  
+  
+  <a class="prevnext-next" href="https://throneproj.github.io/zh/guides/dns/">
+    <span class="prevnext-dir">下一页</span>
+    DNS
+  </a>
+  
+</nav>
+
+      </footer>
+    </article>
+  </main>
+  
+<nav class="docs-toc" aria-label="本页导航">
+  <p class="docs-toc-title">
+    <svg class="ic" aria-hidden="true"><use href="#i-list"/></svg>
+    本页导航
+  </p>
+  <ul><li><a href="#how-routing-works">路由的工作原理</a></li><li><a href="#download-profiles">下载现成的配置档</a></li><li><a href="#profiles">路由配置档</a></li><li><a href="#simple-rules">简单规则</a></li><li><a href="#advanced-rules">高级规则</a></li><li><a href="#rule-sets">规则集</a></li><li><a href="#remote-profiles">远程配置档</a></li><li><a href="#group-routing">按分组设置路由配置档</a><ul><li><a href="#subscription-routing">来自订阅</a></li></ul></li><li><a href="#raw-profiles">原始配置档</a></li><li><a href="#connections-tab">连接标签页</a></li><li><a href="#adblock">AdBlock（广告屏蔽）</a></li><li><a href="#share-profiles">分享配置档</a></li><li><a href="#android">Android 版</a></li></ul>
+</nav>
+
+    </main>
+  </div>
+
+  
+<script src="https://throneproj.github.io/assets/js/highlight.min.js" defer></script>
+<script>
+  window.NOIR_BASE = "https://throneproj.github.io";
+  
+  window.NOIR_I18N = {
+    copy: "复制",
+    copied: "已复制",
+    copyManual: "请按 Ctrl C",
+    noResults: "未找到相关结果：",
+    theme: "主题",
+    themeAuto: "自动",
+    themeLight: "浅色",
+    themeDark: "深色"
+  };
+</script>
+<script src="https://throneproj.github.io/js/theme.js" defer></script>
+<script src="https://throneproj.github.io/js/nav.js" defer></script>
+<script src="https://throneproj.github.io/js/code.js" defer></script>
+<script src="https://throneproj.github.io/js/toc.js" defer></script>
+<script src="https://throneproj.github.io/js/reveal.js" defer></script>
+<script src="https://throneproj.github.io/js/mermaid.js" defer></script>
+<script src="https://throneproj.github.io/js/search.js" defer></script>
+
+</body>
+</html>

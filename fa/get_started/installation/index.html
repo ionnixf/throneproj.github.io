@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" >
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Throne را روی Windows، macOS یا Linux نصب کنید، آن را به‌روز نگه دارید یا از سورس بسازید.">
+  <title>نصب - Throne</title>
+
+  
+  <meta name="theme-color" content="#0b0b0c" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#fbfbfa" media="(prefers-color-scheme: light)">
+
+  
+  <script>
+    (function () {
+      var r = document.documentElement;
+      r.classList.add("js");
+      try {
+        var t = localStorage.getItem("throne-theme");
+        if (t === "light" || t === "dark") r.setAttribute("data-theme", t);
+      } catch (e) {}
+    })();
+  </script>
+
+  <meta name="google-site-verification" content="Zzz4doeS45o-EhP56mm1yoyfHSEEZJRJJt0tfj7vPGM" />
+  <script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+      m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+      m[i].l=1*new Date();
+      for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+      k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=111847353', 'ym');
+
+    
+    ym(111847353, 'init', {ssr:true, webvisor:false, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/111847353" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+
+  <meta property="og:title" content="نصب">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://throneproj.github.io/fa/get_started/installation/">
+  <meta property="og:description" content="Throne را روی Windows، macOS یا Linux نصب کنید، آن را به‌روز نگه دارید یا از سورس بسازید.">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="نصب">
+  <meta name="twitter:description" content="Throne را روی Windows، macOS یا Linux نصب کنید، آن را به‌روز نگه دارید یا از سورس بسازید.">
+  <link rel="canonical" href="https://throneproj.github.io/fa/get_started/installation/">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"نصب","url":"https://throneproj.github.io/fa/get_started/installation/","description":"Throne را روی Windows، macOS یا Linux نصب کنید، آن را به‌روز نگه دارید یا از سورس بسازید."}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Throne","item":"https://throneproj.github.io/fa/"},{"@type":"ListItem","position":2,"name":"شروع کار","item":"https://throneproj.github.io/fa/get_started/"},{"@type":"ListItem","position":3,"name":"نصب"}]}</script>
+  <link rel="alternate" hreflang="fa" href="https://throneproj.github.io/fa/get_started/installation/">
+<link rel="alternate" hreflang="en" href="https://throneproj.github.io/get_started/installation/">
+<link rel="alternate" hreflang="ru" href="https://throneproj.github.io/ru/get_started/installation/">
+<link rel="alternate" hreflang="zh" href="https://throneproj.github.io/zh/get_started/installation/">
+<link rel="alternate" hreflang="x-default" href="https://throneproj.github.io/get_started/installation/">
+
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon.ico" sizes="any">
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon-96x96.png" type="image/png" sizes="96x96">
+  <link rel="apple-touch-icon" href="https://throneproj.github.io/logos/apple-touch-icon.png">
+  <link rel="manifest" href="https://throneproj.github.io/logos/site.webmanifest">
+
+  <link rel="preload" href="https://throneproj.github.io/fonts/geist-variable-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+  
+  <link rel="stylesheet" href="https://throneproj.github.io/assets/css/highlight/atom-one-dark.min.css">
+  <link rel="stylesheet" href="https://throneproj.github.io/css/style.css">
+  
+</head>
+<body>
+  <a class="skip-link" href="#main">پرش به محتوای اصلی</a>
+  
+<svg xmlns="http://www.w3.org/2000/svg" class="icon-sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 10a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+    <path d="M21 21l-6 -6" />
+  </symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M3 12h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7" />
+  </symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454l0 .008" />
+  </symbol>
+  <symbol id="i-contrast" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M12 17a5 5 0 0 0 0 -10v10" />
+  </symbol>
+  <symbol id="i-chevron-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M6 9l6 6l6 -6" />
+  </symbol>
+  <symbol id="i-menu-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 6l16 0" />
+    <path d="M4 12l16 0" />
+    <path d="M4 18l16 0" />
+  </symbol>
+  <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M18 6l-12 12" />
+    <path d="M6 6l12 12" />
+  </symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 9.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667l0 -8.666" />
+    <path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" />
+  </symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l5 5l10 -10" />
+  </symbol>
+  <symbol id="i-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l14 0" />
+    <path d="M13 18l6 -6" />
+    <path d="M13 6l6 6" />
+  </symbol>
+  <symbol id="i-arrow-up-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M17 7l-10 10" />
+    <path d="M8 7l9 0l0 9" />
+  </symbol>
+  <symbol id="i-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l14 0" />
+    <path d="M5 12l6 6" />
+    <path d="M5 12l6 -6" />
+  </symbol>
+  <symbol id="i-brand-github" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+  </symbol>
+  <symbol id="i-pencil" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+    <path d="M13.5 6.5l4 4" />
+  </symbol>
+  <symbol id="i-rocket" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 13a8 8 0 0 1 7 7a6 6 0 0 0 3 -5a9 9 0 0 0 6 -8a3 3 0 0 0 -3 -3a9 9 0 0 0 -8 6a6 6 0 0 0 -5 3" />
+    <path d="M7 14a6 6 0 0 0 -3 6a6 6 0 0 0 6 -3" />
+    <path d="M14 9a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+  </symbol>
+  <symbol id="i-terminal-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 9l3 3l-3 3" />
+    <path d="M13 15l3 0" />
+    <path d="M3 6a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2l0 -12" />
+  </symbol>
+  <symbol id="i-lifebuoy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M15 15l3.35 3.35" />
+    <path d="M9 15l-3.35 3.35" />
+    <path d="M5.65 5.65l3.35 3.35" />
+    <path d="M18.35 5.65l-3.35 3.35" />
+  </symbol>
+  <symbol id="i-list" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 6l11 0" />
+    <path d="M9 12l11 0" />
+    <path d="M9 18l11 0" />
+    <path d="M5 6l0 .01" />
+    <path d="M5 12l0 .01" />
+    <path d="M5 18l0 .01" />
+  </symbol>
+  <symbol id="i-code" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 8l-4 4l4 4" />
+    <path d="M17 8l4 4l-4 4" />
+    <path d="M14 4l-4 16" />
+  </symbol>
+  <symbol id="i-rss" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 19a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+    <path d="M4 4a16 16 0 0 1 16 16" />
+    <path d="M4 11a9 9 0 0 1 9 9" />
+  </symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12" />
+    <path d="M16 3v4" />
+    <path d="M8 3v4" />
+    <path d="M4 11h16" />
+    <path d="M11 15h1" />
+    <path d="M12 15v3" />
+  </symbol>
+</svg>
+
+<header class="site-header">
+  <div class="header-inner">
+    <button class="icon-btn hamburger" id="drawerToggle" aria-label="باز کردن منو" aria-expanded="false" aria-controls="sidebar">
+      <svg class="ic" aria-hidden="true"><use href="#i-menu-2"/></svg>
+    </button>
+
+    <a href="https://throneproj.github.io/fa/" class="header-logo" aria-label="صفحه اصلی Throne">
+      <img class="logo" src="https://throneproj.github.io/images/throne-logo.png" alt="Throne" width="1817" height="346">
+    </a>
+    <a class="header-version" href="https://github.com/throneproj/Throne/releases/tag/1.4.1" target="_blank" rel="noopener noreferrer">v1.4.1</a>
+
+    <nav class="header-nav" aria-label="اصلی">
+      <a href="https://throneproj.github.io/fa/get_started/">شروع کار</a>
+      <a href="https://throneproj.github.io/fa/downloads/">دانلود</a>
+    </nav>
+
+    <div class="header-right">
+      <button class="header-btn search-trigger" id="searchTrigger" aria-label="جستجو در مستندات">
+        <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+        <span>جستجو</span>
+        <kbd>Ctrl K</kbd>
+      </button>
+
+      
+      
+      <nav class="lang-switcher" aria-label="زبان">
+        
+        <a href="https://throneproj.github.io/get_started/installation/" hreflang="en">EN</a>
+        
+        <a href="https://throneproj.github.io/fa/get_started/installation/" hreflang="fa" aria-current="true">FA</a>
+        
+        <a href="https://throneproj.github.io/ru/get_started/installation/" hreflang="ru">RU</a>
+        
+        <a href="https://throneproj.github.io/zh/get_started/installation/" hreflang="zh">ZH</a>
+        
+      </nav>
+      
+
+      <a class="icon-btn" href="https://github.com/throneproj/Throne" target="_blank" rel="noopener noreferrer" aria-label="Throne در GitHub">
+        <svg class="ic" aria-hidden="true"><use href="#i-brand-github"/></svg>
+      </a>
+
+      
+      <button class="icon-btn theme-toggle" id="themeToggle" data-mode="auto" type="button" aria-label="تم">
+        <svg class="ic ic-auto" aria-hidden="true"><use href="#i-contrast"/></svg>
+        <svg class="ic ic-light" aria-hidden="true"><use href="#i-sun"/></svg>
+        <svg class="ic ic-dark" aria-hidden="true"><use href="#i-moon"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+<div class="search-overlay" id="searchOverlay" role="dialog" aria-modal="true" aria-label="جستجو در مستندات" hidden>
+  <div class="search-modal">
+    <div class="search-input-wrap">
+      <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+      <input type="search" id="searchInput" aria-label="جستجو در مستندات" placeholder="جستجو در مستندات" autocomplete="off" spellcheck="false">
+      <kbd id="searchClose" role="button" tabindex="0">Esc</kbd>
+    </div>
+    <div class="search-results" id="searchResults" role="listbox" aria-label="جستجو"></div>
+  </div>
+</div>
+<div class="docs-container">
+<div class="drawer-scrim" id="drawerScrim"></div>
+<aside class="docs-sidebar" id="sidebar">
+  <nav class="sidebar-nav" aria-label="مسیریابی مستندات">
+
+    
+    
+    <details class="sidebar-group" open>
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>شروع کار</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/fa/get_started/">نمای کلی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/get_started/installation/" aria-current="page">نصب</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/get_started/configuration/">شروع سریع</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>راهنماها</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/">نمای کلی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/subscriptions/">اشتراک‌ها و گروه‌ها</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/proxy_modes/">پروکسی سیستمی، TUN و اشتراک‌گذاری در شبکهٔ محلی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/tun_mode/">حالت TUN</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/routing/">مسیریابی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/dns/">DNS</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/testing/">تست و انتخابگر خودکار</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/backup/">پشتیبان‌گیری، به‌روزرسانی و مهاجرت</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/recipes/">دستورالعمل‌های کاربردی</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Throne برای Android</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/fa/android/">نمای کلی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/android/installation/">نصب و ارتقا</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/android/permissions/">مجوزها و اجرا در پس‌زمینه</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/android/modes/">حالت‌های VPN و پروکسی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/android/widgets/">ویجت‌ها، کاشی و خودکارسازی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/android/tv/">Android TV</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/android/troubleshooting/">عیب‌یابی Android</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Throne بدون رابط گرافیکی (Headless)</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/fa/headless/">نمای کلی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/headless/installation/">نصب و سرویس‌ها</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/headless/thronectl/">مدیریت با thronectl</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/headless/web/">رابط وب</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/headless/command_line/">خط فرمان و پوشهٔ داده‌ها</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/headless/monitoring/">بررسی سلامت و گزارش‌ها</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/headless/recovery/">محافظت در برابر قطع دسترسی و بازیابی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/headless/troubleshooting/">عیب‌یابی</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>پیکربندی پیشرفته</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/">نمای کلی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/xray/">sing-box در برابر Xray</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/chains/">زنجیره‌های پروکسی و پیکربندی‌های سفارشی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/presets/">پیش‌تنظیم‌های ضدسانسور</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/warp/">Cloudflare WARP</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/dns_tunnels/">تونل‌های DNS</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/vpn_profiles/">OpenVPN، OpenConnect و Tailscale</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/windows_tun_mode/">محافظت از نشت DNS در Windows</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/kill_switch/">کیل‌سوییچ (Kill Switch)</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/deeplinks/">لینک‌های عمیق</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/api/">Throne API و thronectl</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>مرجع</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/fa/reference/">نمای کلی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/reference/protocols/">پروتکل‌ها و قالب‌های واردکردن</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/reference/shortcuts/">میانبرهای صفحه‌کلید و سینی سیستم</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/reference/files/">خط فرمان، فایل‌ها و گزارش‌ها</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/reference/privacy/">حریم خصوصی و درخواست‌های شبکه</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/reference/glossary/">واژه‌نامه</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>پشتیبانی</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/fa/help/">نمای کلی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/help/faq/">پرسش‌های متداول</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/help/troubleshooting/">عیب‌یابی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/help/bug_reports/">گزارش باگ</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/help/migrating/">مهاجرت از Nekoray / NekoBox</a></li>
+        
+        
+      </ul>
+    </details>
+    
+
+  </nav>
+</aside>
+  <main id="main" class="docs-main">
+    <article>
+      <h1 class="docs-title">نصب</h1>
+      <p class="docs-lede">Throne را روی Windows، macOS یا Linux نصب کنید، آن را به‌روز نگه دارید یا از سورس بسازید.</p>
+      <div class="prose">
+        <p>فایل‌ها را از صفحهٔ <a href="/fa/downloads/">دانلود</a> دریافت کنید. برای Android، <a href="/fa/android/installation/">نصب و ارتقا</a> را ببینید.</p>
+<h2 id="windows">Windows</h2>
+<table>
+<thead>
+<tr>
+<th>رایانهٔ شما</th>
+<th>فایل</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>هر رایانهٔ Windows، اگر مطمئن نیستید</td>
+<td><code>Throne-&lt;version&gt;-windows-universal-installer.exe</code></td>
+</tr>
+<tr>
+<td>Windows 10 1809 یا جدیدتر، x64</td>
+<td><code>Throne-&lt;version&gt;-windows64.zip</code></td>
+</tr>
+<tr>
+<td>Windows روی ARM64</td>
+<td><code>Throne-&lt;version&gt;-windows-arm64.zip</code></td>
+</tr>
+<tr>
+<td>Windows 7 SP1 تا Windows 10 1803 (x64)، یا پردازنده‌ای بدون SSE4.2</td>
+<td><code>Throne-&lt;version&gt;-windowslegacy64.zip</code></td>
+</tr>
+<tr>
+<td>Windows 7 SP1 یا جدیدتر، 32 بیتی (x86)</td>
+<td><code>Throne-&lt;version&gt;-windows32.zip</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="windows-installer">نصب‌کننده</h3>
+<p>نصب‌کنندهٔ universal بیلد مناسب رایانهٔ شما را انتخاب می‌کند و آن را بدون دسترسی مدیر (administrator) در <code>%LOCALAPPDATA%\Throne</code> نصب می‌کند. داده‌های شما در پوشهٔ <code>config</code> آن نگه داشته می‌شوند. اگر به‌جای آن Throne را برای همهٔ کاربران در <code>Program Files</code> نصب کنید، Throne داده‌های شما را در <code>%LOCALAPPDATA%\Throne\config</code> نگه می‌دارد و نمی‌تواند خودش را به‌روزرسانی کند.</p>
+<p>برای حذف Throne، آن را از فهرست برنامه‌های نصب‌شده در Windows حذف کنید. برنامهٔ حذف می‌پرسد که آیا نمایه‌ها و تنظیمات شما هم پاک شوند یا نه.</p>
+<h3 id="windows-zip">ZIP قابل حمل</h3>
+<p>فایل ZIP را در پوشه‌ای استخراج کنید که بتوانید در آن فایل بنویسید و <code>Throne.exe</code> را از پوشهٔ <code>Throne</code> اجرا کنید. داده‌های شما در پوشهٔ <code>config</code> در کنار آن ذخیره می‌شوند، بنابراین می‌توانید کل پوشه را جابه‌جا کنید یا از آن پشتیبان بگیرید.</p>
+<p>برخلاف نصب‌کننده، نسخهٔ ZIP تا وقتی گزینهٔ <code>تنظیمات</code> (Settings) ← <code>تنظیمات پایه</code> (Basic Settings) ← <code>متداول</code> (Common) ← <code>Register throne:// links at startup</code> را تیک نزنید، <a href="/fa/advanced/deeplinks/#receive">لینک‌های <code>throne://</code></a> را باز نمی‌کند (فقط در حالت پیشرفته؛ <a href="/fa/get_started/configuration/#interface-mode">حالت ساده و پیشرفته</a> را ببینید).</p>
+<h2 id="macos">macOS</h2>
+<table>
+<thead>
+<tr>
+<th>Mac شما</th>
+<th>فایل</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Apple Silicon، macOS 14.4 یا جدیدتر</td>
+<td><code>Throne-&lt;version&gt;-macos-arm64.zip</code></td>
+</tr>
+<tr>
+<td>Intel، macOS 14.4 یا جدیدتر</td>
+<td><code>Throne-&lt;version&gt;-macos-amd64.zip</code></td>
+</tr>
+<tr>
+<td>Intel، macOS 10.15 تا 14.3</td>
+<td><code>Throne-&lt;version&gt;-macoslegacy-amd64.zip</code></td>
+</tr>
+</tbody>
+</table>
+<p>فایل ZIP را این‌گونه نصب کنید، یا از <a href="#homebrew">Homebrew</a> استفاده کنید که این کار را برایتان انجام می‌دهد:</p>
+<ol>
+<li>
+<p>فایل ZIP را استخراج کنید و پیش از اینکه <code>Throne.app</code> را برای نخستین بار باز کنید، آن را به <code>/Applications</code> منتقل کنید. اگر برنامه در <code>~/Downloads</code> باشد، Throne ممکن است نتواند دسترسی‌های لازم برای حالت TUN را بگیرد.</p>
+</li>
+<li>
+<p>Throne با گواهی Apple امضا نشده است، بنابراین پرچم قرنطینه (quarantine) را حذف کنید؛ وگرنه macOS می‌گوید Throne «is damaged and can't be opened» (آسیب دیده است و باز نمی‌شود):</p>
+<pre><code class="language-bash hljs">xattr -d com.apple.quarantine /Applications/Throne.app
+</code></pre>
+</li>
+<li>
+<p>Throne را باز کنید.</p>
+</li>
+</ol>
+<p>داده‌های شما در پوشهٔ کاربری‌تان نگه داشته می‌شوند، بنابراین می‌توانید <code>Throne.app</code> را بدون از دست دادن نمایه‌هایتان جایگزین کنید. حالت TUN به یک حساب مدیر نیاز دارد؛ <a href="/fa/guides/tun_mode/#privileges">حالت TUN</a> را ببینید.</p>
+<h2 id="linux">Linux</h2>
+<table>
+<thead>
+<tr>
+<th>فایل</th>
+<th>کاربرد</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="#linux-script">اسکریپت نصب</a></td>
+<td>هر توزیعی. بیلد ZIP را در <code>/opt/Throne</code> نصب می‌کند.</td>
+</tr>
+<tr>
+<td><code>Throne-&lt;version&gt;-linux-amd64.zip</code>، <code>…-linux-arm64.zip</code></td>
+<td>یک نسخهٔ قابل حمل در پوشه‌ای به انتخاب شما</td>
+</tr>
+<tr>
+<td><code>Throne-&lt;version&gt;-debian-amd64.deb</code>، <code>…-debian-arm64.deb</code></td>
+<td>Debian، Ubuntu، Linux Mint و دیگر سیستم‌های مبتنی بر Debian</td>
+</tr>
+<tr>
+<td><code>Throne-&lt;version&gt;-fedora-amd64.rpm</code>، <code>…-fedora-arm64.rpm</code></td>
+<td>Fedora و سیستم‌های مبتنی بر RHEL</td>
+</tr>
+<tr>
+<td>فایل‌هایی که به <code>-system-qt.deb</code> یا <code>-system-qt.rpm</code> ختم می‌شوند</td>
+<td>همان بسته‌ها، با Qt سیستم شما</td>
+</tr>
+<tr>
+<td><a href="#apt-repository">مخزن APT</a> و <a href="#rpm-repository">مخزن RPM</a></td>
+<td>بسته‌های system-Qt، که مدیر بستهٔ شما آن‌ها را به‌روز نگه می‌دارد</td>
+</tr>
+</tbody>
+</table>
+<p>فایل‌های ZIP، اسکریپت نصب و بسته‌های معمولی نسخهٔ خودشان از Qt را همراه دارند و به glibc 2.28 یا جدیدتر نیاز دارند: Debian 10، Ubuntu 20.04، RHEL 8 (و AlmaLinux یا Rocky Linux 8)، Raspberry Pi OS (64 بیتی) bullseye یا جدیدتر. بسته‌های <code>-system-qt</code> از Qt 6 توزیع شما استفاده می‌کنند و به glibc 2.34 یا جدیدتر نیاز دارند، برای نمونه Debian 12 یا Ubuntu 22.04. وقتی بستهٔ معمولی اجرا نمی‌شود، برای مثال روی یک پردازندهٔ قدیمی، یا وقتی می‌خواهید Throne از پوستهٔ Qt محیط دسکتاپ شما استفاده کند، از این بسته‌ها استفاده کنید.</p>
+<aside class="callout callout--warning">
+  <span class="callout-label">هشدار</span>
+  <p>Throne را با <code>sudo</code> یا به‌عنوان root اجرا نکنید. برای حالت TUN، Throne فقط به هستهٔ خود دسترسی root می‌دهد و گذرواژهٔ شما را از طریق <code>pkexec</code> می‌پرسد. <a href="/fa/guides/tun_mode/#privileges">حالت TUN</a> را ببینید.</p>
+
+</aside>
+<h3 id="linux-script">اسکریپت نصب</h3>
+<p>این اسکریپت به Python 3 نیاز دارد:</p>
+<pre><code class="language-bash hljs">curl -fsSL https://raw.githubusercontent.com/throneproj/Throne/dev/script/install_linux.py | sudo python3
+</code></pre>
+<p><code>Install</code> و شاخه (<code>Stable</code> یا <code>Unstable</code>) را انتخاب کنید، یا <code>Uninstall</code> را. برای به‌روزرسانی یا حذف، همین دستور را دوباره اجرا کنید. حذف، تنظیمات شما را در <code>~/.config/Throne</code> نگه می‌دارد.</p>
+<h3 id="linux-zip">ZIP قابل حمل</h3>
+<pre><code class="language-bash hljs">unzip Throne-x.x.x-linux-amd64.zip
+cd Throne
+./Throne
+</code></pre>
+<p>داده‌های شما در پوشهٔ <code>config</code> داخل <code>Throne</code> نگه داشته می‌شوند.</p>
+<h3 id="deb">Debian و Ubuntu (.deb)</h3>
+<pre><code class="language-bash hljs">sudo apt install ./Throne-x.x.x-debian-amd64.deb
+</code></pre>
+<h3 id="rpm">Fedora و RHEL (.rpm)</h3>
+<pre><code class="language-bash hljs">sudo dnf install ./Throne-x.x.x-fedora-amd64.rpm
+</code></pre>
+<p>هر دو بسته Throne را در <code>/opt/Throne</code> نصب می‌کنند و داده‌های شما را در <code>~/.config/Throne</code> نگه می‌دارند. برای دریافت به‌روزرسانی‌ها از طریق مدیر بسته، به‌جای آن از یک مخزن استفاده کنید.</p>
+<h3 id="apt-repository">مخزن APT</h3>
+<p>مخزن امضاشدهٔ APT بسته‌های system-Qt همهٔ نسخه‌های پایدار را برای amd64 و arm64 دارد. این مخزن به Debian 12، Ubuntu 22.04 یا جدیدتر نیاز دارد؛ در سیستم‌های قدیمی‌تر، از <code>.deb</code> معمولی استفاده کنید.</p>
+<pre><code class="language-bash hljs">sudo install -d -m 0755 /etc/apt/keyrings
+sudo curl -fsSLo /etc/apt/keyrings/throne.asc https://throneproj.github.io/Throne/throne.asc
+sudo curl -fsSLo /etc/apt/sources.list.d/throne.list https://throneproj.github.io/Throne/apt/throne.list
+sudo apt update
+sudo apt install throne
+</code></pre>
+<p>پس از آن، <code>sudo apt upgrade</code> هم Throne را به‌روز می‌کند.</p>
+<h3 id="rpm-repository">مخزن RPM</h3>
+<p>مخزن امضاشدهٔ RPM بسته‌های system-Qt همهٔ نسخه‌های پایدار را برای x86_64 و aarch64 دارد. این بسته‌ها به Qt 6.5 و glibc 2.34 یا جدیدتر نیاز دارند، بنابراین روی RHEL 8 و نسخه‌های بازسازی‌شدهٔ آن، از <code>.rpm</code> معمولی استفاده کنید.</p>
+<p>Fedora و RHEL 9 یا جدیدتر:</p>
+<pre><code class="language-bash hljs">sudo curl -fsSLo /etc/yum.repos.d/throne.repo https://throneproj.github.io/Throne/rpm/throne.repo
+sudo dnf install throne --refresh
+</code></pre>
+<p>openSUSE و SLES:</p>
+<pre><code class="language-bash hljs">sudo zypper addrepo -fc https://throneproj.github.io/Throne/rpm/throne.repo
+sudo zypper install throne
+</code></pre>
+<p>بار اول، <code>dnf</code> و <code>zypper</code> از شما می‌خواهند که به کلید امضا اعتماد کنید.</p>
+
+<aside class="callout callout--info">
+  <span class="callout-label">نکته</span>
+  <p>اگر پیش‌تر یک <code>.deb</code> یا <code>.rpm</code> معمولی نصب کرده‌اید، اولین ارتقا از یک مخزن آن را با بستهٔ system-Qt جایگزین می‌کند، چون نام هر دو بسته <code>throne</code> است. برای نگه داشتن بستهٔ معمولی، مخزن را اضافه نکنید.</p>
+
+</aside>
+<h2 id="package-managers">مدیران بسته</h2>
+<aside class="callout callout--warning">
+  <span class="callout-label">هشدار</span>
+  <p>بسته‌های WinGet، Scoop و Nix، و بسته‌های AUR به‌جز <code>throne</code>، را جامعهٔ کاربری ساخته است. این بسته‌ها ممکن است از آخرین نسخهٔ منتشرشده قدیمی‌تر باشند و رفتارشان با بیلدهای رسمی فرق کند. اگر چیزی کار نکرد، ابتدا یک بیلد رسمی را از صفحهٔ <a href="/fa/downloads/">دانلود</a> امتحان کنید و مشکلات بسته را به نگه‌دارندهٔ آن گزارش دهید.</p>
+
+</aside>
+<h3 id="winget">WinGet</h3>
+<pre><code class="language-powershell hljs">winget install -e --id Throneproj.Throne
+</code></pre>
+<h3 id="scoop">Scoop</h3>
+<pre><code class="language-powershell hljs">scoop bucket add extras
+scoop install extras/throne
+</code></pre>
+<h3 id="homebrew">Homebrew</h3>
+<pre><code class="language-bash hljs">brew install --cask throneproj/tap/throne
+</code></pre>
+<p>tap رسمی همهٔ نسخه‌های پایدار را دریافت می‌کند. این cask، <code>Throne.app</code> را در <code>/Applications</code> نصب می‌کند، پرچم قرنطینه را حذف می‌کند و به macOS 14.4 یا جدیدتر نیاز دارد؛ روی Macهای Intel قدیمی‌تر، از ZIP با نام <code>macoslegacy</code> استفاده کنید. همیشه از نام کامل استفاده کنید: <code>brew install --cask throne</code>، Throne را پیدا نمی‌کند.</p>
+<p>Throne را با <code>brew upgrade --cask throne</code> به‌روزرسانی کنید؛ پس از آن، Throne دوباره دسترسی‌های لازم برای حالت TUN را درخواست می‌کند. دستور <code>brew uninstall --zap --cask throne</code> داده‌های شما در <code>~/Library/Preferences/Throne</code> را هم حذف می‌کند.</p>
+<h3 id="aur">Arch Linux (AUR)</h3>
+<p><code>throne</code> را با یک AUR helper نصب کنید، برای مثال <code>yay -S throne</code> یا <code>paru -S throne</code>. این بسته Throne را از سورس می‌سازد، آن را در <code>/usr/lib/throne</code> نصب می‌کند و همهٔ نسخه‌های پایدار را دریافت می‌کند. داده‌های شما در <code>~/.config/Throne</code> نگه داشته می‌شوند.</p>
+<h3 id="nix">Nix</h3>
+<p>در NixOS، این را به پیکربندی خود اضافه کنید:</p>
+<pre><code class="language-nix hljs">programs.throne = {
+  enable = true;
+  tunMode.enable = true; # optional, needed for TUN mode
+};
+</code></pre>
+<p>یا آن را با <code>nix-env</code> نصب کنید. نام کانال در NixOS معمولاً <code>nixos</code> و در توزیع‌های دیگر <code>nixpkgs</code> است:</p>
+<pre><code class="language-bash hljs">nix-env -iA nixos.throne
+</code></pre>
+<p>برای امتحان کردن Throne بدون نصب آن، <code>nix-shell -p throne</code> را اجرا کنید.</p>
+<h2 id="build-from-source">ساخت از سورس</h2>
+<p>Throne دو بخش دارد: رابط کاربری (<code>Throne</code>، با C++ و Qt) و هسته (<code>ThroneCore</code>، با Go). هسته باید در کنار فایل اجرایی <code>Throne</code> باشد.</p>
+<table>
+<thead>
+<tr>
+<th>بخش</th>
+<th>پیش‌نیازها</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>رابط کاربری</td>
+<td>CMake 3.20 یا جدیدتر، یک کامپایلر C++20، Qt 6.2 یا جدیدتر (Widgets، Network، LinguistTools و در Linux، DBus)، هدرهای توسعهٔ X11 و xcb در Linux</td>
+</tr>
+<tr>
+<td>هسته</td>
+<td>Go 1.26 یا جدیدتر، <code>protoc</code>، <code>protoc-gen-go</code> و <code>protoc-gen-go-grpc</code>. CGO: در Linux زنجیرهٔ ابزار Chromium از cronet-go (برای NaïveProxy) و در macOS ابزارهای خط فرمان Xcode.</td>
+</tr>
+</tbody>
+</table>
+<p>رابط کاربری را بسازید. فرایند ساخت به <code>srslist.h</code>، یعنی فهرست نام‌های مجموعه‌قوانین، در پوشهٔ <code>build</code> نیاز دارد:</p>
+<pre><code class="language-bash hljs">git clone https://github.com/throneproj/Throne.git ~/Throne
+cd ~/Throne
+mkdir build
+cd build
+curl -fLso srslist.h https://raw.githubusercontent.com/throneproj/routeprofiles/rule-set/srslist.h
+cmake -GNinja -DCMAKE_BUILD_TYPE=Release ..
+ninja
+</code></pre>
+<p>سپس هسته را با <code>script/build_go.sh</code> بسازید و آن را در کنار رابط کاربری کپی کنید. در Linux، ابتدا زنجیرهٔ ابزار cronet-go را در همین ترمینال آماده کنید. <code>build_go.sh</code> پیش از ساخت، پوشهٔ <code>DEST</code> را پاک می‌کند، پس یک پوشهٔ مخصوص به آن بدهید:</p>
+<pre><code class="language-bash hljs">cd ~/Throne
+GOOS=linux GOARCH=amd64 DEST=&quot;$PWD/deployment/linux-amd64&quot; ./script/build_go.sh
+cp deployment/linux-amd64/ThroneCore build/
+</code></pre>
+<p>در macOS، گزینهٔ <code>-DNKR_PACKAGE_MACOS=1</code> را به <code>cmake</code> اضافه کنید، هسته را با <code>GOOS=darwin</code> بسازید و <code>ThroneCore</code> را در <code>Throne.app/Contents/MacOS/</code> کپی کنید. مراحل دقیق برای همهٔ پلتفرم‌ها، از جمله زنجیرهٔ ابزار cronet-go، نسخه‌های پلاگین‌های protobuf، Windows و بیلدهای legacy، در <code>.github/workflows/build.yml</code> در <a href="https://github.com/throneproj/Throne">مخزن Throne</a> آمده است.</p>
+<h2 id="updating">به‌روزرسانی</h2>
+<p>نسخه‌های ZIP برای Windows و Linux و نصب مخصوص کاربر با نصب‌کنندهٔ Windows خودشان را به‌روزرسانی می‌کنند: <code>برنامه</code> (Program) ← <code>بررسی به‌روزرسانی</code> (Check For Update) و سپس <code>به‌روزرسانی</code> (Update). اگر یک <a href="/fa/headless/">Throne بدون رابط گرافیکی</a> از همان نصب اجرا می‌شود، ابتدا آن را متوقف کنید. بقیهٔ نسخه‌ها را به همان روشی به‌روزرسانی کنید که نصب کرده‌اید: نصب‌کنندهٔ جدید را اجرا کنید، بستهٔ جدید را نصب کنید، اسکریپت نصب را دوباره اجرا کنید، در macOS <code>Throne.app</code> را جایگزین کنید، یا از مدیر بستهٔ خود استفاده کنید. نمایه‌ها و تنظیمات شما باقی می‌مانند.</p>
+<p>پس از به‌روزرسانی در Linux یا macOS، Throne ممکن است دسترسی‌هایی را که برای حالت TUN لازم دارد دوباره درخواست کند. برای نسخه‌های بتا و پشتیبان‌گیری، <a href="/fa/guides/backup/#updating">پشتیبان‌گیری، به‌روزرسانی و مهاجرت</a> را ببینید.</p>
+<h2 id="troubleshooting">عیب‌یابی</h2>
+<p>اگر Throne پس از نصب اجرا نمی‌شود یا خطایی نشان می‌دهد، <a href="/fa/help/troubleshooting/#startup">مشکلات اجرا و محیط دسکتاپ</a> را ببینید. اگر آنتی‌ویروس شما Throne را خطرناک تشخیص می‌دهد، <a href="/fa/help/faq/#antivirus">پرسش‌های متداول</a> را ببینید.</p>
+
+      </div>
+      
+      
+      
+      <footer class="docs-article-footer">
+        
+        <a class="edit-link" href="https://github.com/throneproj/throneproj.github.io/edit/main/content/get_started/installation.fa.md" target="_blank" rel="noopener noreferrer">
+        
+          <svg class="ic" aria-hidden="true"><use href="#i-pencil"/></svg>
+          ویرایش این صفحه در GitHub
+        </a>
+        
+
+<nav class="prev-next" aria-label="مسیریابی صفحه">
+  
+  <a class="prevnext-prev" href="https://throneproj.github.io/fa/get_started/">
+    <span class="prevnext-dir">قبلی</span>
+    شروع کار
+  </a>
+  
+  
+  <a class="prevnext-next" href="https://throneproj.github.io/fa/get_started/configuration/">
+    <span class="prevnext-dir">بعدی</span>
+    شروع سریع
+  </a>
+  
+</nav>
+
+      </footer>
+    </article>
+  </main>
+  
+<nav class="docs-toc" aria-label="در این صفحه">
+  <p class="docs-toc-title">
+    <svg class="ic" aria-hidden="true"><use href="#i-list"/></svg>
+    در این صفحه
+  </p>
+  <ul><li><a href="#windows">Windows</a><ul><li><a href="#windows-installer">نصب‌کننده</a></li><li><a href="#windows-zip">ZIP قابل حمل</a></li></ul></li><li><a href="#macos">macOS</a></li><li><a href="#linux">Linux</a><ul><li><a href="#linux-script">اسکریپت نصب</a></li><li><a href="#linux-zip">ZIP قابل حمل</a></li><li><a href="#deb">Debian و Ubuntu (.deb)</a></li><li><a href="#rpm">Fedora و RHEL (.rpm)</a></li><li><a href="#apt-repository">مخزن APT</a></li><li><a href="#rpm-repository">مخزن RPM</a></li></ul></li><li><a href="#package-managers">مدیران بسته</a><ul><li><a href="#winget">WinGet</a></li><li><a href="#scoop">Scoop</a></li><li><a href="#homebrew">Homebrew</a></li><li><a href="#aur">Arch Linux (AUR)</a></li><li><a href="#nix">Nix</a></li></ul></li><li><a href="#build-from-source">ساخت از سورس</a></li><li><a href="#updating">به‌روزرسانی</a></li><li><a href="#troubleshooting">عیب‌یابی</a></li></ul>
+</nav>
+
+    </main>
+  </div>
+
+  
+<script src="https://throneproj.github.io/assets/js/highlight.min.js" defer></script>
+<script>
+  window.NOIR_BASE = "https://throneproj.github.io";
+  
+  window.NOIR_I18N = {
+    copy: "کپی",
+    copied: "کپی شد",
+    copyManual: "کلید Ctrl C را فشار دهید",
+    noResults: "نتیجه‌ای یافت نشد برای",
+    theme: "تم",
+    themeAuto: "خودکار",
+    themeLight: "روشن",
+    themeDark: "تاریک"
+  };
+</script>
+<script src="https://throneproj.github.io/js/theme.js" defer></script>
+<script src="https://throneproj.github.io/js/nav.js" defer></script>
+<script src="https://throneproj.github.io/js/code.js" defer></script>
+<script src="https://throneproj.github.io/js/toc.js" defer></script>
+<script src="https://throneproj.github.io/js/reveal.js" defer></script>
+<script src="https://throneproj.github.io/js/mermaid.js" defer></script>
+<script src="https://throneproj.github.io/js/search.js" defer></script>
+
+</body>
+</html>

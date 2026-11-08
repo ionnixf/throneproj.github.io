@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Which core runs your profiles, how the Xray VLESS Preference works, and how to fix Reality errors with newer Xray servers.">
+  <title>sing-box vs Xray - Throne</title>
+
+  
+  <meta name="theme-color" content="#0b0b0c" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#fbfbfa" media="(prefers-color-scheme: light)">
+
+  
+  <script>
+    (function () {
+      var r = document.documentElement;
+      r.classList.add("js");
+      try {
+        var t = localStorage.getItem("throne-theme");
+        if (t === "light" || t === "dark") r.setAttribute("data-theme", t);
+      } catch (e) {}
+    })();
+  </script>
+
+  <meta name="google-site-verification" content="Zzz4doeS45o-EhP56mm1yoyfHSEEZJRJJt0tfj7vPGM" />
+  <script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+      m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+      m[i].l=1*new Date();
+      for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+      k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=111847353', 'ym');
+
+    
+    ym(111847353, 'init', {ssr:true, webvisor:false, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/111847353" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+
+  <meta property="og:title" content="sing-box vs Xray">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://throneproj.github.io/advanced/xray/">
+  <meta property="og:description" content="Which core runs your profiles, how the Xray VLESS Preference works, and how to fix Reality errors with newer Xray servers.">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="sing-box vs Xray">
+  <meta name="twitter:description" content="Which core runs your profiles, how the Xray VLESS Preference works, and how to fix Reality errors with newer Xray servers.">
+  <link rel="canonical" href="https://throneproj.github.io/advanced/xray/">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"sing-box vs Xray","url":"https://throneproj.github.io/advanced/xray/","description":"Which core runs your profiles, how the Xray VLESS Preference works, and how to fix Reality errors with newer Xray servers."}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Throne","item":"https://throneproj.github.io/"},{"@type":"ListItem","position":2,"name":"Advanced Configuration","item":"https://throneproj.github.io/advanced/"},{"@type":"ListItem","position":3,"name":"sing-box vs Xray"}]}</script>
+  <link rel="alternate" hreflang="en" href="https://throneproj.github.io/advanced/xray/">
+<link rel="alternate" hreflang="fa" href="https://throneproj.github.io/fa/advanced/xray/">
+<link rel="alternate" hreflang="ru" href="https://throneproj.github.io/ru/advanced/xray/">
+<link rel="alternate" hreflang="zh" href="https://throneproj.github.io/zh/advanced/xray/">
+<link rel="alternate" hreflang="x-default" href="https://throneproj.github.io/advanced/xray/">
+
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon.ico" sizes="any">
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon-96x96.png" type="image/png" sizes="96x96">
+  <link rel="apple-touch-icon" href="https://throneproj.github.io/logos/apple-touch-icon.png">
+  <link rel="manifest" href="https://throneproj.github.io/logos/site.webmanifest">
+
+  <link rel="preload" href="https://throneproj.github.io/fonts/geist-variable-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+  
+  <link rel="stylesheet" href="https://throneproj.github.io/assets/css/highlight/atom-one-dark.min.css">
+  <link rel="stylesheet" href="https://throneproj.github.io/css/style.css">
+  
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  
+<svg xmlns="http://www.w3.org/2000/svg" class="icon-sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 10a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+    <path d="M21 21l-6 -6" />
+  </symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M3 12h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7" />
+  </symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454l0 .008" />
+  </symbol>
+  <symbol id="i-contrast" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M12 17a5 5 0 0 0 0 -10v10" />
+  </symbol>
+  <symbol id="i-chevron-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M6 9l6 6l6 -6" />
+  </symbol>
+  <symbol id="i-menu-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 6l16 0" />
+    <path d="M4 12l16 0" />
+    <path d="M4 18l16 0" />
+  </symbol>
+  <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M18 6l-12 12" />
+    <path d="M6 6l12 12" />
+  </symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 9.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667l0 -8.666" />
+    <path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" />
+  </symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l5 5l10 -10" />
+  </symbol>
+  <symbol id="i-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l14 0" />
+    <path d="M13 18l6 -6" />
+    <path d="M13 6l6 6" />
+  </symbol>
+  <symbol id="i-arrow-up-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M17 7l-10 10" />
+    <path d="M8 7l9 0l0 9" />
+  </symbol>
+  <symbol id="i-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l14 0" />
+    <path d="M5 12l6 6" />
+    <path d="M5 12l6 -6" />
+  </symbol>
+  <symbol id="i-brand-github" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+  </symbol>
+  <symbol id="i-pencil" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+    <path d="M13.5 6.5l4 4" />
+  </symbol>
+  <symbol id="i-rocket" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 13a8 8 0 0 1 7 7a6 6 0 0 0 3 -5a9 9 0 0 0 6 -8a3 3 0 0 0 -3 -3a9 9 0 0 0 -8 6a6 6 0 0 0 -5 3" />
+    <path d="M7 14a6 6 0 0 0 -3 6a6 6 0 0 0 6 -3" />
+    <path d="M14 9a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+  </symbol>
+  <symbol id="i-terminal-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 9l3 3l-3 3" />
+    <path d="M13 15l3 0" />
+    <path d="M3 6a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2l0 -12" />
+  </symbol>
+  <symbol id="i-lifebuoy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M15 15l3.35 3.35" />
+    <path d="M9 15l-3.35 3.35" />
+    <path d="M5.65 5.65l3.35 3.35" />
+    <path d="M18.35 5.65l-3.35 3.35" />
+  </symbol>
+  <symbol id="i-list" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 6l11 0" />
+    <path d="M9 12l11 0" />
+    <path d="M9 18l11 0" />
+    <path d="M5 6l0 .01" />
+    <path d="M5 12l0 .01" />
+    <path d="M5 18l0 .01" />
+  </symbol>
+  <symbol id="i-code" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 8l-4 4l4 4" />
+    <path d="M17 8l4 4l-4 4" />
+    <path d="M14 4l-4 16" />
+  </symbol>
+  <symbol id="i-rss" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 19a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+    <path d="M4 4a16 16 0 0 1 16 16" />
+    <path d="M4 11a9 9 0 0 1 9 9" />
+  </symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12" />
+    <path d="M16 3v4" />
+    <path d="M8 3v4" />
+    <path d="M4 11h16" />
+    <path d="M11 15h1" />
+    <path d="M12 15v3" />
+  </symbol>
+</svg>
+
+<header class="site-header">
+  <div class="header-inner">
+    <button class="icon-btn hamburger" id="drawerToggle" aria-label="Open navigation" aria-expanded="false" aria-controls="sidebar">
+      <svg class="ic" aria-hidden="true"><use href="#i-menu-2"/></svg>
+    </button>
+
+    <a href="https://throneproj.github.io/" class="header-logo" aria-label="Throne homepage">
+      <img class="logo" src="https://throneproj.github.io/images/throne-logo.png" alt="Throne" width="1817" height="346">
+    </a>
+    <a class="header-version" href="https://github.com/throneproj/Throne/releases/tag/1.4.1" target="_blank" rel="noopener noreferrer">v1.4.1</a>
+
+    <nav class="header-nav" aria-label="Primary">
+      <a href="https://throneproj.github.io/get_started/">Get Started</a>
+      <a href="https://throneproj.github.io/downloads/">Downloads</a>
+    </nav>
+
+    <div class="header-right">
+      <button class="header-btn search-trigger" id="searchTrigger" aria-label="Search documentation">
+        <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+        <span>Search</span>
+        <kbd>Ctrl K</kbd>
+      </button>
+
+      
+      
+      <nav class="lang-switcher" aria-label="Language">
+        
+        <a href="https://throneproj.github.io/advanced/xray/" hreflang="en" aria-current="true">EN</a>
+        
+        <a href="https://throneproj.github.io/fa/advanced/xray/" hreflang="fa">FA</a>
+        
+        <a href="https://throneproj.github.io/ru/advanced/xray/" hreflang="ru">RU</a>
+        
+        <a href="https://throneproj.github.io/zh/advanced/xray/" hreflang="zh">ZH</a>
+        
+      </nav>
+      
+
+      <a class="icon-btn" href="https://github.com/throneproj/Throne" target="_blank" rel="noopener noreferrer" aria-label="Throne on GitHub">
+        <svg class="ic" aria-hidden="true"><use href="#i-brand-github"/></svg>
+      </a>
+
+      
+      <button class="icon-btn theme-toggle" id="themeToggle" data-mode="auto" type="button" aria-label="Theme">
+        <svg class="ic ic-auto" aria-hidden="true"><use href="#i-contrast"/></svg>
+        <svg class="ic ic-light" aria-hidden="true"><use href="#i-sun"/></svg>
+        <svg class="ic ic-dark" aria-hidden="true"><use href="#i-moon"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+<div class="search-overlay" id="searchOverlay" role="dialog" aria-modal="true" aria-label="Search documentation" hidden>
+  <div class="search-modal">
+    <div class="search-input-wrap">
+      <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+      <input type="search" id="searchInput" aria-label="Search documentation" placeholder="Search the docs" autocomplete="off" spellcheck="false">
+      <kbd id="searchClose" role="button" tabindex="0">Esc</kbd>
+    </div>
+    <div class="search-results" id="searchResults" role="listbox" aria-label="Search"></div>
+  </div>
+</div>
+<div class="docs-container">
+<div class="drawer-scrim" id="drawerScrim"></div>
+<aside class="docs-sidebar" id="sidebar">
+  <nav class="sidebar-nav" aria-label="Documentation">
+
+    
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Get Started</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/get_started/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/get_started/installation/">Installation</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/get_started/configuration/">Quick Start</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Guides</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/guides/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/subscriptions/">Subscriptions & Groups</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/proxy_modes/">System Proxy, TUN & LAN</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/tun_mode/">TUN Mode</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/routing/">Routing</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/dns/">DNS</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/testing/">Testing & Auto Selector</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/backup/">Backup, Updates & Migration</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/recipes/">Recipes</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Throne for Android</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/android/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/installation/">Installation & Upgrade</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/permissions/">Permissions & Background</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/modes/">VPN & Proxy Modes</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/widgets/">Widgets, Tile & Automation</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/tv/">Android TV</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/troubleshooting/">Troubleshooting</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Headless Throne</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/headless/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/headless/installation/">Installation & Services</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/headless/thronectl/">Managing with thronectl</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/headless/web/">Web UI</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/headless/command_line/">Command Line & Data Directory</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/headless/monitoring/">Health Checks & Logs</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/headless/recovery/">Lockout Protection & Recovery</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/headless/troubleshooting/">Troubleshooting</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group" open>
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Advanced Configuration</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/xray/" aria-current="page">sing-box vs Xray</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/chains/">Chains & Custom Configs</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/presets/">Anti-Censorship Presets</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/warp/">Cloudflare WARP</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/dns_tunnels/">DNS Tunnels</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/vpn_profiles/">OpenVPN, OpenConnect & Tailscale</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/windows_tun_mode/">Windows DNS Leak Protection</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/kill_switch/">Kill Switch</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/deeplinks/">Deep Links</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/api/">Throne API & thronectl</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Reference</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/reference/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/reference/protocols/">Protocols & Import Formats</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/reference/shortcuts/">Keyboard Shortcuts & Tray</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/reference/files/">Command Line, Files & Logs</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/reference/privacy/">Privacy & Network Requests</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/reference/glossary/">Glossary</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Help</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/help/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/help/faq/">FAQ</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/help/troubleshooting/">Troubleshooting</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/help/bug_reports/">Reporting a Bug</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/help/migrating/">Coming from Nekoray / NekoBox</a></li>
+        
+        
+      </ul>
+    </details>
+    
+
+  </nav>
+</aside>
+  <main id="main" class="docs-main">
+    <article>
+      <h1 class="docs-title">sing-box vs Xray</h1>
+      <p class="docs-lede">Which core runs your profiles, how the Xray VLESS Preference works, and how to fix Reality errors with newer Xray servers.</p>
+      <div class="prose">
+        <p>Most profiles run on sing-box. Some VLESS profiles and all Xray custom configs run on Xray, which Throne also contains. In Simple mode, the <code>Core</code> and <code>Logging</code> tabs and most other settings on this page are hidden, see <a href="/get_started/configuration/#interface-mode">Simple and Advanced mode</a>.</p>
+<h2 id="two-cores">Two cores in one</h2>
+<p>sing-box always runs and handles the local proxy port, TUN mode, routing and DNS. Xray starts as a helper only when the running profile, a hop of its chain or the outbound of a routing rule needs it. sing-box hands that traffic to Xray internally, so TUN mode, routing profiles and DNS settings work the same with both cores.</p>
+<p>Profiles whose <code>Type</code> column shows <code>VLESS (Xray)</code>, <code>Custom Xray … Outbound</code> or <code>Custom Xray Config</code> run on Xray; all others, including <code>VLESS</code>, run on sing-box. A <code>vless://</code> link that uses an Xray-only feature is always imported as <code>VLESS (Xray)</code>, whatever the <a href="#vless-preference">Xray VLESS Preference</a>:</p>
+<ul>
+<li>the XHTTP transport (<code>type=xhttp</code>) and its <code>extra</code> settings,</li>
+<li>VLESS encryption (an <code>encryption</code> value other than <code>none</code>),</li>
+<li>Finalmask,</li>
+<li>the mKCP transport (<code>type=kcp</code>),</li>
+<li>a TCP (<code>raw</code>) transport with an HTTP header together with TLS.</li>
+</ul>
+<p>mKCP carries the connection over UDP (<code>kcp</code> in <code>Network</code> in the profile editor). With an <code>xdns</code> mask in Finalmask, it becomes the DNS tunnel <a href="/advanced/dns_tunnels/#xdns">XDNS</a>. <a href="#xdrive">XDRIVE</a> is Xray-only too, but has no link format.</p>
+<p>To see the configs that Throne generates for a profile, right-click it → <code>Share</code> → <code>Export config</code>. Xray messages appear in the <code>Logs</code> tab; set their detail in <code>Settings</code> → <code>Basic Settings</code> → <code>Logging</code> → <code>Xray Log level</code>.</p>
+<h2 id="vless-preference">Choose the core for VLESS links</h2>
+<p><code>Settings</code> → <code>Basic Settings</code> → <code>Core</code> → <code>Xray VLESS Preference</code> decides which core a <code>vless://</code> link gets when you import it:</p>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Links imported as <code>VLESS (Xray)</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>XHTTP Only</code></td>
+<td>Only links that need an Xray-only feature (see above). Reality links stay on sing-box.</td>
+</tr>
+<tr>
+<td><code>XHTTP And Reality</code> (default)</td>
+<td>Those links, plus every Reality link.</td>
+</tr>
+<tr>
+<td><code>All VLESS</code></td>
+<td>Every <code>vless://</code> link.</td>
+</tr>
+</tbody>
+</table>
+<p>Other sources:</p>
+<ul>
+<li><strong>Clash / Mihomo YAML:</strong> a VLESS entry gets Xray when it uses XHTTP or VLESS encryption, or Reality over TCP, WebSocket or gRPC (unless the preference is <code>XHTTP Only</code>). Other VLESS entries stay on sing-box, also with <code>All VLESS</code>.</li>
+<li><strong>Xray JSON:</strong> every VLESS outbound becomes <code>VLESS (Xray)</code>.</li>
+<li><strong>sing-box JSON:</strong> VLESS outbounds stay on sing-box.</li>
+<li><strong>Profile editor:</strong> you choose <code>VLESS</code> or <code>VLESS (Xray)</code> in <code>Type</code>.</li>
+</ul>
+
+<aside class="callout callout--info">
+  <span class="callout-label">Note</span>
+  <p>Updating Throne keeps your saved preference. If you have used Throne since before 1.2.0, it may still be <code>XHTTP Only</code>.</p>
+
+</aside>
+<h3 id="after-change">After you change the preference</h3>
+<p>The preference affects only profiles that you import after the change. To move existing profiles to the other core:</p>
+<ul>
+<li><strong>Subscription group:</strong> update the subscription (<code>Groups</code> → <code>Update subscription</code>). Throne replaces the affected profiles with new ones, so their old test results are gone.</li>
+<li><strong>Profile added from a link:</strong> add the link again, then delete the old profile.</li>
+<li><strong>Profile you created by hand:</strong> its type cannot be changed. Create a new profile with the other type.</li>
+</ul>
+<p>If <code>Keep working profiles</code> is on in the group's subscription settings, old working profiles can stay next to the new ones. Delete them yourself.</p>
+<h2 id="reality">Reality errors with newer Xray servers</h2>
+<p>Newer Xray servers reject the Reality client of sing-box. The profile does not connect, and the log shows <code>reality verification failed</code> (<a href="https://github.com/throneproj/Throne/issues/1780">#1780</a>):</p>
+<ul>
+<li>Xray 26.7.11 to 26.7.28 accept only clients that report a recent Xray version.</li>
+<li>Xray 26.9.9 and newer require a key exchange (X25519MLKEM768) that the Reality client of sing-box does not offer.</li>
+</ul>
+<p>Run the profile on Xray instead:</p>
+<ol>
+<li>Open <code>Settings</code> → <code>Basic Settings</code> → <code>Core</code>.</li>
+<li>Set <code>Xray VLESS Preference</code> to <code>XHTTP And Reality</code> or <code>All VLESS</code> and click <code>OK</code>.</li>
+<li>Update the subscription, or add the link again (see <a href="#after-change">After you change the preference</a>).</li>
+<li>Check that the <code>Type</code> column now shows <code>VLESS (Xray)</code>.</li>
+</ol>
+<p>From a Clash / Mihomo YAML subscription, only Reality entries over TCP, WebSocket or gRPC move to Xray. For other transports, use the subscription as a list of links, if your provider offers it.</p>
+<p>If you run an Xray server from 26.7.11 to 26.7.28 yourself, you can instead add <code>&quot;minClientVer&quot;: &quot;0.0.0&quot;</code> to the <code>realitySettings</code> of its VLESS inbound so older clients can connect. This does not help with 26.9.9 and newer.</p>
+<h2 id="system-ca">Trust system certificates</h2>
+<p>Xray checks server certificates only against its built-in root certificates, so a server whose certificate comes from a root that you installed yourself, such as a company root or a self-signed one, fails. Tick <code>Settings</code> → <code>Basic Settings</code> → <code>Security</code> → <code>Trust System Certificates in Xray</code> (off by default) to make Xray also trust your system's certificates.</p>
+<h2 id="xdrive">XDRIVE</h2>
+<p>With the XDRIVE transport, Throne and the server do not connect to each other. They exchange the traffic as files in a storage that both can reach: a Google Drive folder, an S3 bucket, another storage service with an HTTP API, or a folder on this computer. Use it only with a server that is set up for XDRIVE, with the settings that its operator gives you.</p>
+<p>XDRIVE has no link format, because a link would carry the storage secrets. Import the server's Xray JSON or a Throne link (<code>throne://add/…</code>) instead. Sharing an XDRIVE profile gives its Throne link.</p>
+<p>To set it up in the profile editor, choose <code>xdrive</code> in <code>Network</code>. XDRIVE needs these VLESS settings:</p>
+<ul>
+<li><code>Encryption</code>: the VLESS encryption string that the server gives, starting with <code>mlkem768x25519plus</code>.</li>
+<li><code>Flow</code>: empty.</li>
+<li><code>Multiplex</code>: anything but <code>Disabled</code>. With <code>Keep Default</code>, Throne turns mux on for XDRIVE. See <a href="/advanced/presets/#multiplex">Multiplex</a>.</li>
+</ul>
+<p>In the <code>Storage</code> group, choose the <code>Service</code> and fill in what the operator gives you:</p>
+<ul>
+<li><code>google-drive</code> (default): <code>Folder</code> (the shared folder ID), <code>Client ID</code>, <code>Client Secret</code> and <code>Refresh Token</code>.</li>
+<li><code>s3</code>, any S3-compatible storage such as AWS S3, MinIO or Cloudflare R2: <code>Endpoint</code>, <code>Bucket</code>, <code>Folder</code> (the key prefix), <code>Access Key ID</code> and <code>Secret Access Key</code>, and optionally <code>Region</code> (empty means <code>us-east-1</code>) and <code>Session Token</code>. <code>Path-Style Addressing</code> (on by default) puts the bucket in the URL path instead of the host name.</li>
+<li><code>template</code>, any storage with an HTTP API: <code>Template</code> (the API operations as JSON) and <code>Secrets</code> (comma-separated values read as <code>{secret0}</code>, <code>{secret1}</code> and so on).</li>
+<li><code>local</code>: <code>Folder</code>, a folder on this computer.</li>
+</ul>
+<p><code>Front Address</code> and <code>Front Port</code> (default 443) are optional: Throne connects to the storage API at this address while TLS still names the API host, a form of domain fronting. Leave the <code>Tuning</code> group empty to use Xray's defaults.</p>
+<h2 id="xray-in-chains">Xray in chains</h2>
+<p>A chain can mix sing-box and Xray profiles, with two limits:</p>
+<ul>
+<li>All Xray hops must be next to each other: sing-box hops, then Xray hops, then sing-box hops. Otherwise the profile does not start, and the log shows &quot;Too many core transitions&quot;.</li>
+<li>A <code>Custom (Xray config)</code> profile must be the top hop, and it cannot share a chain with other Xray hops.</li>
+</ul>
+<p>Group front and landing proxies, and WARP, count as hops too. See <a href="/advanced/chains/#chains">Proxy Chains &amp; Custom Configs</a>.</p>
+<h2 id="geo-files">Xray geo files</h2>
+<p>A <code>Custom (Xray config)</code> profile whose own <code>routing</code> rules use <code>geoip:</code> or <code>geosite:</code> values needs the files <code>geoip.dat</code> and <code>geosite.dat</code>. When they are missing, Throne offers to download them: click <code>Yes</code>, then start the profile again.</p>
+<p>Choose their source in <code>Settings</code> → <code>Basic Settings</code> → <code>Miscellaneous</code> → <code>Xray Geo Assets</code>: Loyalsoldier (global and China, the default), Chocolate4U (Iran), runetfreedom (Russia) or v2fly. Take both files from the same source. If Throne shows &quot;Geo asset missing category&quot;, choose a source that has this category and click <code>Download</code> for that file.</p>
+<h2 id="android">Android</h2>
+<ul>
+<li>The preference is in <code>Settings</code> → <code>Core</code> → <code>Xray VLESS preference</code>, with <code>XHTTP only</code>, <code>XHTTP and Reality</code> (default) and <code>All VLESS</code>.</li>
+<li>XDRIVE: choose <code>XDRIVE</code> in <code>Network</code>. The fields are in <code>XDRIVE settings</code> and <code>XDRIVE tuning</code>, and <code>Secrets</code> takes one value per line.</li>
+<li>mKCP: choose <code>mKCP</code> in <code>Network</code>. The fields are in <code>mKCP settings</code> and <code>mKCP tuning</code>. For XDNS, add the <code>xdns</code> mask in <code>Finalmask</code>.</li>
+<li><code>Settings</code> → <code>Core</code> → <code>Trust system certificates in Xray</code> trusts the root certificates that come with Android, not the ones that you installed yourself.</li>
+<li>Throne for Android downloads <code>geoip.dat</code> and <code>geosite.dat</code> by itself when an Xray config needs them. Choose their source in <code>Settings</code> → <code>Core</code> → <code>Xray geo assets</code>.</li>
+</ul>
+
+      </div>
+      
+      
+      
+      <footer class="docs-article-footer">
+        
+        <a class="edit-link" href="https://github.com/throneproj/throneproj.github.io/edit/main/content/advanced/xray.md" target="_blank" rel="noopener noreferrer">
+        
+          <svg class="ic" aria-hidden="true"><use href="#i-pencil"/></svg>
+          Edit this page on GitHub
+        </a>
+        
+
+<nav class="prev-next" aria-label="Page navigation">
+  
+  <a class="prevnext-prev" href="https://throneproj.github.io/advanced/">
+    <span class="prevnext-dir">Previous</span>
+    Advanced Configuration
+  </a>
+  
+  
+  <a class="prevnext-next" href="https://throneproj.github.io/advanced/chains/">
+    <span class="prevnext-dir">Next</span>
+    Proxy Chains & Custom Configs
+  </a>
+  
+</nav>
+
+      </footer>
+    </article>
+  </main>
+  
+<nav class="docs-toc" aria-label="On this page">
+  <p class="docs-toc-title">
+    <svg class="ic" aria-hidden="true"><use href="#i-list"/></svg>
+    On this page
+  </p>
+  <ul><li><a href="#two-cores">Two cores in one</a></li><li><a href="#vless-preference">Choose the core for VLESS links</a><ul><li><a href="#after-change">After you change the preference</a></li></ul></li><li><a href="#reality">Reality errors with newer Xray servers</a></li><li><a href="#system-ca">Trust system certificates</a></li><li><a href="#xdrive">XDRIVE</a></li><li><a href="#xray-in-chains">Xray in chains</a></li><li><a href="#geo-files">Xray geo files</a></li><li><a href="#android">Android</a></li></ul>
+</nav>
+
+    </main>
+  </div>
+
+  
+<script src="https://throneproj.github.io/assets/js/highlight.min.js" defer></script>
+<script>
+  window.NOIR_BASE = "https://throneproj.github.io";
+  
+  window.NOIR_I18N = {
+    copy: "Copy",
+    copied: "Copied",
+    copyManual: "Press Ctrl C",
+    noResults: "No results for",
+    theme: "Theme",
+    themeAuto: "auto",
+    themeLight: "light",
+    themeDark: "dark"
+  };
+</script>
+<script src="https://throneproj.github.io/js/theme.js" defer></script>
+<script src="https://throneproj.github.io/js/nav.js" defer></script>
+<script src="https://throneproj.github.io/js/code.js" defer></script>
+<script src="https://throneproj.github.io/js/toc.js" defer></script>
+<script src="https://throneproj.github.io/js/reveal.js" defer></script>
+<script src="https://throneproj.github.io/js/mermaid.js" defer></script>
+<script src="https://throneproj.github.io/js/search.js" defer></script>
+
+</body>
+</html>

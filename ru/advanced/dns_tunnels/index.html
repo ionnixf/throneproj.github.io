@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Как подключиться к серверу через DNS-запросы в сетях, где проходит только DNS: профили DNSTT, VayDNS, MasterDNS и Xray XDNS.">
+  <title>DNS-туннели - Throne</title>
+
+  
+  <meta name="theme-color" content="#0b0b0c" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#fbfbfa" media="(prefers-color-scheme: light)">
+
+  
+  <script>
+    (function () {
+      var r = document.documentElement;
+      r.classList.add("js");
+      try {
+        var t = localStorage.getItem("throne-theme");
+        if (t === "light" || t === "dark") r.setAttribute("data-theme", t);
+      } catch (e) {}
+    })();
+  </script>
+
+  <meta name="google-site-verification" content="Zzz4doeS45o-EhP56mm1yoyfHSEEZJRJJt0tfj7vPGM" />
+  <script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+      m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+      m[i].l=1*new Date();
+      for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+      k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=111847353', 'ym');
+
+    
+    ym(111847353, 'init', {ssr:true, webvisor:false, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/111847353" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+
+  <meta property="og:title" content="DNS-туннели">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://throneproj.github.io/ru/advanced/dns_tunnels/">
+  <meta property="og:description" content="Как подключиться к серверу через DNS-запросы в сетях, где проходит только DNS: профили DNSTT, VayDNS, MasterDNS и Xray XDNS.">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="DNS-туннели">
+  <meta name="twitter:description" content="Как подключиться к серверу через DNS-запросы в сетях, где проходит только DNS: профили DNSTT, VayDNS, MasterDNS и Xray XDNS.">
+  <link rel="canonical" href="https://throneproj.github.io/ru/advanced/dns_tunnels/">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"DNS-туннели","url":"https://throneproj.github.io/ru/advanced/dns_tunnels/","description":"Как подключиться к серверу через DNS-запросы в сетях, где проходит только DNS: профили DNSTT, VayDNS, MasterDNS и Xray XDNS."}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Throne","item":"https://throneproj.github.io/ru/"},{"@type":"ListItem","position":2,"name":"Расширенная конфигурация","item":"https://throneproj.github.io/ru/advanced/"},{"@type":"ListItem","position":3,"name":"DNS-туннели"}]}</script>
+  <link rel="alternate" hreflang="ru" href="https://throneproj.github.io/ru/advanced/dns_tunnels/">
+<link rel="alternate" hreflang="en" href="https://throneproj.github.io/advanced/dns_tunnels/">
+<link rel="alternate" hreflang="fa" href="https://throneproj.github.io/fa/advanced/dns_tunnels/">
+<link rel="alternate" hreflang="zh" href="https://throneproj.github.io/zh/advanced/dns_tunnels/">
+<link rel="alternate" hreflang="x-default" href="https://throneproj.github.io/advanced/dns_tunnels/">
+
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon.ico" sizes="any">
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon-96x96.png" type="image/png" sizes="96x96">
+  <link rel="apple-touch-icon" href="https://throneproj.github.io/logos/apple-touch-icon.png">
+  <link rel="manifest" href="https://throneproj.github.io/logos/site.webmanifest">
+
+  <link rel="preload" href="https://throneproj.github.io/fonts/geist-variable-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+  
+  <link rel="stylesheet" href="https://throneproj.github.io/assets/css/highlight/atom-one-dark.min.css">
+  <link rel="stylesheet" href="https://throneproj.github.io/css/style.css">
+  
+</head>
+<body>
+  <a class="skip-link" href="#main">Перейти к основному содержимому</a>
+  
+<svg xmlns="http://www.w3.org/2000/svg" class="icon-sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 10a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+    <path d="M21 21l-6 -6" />
+  </symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M3 12h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7" />
+  </symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454l0 .008" />
+  </symbol>
+  <symbol id="i-contrast" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M12 17a5 5 0 0 0 0 -10v10" />
+  </symbol>
+  <symbol id="i-chevron-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M6 9l6 6l6 -6" />
+  </symbol>
+  <symbol id="i-menu-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 6l16 0" />
+    <path d="M4 12l16 0" />
+    <path d="M4 18l16 0" />
+  </symbol>
+  <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M18 6l-12 12" />
+    <path d="M6 6l12 12" />
+  </symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 9.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667l0 -8.666" />
+    <path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" />
+  </symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l5 5l10 -10" />
+  </symbol>
+  <symbol id="i-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l14 0" />
+    <path d="M13 18l6 -6" />
+    <path d="M13 6l6 6" />
+  </symbol>
+  <symbol id="i-arrow-up-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M17 7l-10 10" />
+    <path d="M8 7l9 0l0 9" />
+  </symbol>
+  <symbol id="i-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l14 0" />
+    <path d="M5 12l6 6" />
+    <path d="M5 12l6 -6" />
+  </symbol>
+  <symbol id="i-brand-github" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+  </symbol>
+  <symbol id="i-pencil" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+    <path d="M13.5 6.5l4 4" />
+  </symbol>
+  <symbol id="i-rocket" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 13a8 8 0 0 1 7 7a6 6 0 0 0 3 -5a9 9 0 0 0 6 -8a3 3 0 0 0 -3 -3a9 9 0 0 0 -8 6a6 6 0 0 0 -5 3" />
+    <path d="M7 14a6 6 0 0 0 -3 6a6 6 0 0 0 6 -3" />
+    <path d="M14 9a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+  </symbol>
+  <symbol id="i-terminal-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 9l3 3l-3 3" />
+    <path d="M13 15l3 0" />
+    <path d="M3 6a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2l0 -12" />
+  </symbol>
+  <symbol id="i-lifebuoy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M15 15l3.35 3.35" />
+    <path d="M9 15l-3.35 3.35" />
+    <path d="M5.65 5.65l3.35 3.35" />
+    <path d="M18.35 5.65l-3.35 3.35" />
+  </symbol>
+  <symbol id="i-list" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 6l11 0" />
+    <path d="M9 12l11 0" />
+    <path d="M9 18l11 0" />
+    <path d="M5 6l0 .01" />
+    <path d="M5 12l0 .01" />
+    <path d="M5 18l0 .01" />
+  </symbol>
+  <symbol id="i-code" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 8l-4 4l4 4" />
+    <path d="M17 8l4 4l-4 4" />
+    <path d="M14 4l-4 16" />
+  </symbol>
+  <symbol id="i-rss" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 19a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+    <path d="M4 4a16 16 0 0 1 16 16" />
+    <path d="M4 11a9 9 0 0 1 9 9" />
+  </symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12" />
+    <path d="M16 3v4" />
+    <path d="M8 3v4" />
+    <path d="M4 11h16" />
+    <path d="M11 15h1" />
+    <path d="M12 15v3" />
+  </symbol>
+</svg>
+
+<header class="site-header">
+  <div class="header-inner">
+    <button class="icon-btn hamburger" id="drawerToggle" aria-label="Открыть навигацию" aria-expanded="false" aria-controls="sidebar">
+      <svg class="ic" aria-hidden="true"><use href="#i-menu-2"/></svg>
+    </button>
+
+    <a href="https://throneproj.github.io/ru/" class="header-logo" aria-label="Главная страница Throne">
+      <img class="logo" src="https://throneproj.github.io/images/throne-logo.png" alt="Throne" width="1817" height="346">
+    </a>
+    <a class="header-version" href="https://github.com/throneproj/Throne/releases/tag/1.4.1" target="_blank" rel="noopener noreferrer">v1.4.1</a>
+
+    <nav class="header-nav" aria-label="Основная навигация">
+      <a href="https://throneproj.github.io/ru/get_started/">Начало работы</a>
+      <a href="https://throneproj.github.io/ru/downloads/">Скачать</a>
+    </nav>
+
+    <div class="header-right">
+      <button class="header-btn search-trigger" id="searchTrigger" aria-label="Поиск по документации">
+        <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+        <span>Поиск</span>
+        <kbd>Ctrl K</kbd>
+      </button>
+
+      
+      
+      <nav class="lang-switcher" aria-label="Язык">
+        
+        <a href="https://throneproj.github.io/advanced/dns_tunnels/" hreflang="en">EN</a>
+        
+        <a href="https://throneproj.github.io/fa/advanced/dns_tunnels/" hreflang="fa">FA</a>
+        
+        <a href="https://throneproj.github.io/ru/advanced/dns_tunnels/" hreflang="ru" aria-current="true">RU</a>
+        
+        <a href="https://throneproj.github.io/zh/advanced/dns_tunnels/" hreflang="zh">ZH</a>
+        
+      </nav>
+      
+
+      <a class="icon-btn" href="https://github.com/throneproj/Throne" target="_blank" rel="noopener noreferrer" aria-label="Throne на GitHub">
+        <svg class="ic" aria-hidden="true"><use href="#i-brand-github"/></svg>
+      </a>
+
+      
+      <button class="icon-btn theme-toggle" id="themeToggle" data-mode="auto" type="button" aria-label="Тема">
+        <svg class="ic ic-auto" aria-hidden="true"><use href="#i-contrast"/></svg>
+        <svg class="ic ic-light" aria-hidden="true"><use href="#i-sun"/></svg>
+        <svg class="ic ic-dark" aria-hidden="true"><use href="#i-moon"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+<div class="search-overlay" id="searchOverlay" role="dialog" aria-modal="true" aria-label="Поиск по документации" hidden>
+  <div class="search-modal">
+    <div class="search-input-wrap">
+      <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+      <input type="search" id="searchInput" aria-label="Поиск по документации" placeholder="Поиск по документации" autocomplete="off" spellcheck="false">
+      <kbd id="searchClose" role="button" tabindex="0">Esc</kbd>
+    </div>
+    <div class="search-results" id="searchResults" role="listbox" aria-label="Поиск"></div>
+  </div>
+</div>
+<div class="docs-container">
+<div class="drawer-scrim" id="drawerScrim"></div>
+<aside class="docs-sidebar" id="sidebar">
+  <nav class="sidebar-nav" aria-label="Навигация по документации">
+
+    
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Начало работы</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/ru/get_started/">Обзор</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/get_started/installation/">Установка</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/get_started/configuration/">Быстрый старт</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Руководства</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/ru/guides/">Обзор</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/guides/subscriptions/">Подписки и группы</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/guides/proxy_modes/">Системный прокси, TUN и доступ из локальной сети</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/guides/tun_mode/">Режим TUN</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/guides/routing/">Маршрутизация</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/guides/dns/">DNS</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/guides/testing/">Тестирование и автовыбор</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/guides/backup/">Резервное копирование, обновление и перенос</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/guides/recipes/">Рецепты</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Throne для Android</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/ru/android/">Обзор</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/android/installation/">Установка и обновление</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/android/permissions/">Разрешения и работа в фоне</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/android/modes/">Режимы VPN и прокси</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/android/widgets/">Виджеты, плитка и автоматизация</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/android/tv/">Android TV</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/android/troubleshooting/">Устранение неполадок на Android</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Throne в режиме headless</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/ru/headless/">Обзор</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/headless/installation/">Установка и службы</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/headless/thronectl/">Управление через thronectl</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/headless/web/">Веб-интерфейс</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/headless/command_line/">Командная строка и каталог данных</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/headless/monitoring/">Проверки состояния и логи</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/headless/recovery/">Защита от потери доступа и восстановление</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/headless/troubleshooting/">Устранение неполадок</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group" open>
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Расширенная конфигурация</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/ru/advanced/">Обзор</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/advanced/xray/">sing-box или Xray</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/advanced/chains/">Цепочки прокси и пользовательские конфигурации</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/advanced/presets/">Пресеты для обхода цензуры</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/advanced/warp/">Cloudflare WARP</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/advanced/dns_tunnels/" aria-current="page">DNS-туннели</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/advanced/vpn_profiles/">OpenVPN, OpenConnect и Tailscale</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/advanced/windows_tun_mode/">Защита от утечек DNS в Windows</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/advanced/kill_switch/">Kill Switch</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/advanced/deeplinks/">Глубокие ссылки</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/advanced/api/">Throne API и thronectl</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Справочник</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/ru/reference/">Обзор</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/reference/protocols/">Протоколы и форматы импорта</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/reference/shortcuts/">Сочетания клавиш и трей</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/reference/files/">Командная строка, файлы и логи</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/reference/privacy/">Конфиденциальность и сетевые запросы</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/reference/glossary/">Глоссарий</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Помощь</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/ru/help/">Обзор</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/help/faq/">FAQ</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/help/troubleshooting/">Устранение неполадок</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/help/bug_reports/">Как сообщить об ошибке</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/help/migrating/">Переход с Nekoray / NekoBox</a></li>
+        
+        
+      </ul>
+    </details>
+    
+
+  </nav>
+</aside>
+  <main id="main" class="docs-main">
+    <article>
+      <h1 class="docs-title">DNS-туннели</h1>
+      <p class="docs-lede">Как подключиться к серверу через DNS-запросы в сетях, где проходит только DNS: профили DNSTT, VayDNS, MasterDNS и Xray XDNS.</p>
+      <div class="prose">
+        <p>DNS-туннель передаёт ваш трафик внутри DNS-запросов, поэтому работает в сетях, где заблокировано всё, кроме DNS. Он намного медленнее обычного профиля, а первое подключение занимает время. Используйте его, только когда другие профили не подключаются.</p>
+<h2 id="how-it-works">Как работает DNS-туннель</h2>
+<p>Throne не подключается к серверу туннеля. Он отправляет DNS-запросы имён внутри домена туннеля, например <code>t.example.com</code>, резолверам: DNS-серверам вашей сети или публичным, например <code>8.8.8.8</code>. Домен делегирован серверу туннеля, поэтому резолверы передают запросы ему, а сервер отвечает в DNS-ответах.</p>
+<p>Поэтому у профиля DNS-туннеля нет адреса и порта сервера. Ему нужны домен туннеля, ключ сервера и <a href="#resolvers">резолверы</a>, которые передают запросы дальше. Скорость зависит в основном от резолверов: многие ограничивают размер или число запросов либо отбрасывают необычные запросы.</p>
+<table>
+<thead>
+<tr>
+<th>Вид</th>
+<th><code>Тип</code> (Type)</th>
+<th>Сервер</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="#dnstt">DNSTT и VayDNS</a></td>
+<td><code>DNSTT / VayDNS</code></td>
+<td><code>dnstt-server</code> или <code>vaydns-server</code></td>
+</tr>
+<tr>
+<td><a href="#masterdns">MasterDNS</a></td>
+<td><code>MasterDNS</code></td>
+<td>MasterDnsVPN или StormDNS</td>
+</tr>
+<tr>
+<td><a href="#xdns">XDNS</a></td>
+<td><code>VLESS (Xray)</code> с сетью <code>kcp</code> и маской <code>xdns</code></td>
+<td>Xray с mKCP и маской <code>xdns</code></td>
+</tr>
+</tbody>
+</table>
+<p>Создайте профиль через <code>Программа</code> (Program) → <code>Новый профиль</code> (New profile) (<code>Ctrl+N</code>) или <a href="#import">импортируйте</a> ссылку или конфигурацию. О Throne для Android см. <a href="#android">Android</a>.</p>
+<h2 id="dnstt">DNSTT и VayDNS</h2>
+<p><code>Режим</code> (Mode) выбирает протокол: <code>DNSTT</code> (по умолчанию) для <code>dnstt-server</code> или <code>vaydns-server -dnstt-compat</code>, <code>VayDNS</code> для <code>vaydns-server</code>, а <code>VayDNS (совместимый с dnstt)</code> (VayDNS (dnstt-compatible)) для тех же серверов, что и <code>DNSTT</code>, с полем <code>Макс. длина QNAME</code> (Max QNAME Length).</p>
+<table>
+<thead>
+<tr>
+<th>Поле</th>
+<th>Что делает</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Домен</code> (Domain)</td>
+<td>Домен туннеля, делегированный серверу, например <code>t.example.com</code>.</td>
+</tr>
+<tr>
+<td><code>Public Key</code></td>
+<td>Открытый ключ сервера: 64 шестнадцатеричные цифры.</td>
+</tr>
+<tr>
+<td><code>Тип записи</code> (Record Type), <code>Размер ID клиента</code> (Client ID Size)</td>
+<td>Только <code>VayDNS</code>. Должны совпадать с сервером (для размера ID — <code>-clientid-size</code>).</td>
+</tr>
+<tr>
+<td><code>Макс. длина QNAME</code></td>
+<td>Оба режима VayDNS. По умолчанию 101 (<code>VayDNS</code>) или 253 (совместимый с dnstt), не больше 253. Длинные имена несут больше данных, но некоторые резолверы их отбрасывают.</td>
+</tr>
+<tr>
+<td><code>Полезная нагрузка на запрос</code> (Payload per Query)</td>
+<td>Сколько данных туннеля несёт каждый запрос. Нужно не меньше 25 байт: используйте более короткий домен или большее значение <code>Макс. длина QNAME</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>В группе <code>Дополнительно</code> (Advanced) (только в расширенном режиме, см. <a href="/ru/get_started/configuration/#interface-mode">Простой и расширенный режим</a>) согласуйте <code>Idle Timeout</code> с сервером; <code>Keepalive Interval</code> должен быть меньше него.</p>
+<p><code>Бэкенд</code> (Backend) → <code>Тип</code> (Type) указывает, что работает за туннелем на сервере:</p>
+<ul>
+<li><code>Нет (только для цепочки)</code> (None (chain only)) (по умолчанию): сервер передаёт туннель дальше, другому прокси-серверу. Создайте <a href="/ru/advanced/chains/#create-chain">цепочку</a>: профиль DNS-туннеля сверху, а под ним профиль этого сервера.</li>
+<li><code>SOCKS5</code> или <code>Shadowsocks</code>: введите его учётные данные. Отметьте <code>UDP over TCP</code>, чтобы передавать UDP.</li>
+<li><code>SSH</code>: введите <code>Пользователь</code> (User) и <code>Пароль</code> (Password) или <code>Private Key</code>, как в профиле <code>SSH</code>.</li>
+</ul>
+<h2 id="masterdns">MasterDNS</h2>
+<p>Профили <code>MasterDNS</code> работают с серверами MasterDnsVPN и StormDNS и передают только TCP. Эти поля должны совпадать с конфигурацией сервера:</p>
+<table>
+<thead>
+<tr>
+<th>Поле</th>
+<th>Параметр сервера</th>
+<th>Что ввести</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Домены</code> (Domains)</td>
+<td><code>DOMAIN</code></td>
+<td>По одному в строке, все ведут к одному серверу.</td>
+</tr>
+<tr>
+<td><code>Режим</code> (Mode)</td>
+<td><code>PROTOCOL_TYPE</code></td>
+<td><code>SOCKS5</code> (по умолчанию): сервер сам подключается к сайту. <code>TCP / пользовательская цепочка</code> (TCP / custom chain): сервер отправляет каждое подключение на свою цель пересылки, поэтому поставьте профиль этой цели в цепочке под этим профилем.</td>
+</tr>
+<tr>
+<td><code>Шифрование</code> (Encryption)</td>
+<td><code>DATA_ENCRYPTION_METHOD</code></td>
+<td><code>none</code> (0), <code>xor</code> (1, по умолчанию), <code>chacha20</code> (2), <code>aes-128-gcm</code> (3), <code>aes-192-gcm</code> (4) или <code>aes-256-gcm</code> (5).</td>
+</tr>
+<tr>
+<td><code>Ключ</code> (Key)</td>
+<td><code>ENCRYPTION_KEY_FILE</code></td>
+<td>Текст из этого файла. С <code>none</code> не нужен.</td>
+</tr>
+</tbody>
+</table>
+<aside class="callout callout--warning">
+  <span class="callout-label">Предупреждение</span>
+  <p>MasterDNS шифрует только запросы. Ответы сервера никогда не шифруются и не проверяются на подлинность, <code>xor</code> только запутывает данные, а <code>chacha20</code> не проверяет подлинность. Пропускайте через туннель только зашифрованный трафик, например сайты по HTTPS, или поставьте в цепочке под профилем MasterDNS зашифрованный прокси.</p>
+
+</aside>
+<p>В группе <code>Передача</code> (Transfer) <code>Дублирование</code> (Duplication) (по умолчанию 3, не больше 10) отправляет каждый пакет через столько же пар резолвера и домена. Сервер может отказаться от сжатия. <code>Ответы в Base64</code> (Base64-encoded replies) помогают с резолверами, которые портят двоичные TXT-записи, но несут на четверть меньше данных.</p>
+<p>Перед началом сессии Throne проверяет каждую пару домена и резолвера, чтобы узнать, сколько данных могут нести запрос и ответ. Резолверы с размерами меньше <code>Мин. отправка</code> (Min Upload) или <code>Мин. прием</code> (Min Download) в группе <code>MTU</code> (38 и 200 байт) не используются. Если ни один не прошёл проверку, Throne повторяет её каждые 5 секунд.</p>
+<h2 id="xdns">XDNS</h2>
+<p>XDNS — это транспорт mKCP в Xray с маской <code>xdns</code> в Finalmask: Xray отправляет пакеты mKCP как DNS-запросы через резолверы. На сервере должен работать Xray с входящим mKCP и маской <code>xdns</code> для того же домена.</p>
+<p>Проще всего импортировать профиль: ссылку <code>vless://</code> с <code>type=kcp</code> и маской в <code>fm</code>, JSON-конфигурацию Xray от сервера или ссылку Throne. Ссылки <code>vless://</code> с <code>type=kcp</code> всегда становятся профилями <code>VLESS (Xray)</code>, независимо от <a href="/ru/advanced/xray/#vless-preference">выбора ядра для ссылок VLESS</a>.</p>
+<p>Чтобы настроить вручную:</p>
+<ol>
+<li>
+<p>Откройте <code>Программа</code> (Program) → <code>Новый профиль</code> (New profile), выберите <code>Тип</code> (Type) <code>VLESS (Xray)</code> и введите настройки VLESS от сервера.</p>
+</li>
+<li>
+<p>Выберите <code>Сеть</code> (Network) <code>kcp</code>.</p>
+</li>
+<li>
+<p>Нажмите <code>Finalmask</code> и добавьте в список <code>udp</code> маску <code>xdns</code> с доменом туннеля и, при желании, резолверами:</p>
+<pre><code class="language-json hljs">{
+  &quot;udp&quot;: [
+    {
+      &quot;type&quot;: &quot;xdns&quot;,
+      &quot;settings&quot;: {
+        &quot;domains&quot;: [{ &quot;names&quot;: [&quot;t.example.com&quot;] }],
+        &quot;resolvers&quot;: [{ &quot;addrs&quot;: [&quot;udp://8.8.8.8:53&quot;] }]
+      }
+    }
+  ]
+}
+</code></pre>
+</li>
+<li>
+<p>При желании введите резолверы в строке <code>Резолверы</code> (Resolvers). Они заменяют резолверы из маски.</p>
+</li>
+<li>
+<p>Нажмите <code>OK</code>.</p>
+</li>
+</ol>
+<p>Маска <code>xdns</code> должна быть последней в <code>udp</code>, и в ней должен быть хотя бы один домен. Если резолверов нет ни в маске, ни в строке <code>Резолверы</code>, Xray не сможет подключиться. Резолверу DNS-over-HTTPS (<code>https://…</code>) в маске нужен <code>tlsConfig</code> с <code>serverName</code>, например <code>&quot;tlsConfig&quot;: {&quot;serverName&quot;: &quot;dns.google&quot;}</code>.</p>
+<p>Оставьте поля mKCP, например <code>MTU</code> и <code>TTI</code>, пустыми, чтобы использовать значения Xray по умолчанию. Если <code>Мультиплексирование</code> (Multiplex) установлено в <code>По умолчанию</code> (Keep Default), Throne включает mux для профилей XDNS; без mux каждое подключение открывало бы свою сессию mKCP ко всем резолверам.</p>
+<h2 id="resolvers">Резолверы</h2>
+<p>У каждого профиля DNS-туннеля есть поле резолверов (группа <code>Резолверы</code> (Resolvers) у DNSTT и MasterDNS, строка <code>Резолверы</code> у XDNS), по одному резолверу в строке. Строки, начинающиеся с <code>#</code>, — комментарии. <code>Список IP</code> (IP list) добавляет адреса IP-списка IP-сканера после введённых строк, например результаты <a href="#find-resolvers">сканирования резолверов</a>.</p>
+<table>
+<thead>
+<tr>
+<th>Строка</th>
+<th>DNSTT / VayDNS</th>
+<th>MasterDNS</th>
+<th>XDNS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>system</code>: DNS-серверы вашей системы</td>
+<td>Да</td>
+<td>Да</td>
+<td>Нет</td>
+</tr>
+<tr>
+<td>IP-адрес, при необходимости с портом: <code>8.8.8.8</code>, <code>1.1.1.1:53</code>, <code>[2001:db8::1]:53</code></td>
+<td>Да</td>
+<td>Да</td>
+<td>Да</td>
+</tr>
+<tr>
+<td>Диапазон, например <code>192.0.2.0/24</code></td>
+<td>До 256 адресов (<code>/24</code> или длиннее)</td>
+<td>До 65536 адресов (<code>/16</code> или длиннее)</td>
+<td>Только из IP-списка, до 256 адресов</td>
+</tr>
+<tr>
+<td><code>udp://</code> или <code>tcp://</code> и адрес</td>
+<td>Да</td>
+<td>Нет</td>
+<td>Да</td>
+</tr>
+<tr>
+<td><code>tls://</code> (DNS over TLS)</td>
+<td>Да</td>
+<td>Нет</td>
+<td>Нет</td>
+</tr>
+<tr>
+<td><code>https://</code> (DNS over HTTPS), при необходимости с путём</td>
+<td>Да</td>
+<td>Нет</td>
+<td>Да</td>
+</tr>
+</tbody>
+</table>
+<p>Порт по умолчанию — 53; DNSTT использует 853 для <code>tls://</code> и 443 для <code>https://</code>. Throne использует не больше 4096 резолверов для DNSTT и 256 для XDNS. Без резолверов DNSTT и MasterDNS используют <code>system</code>, а XDNS оставляет резолверы из маски <code>xdns</code>.</p>
+<p><code>Стратегия</code> (Strategy) определяет, куда идут запросы:</p>
+<ul>
+<li>DNSTT и VayDNS: <code>round_robin</code> (по умолчанию) — к каждому резолверу по очереди, <code>failover</code> — к первому работающему, <code>fanout</code> — ко всем работающим одновременно.</li>
+<li>MasterDNS: <code>least_loss</code> (по умолчанию) — к резолверу с наименьшими потерями. Остальные стратегии выбирают по очереди, случайно, по задержке или по сочетанию потерь и задержки.</li>
+<li>XDNS: Xray использует все резолверы по очереди.</li>
+</ul>
+<h2 id="find-resolvers">Поиск работающих резолверов</h2>
+<p>Многие резолверы не передают запросы туннеля дальше. Сканирование резолверов пробует адреса как резолверы вашего профиля и оставляет работающие:</p>
+<ol>
+<li>Сохраните профиль и снова откройте его. Кнопка <code>Найти резолверы…</code> (Find resolvers…) недоступна, пока профиль не сохранён.</li>
+<li>Нажмите <code>Найти резолверы…</code> рядом с <code>Список IP</code> (IP list). Throne откроет в IP-сканере сканирование DNS-резолверов этого профиля.</li>
+<li>На вкладке <code>Цели</code> (Targets) выберите в <code>Исходный список IP</code> (Base IP list) адреса для проверки, например <code>Iran DNS resolvers</code> или <code>Russia DNS resolvers</code>, и запустите сканирование.</li>
+<li>На вкладке <code>Результаты</code> (Results) нажмите <code>Использовать как резолверы</code> (Use as resolvers). Результаты становятся <code>Список IP</code> профиля. Введённые вами строки остаются и используются первыми.</li>
+</ol>
+<p>См. <a href="/ru/guides/testing/#dns-scan">Сканирование DNS-резолверов</a>.</p>
+<h2 id="import">Импорт и обмен</h2>
+<p>Throne импортирует эти форматы из буфера обмена, файлов, QR-кодов и подписок:</p>
+<table>
+<thead>
+<tr>
+<th>Формат</th>
+<th>Результат</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ссылки <code>dnst://</code></td>
+<td>Профиль <code>DNSTT / VayDNS</code> или профиль <code>MasterDNS</code>, если тип туннеля в ссылке — <code>masterdns</code>.</td>
+</tr>
+<tr>
+<td>Ссылки <code>slipnet://</code> из SlipNet с 16 по 28</td>
+<td>Профиль <code>DNSTT / VayDNS</code>. Профили NoizDNS становятся обычными DNSTT, без обхода DPI, который даёт NoizDNS. Зашифрованные ссылки SlipNet прочитать нельзя.</td>
+</tr>
+<tr>
+<td>Ссылки <code>masterdns://</code> и <code>stormdns://</code></td>
+<td>Профиль <code>MasterDNS</code>.</td>
+</tr>
+<tr>
+<td>JSON sing-box с outbound <code>dnstt</code> или <code>masterdns</code></td>
+<td>Профили <code>DNSTT / VayDNS</code> и <code>MasterDNS</code>.</td>
+</tr>
+<tr>
+<td>Ссылки <code>vless://</code> с <code>type=kcp</code>, JSON Xray с сетью <code>kcp</code></td>
+<td>Профили <code>VLESS (Xray)</code>; с маской <code>xdns</code> — профили XDNS.</td>
+</tr>
+<tr>
+<td>Ссылки <code>throne://add/</code></td>
+<td>Любые из них, со всеми настройками.</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Ссылка <code>dnst://</code> указывает службу за туннелем: <code>socks</code>, <code>ssh</code>, <code>shadowsocks</code> или <code>custom</code> для <code>Нет (только для цепочки)</code>. MasterDNS принимает только <code>socks</code> и <code>custom</code>.</li>
+<li>Если ссылка также содержит прокси для работы поверх туннеля, Throne предупреждает об этом. Импортируйте этот прокси отдельно и поставьте его в цепочке под профилем DNS-туннеля.</li>
+</ul>
+<p>Чтобы поделиться профилем, щёлкните по нему правой кнопкой мыши → <code>Поделиться</code> (Share). Профили DNSTT и MasterDNS дают ссылку <code>dnst://</code>, профили XDNS — ссылку <code>vless://</code>. В этих ссылках нет ваших резолверов и IP-списка, а для MasterDNS — только первый домен. Ссылка Throne сохраняет все настройки, кроме IP-списка. См. <a href="/ru/reference/protocols/#share-links">Ссылки для обмена</a>.</p>
+<h2 id="testing">Тестирование</h2>
+<p>Тесты задержки и тесты IP работают с профилями DNS-туннелей. Первый запрос открывает туннель, а для этого нужно много медленных запросов, поэтому Throne даёт ему на 30 секунд больше для DNSTT и XDNS и на 90 секунд больше для MasterDNS; цепочка получает сумму. Показанная задержка берётся из второго запроса. См. <a href="/ru/guides/testing/#url-test">Тест задержки</a>.</p>
+<p>Если тест не проходит, посмотрите причину на вкладке <code>Логи</code> (Logs), сверьте с сервером <code>Домен</code> и <code>Public Key</code> (DNSTT) или <code>Домены</code>, <code>Шифрование</code> и <code>Ключ</code> (MasterDNS) и попробуйте другие резолверы или <a href="#find-resolvers">сканирование резолверов</a>.</p>
+<h2 id="android">Android</h2>
+<p>В Throne для Android есть те же DNS-туннели, и он импортирует те же ссылки, в том числе при нажатии на них в другом приложении. Отличия:</p>
+<ul>
+<li>Создайте профиль через <code>Добавить профиль</code> (Add profile) → <code>Ручные настройки</code> (Manual settings) → <code>DNSTT / VayDNS</code> или <code>MasterDNS</code>. Для XDNS выберите <code>VLESS (Xray)</code>, установите <code>Сеть</code> (Network) в <code>mKCP</code> и добавьте маску <code>xdns</code> в <code>Finalmask</code>.</li>
+<li>Нет IP-списков и сканирования резолверов: используются только резолверы, введённые в профиле.</li>
+<li>Тесты задержки не получают дополнительного времени на первый запрос.</li>
+</ul>
+
+      </div>
+      
+      
+      
+      <footer class="docs-article-footer">
+        
+        <a class="edit-link" href="https://github.com/throneproj/throneproj.github.io/edit/main/content/advanced/dns_tunnels.ru.md" target="_blank" rel="noopener noreferrer">
+        
+          <svg class="ic" aria-hidden="true"><use href="#i-pencil"/></svg>
+          Редактировать эту страницу на GitHub
+        </a>
+        
+
+<nav class="prev-next" aria-label="Навигация по странице">
+  
+  <a class="prevnext-prev" href="https://throneproj.github.io/ru/advanced/warp/">
+    <span class="prevnext-dir">Назад</span>
+    Cloudflare WARP
+  </a>
+  
+  
+  <a class="prevnext-next" href="https://throneproj.github.io/ru/advanced/vpn_profiles/">
+    <span class="prevnext-dir">Вперед</span>
+    OpenVPN, OpenConnect и Tailscale
+  </a>
+  
+</nav>
+
+      </footer>
+    </article>
+  </main>
+  
+<nav class="docs-toc" aria-label="На этой странице">
+  <p class="docs-toc-title">
+    <svg class="ic" aria-hidden="true"><use href="#i-list"/></svg>
+    На этой странице
+  </p>
+  <ul><li><a href="#how-it-works">Как работает DNS-туннель</a></li><li><a href="#dnstt">DNSTT и VayDNS</a></li><li><a href="#masterdns">MasterDNS</a></li><li><a href="#xdns">XDNS</a></li><li><a href="#resolvers">Резолверы</a></li><li><a href="#find-resolvers">Поиск работающих резолверов</a></li><li><a href="#import">Импорт и обмен</a></li><li><a href="#testing">Тестирование</a></li><li><a href="#android">Android</a></li></ul>
+</nav>
+
+    </main>
+  </div>
+
+  
+<script src="https://throneproj.github.io/assets/js/highlight.min.js" defer></script>
+<script>
+  window.NOIR_BASE = "https://throneproj.github.io";
+  
+  window.NOIR_I18N = {
+    copy: "Копировать",
+    copied: "Скопировано",
+    copyManual: "Нажмите Ctrl C",
+    noResults: "Ничего не найдено по запросу",
+    theme: "Тема",
+    themeAuto: "авто",
+    themeLight: "светлая",
+    themeDark: "темная"
+  };
+</script>
+<script src="https://throneproj.github.io/js/theme.js" defer></script>
+<script src="https://throneproj.github.io/js/nav.js" defer></script>
+<script src="https://throneproj.github.io/js/code.js" defer></script>
+<script src="https://throneproj.github.io/js/toc.js" defer></script>
+<script src="https://throneproj.github.io/js/reveal.js" defer></script>
+<script src="https://throneproj.github.io/js/mermaid.js" defer></script>
+<script src="https://throneproj.github.io/js/search.js" defer></script>
+
+</body>
+</html>

@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" >
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="گزینه‌های خط فرمان Throne دسکتاپ، محل نگهداری داده‌ها و گزارش‌های آن و روش بازنشانی.">
+  <title>خط فرمان، فایل‌ها و گزارش‌ها - Throne</title>
+
+  
+  <meta name="theme-color" content="#0b0b0c" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#fbfbfa" media="(prefers-color-scheme: light)">
+
+  
+  <script>
+    (function () {
+      var r = document.documentElement;
+      r.classList.add("js");
+      try {
+        var t = localStorage.getItem("throne-theme");
+        if (t === "light" || t === "dark") r.setAttribute("data-theme", t);
+      } catch (e) {}
+    })();
+  </script>
+
+  <meta name="google-site-verification" content="Zzz4doeS45o-EhP56mm1yoyfHSEEZJRJJt0tfj7vPGM" />
+  <script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+      m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+      m[i].l=1*new Date();
+      for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+      k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=111847353', 'ym');
+
+    
+    ym(111847353, 'init', {ssr:true, webvisor:false, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/111847353" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+
+  <meta property="og:title" content="خط فرمان، فایل‌ها و گزارش‌ها">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://throneproj.github.io/fa/reference/files/">
+  <meta property="og:description" content="گزینه‌های خط فرمان Throne دسکتاپ، محل نگهداری داده‌ها و گزارش‌های آن و روش بازنشانی.">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="خط فرمان، فایل‌ها و گزارش‌ها">
+  <meta name="twitter:description" content="گزینه‌های خط فرمان Throne دسکتاپ، محل نگهداری داده‌ها و گزارش‌های آن و روش بازنشانی.">
+  <link rel="canonical" href="https://throneproj.github.io/fa/reference/files/">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"خط فرمان، فایل‌ها و گزارش‌ها","url":"https://throneproj.github.io/fa/reference/files/","description":"گزینه‌های خط فرمان Throne دسکتاپ، محل نگهداری داده‌ها و گزارش‌های آن و روش بازنشانی."}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Throne","item":"https://throneproj.github.io/fa/"},{"@type":"ListItem","position":2,"name":"مرجع","item":"https://throneproj.github.io/fa/reference/"},{"@type":"ListItem","position":3,"name":"خط فرمان، فایل‌ها و گزارش‌ها"}]}</script>
+  <link rel="alternate" hreflang="fa" href="https://throneproj.github.io/fa/reference/files/">
+<link rel="alternate" hreflang="en" href="https://throneproj.github.io/reference/files/">
+<link rel="alternate" hreflang="ru" href="https://throneproj.github.io/ru/reference/files/">
+<link rel="alternate" hreflang="zh" href="https://throneproj.github.io/zh/reference/files/">
+<link rel="alternate" hreflang="x-default" href="https://throneproj.github.io/reference/files/">
+
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon.ico" sizes="any">
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon-96x96.png" type="image/png" sizes="96x96">
+  <link rel="apple-touch-icon" href="https://throneproj.github.io/logos/apple-touch-icon.png">
+  <link rel="manifest" href="https://throneproj.github.io/logos/site.webmanifest">
+
+  <link rel="preload" href="https://throneproj.github.io/fonts/geist-variable-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+  
+  <link rel="stylesheet" href="https://throneproj.github.io/assets/css/highlight/atom-one-dark.min.css">
+  <link rel="stylesheet" href="https://throneproj.github.io/css/style.css">
+  
+</head>
+<body>
+  <a class="skip-link" href="#main">پرش به محتوای اصلی</a>
+  
+<svg xmlns="http://www.w3.org/2000/svg" class="icon-sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 10a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+    <path d="M21 21l-6 -6" />
+  </symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M3 12h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7" />
+  </symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454l0 .008" />
+  </symbol>
+  <symbol id="i-contrast" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M12 17a5 5 0 0 0 0 -10v10" />
+  </symbol>
+  <symbol id="i-chevron-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M6 9l6 6l6 -6" />
+  </symbol>
+  <symbol id="i-menu-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 6l16 0" />
+    <path d="M4 12l16 0" />
+    <path d="M4 18l16 0" />
+  </symbol>
+  <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M18 6l-12 12" />
+    <path d="M6 6l12 12" />
+  </symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 9.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667l0 -8.666" />
+    <path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" />
+  </symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l5 5l10 -10" />
+  </symbol>
+  <symbol id="i-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l14 0" />
+    <path d="M13 18l6 -6" />
+    <path d="M13 6l6 6" />
+  </symbol>
+  <symbol id="i-arrow-up-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M17 7l-10 10" />
+    <path d="M8 7l9 0l0 9" />
+  </symbol>
+  <symbol id="i-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l14 0" />
+    <path d="M5 12l6 6" />
+    <path d="M5 12l6 -6" />
+  </symbol>
+  <symbol id="i-brand-github" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+  </symbol>
+  <symbol id="i-pencil" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+    <path d="M13.5 6.5l4 4" />
+  </symbol>
+  <symbol id="i-rocket" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 13a8 8 0 0 1 7 7a6 6 0 0 0 3 -5a9 9 0 0 0 6 -8a3 3 0 0 0 -3 -3a9 9 0 0 0 -8 6a6 6 0 0 0 -5 3" />
+    <path d="M7 14a6 6 0 0 0 -3 6a6 6 0 0 0 6 -3" />
+    <path d="M14 9a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+  </symbol>
+  <symbol id="i-terminal-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 9l3 3l-3 3" />
+    <path d="M13 15l3 0" />
+    <path d="M3 6a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2l0 -12" />
+  </symbol>
+  <symbol id="i-lifebuoy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M15 15l3.35 3.35" />
+    <path d="M9 15l-3.35 3.35" />
+    <path d="M5.65 5.65l3.35 3.35" />
+    <path d="M18.35 5.65l-3.35 3.35" />
+  </symbol>
+  <symbol id="i-list" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 6l11 0" />
+    <path d="M9 12l11 0" />
+    <path d="M9 18l11 0" />
+    <path d="M5 6l0 .01" />
+    <path d="M5 12l0 .01" />
+    <path d="M5 18l0 .01" />
+  </symbol>
+  <symbol id="i-code" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 8l-4 4l4 4" />
+    <path d="M17 8l4 4l-4 4" />
+    <path d="M14 4l-4 16" />
+  </symbol>
+  <symbol id="i-rss" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 19a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+    <path d="M4 4a16 16 0 0 1 16 16" />
+    <path d="M4 11a9 9 0 0 1 9 9" />
+  </symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12" />
+    <path d="M16 3v4" />
+    <path d="M8 3v4" />
+    <path d="M4 11h16" />
+    <path d="M11 15h1" />
+    <path d="M12 15v3" />
+  </symbol>
+</svg>
+
+<header class="site-header">
+  <div class="header-inner">
+    <button class="icon-btn hamburger" id="drawerToggle" aria-label="باز کردن منو" aria-expanded="false" aria-controls="sidebar">
+      <svg class="ic" aria-hidden="true"><use href="#i-menu-2"/></svg>
+    </button>
+
+    <a href="https://throneproj.github.io/fa/" class="header-logo" aria-label="صفحه اصلی Throne">
+      <img class="logo" src="https://throneproj.github.io/images/throne-logo.png" alt="Throne" width="1817" height="346">
+    </a>
+    <a class="header-version" href="https://github.com/throneproj/Throne/releases/tag/1.4.1" target="_blank" rel="noopener noreferrer">v1.4.1</a>
+
+    <nav class="header-nav" aria-label="اصلی">
+      <a href="https://throneproj.github.io/fa/get_started/">شروع کار</a>
+      <a href="https://throneproj.github.io/fa/downloads/">دانلود</a>
+    </nav>
+
+    <div class="header-right">
+      <button class="header-btn search-trigger" id="searchTrigger" aria-label="جستجو در مستندات">
+        <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+        <span>جستجو</span>
+        <kbd>Ctrl K</kbd>
+      </button>
+
+      
+      
+      <nav class="lang-switcher" aria-label="زبان">
+        
+        <a href="https://throneproj.github.io/reference/files/" hreflang="en">EN</a>
+        
+        <a href="https://throneproj.github.io/fa/reference/files/" hreflang="fa" aria-current="true">FA</a>
+        
+        <a href="https://throneproj.github.io/ru/reference/files/" hreflang="ru">RU</a>
+        
+        <a href="https://throneproj.github.io/zh/reference/files/" hreflang="zh">ZH</a>
+        
+      </nav>
+      
+
+      <a class="icon-btn" href="https://github.com/throneproj/Throne" target="_blank" rel="noopener noreferrer" aria-label="Throne در GitHub">
+        <svg class="ic" aria-hidden="true"><use href="#i-brand-github"/></svg>
+      </a>
+
+      
+      <button class="icon-btn theme-toggle" id="themeToggle" data-mode="auto" type="button" aria-label="تم">
+        <svg class="ic ic-auto" aria-hidden="true"><use href="#i-contrast"/></svg>
+        <svg class="ic ic-light" aria-hidden="true"><use href="#i-sun"/></svg>
+        <svg class="ic ic-dark" aria-hidden="true"><use href="#i-moon"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+<div class="search-overlay" id="searchOverlay" role="dialog" aria-modal="true" aria-label="جستجو در مستندات" hidden>
+  <div class="search-modal">
+    <div class="search-input-wrap">
+      <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+      <input type="search" id="searchInput" aria-label="جستجو در مستندات" placeholder="جستجو در مستندات" autocomplete="off" spellcheck="false">
+      <kbd id="searchClose" role="button" tabindex="0">Esc</kbd>
+    </div>
+    <div class="search-results" id="searchResults" role="listbox" aria-label="جستجو"></div>
+  </div>
+</div>
+<div class="docs-container">
+<div class="drawer-scrim" id="drawerScrim"></div>
+<aside class="docs-sidebar" id="sidebar">
+  <nav class="sidebar-nav" aria-label="مسیریابی مستندات">
+
+    
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>شروع کار</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/fa/get_started/">نمای کلی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/get_started/installation/">نصب</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/get_started/configuration/">شروع سریع</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>راهنماها</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/">نمای کلی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/subscriptions/">اشتراک‌ها و گروه‌ها</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/proxy_modes/">پروکسی سیستمی، TUN و اشتراک‌گذاری در شبکهٔ محلی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/tun_mode/">حالت TUN</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/routing/">مسیریابی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/dns/">DNS</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/testing/">تست و انتخابگر خودکار</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/backup/">پشتیبان‌گیری، به‌روزرسانی و مهاجرت</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/recipes/">دستورالعمل‌های کاربردی</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Throne برای Android</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/fa/android/">نمای کلی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/android/installation/">نصب و ارتقا</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/android/permissions/">مجوزها و اجرا در پس‌زمینه</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/android/modes/">حالت‌های VPN و پروکسی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/android/widgets/">ویجت‌ها، کاشی و خودکارسازی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/android/tv/">Android TV</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/android/troubleshooting/">عیب‌یابی Android</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Throne بدون رابط گرافیکی (Headless)</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/fa/headless/">نمای کلی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/headless/installation/">نصب و سرویس‌ها</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/headless/thronectl/">مدیریت با thronectl</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/headless/web/">رابط وب</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/headless/command_line/">خط فرمان و پوشهٔ داده‌ها</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/headless/monitoring/">بررسی سلامت و گزارش‌ها</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/headless/recovery/">محافظت در برابر قطع دسترسی و بازیابی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/headless/troubleshooting/">عیب‌یابی</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>پیکربندی پیشرفته</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/">نمای کلی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/xray/">sing-box در برابر Xray</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/chains/">زنجیره‌های پروکسی و پیکربندی‌های سفارشی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/presets/">پیش‌تنظیم‌های ضدسانسور</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/warp/">Cloudflare WARP</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/dns_tunnels/">تونل‌های DNS</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/vpn_profiles/">OpenVPN، OpenConnect و Tailscale</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/windows_tun_mode/">محافظت از نشت DNS در Windows</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/kill_switch/">کیل‌سوییچ (Kill Switch)</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/deeplinks/">لینک‌های عمیق</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/api/">Throne API و thronectl</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group" open>
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>مرجع</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/fa/reference/">نمای کلی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/reference/protocols/">پروتکل‌ها و قالب‌های واردکردن</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/reference/shortcuts/">میانبرهای صفحه‌کلید و سینی سیستم</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/reference/files/" aria-current="page">خط فرمان، فایل‌ها و گزارش‌ها</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/reference/privacy/">حریم خصوصی و درخواست‌های شبکه</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/reference/glossary/">واژه‌نامه</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>پشتیبانی</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/fa/help/">نمای کلی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/help/faq/">پرسش‌های متداول</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/help/troubleshooting/">عیب‌یابی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/help/bug_reports/">گزارش باگ</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/help/migrating/">مهاجرت از Nekoray / NekoBox</a></li>
+        
+        
+      </ul>
+    </details>
+    
+
+  </nav>
+</aside>
+  <main id="main" class="docs-main">
+    <article>
+      <h1 class="docs-title">خط فرمان، فایل‌ها و گزارش‌ها</h1>
+      <p class="docs-lede">گزینه‌های خط فرمان Throne دسکتاپ، محل نگهداری داده‌ها و گزارش‌های آن و روش بازنشانی.</p>
+      <div class="prose">
+        <h2 id="command-line">خط فرمان</h2>
+<table>
+<thead>
+<tr>
+<th>گزینه</th>
+<th>کاری که انجام می‌دهد</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>-appdata</code></td>
+<td>داده‌ها را به‌جای کنار برنامه، در پوشهٔ کاربری شما نگه می‌دارد. <a href="#data-folder">پوشهٔ داده‌ها</a> را ببینید.</td>
+</tr>
+<tr>
+<td><code>-appdata &lt;folder&gt;</code></td>
+<td>داده‌ها را در یک پوشهٔ <code>config</code> درون <code>&lt;folder&gt;</code> نگه می‌دارد.</td>
+</tr>
+<tr>
+<td><code>-tray</code></td>
+<td>در سینی سیستم و با پنجرهٔ پنهان اجرا می‌شود.</td>
+</tr>
+<tr>
+<td>یک لینک <code>throne://</code></td>
+<td>لینک را طوری پردازش می‌کند که انگار روی آن کلیک کرده‌اید. <a href="/fa/advanced/deeplinks/">لینک‌های عمیق</a> را ببینید.</td>
+</tr>
+<tr>
+<td>مسیر فایل‌ها یا نشانی‌های <code>file://</code></td>
+<td>فایل‌ها را وارد می‌کند، مانند <code>برنامه</code> (Program) ← <code>Add profile from File(s)</code>.</td>
+</tr>
+<tr>
+<td><code>--headless</code></td>
+<td>Throne را بدون پنجره، به‌صورت سرویس یا در کانتینر اجرا می‌کند. <a href="/fa/headless/">Throne بدون رابط گرافیکی</a> را ببینید؛ گزینه‌های آن در <a href="/fa/headless/command_line/">خط فرمان و پوشهٔ داده‌ها</a> آمده‌اند.</td>
+</tr>
+<tr>
+<td><code>--check</code>، <code>--health</code>، <code>--print-connection</code></td>
+<td>بررسی می‌کنند که آیا این رایانه می‌تواند Throne بدون رابط گرافیکی را اجرا کند، وضعیت نمونهٔ در حال اجرا را از خودش می‌پرسند، یا تنظیمات لازم برای <code>thronectl</code> را چاپ می‌کنند.</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-bash hljs">./Throne -appdata &quot;$HOME/throne-test&quot;
+</code></pre>
+<pre><code class="language-powershell hljs">.\Throne.exe -appdata D:\ThroneData
+</code></pre>
+<ul>
+<li>برای هر پوشهٔ داده فقط یک Throne اجرا می‌شود. اجرای دوباره، لینک یا فایل‌ها را به Throne در حال اجرا می‌سپارد و پنجرهٔ آن را به جلو می‌آورد. اگر یک Throne بدون رابط گرافیکی از این پوشه استفاده کند، اجرای جدید پیام «Throne is running in the background» را نشان می‌دهد و خارج می‌شود؛ <a href="/fa/help/troubleshooting/#background-throne">عیب‌یابی</a> را ببینید.</li>
+<li><strong>macOS:</strong> برای ارسال گزینه‌ها، برنامهٔ درون بستهٔ برنامه (app bundle) را اجرا کنید: <code>/Applications/Throne.app/Contents/MacOS/Throne -tray</code>.</li>
+</ul>
+<h2 id="data-folder">پوشهٔ داده‌ها</h2>
+<p>Throne داده‌های شما را در پوشه‌ای به نام <code>config</code> نگه می‌دارد. <code>تنظیمات</code> (Settings) ← <code>پوشه Config باز شود</code> (Open Config Folder) آن را باز می‌کند (فقط در حالت پیشرفته؛ <a href="/fa/get_started/configuration/#interface-mode">حالت ساده و پیشرفته</a> را ببینید).</p>
+<table>
+<thead>
+<tr>
+<th>روش نصب Throne</th>
+<th>پوشهٔ داده‌ها</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>فایل ZIP برای Windows یا Linux</td>
+<td><code>config</code> در پوشهٔ <code>Throne</code> استخراج‌شده (قابل‌حمل)</td>
+</tr>
+<tr>
+<td>نصب‌کنندهٔ Windows، برای کاربر فعلی (پیش‌فرض)</td>
+<td><code>config</code> در پوشهٔ نصب (قابل‌حمل)، که به‌طور پیش‌فرض <code>%LOCALAPPDATA%\Throne\config</code> است</td>
+</tr>
+<tr>
+<td>نصب‌کنندهٔ Windows، برای همهٔ کاربران</td>
+<td><code>%LOCALAPPDATA%\Throne\config</code> هر کاربر</td>
+</tr>
+<tr>
+<td>بستهٔ <code>.deb</code> یا <code>.rpm</code> یا اسکریپت نصب Linux</td>
+<td><code>~/.config/Throne/config</code>، یا اگر <code>XDG_CONFIG_HOME</code> را تنظیم کرده باشید، <code>$XDG_CONFIG_HOME/Throne/config</code></td>
+</tr>
+<tr>
+<td>macOS</td>
+<td><code>~/Library/Preferences/Throne/config</code></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>نسخهٔ قابل‌حمل وقتی با <code>-appdata</code> اجرا شود، از پوشهٔ مخصوص کاربر استفاده می‌کند: <code>%LOCALAPPDATA%\Throne\config</code> در Windows و <code>~/.config/Throne/config</code> در Linux. اگر نتواند در پوشهٔ خودش بنویسد (برای مثال در <code>Program Files</code>)، خودبه‌خود به آنجا می‌رود: یک بار پوشهٔ <code>config</code> موجود را کپی می‌کند و پس از آن، حتی اگر آن را با دسترسی مدیر (administrator) اجرا کنید، همچنان از پوشهٔ مخصوص کاربر استفاده می‌کند.</li>
+<li>بسته‌هایی از منابع دیگر (WinGet، Scoop، AUR، Nix) ممکن است از پوشه‌های دیگری استفاده کنند. <code>پوشه Config باز شود</code> همیشه پوشهٔ درست را نشان می‌دهد.</li>
+<li>فایل‌های geo مربوط به Xray یعنی <code>geoip.dat</code> و <code>geosite.dat</code>، و پوشهٔ <code>diagnostics</code> (از <code>تنظیمات پایه</code> (Basic Settings) ← <code>Diagnostics</code>) کنار پوشهٔ <code>config</code> هستند، نه درون آن.</li>
+</ul>
+<h3 id="config-files">فایل‌های پوشهٔ config</h3>
+<table>
+<thead>
+<tr>
+<th>فایل یا پوشه</th>
+<th>محتوا</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>throne.db</code></td>
+<td>نمایه‌ها، گروه‌ها، نمایه‌های مسیریابی، نمایه‌های OTP و تنظیمات (SQLite). تا وقتی Throne در حال اجراست، <code>throne.db-wal</code> و <code>throne.db-shm</code> کنار آن ظاهر می‌شوند.</td>
+</tr>
+<tr>
+<td><code>throne_stats.db</code></td>
+<td>تاریخچهٔ ترافیک برای <code>Tools</code> → <code>Traffic Stats</code>: دقیقه‌به‌دقیقه برای 48 ساعت و ساعتی برای 90 روز. <code>تنظیمات پایه</code> ← <code>استایل</code> (Style) ← <code>Disable Traffic Aggregation</code> آن را متوقف می‌کند.</td>
+</tr>
+<tr>
+<td><code>cache.db</code></td>
+<td>حافظهٔ نهان (cache) هسته: مجموعه‌قوانینِ دانلودشده، آخرین انتخاب هر انتخابگر خودکار و، اگر <code>Save Cache To File</code> روشن باشد، حافظهٔ نهان DNS.</td>
+</tr>
+<tr>
+<td><code>logs/</code></td>
+<td>فایل‌های گزارش؛ <a href="#log-file">فایل گزارش</a> را ببینید.</td>
+</tr>
+<tr>
+<td><code>crashes/</code></td>
+<td>فایل‌های crash dump (فقط Windows). 5 مورد جدیدتر نگه داشته می‌شوند.</td>
+</tr>
+<tr>
+<td><code>icons/</code></td>
+<td>آیکون‌های سفارشی سینی سیستم برای <code>تنظیمات پایه</code> ← <code>استایل</code> ← <code>Enable Custom Icons</code>: <code>Off.png</code>، <code>Throne.png</code> (نمایه‌ای در حال اجراست)، <code>Proxy.png</code>، <code>Tun.png</code> و <code>Connecting.png</code>.</td>
+</tr>
+<tr>
+<td><code>hwid</code></td>
+<td>فقط Linux: شناسهٔ دستگاهی که Throne ساخته است، چون سیستم <code>/etc/machine-id</code> یا <code>/var/lib/dbus/machine-id</code> قابل‌استفاده‌ای ندارد. <a href="/fa/reference/privacy/#hwid">HWID</a> را ببینید.</td>
+</tr>
+<tr>
+<td><code>.lock</code></td>
+<td>نشان می‌دهد که یک Throne از این پوشه استفاده می‌کند. Throne هرگز آن را حذف نمی‌کند.</td>
+</tr>
+<tr>
+<td><code>dashboard/</code></td>
+<td>یک داشبورد وب برای Clash API. صفحهٔ موقت را با فایل‌های داشبورد جایگزین کنید.</td>
+</tr>
+<tr>
+<td><code>sb-dashboard/</code></td>
+<td>داشبورد وبی که <code>Tools</code> → <code>Open Web dashboard</code> باز می‌کند.</td>
+</tr>
+</tbody>
+</table>
+<p>برای انتقال داده‌هایتان به رایانهٔ دیگر یا به Android، به‌جای کپی کردن فایل‌ها از یک پشتیبان <code>.thrbackup</code> استفاده کنید. <a href="/fa/guides/backup/#backup-restore">پشتیبان‌گیری و بازیابی</a> را ببینید.</p>
+<h2 id="logs">گزارش‌ها</h2>
+<p>زبانهٔ <code>گزارش‌ها</code> (Logs) در پایین پنجرهٔ اصلی، پیام‌های Throne و هسته را نشان می‌دهد.</p>
+<p>تنظیمات گزارش در <code>تنظیمات</code> ← <code>تنظیمات پایه</code> ← <code>Logging</code> قرار دارند (فقط در حالت پیشرفته):</p>
+<table>
+<thead>
+<tr>
+<th>تنظیم</th>
+<th>پیش‌فرض</th>
+<th>کاری که انجام می‌دهد</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>حداکثر خطوط فایل لاگ</code> (Max log lines)</td>
+<td><code>500</code></td>
+<td>تعداد خطوطی که زبانهٔ <code>گزارش‌ها</code> نگه می‌دارد.</td>
+</tr>
+<tr>
+<td><code>Sing-box Log level</code></td>
+<td><code>info</code></td>
+<td>میزان جزئیاتی که هسته می‌نویسد: <code>trace</code>، <code>debug</code>، <code>info</code>، <code>warn</code>، <code>error</code>، <code>fatal</code> یا <code>panic</code>.</td>
+</tr>
+<tr>
+<td><code>Xray Log level</code></td>
+<td><code>warning</code></td>
+<td>میزان جزئیاتی که Xray می‌نویسد: <code>debug</code>، <code>info</code>، <code>warning</code>، <code>error</code> یا <code>none</code>.</td>
+</tr>
+<tr>
+<td><code>Log Filtering</code></td>
+<td>خاموش</td>
+<td><code>Enable Include Rules</code> فقط خطوطی را نشان می‌دهد که با کلیدواژه‌ها یا عبارت‌های باقاعدهٔ (regular expression) شما منطبق‌اند و <code>Enable Exclude Rules</code> آن‌ها را پنهان می‌کند. خطوط پنهان‌شده همچنان در فایل گزارش نوشته می‌شوند.</td>
+</tr>
+</tbody>
+</table>
+<p>برای ثبت یک گزارش دقیق جهت گزارش باگ، مراحل <a href="/fa/help/bug_reports/#logs">گزارش باگ</a> را دنبال کنید.</p>
+<h3 id="log-file">فایل گزارش</h3>
+<p>Throne گزارش‌ها را با جزئیات بیشتر در فایل <code>logs/throne.log</code> درون پوشهٔ config هم می‌نویسد.</p>
+<ul>
+<li>Throne در هر بار اجرا یک فایل جدید شروع می‌کند. وقتی حجم فایل به 4 MB برسد، نام آن را به <code>throne.log.1</code> تغییر می‌دهد و فایل جدیدی شروع می‌کند؛ حداکثر سه بخش قدیمی (<code>throne.log.1</code> تا <code>throne.log.3</code>) نگه داشته می‌شوند.</li>
+<li>اگر Throne به‌درستی بسته نشده باشد، گزارش آن نشست با نام <code>crashed-YYYYMMDD-HHMMSS.log</code> نگه داشته می‌شود (5 مورد جدیدتر) و در اجرای بعدی، زبانهٔ <code>گزارش‌ها</code> هشداری همراه با مسیر پوشهٔ گزارش‌ها نشان می‌دهد.</li>
+</ul>
+<aside class="callout callout--warning">
+  <span class="callout-label">هشدار</span>
+  <p>گزارش‌ها ممکن است دامنه‌هایی را که بازدید کرده‌اید و نشانی سرورهای شما را در بر داشته باشند. پیش از انتشار عمومی یک فایل گزارش، آن را بررسی کنید.</p>
+
+</aside>
+<p><strong>Android:</strong> در منوی کناری <code>آمار و اطلاعات</code> (Logs) را باز کنید. <code>اشتراک‌گذاری گزارش‌ها</code> (Share logs) و <code>ذخیره گزارش‌ها…</code> (Save logs…) از گزارش‌ها خروجی می‌گیرند و داده‌های حساس به‌طور پیش‌فرض در خروجی پنهان می‌شوند. سطح گزارش در <code>تنظیمات</code> ← <code>هسته</code> (Core) ← <code>سطح ثبت آمار</code> (Log level) است (پیش‌فرض: <code>warn</code>). <a href="/fa/android/troubleshooting/#logs">عیب‌یابی Android</a> را ببینید.</p>
+<h2 id="reset">بازنشانی Throne</h2>
+<p>Throne دکمهٔ بازنشانی ندارد. برای شروع دوباره با تنظیمات پیش‌فرض، یک پوشهٔ config جدید و خالی به Throne بدهید:</p>
+<ol>
+<li>اگر می‌خواهید چیزی را نگه دارید، ابتدا یک پشتیبان بسازید: <code>تنظیمات</code> ← <code>تنظیمات پایه</code> ← <code>Backup and Restore</code> → <code>Create Backup...</code>.</li>
+<li><code>تنظیمات</code> ← <code>پوشه Config باز شود</code> محل پوشه را نشان می‌دهد.</li>
+<li>با <code>خروج</code> (Exit) در منوی سینی سیستم یا منوی <code>برنامه</code> از Throne خارج شوید. بستن پنجره کافی نیست.</li>
+<li>نام پوشهٔ <code>config</code> را تغییر دهید، برای مثال به <code>config-old</code>.</li>
+<li>Throne را اجرا کنید. برنامه یک پوشهٔ <code>config</code> جدید با تنظیمات پیش‌فرض می‌سازد.</li>
+</ol>
+<p>برای برگرداندن بخشی از داده‌های قدیمی‌تان، از <code>Restore from Backup...</code> در همان زبانه استفاده کنید و فقط همان بخش‌ها را انتخاب کنید. برای لغو بازنشانی، از Throne خارج شوید، پوشهٔ <code>config</code> جدید را حذف کنید و نام <code>config-old</code> را دوباره به <code>config</code> برگردانید.</p>
+<p>بازنشانی چیزهایی را که بیرون از پوشهٔ config ذخیره شده‌اند تغییر نمی‌دهد: <code>با سیستم شروع شود</code> (Start with system) (یک مورد اجرای خودکار در سیستم‌عامل)، ثبت لینک‌های <code>throne://</code> و فایل‌های geo مربوط به Xray.</p>
+<p><strong>Windows:</strong> هنگام حذف نسخه‌ای که با نصب‌کننده نصب شده است، برنامه پیشنهاد می‌دهد پوشهٔ config هم حذف شود.</p>
+<p><strong>Android:</strong> <code>تنظیمات</code> ← <code>بازگردانی تنظیمات پیش‌فرض</code> (Restore default settings) همهٔ تنظیمات را بازنشانی می‌کند، اما نمایه‌ها، گروه‌ها و نمایه‌های مسیریابی شما را نگه می‌دارد و سپس برنامه را دوباره راه‌اندازی می‌کند. برای حذف همه‌چیز، داده‌های برنامه را در تنظیمات برنامه‌های Android پاک کنید. مدیرهای فایل نمی‌توانند داده‌های برنامه را باز کنند؛ پس برای بیرون آوردن آن‌ها از یک پشتیبان <code>.thrbackup</code> استفاده کنید.</p>
+
+      </div>
+      
+      
+      
+      <footer class="docs-article-footer">
+        
+        <a class="edit-link" href="https://github.com/throneproj/throneproj.github.io/edit/main/content/reference/files.fa.md" target="_blank" rel="noopener noreferrer">
+        
+          <svg class="ic" aria-hidden="true"><use href="#i-pencil"/></svg>
+          ویرایش این صفحه در GitHub
+        </a>
+        
+
+<nav class="prev-next" aria-label="مسیریابی صفحه">
+  
+  <a class="prevnext-prev" href="https://throneproj.github.io/fa/reference/shortcuts/">
+    <span class="prevnext-dir">قبلی</span>
+    میانبرهای صفحه‌کلید و سینی سیستم
+  </a>
+  
+  
+  <a class="prevnext-next" href="https://throneproj.github.io/fa/reference/privacy/">
+    <span class="prevnext-dir">بعدی</span>
+    حریم خصوصی و درخواست‌های شبکه
+  </a>
+  
+</nav>
+
+      </footer>
+    </article>
+  </main>
+  
+<nav class="docs-toc" aria-label="در این صفحه">
+  <p class="docs-toc-title">
+    <svg class="ic" aria-hidden="true"><use href="#i-list"/></svg>
+    در این صفحه
+  </p>
+  <ul><li><a href="#command-line">خط فرمان</a></li><li><a href="#data-folder">پوشهٔ داده‌ها</a><ul><li><a href="#config-files">فایل‌های پوشهٔ config</a></li></ul></li><li><a href="#logs">گزارش‌ها</a><ul><li><a href="#log-file">فایل گزارش</a></li></ul></li><li><a href="#reset">بازنشانی Throne</a></li></ul>
+</nav>
+
+    </main>
+  </div>
+
+  
+<script src="https://throneproj.github.io/assets/js/highlight.min.js" defer></script>
+<script>
+  window.NOIR_BASE = "https://throneproj.github.io";
+  
+  window.NOIR_I18N = {
+    copy: "کپی",
+    copied: "کپی شد",
+    copyManual: "کلید Ctrl C را فشار دهید",
+    noResults: "نتیجه‌ای یافت نشد برای",
+    theme: "تم",
+    themeAuto: "خودکار",
+    themeLight: "روشن",
+    themeDark: "تاریک"
+  };
+</script>
+<script src="https://throneproj.github.io/js/theme.js" defer></script>
+<script src="https://throneproj.github.io/js/nav.js" defer></script>
+<script src="https://throneproj.github.io/js/code.js" defer></script>
+<script src="https://throneproj.github.io/js/toc.js" defer></script>
+<script src="https://throneproj.github.io/js/reveal.js" defer></script>
+<script src="https://throneproj.github.io/js/mermaid.js" defer></script>
+<script src="https://throneproj.github.io/js/search.js" defer></script>
+
+</body>
+</html>

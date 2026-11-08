@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Параметры, переменные окружения, каталог данных, режимы перезапуска и коды завершения headless Throne.">
+  <title>Командная строка и каталог данных - Throne</title>
+
+  
+  <meta name="theme-color" content="#0b0b0c" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#fbfbfa" media="(prefers-color-scheme: light)">
+
+  
+  <script>
+    (function () {
+      var r = document.documentElement;
+      r.classList.add("js");
+      try {
+        var t = localStorage.getItem("throne-theme");
+        if (t === "light" || t === "dark") r.setAttribute("data-theme", t);
+      } catch (e) {}
+    })();
+  </script>
+
+  <meta name="google-site-verification" content="Zzz4doeS45o-EhP56mm1yoyfHSEEZJRJJt0tfj7vPGM" />
+  <script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+      m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+      m[i].l=1*new Date();
+      for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+      k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=111847353', 'ym');
+
+    
+    ym(111847353, 'init', {ssr:true, webvisor:false, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/111847353" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+
+  <meta property="og:title" content="Командная строка и каталог данных">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://throneproj.github.io/ru/headless/command_line/">
+  <meta property="og:description" content="Параметры, переменные окружения, каталог данных, режимы перезапуска и коды завершения headless Throne.">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Командная строка и каталог данных">
+  <meta name="twitter:description" content="Параметры, переменные окружения, каталог данных, режимы перезапуска и коды завершения headless Throne.">
+  <link rel="canonical" href="https://throneproj.github.io/ru/headless/command_line/">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Командная строка и каталог данных","url":"https://throneproj.github.io/ru/headless/command_line/","description":"Параметры, переменные окружения, каталог данных, режимы перезапуска и коды завершения headless Throne."}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Throne","item":"https://throneproj.github.io/ru/"},{"@type":"ListItem","position":2,"name":"Throne в режиме headless","item":"https://throneproj.github.io/ru/headless/"},{"@type":"ListItem","position":3,"name":"Командная строка и каталог данных"}]}</script>
+  <link rel="alternate" hreflang="ru" href="https://throneproj.github.io/ru/headless/command_line/">
+<link rel="alternate" hreflang="en" href="https://throneproj.github.io/headless/command_line/">
+<link rel="alternate" hreflang="fa" href="https://throneproj.github.io/fa/headless/command_line/">
+<link rel="alternate" hreflang="zh" href="https://throneproj.github.io/zh/headless/command_line/">
+<link rel="alternate" hreflang="x-default" href="https://throneproj.github.io/headless/command_line/">
+
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon.ico" sizes="any">
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon-96x96.png" type="image/png" sizes="96x96">
+  <link rel="apple-touch-icon" href="https://throneproj.github.io/logos/apple-touch-icon.png">
+  <link rel="manifest" href="https://throneproj.github.io/logos/site.webmanifest">
+
+  <link rel="preload" href="https://throneproj.github.io/fonts/geist-variable-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+  
+  <link rel="stylesheet" href="https://throneproj.github.io/assets/css/highlight/atom-one-dark.min.css">
+  <link rel="stylesheet" href="https://throneproj.github.io/css/style.css">
+  
+</head>
+<body>
+  <a class="skip-link" href="#main">Перейти к основному содержимому</a>
+  
+<svg xmlns="http://www.w3.org/2000/svg" class="icon-sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 10a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+    <path d="M21 21l-6 -6" />
+  </symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M3 12h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7" />
+  </symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454l0 .008" />
+  </symbol>
+  <symbol id="i-contrast" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M12 17a5 5 0 0 0 0 -10v10" />
+  </symbol>
+  <symbol id="i-chevron-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M6 9l6 6l6 -6" />
+  </symbol>
+  <symbol id="i-menu-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 6l16 0" />
+    <path d="M4 12l16 0" />
+    <path d="M4 18l16 0" />
+  </symbol>
+  <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M18 6l-12 12" />
+    <path d="M6 6l12 12" />
+  </symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 9.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667l0 -8.666" />
+    <path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" />
+  </symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l5 5l10 -10" />
+  </symbol>
+  <symbol id="i-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l14 0" />
+    <path d="M13 18l6 -6" />
+    <path d="M13 6l6 6" />
+  </symbol>
+  <symbol id="i-arrow-up-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M17 7l-10 10" />
+    <path d="M8 7l9 0l0 9" />
+  </symbol>
+  <symbol id="i-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l14 0" />
+    <path d="M5 12l6 6" />
+    <path d="M5 12l6 -6" />
+  </symbol>
+  <symbol id="i-brand-github" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+  </symbol>
+  <symbol id="i-pencil" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+    <path d="M13.5 6.5l4 4" />
+  </symbol>
+  <symbol id="i-rocket" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 13a8 8 0 0 1 7 7a6 6 0 0 0 3 -5a9 9 0 0 0 6 -8a3 3 0 0 0 -3 -3a9 9 0 0 0 -8 6a6 6 0 0 0 -5 3" />
+    <path d="M7 14a6 6 0 0 0 -3 6a6 6 0 0 0 6 -3" />
+    <path d="M14 9a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+  </symbol>
+  <symbol id="i-terminal-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 9l3 3l-3 3" />
+    <path d="M13 15l3 0" />
+    <path d="M3 6a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2l0 -12" />
+  </symbol>
+  <symbol id="i-lifebuoy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M15 15l3.35 3.35" />
+    <path d="M9 15l-3.35 3.35" />
+    <path d="M5.65 5.65l3.35 3.35" />
+    <path d="M18.35 5.65l-3.35 3.35" />
+  </symbol>
+  <symbol id="i-list" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 6l11 0" />
+    <path d="M9 12l11 0" />
+    <path d="M9 18l11 0" />
+    <path d="M5 6l0 .01" />
+    <path d="M5 12l0 .01" />
+    <path d="M5 18l0 .01" />
+  </symbol>
+  <symbol id="i-code" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 8l-4 4l4 4" />
+    <path d="M17 8l4 4l-4 4" />
+    <path d="M14 4l-4 16" />
+  </symbol>
+  <symbol id="i-rss" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 19a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+    <path d="M4 4a16 16 0 0 1 16 16" />
+    <path d="M4 11a9 9 0 0 1 9 9" />
+  </symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12" />
+    <path d="M16 3v4" />
+    <path d="M8 3v4" />
+    <path d="M4 11h16" />
+    <path d="M11 15h1" />
+    <path d="M12 15v3" />
+  </symbol>
+</svg>
+
+<header class="site-header">
+  <div class="header-inner">
+    <button class="icon-btn hamburger" id="drawerToggle" aria-label="Открыть навигацию" aria-expanded="false" aria-controls="sidebar">
+      <svg class="ic" aria-hidden="true"><use href="#i-menu-2"/></svg>
+    </button>
+
+    <a href="https://throneproj.github.io/ru/" class="header-logo" aria-label="Главная страница Throne">
+      <img class="logo" src="https://throneproj.github.io/images/throne-logo.png" alt="Throne" width="1817" height="346">
+    </a>
+    <a class="header-version" href="https://github.com/throneproj/Throne/releases/tag/1.4.1" target="_blank" rel="noopener noreferrer">v1.4.1</a>
+
+    <nav class="header-nav" aria-label="Основная навигация">
+      <a href="https://throneproj.github.io/ru/get_started/">Начало работы</a>
+      <a href="https://throneproj.github.io/ru/downloads/">Скачать</a>
+    </nav>
+
+    <div class="header-right">
+      <button class="header-btn search-trigger" id="searchTrigger" aria-label="Поиск по документации">
+        <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+        <span>Поиск</span>
+        <kbd>Ctrl K</kbd>
+      </button>
+
+      
+      
+      <nav class="lang-switcher" aria-label="Язык">
+        
+        <a href="https://throneproj.github.io/headless/command_line/" hreflang="en">EN</a>
+        
+        <a href="https://throneproj.github.io/fa/headless/command_line/" hreflang="fa">FA</a>
+        
+        <a href="https://throneproj.github.io/ru/headless/command_line/" hreflang="ru" aria-current="true">RU</a>
+        
+        <a href="https://throneproj.github.io/zh/headless/command_line/" hreflang="zh">ZH</a>
+        
+      </nav>
+      
+
+      <a class="icon-btn" href="https://github.com/throneproj/Throne" target="_blank" rel="noopener noreferrer" aria-label="Throne на GitHub">
+        <svg class="ic" aria-hidden="true"><use href="#i-brand-github"/></svg>
+      </a>
+
+      
+      <button class="icon-btn theme-toggle" id="themeToggle" data-mode="auto" type="button" aria-label="Тема">
+        <svg class="ic ic-auto" aria-hidden="true"><use href="#i-contrast"/></svg>
+        <svg class="ic ic-light" aria-hidden="true"><use href="#i-sun"/></svg>
+        <svg class="ic ic-dark" aria-hidden="true"><use href="#i-moon"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+<div class="search-overlay" id="searchOverlay" role="dialog" aria-modal="true" aria-label="Поиск по документации" hidden>
+  <div class="search-modal">
+    <div class="search-input-wrap">
+      <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+      <input type="search" id="searchInput" aria-label="Поиск по документации" placeholder="Поиск по документации" autocomplete="off" spellcheck="false">
+      <kbd id="searchClose" role="button" tabindex="0">Esc</kbd>
+    </div>
+    <div class="search-results" id="searchResults" role="listbox" aria-label="Поиск"></div>
+  </div>
+</div>
+<div class="docs-container">
+<div class="drawer-scrim" id="drawerScrim"></div>
+<aside class="docs-sidebar" id="sidebar">
+  <nav class="sidebar-nav" aria-label="Навигация по документации">
+
+    
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Начало работы</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/ru/get_started/">Обзор</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/get_started/installation/">Установка</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/get_started/configuration/">Быстрый старт</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Руководства</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/ru/guides/">Обзор</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/guides/subscriptions/">Подписки и группы</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/guides/proxy_modes/">Системный прокси, TUN и доступ из локальной сети</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/guides/tun_mode/">Режим TUN</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/guides/routing/">Маршрутизация</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/guides/dns/">DNS</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/guides/testing/">Тестирование и автовыбор</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/guides/backup/">Резервное копирование, обновление и перенос</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/guides/recipes/">Рецепты</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Throne для Android</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/ru/android/">Обзор</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/android/installation/">Установка и обновление</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/android/permissions/">Разрешения и работа в фоне</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/android/modes/">Режимы VPN и прокси</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/android/widgets/">Виджеты, плитка и автоматизация</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/android/tv/">Android TV</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/android/troubleshooting/">Устранение неполадок на Android</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group" open>
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Throne в режиме headless</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/ru/headless/">Обзор</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/headless/installation/">Установка и службы</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/headless/thronectl/">Управление через thronectl</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/headless/web/">Веб-интерфейс</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/headless/command_line/" aria-current="page">Командная строка и каталог данных</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/headless/monitoring/">Проверки состояния и логи</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/headless/recovery/">Защита от потери доступа и восстановление</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/headless/troubleshooting/">Устранение неполадок</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Расширенная конфигурация</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/ru/advanced/">Обзор</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/advanced/xray/">sing-box или Xray</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/advanced/chains/">Цепочки прокси и пользовательские конфигурации</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/advanced/presets/">Пресеты для обхода цензуры</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/advanced/warp/">Cloudflare WARP</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/advanced/dns_tunnels/">DNS-туннели</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/advanced/vpn_profiles/">OpenVPN, OpenConnect и Tailscale</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/advanced/windows_tun_mode/">Защита от утечек DNS в Windows</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/advanced/kill_switch/">Kill Switch</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/advanced/deeplinks/">Глубокие ссылки</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/advanced/api/">Throne API и thronectl</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Справочник</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/ru/reference/">Обзор</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/reference/protocols/">Протоколы и форматы импорта</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/reference/shortcuts/">Сочетания клавиш и трей</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/reference/files/">Командная строка, файлы и логи</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/reference/privacy/">Конфиденциальность и сетевые запросы</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/reference/glossary/">Глоссарий</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Помощь</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/ru/help/">Обзор</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/help/faq/">FAQ</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/help/troubleshooting/">Устранение неполадок</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/help/bug_reports/">Как сообщить об ошибке</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/help/migrating/">Переход с Nekoray / NekoBox</a></li>
+        
+        
+      </ul>
+    </details>
+    
+
+  </nav>
+</aside>
+  <main id="main" class="docs-main">
+    <article>
+      <h1 class="docs-title">Командная строка и каталог данных</h1>
+      <p class="docs-lede">Параметры, переменные окружения, каталог данных, режимы перезапуска и коды завершения headless Throne.</p>
+      <div class="prose">
+        <p>Параметры приложения для компьютера описаны в разделе <a href="/ru/reference/files/#command-line">Командная строка</a>.</p>
+<h2 id="options">Параметры и переменные</h2>
+<p><code>Throne --headless --help</code> выводит список параметров. Параметр имеет приоритет над соответствующей переменной. С юнитом systemd задавайте переменные в <code>/etc/throne/throne.env</code>, а параметры — с помощью drop-in-файла (см. <a href="/ru/headless/installation/#linux-packages">Пакеты для Linux</a>).</p>
+<table>
+<thead>
+<tr>
+<th>Параметр</th>
+<th>Переменная</th>
+<th>Что делает</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--headless</code></td>
+<td><code>THRONE_HEADLESS=1</code></td>
+<td>Запуск без окна.</td>
+</tr>
+<tr>
+<td><code>--data-dir DIR</code></td>
+<td><code>THRONE_DATA_DIR</code></td>
+<td><a href="#data-dir">Каталог данных</a>.</td>
+</tr>
+<tr>
+<td><code>--restart-mode MODE</code></td>
+<td><code>THRONE_RESTART_MODE</code></td>
+<td><code>auto</code> (по умолчанию), <code>exit</code> или <code>exec</code>. См. <a href="#restart-modes">Режимы перезапуска</a>.</td>
+</tr>
+<tr>
+<td><code>--no-resume</code></td>
+<td><code>THRONE_RESUME=0</code></td>
+<td>Не запускать последний профиль при запуске.</td>
+</tr>
+<tr>
+<td><code>--no-kill-switch</code></td>
+<td><code>THRONE_KILL_SWITCH=0</code></td>
+<td>Держать <a href="/ru/advanced/kill_switch/">kill switch</a> выключенным в этом запуске. Профили отклоняются, пока настройка <code>kill_switch</code> не будет выключена. Для <a href="/ru/headless/recovery/#recovery">восстановления доступа</a>.</td>
+</tr>
+<tr>
+<td><code>--log-format FORMAT</code></td>
+<td><code>THRONE_LOG_FORMAT</code></td>
+<td><code>auto</code> (по умолчанию), <code>journal</code> или <code>plain</code>. См. <a href="/ru/headless/monitoring/#logs">Логи</a>.</td>
+</tr>
+<tr>
+<td><code>--api-listen LISTEN</code></td>
+<td><code>THRONE_API_LISTEN</code></td>
+<td><code>PORT</code> (на <code>127.0.0.1</code>), <code>IPv4:PORT</code>, <code>[IPv6]:PORT</code>, <code>*:PORT</code> или <code>off</code>. По умолчанию: <code>127.0.0.1:9095</code> или то, что указано в сохранённых настройках.</td>
+</tr>
+<tr>
+<td><code>--api-key-file FILE</code></td>
+<td><code>THRONE_API_KEY_FILE</code></td>
+<td>Читать ключ API из этого существующего файла (его создаёт <code>thronectl keygen -o FILE</code>). По умолчанию: <code>config/api.key</code> в каталоге данных.</td>
+</tr>
+<tr>
+<td><code>--api-admin-lan</code></td>
+<td><code>THRONE_API_ADMIN_LAN=1</code></td>
+<td>Отвечать на <a href="/ru/headless/thronectl/#remote">административные запросы</a> и из сети.</td>
+</tr>
+<tr>
+<td><code>--api-allow LIST</code></td>
+<td><code>THRONE_API_ALLOW</code></td>
+<td>Адреса и подсети, которым разрешено пользоваться слушателем не на loopback, через запятую или пробел. Если переменная не задана, разрешены все адреса; пустой список приводит к завершению с кодом 64.</td>
+</tr>
+<tr>
+<td><code>--debug</code></td>
+<td></td>
+<td>Отладочное логирование.</td>
+</tr>
+<tr>
+<td><code>--service</code></td>
+<td></td>
+<td>Только Windows: работа под управлением диспетчера служб (Service Control Manager).</td>
+</tr>
+<tr>
+<td><code>--health</code></td>
+<td></td>
+<td>Спросить работающий Throne <a href="/ru/headless/monitoring/#health">о его состоянии</a>.</td>
+</tr>
+<tr>
+<td><code>--print-connection</code></td>
+<td></td>
+<td>Вывести <code>THRONE_ADDR</code> и <code>THRONE_KEY_FILE</code> для <a href="/ru/headless/thronectl/#connect">thronectl</a>.</td>
+</tr>
+<tr>
+<td><code>--check</code></td>
+<td></td>
+<td><a href="/ru/headless/monitoring/#check">Проверить</a>, может ли этот компьютер запустить headless Throne.</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><code>THRONE_RESUME</code>, <code>THRONE_KILL_SWITCH</code> и <code>THRONE_API_ADMIN_LAN</code> принимают <code>1</code>, <code>true</code>, <code>yes</code>, <code>on</code>, <code>0</code>, <code>false</code>, <code>no</code> или <code>off</code>. Любое другое значение приводит к завершению с кодом 64.</li>
+<li>Параметры и переменные <code>--api-*</code> при каждом запуске переопределяют сохранённые настройки API и никогда не сохраняются, поэтому неудачную настройку API всегда можно исправить из командной строки.</li>
+<li><code>--health</code>, <code>--print-connection</code> и <code>--check</code> работают без <code>--headless</code>. Используйте только один из них за раз и никогда вместе с <code>--service</code>.</li>
+<li>Ссылки и файлы в командной строке приводят к завершению с кодом 64. Импортируйте их через <a href="/ru/headless/thronectl/#profiles"><code>thronectl import</code></a>.</li>
+</ul>
+<h2 id="data-dir">Каталог данных</h2>
+<p>Headless Throne использует первый подходящий вариант из списка:</p>
+<ol>
+<li><code>--data-dir</code>, затем <code>THRONE_DATA_DIR</code>.</li>
+<li><code>STATE_DIRECTORY</code>, которую systemd задаёт для <code>StateDirectory=</code>.</li>
+<li>От root: <code>/var/lib/throne</code> в Linux, <code>/Library/Application Support/Throne</code> в macOS. В Windows в службе или от LocalSystem: <code>C:\ProgramData\Throne</code>.</li>
+<li>Папка приложения для компьютера: <code>~/.config/Throne</code> в Linux, <code>~/Library/Preferences/Throne</code> в macOS, <code>%LOCALAPPDATA%\Throne</code> в Windows.</li>
+</ol>
+<p>Папку портативной установки рядом с программой он никогда не использует; передайте эту папку в <code>--data-dir</code>.</p>
+<p>В Linux и macOS Throne создаёт недостающие каталоги, доступные для чтения только его пользователю. При запуске от root он отказывается использовать каталог данных, в который могут записывать другие пользователи (код 78), потому что в настройках указаны программы, которые запускает Throne. О Windows см. <a href="/ru/headless/installation/#windows-data-folder">Папка данных</a>.</p>
+<table>
+<thead>
+<tr>
+<th>Путь</th>
+<th>Содержимое</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>config/throne.db</code></td>
+<td>Профили, группы, профили маршрутизации и настройки, как в приложении для компьютера</td>
+</tr>
+<tr>
+<td><code>config/api.key</code></td>
+<td>Ключ API, доступный для чтения только пользователю Throne</td>
+</tr>
+<tr>
+<td><code>config/logs/throne.log</code></td>
+<td>Лог текущего запуска. В <code>crashed-&lt;time&gt;.log</code> сохраняется лог запуска, который завершился некорректно.</td>
+</tr>
+<tr>
+<td><code>config/crashes/</code></td>
+<td>Отчёты о сбоях</td>
+</tr>
+<tr>
+<td><code>config/hwid</code></td>
+<td><a href="/ru/headless/#device-id">Идентификатор устройства</a>, если в системе его нет</td>
+</tr>
+<tr>
+<td><code>web/</code></td>
+<td>Только в образе Docker: хеш пароля и сертификат TLS <a href="/ru/headless/web/#docker">веб-интерфейса</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="restart-modes">Режимы перезапуска</h2>
+<p><code>thronectl restart</code>, восстановление резервной копии и <code>SIGHUP</code> перезапускают Throne. Как именно, определяет <code>--restart-mode</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Режим</th>
+<th>Что происходит</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>exit</code></td>
+<td>Throne завершается с кодом 75, и менеджер служб запускает его снова.</td>
+</tr>
+<tr>
+<td><code>exec</code></td>
+<td>Throne перезапускается в том же процессе (Linux, macOS). В Windows он запускает новый процесс Throne и завершается с кодом 0.</td>
+</tr>
+<tr>
+<td><code>auto</code></td>
+<td><code>exit</code> под systemd, launchd или init контейнера либо в службе Windows. <code>exec</code> в остальных случаях, например в терминале.</td>
+</tr>
+</tbody>
+</table>
+<p>Поставляемые юниты, plist и образ Docker требуют <code>auto</code> или <code>exit</code>; служба Windows всегда использует <code>exit</code>. <code>Throne --check</code> показывает, что выбирает <code>auto</code>. В терминале закрытие терминала останавливает Throne с кодом 0, а не перезапускает его.</p>
+<h2 id="exit-codes">Коды завершения</h2>
+<p>Перед завершением Throne записывает в лог <code>EXIT &lt;code&gt;: &lt;reason&gt;</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Код</th>
+<th>Значение</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>Остановка: <code>SIGTERM</code>, <code>SIGINT</code>, <code>thronectl shutdown</code>, остановка службы Windows или <code>Ctrl+C</code></td>
+</tr>
+<tr>
+<td>1</td>
+<td>Запуск не удался по причине, которая может исчезнуть: блокировка, база данных, IPC-слушатель ядра или адрес <code>--api-listen</code>, который не появился в течение 30 секунд</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Каталог данных использует другой Throne</td>
+</tr>
+<tr>
+<td>64</td>
+<td>Неверный параметр, значение параметра или переменная</td>
+</tr>
+<tr>
+<td>70</td>
+<td>Ядро постоянно падало или было непригодно к работе в течение 60 секунд</td>
+</tr>
+<tr>
+<td>71</td>
+<td>Профиль подключался 180 секунд или останавливался 90 секунд</td>
+</tr>
+<tr>
+<td>75</td>
+<td>Запрошен перезапуск в режиме <code>exit</code> или в службе Windows</td>
+</tr>
+<tr>
+<td>78</td>
+<td>Ошибка конфигурации: каталог данных (небезопасные права или нет <code>HOME</code>, чтобы его найти), файл ключа API, слушатель <code>--api-listen</code> или файл базы данных, который нельзя использовать</td>
+</tr>
+</tbody>
+</table>
+<p>Что делают поставляемые файлы служб:</p>
+<ul>
+<li><strong>Юнит systemd:</strong> через 3 секунды снова запускает Throne после кодов 1, 70, 71 и 75 и оставляет его остановленным после 0, 3, 64 и 78. У него нет ограничения на число запусков (<code>StartLimitIntervalSec=0</code>): каждый перезапуск, восстановление и <code>SIGHUP</code> — это новый запуск, и ограничение оставило бы Throne остановленным без API.</li>
+<li><strong>Docker</strong> (<code>restart: unless-stopped</code>): запускает его снова после любого завершения, кроме <code>docker stop</code>.</li>
+<li><strong>plist launchd:</strong> запускает его снова после любого кода, кроме 0, не чаще чем раз в 10 секунд, поэтому повторяет и 3, 64 и 78.</li>
+<li><strong>Служба Windows:</strong> после любого кода, кроме 0, выполняет свои <a href="/ru/headless/installation/#windows">действия восстановления</a>.</li>
+</ul>
+<p>После трёх запусков подряд без работающего ядра Throne не завершается с кодами 70 и 71, а <a href="/ru/headless/recovery/#protection">остаётся запущенным</a>. Если код 78 вызван базой данных, лог сообщает, что делать: переместите повреждённый <code>config/throne.db</code> в другое место вместе с его файлами <code>-wal</code> и <code>-shm</code> или верните резервную копию файла. Файлы только для чтения сделайте доступными для записи пользователю Throne.</p>
+<p>У команд проверки свои коды, а при неверном параметре они завершаются с кодом 64:</p>
+<table>
+<thead>
+<tr>
+<th>Команда</th>
+<th>0</th>
+<th>1</th>
+<th>2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--health</code></td>
+<td>Исправен</td>
+<td>Неисправен или ещё запускается</td>
+<td>Ни один Throne не ответил, или командная строка Windows запущена без повышенных прав</td>
+</tr>
+<tr>
+<td><code>--check</code></td>
+<td>Нет строк <code>[FAIL]</code></td>
+<td>Есть строка <code>[FAIL]</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>--print-connection</code></td>
+<td>Выведены обе строки</td>
+<td></td>
+<td>API выключен или не слушает, его ключ хранится не в файле, или командная строка Windows запущена без повышенных прав</td>
+</tr>
+</tbody>
+</table>
+<p><code>--health</code> и <code>--print-connection</code> завершаются с кодом 78, если не находят каталог данных (нет <code>HOME</code>); укажите его через <code>--data-dir</code>.</p>
+
+      </div>
+      
+      
+      
+      <footer class="docs-article-footer">
+        
+        <a class="edit-link" href="https://github.com/throneproj/throneproj.github.io/edit/main/content/headless/command_line.ru.md" target="_blank" rel="noopener noreferrer">
+        
+          <svg class="ic" aria-hidden="true"><use href="#i-pencil"/></svg>
+          Редактировать эту страницу на GitHub
+        </a>
+        
+
+<nav class="prev-next" aria-label="Навигация по странице">
+  
+  <a class="prevnext-prev" href="https://throneproj.github.io/ru/headless/web/">
+    <span class="prevnext-dir">Назад</span>
+    Веб-интерфейс
+  </a>
+  
+  
+  <a class="prevnext-next" href="https://throneproj.github.io/ru/headless/monitoring/">
+    <span class="prevnext-dir">Вперед</span>
+    Проверки состояния и логи
+  </a>
+  
+</nav>
+
+      </footer>
+    </article>
+  </main>
+  
+<nav class="docs-toc" aria-label="На этой странице">
+  <p class="docs-toc-title">
+    <svg class="ic" aria-hidden="true"><use href="#i-list"/></svg>
+    На этой странице
+  </p>
+  <ul><li><a href="#options">Параметры и переменные</a></li><li><a href="#data-dir">Каталог данных</a></li><li><a href="#restart-modes">Режимы перезапуска</a></li><li><a href="#exit-codes">Коды завершения</a></li></ul>
+</nav>
+
+    </main>
+  </div>
+
+  
+<script src="https://throneproj.github.io/assets/js/highlight.min.js" defer></script>
+<script>
+  window.NOIR_BASE = "https://throneproj.github.io";
+  
+  window.NOIR_I18N = {
+    copy: "Копировать",
+    copied: "Скопировано",
+    copyManual: "Нажмите Ctrl C",
+    noResults: "Ничего не найдено по запросу",
+    theme: "Тема",
+    themeAuto: "авто",
+    themeLight: "светлая",
+    themeDark: "темная"
+  };
+</script>
+<script src="https://throneproj.github.io/js/theme.js" defer></script>
+<script src="https://throneproj.github.io/js/nav.js" defer></script>
+<script src="https://throneproj.github.io/js/code.js" defer></script>
+<script src="https://throneproj.github.io/js/toc.js" defer></script>
+<script src="https://throneproj.github.io/js/reveal.js" defer></script>
+<script src="https://throneproj.github.io/js/mermaid.js" defer></script>
+<script src="https://throneproj.github.io/js/search.js" defer></script>
+
+</body>
+</html>

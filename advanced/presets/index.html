@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="What TLS fragment, TLS tricks, uTLS, Multiplex, ECH and TLS spoof do, when they help and what they cost.">
+  <title>Anti-Censorship Presets - Throne</title>
+
+  
+  <meta name="theme-color" content="#0b0b0c" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#fbfbfa" media="(prefers-color-scheme: light)">
+
+  
+  <script>
+    (function () {
+      var r = document.documentElement;
+      r.classList.add("js");
+      try {
+        var t = localStorage.getItem("throne-theme");
+        if (t === "light" || t === "dark") r.setAttribute("data-theme", t);
+      } catch (e) {}
+    })();
+  </script>
+
+  <meta name="google-site-verification" content="Zzz4doeS45o-EhP56mm1yoyfHSEEZJRJJt0tfj7vPGM" />
+  <script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+      m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+      m[i].l=1*new Date();
+      for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+      k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=111847353', 'ym');
+
+    
+    ym(111847353, 'init', {ssr:true, webvisor:false, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/111847353" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+
+  <meta property="og:title" content="Anti-Censorship Presets">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://throneproj.github.io/advanced/presets/">
+  <meta property="og:description" content="What TLS fragment, TLS tricks, uTLS, Multiplex, ECH and TLS spoof do, when they help and what they cost.">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Anti-Censorship Presets">
+  <meta name="twitter:description" content="What TLS fragment, TLS tricks, uTLS, Multiplex, ECH and TLS spoof do, when they help and what they cost.">
+  <link rel="canonical" href="https://throneproj.github.io/advanced/presets/">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Anti-Censorship Presets","url":"https://throneproj.github.io/advanced/presets/","description":"What TLS fragment, TLS tricks, uTLS, Multiplex, ECH and TLS spoof do, when they help and what they cost."}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Throne","item":"https://throneproj.github.io/"},{"@type":"ListItem","position":2,"name":"Advanced Configuration","item":"https://throneproj.github.io/advanced/"},{"@type":"ListItem","position":3,"name":"Anti-Censorship Presets"}]}</script>
+  <link rel="alternate" hreflang="en" href="https://throneproj.github.io/advanced/presets/">
+<link rel="alternate" hreflang="fa" href="https://throneproj.github.io/fa/advanced/presets/">
+<link rel="alternate" hreflang="ru" href="https://throneproj.github.io/ru/advanced/presets/">
+<link rel="alternate" hreflang="zh" href="https://throneproj.github.io/zh/advanced/presets/">
+<link rel="alternate" hreflang="x-default" href="https://throneproj.github.io/advanced/presets/">
+
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon.ico" sizes="any">
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon-96x96.png" type="image/png" sizes="96x96">
+  <link rel="apple-touch-icon" href="https://throneproj.github.io/logos/apple-touch-icon.png">
+  <link rel="manifest" href="https://throneproj.github.io/logos/site.webmanifest">
+
+  <link rel="preload" href="https://throneproj.github.io/fonts/geist-variable-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+  
+  <link rel="stylesheet" href="https://throneproj.github.io/assets/css/highlight/atom-one-dark.min.css">
+  <link rel="stylesheet" href="https://throneproj.github.io/css/style.css">
+  
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  
+<svg xmlns="http://www.w3.org/2000/svg" class="icon-sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 10a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+    <path d="M21 21l-6 -6" />
+  </symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M3 12h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7" />
+  </symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454l0 .008" />
+  </symbol>
+  <symbol id="i-contrast" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M12 17a5 5 0 0 0 0 -10v10" />
+  </symbol>
+  <symbol id="i-chevron-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M6 9l6 6l6 -6" />
+  </symbol>
+  <symbol id="i-menu-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 6l16 0" />
+    <path d="M4 12l16 0" />
+    <path d="M4 18l16 0" />
+  </symbol>
+  <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M18 6l-12 12" />
+    <path d="M6 6l12 12" />
+  </symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 9.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667l0 -8.666" />
+    <path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" />
+  </symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l5 5l10 -10" />
+  </symbol>
+  <symbol id="i-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l14 0" />
+    <path d="M13 18l6 -6" />
+    <path d="M13 6l6 6" />
+  </symbol>
+  <symbol id="i-arrow-up-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M17 7l-10 10" />
+    <path d="M8 7l9 0l0 9" />
+  </symbol>
+  <symbol id="i-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l14 0" />
+    <path d="M5 12l6 6" />
+    <path d="M5 12l6 -6" />
+  </symbol>
+  <symbol id="i-brand-github" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+  </symbol>
+  <symbol id="i-pencil" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+    <path d="M13.5 6.5l4 4" />
+  </symbol>
+  <symbol id="i-rocket" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 13a8 8 0 0 1 7 7a6 6 0 0 0 3 -5a9 9 0 0 0 6 -8a3 3 0 0 0 -3 -3a9 9 0 0 0 -8 6a6 6 0 0 0 -5 3" />
+    <path d="M7 14a6 6 0 0 0 -3 6a6 6 0 0 0 6 -3" />
+    <path d="M14 9a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+  </symbol>
+  <symbol id="i-terminal-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 9l3 3l-3 3" />
+    <path d="M13 15l3 0" />
+    <path d="M3 6a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2l0 -12" />
+  </symbol>
+  <symbol id="i-lifebuoy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M15 15l3.35 3.35" />
+    <path d="M9 15l-3.35 3.35" />
+    <path d="M5.65 5.65l3.35 3.35" />
+    <path d="M18.35 5.65l-3.35 3.35" />
+  </symbol>
+  <symbol id="i-list" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 6l11 0" />
+    <path d="M9 12l11 0" />
+    <path d="M9 18l11 0" />
+    <path d="M5 6l0 .01" />
+    <path d="M5 12l0 .01" />
+    <path d="M5 18l0 .01" />
+  </symbol>
+  <symbol id="i-code" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 8l-4 4l4 4" />
+    <path d="M17 8l4 4l-4 4" />
+    <path d="M14 4l-4 16" />
+  </symbol>
+  <symbol id="i-rss" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 19a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+    <path d="M4 4a16 16 0 0 1 16 16" />
+    <path d="M4 11a9 9 0 0 1 9 9" />
+  </symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12" />
+    <path d="M16 3v4" />
+    <path d="M8 3v4" />
+    <path d="M4 11h16" />
+    <path d="M11 15h1" />
+    <path d="M12 15v3" />
+  </symbol>
+</svg>
+
+<header class="site-header">
+  <div class="header-inner">
+    <button class="icon-btn hamburger" id="drawerToggle" aria-label="Open navigation" aria-expanded="false" aria-controls="sidebar">
+      <svg class="ic" aria-hidden="true"><use href="#i-menu-2"/></svg>
+    </button>
+
+    <a href="https://throneproj.github.io/" class="header-logo" aria-label="Throne homepage">
+      <img class="logo" src="https://throneproj.github.io/images/throne-logo.png" alt="Throne" width="1817" height="346">
+    </a>
+    <a class="header-version" href="https://github.com/throneproj/Throne/releases/tag/1.4.1" target="_blank" rel="noopener noreferrer">v1.4.1</a>
+
+    <nav class="header-nav" aria-label="Primary">
+      <a href="https://throneproj.github.io/get_started/">Get Started</a>
+      <a href="https://throneproj.github.io/downloads/">Downloads</a>
+    </nav>
+
+    <div class="header-right">
+      <button class="header-btn search-trigger" id="searchTrigger" aria-label="Search documentation">
+        <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+        <span>Search</span>
+        <kbd>Ctrl K</kbd>
+      </button>
+
+      
+      
+      <nav class="lang-switcher" aria-label="Language">
+        
+        <a href="https://throneproj.github.io/advanced/presets/" hreflang="en" aria-current="true">EN</a>
+        
+        <a href="https://throneproj.github.io/fa/advanced/presets/" hreflang="fa">FA</a>
+        
+        <a href="https://throneproj.github.io/ru/advanced/presets/" hreflang="ru">RU</a>
+        
+        <a href="https://throneproj.github.io/zh/advanced/presets/" hreflang="zh">ZH</a>
+        
+      </nav>
+      
+
+      <a class="icon-btn" href="https://github.com/throneproj/Throne" target="_blank" rel="noopener noreferrer" aria-label="Throne on GitHub">
+        <svg class="ic" aria-hidden="true"><use href="#i-brand-github"/></svg>
+      </a>
+
+      
+      <button class="icon-btn theme-toggle" id="themeToggle" data-mode="auto" type="button" aria-label="Theme">
+        <svg class="ic ic-auto" aria-hidden="true"><use href="#i-contrast"/></svg>
+        <svg class="ic ic-light" aria-hidden="true"><use href="#i-sun"/></svg>
+        <svg class="ic ic-dark" aria-hidden="true"><use href="#i-moon"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+<div class="search-overlay" id="searchOverlay" role="dialog" aria-modal="true" aria-label="Search documentation" hidden>
+  <div class="search-modal">
+    <div class="search-input-wrap">
+      <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+      <input type="search" id="searchInput" aria-label="Search documentation" placeholder="Search the docs" autocomplete="off" spellcheck="false">
+      <kbd id="searchClose" role="button" tabindex="0">Esc</kbd>
+    </div>
+    <div class="search-results" id="searchResults" role="listbox" aria-label="Search"></div>
+  </div>
+</div>
+<div class="docs-container">
+<div class="drawer-scrim" id="drawerScrim"></div>
+<aside class="docs-sidebar" id="sidebar">
+  <nav class="sidebar-nav" aria-label="Documentation">
+
+    
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Get Started</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/get_started/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/get_started/installation/">Installation</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/get_started/configuration/">Quick Start</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Guides</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/guides/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/subscriptions/">Subscriptions & Groups</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/proxy_modes/">System Proxy, TUN & LAN</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/tun_mode/">TUN Mode</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/routing/">Routing</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/dns/">DNS</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/testing/">Testing & Auto Selector</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/backup/">Backup, Updates & Migration</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/recipes/">Recipes</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Throne for Android</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/android/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/installation/">Installation & Upgrade</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/permissions/">Permissions & Background</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/modes/">VPN & Proxy Modes</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/widgets/">Widgets, Tile & Automation</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/tv/">Android TV</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/troubleshooting/">Troubleshooting</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Headless Throne</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/headless/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/headless/installation/">Installation & Services</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/headless/thronectl/">Managing with thronectl</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/headless/web/">Web UI</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/headless/command_line/">Command Line & Data Directory</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/headless/monitoring/">Health Checks & Logs</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/headless/recovery/">Lockout Protection & Recovery</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/headless/troubleshooting/">Troubleshooting</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group" open>
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Advanced Configuration</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/xray/">sing-box vs Xray</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/chains/">Chains & Custom Configs</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/presets/" aria-current="page">Anti-Censorship Presets</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/warp/">Cloudflare WARP</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/dns_tunnels/">DNS Tunnels</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/vpn_profiles/">OpenVPN, OpenConnect & Tailscale</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/windows_tun_mode/">Windows DNS Leak Protection</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/kill_switch/">Kill Switch</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/deeplinks/">Deep Links</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/api/">Throne API & thronectl</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Reference</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/reference/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/reference/protocols/">Protocols & Import Formats</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/reference/shortcuts/">Keyboard Shortcuts & Tray</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/reference/files/">Command Line, Files & Logs</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/reference/privacy/">Privacy & Network Requests</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/reference/glossary/">Glossary</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Help</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/help/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/help/faq/">FAQ</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/help/troubleshooting/">Troubleshooting</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/help/bug_reports/">Reporting a Bug</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/help/migrating/">Coming from Nekoray / NekoBox</a></li>
+        
+        
+      </ul>
+    </details>
+    
+
+  </nav>
+</aside>
+  <main id="main" class="docs-main">
+    <article>
+      <h1 class="docs-title">Anti-Censorship Presets</h1>
+      <p class="docs-lede">What TLS fragment, TLS tricks, uTLS, Multiplex, ECH and TLS spoof do, when they help and what they cost.</p>
+      <div class="prose">
+        <p>Some networks block or slow down proxies by inspecting how each encrypted connection starts. These options change how that start looks. <code>Preset Settings</code>, the profile editor's <code>TLS Camouflage Settings</code> and <code>Advanced Settings</code>, and <code>Custom</code> multiplex are Advanced mode only (see <a href="/get_started/configuration/#interface-mode">Simple and Advanced mode</a>).</p>
+<h2 id="presets">Presets and profile settings</h2>
+<p><code>Settings</code> → <code>Preset Settings</code> holds the global defaults. In a profile's editor, Fragment, TLS Tricks, Multiplex and TLS Spoof offer <code>Keep Default</code> (follow the preset's <code>Default On</code>; new profiles use this), <code>On</code> and <code>Off</code>, so <code>Default On</code> only affects profiles left on <code>Keep Default</code>.</p>
+<p>The presets apply only to profiles that run on sing-box, except the uTLS <code>Default Fingerprint</code>, which applies to both cores, and the Xray multiplex presets, which <code>VLESS (Xray)</code> profiles use. See <a href="/advanced/xray/#two-cores">sing-box vs Xray</a>.</p>
+<h2 id="one-at-a-time">Change one thing at a time</h2>
+<p>Each option works against one blocking method. None helps everywhere, and each can break a profile that worked before.</p>
+<ol>
+<li>Turn on one option in one profile that fails or is slow.</li>
+<li>Run a <a href="/guides/testing/#url-test">URL test</a> and open a few websites. If nothing improves, set the option back to <code>Keep Default</code> and try the next one.</li>
+<li>When an option helps most of your profiles, turn on its <code>Default On</code> in <code>Preset Settings</code>.</li>
+</ol>
+<h2 id="tls-fragment">TLS fragment</h2>
+<p>A censor often reads the server name (SNI) in the first message of a TLS connection, the ClientHello. TLS fragment splits that message, so a simple filter cannot read the name from one packet. It only helps against such simple filters.</p>
+<p>Set <code>Fragment</code> in the profile editor under <code>TLS Camouflage Settings</code>. Try <code>Enable TLS Record Fragment</code> next to it first: it is lighter and splits the ClientHello into TLS records instead of packets.</p>
+<p><code>Preset Settings</code> → <code>TLS</code> → <code>TLS Fragment</code> → <code>Implementation</code> chooses how:</p>
+<ul>
+<li><code>built-in</code> (default): sing-box splits the ClientHello into TCP packets. The profile's <code>Fallback Delay</code>, such as <code>500ms</code>, is the wait between pieces when the system cannot measure it.</li>
+<li><code>custom</code>: pieces of random <code>Size</code> (bytes, <code>10-100</code>) with <code>Sleep</code> pauses (milliseconds, <code>2-5</code>). Naive profiles support only this one.</li>
+</ul>
+<p><strong>Cost:</strong> new connections start more slowly, and <code>custom</code> turns off TCP Fast Open for the profile.</p>
+<p>A routing rule can also fragment the connections it matches, such as direct connections to a site that a filter blocks by name. See <code>tls_fragment</code> in <a href="/guides/routing/#advanced-rules">Advanced rules</a>.</p>
+<h2 id="tls-tricks">TLS tricks</h2>
+<p>TLS tricks write the server name in mixed case, such as <code>ExAmPlE.com</code>. Servers ignore the case, but a filter that looks for the exact name can miss it. Set <code>TLS Tricks</code> in the profile editor under <code>TLS Camouflage Settings</code>.</p>
+<p><strong>Cost:</strong> almost none, but it does not help against filters that ignore the case.</p>
+<h2 id="utls">uTLS fingerprint</h2>
+<p>uTLS makes the ClientHello look like that of a common browser or system, instead of a plain proxy client that is easy to recognize by its fingerprint.</p>
+<ul>
+<li><strong>Per profile:</strong> <code>Fingerprint</code> in the profile editor. Share links often set it with <code>fp=</code>.</li>
+<li><strong>Global:</strong> <code>Preset Settings</code> → <code>TLS</code> → <code>uTLS</code> → <code>Default Fingerprint</code>, for profiles without their own. While it is empty (the default), such profiles use no uTLS on sing-box, <code>random</code> for sing-box REALITY, and <code>chrome</code> on Xray. Hysteria, TUIC, Juicity and Naive profiles do not use uTLS.</li>
+<li><strong>Choices:</strong> <code>chrome</code>, <code>firefox</code>, <code>edge</code>, <code>safari</code>, <code>360</code>, <code>qq</code>, <code>ios</code>, <code>android</code>, <code>random</code>, <code>randomized</code> and <code>unsafe</code>. <code>unsafe</code> turns uTLS off even when a <code>Default Fingerprint</code> is set, and only then does the profile's <code>Cipher Suites</code> field apply (TLS 1.2 suites, separated by colons; leave it empty unless your server needs it).</li>
+</ul>
+<p><strong>Cost:</strong> little. If a server stops working with one fingerprint, try another one or clear the field.</p>
+<h2 id="multiplex">Multiplex</h2>
+<p>Multiplex (mux) carries many connections inside one connection to the server, so pages need fewer handshakes and an observer sees fewer connections. The server must support mux with the same protocol, and padding if you use it.</p>
+<p>Set <code>Multiplex</code> in the profile editor (<code>VLESS (Xray)</code> profiles say <code>Enabled</code> and <code>Disabled</code> instead of <code>On</code> and <code>Off</code>). <code>Custom</code> → <code>Configure</code> gives the profile its own copy of the preset fields; profiles from links or subscriptions with their own mux settings open with <code>Custom</code>. Mux is disabled for VLESS profiles with the <code>xtls-rprx-vision</code> flow and required for <a href="/advanced/xray/#xdrive">XDRIVE</a>.</p>
+<p>sing-box presets (<code>Preset Settings</code> → <code>Multiplex</code> → <code>Sing-box</code>):</p>
+<ul>
+<li><code>Protocol</code>: <code>smux</code>, <code>yamux</code> or <code>h2mux</code>.</li>
+<li><code>Mode</code>: <code>Max Streams</code> opens another connection once one carries that many streams. <code>Max Connections</code> keeps at most that many and opens a new one only while the least busy one carries <code>Min Streams</code> streams.</li>
+<li><code>Padding</code>: pads the multiplexed traffic.</li>
+<li><code>TCP Brutal</code>: sends at the fixed <code>Upload (Mb/s)</code> and <code>Download (Mb/s)</code> you enter, even when packets are lost. Enter both. It needs server support, and all streams then share one connection.</li>
+</ul>
+<p>Xray presets (<code>Preset Settings</code> → <code>Multiplex</code> → <code>Xray</code>):</p>
+<ul>
+<li><code>Concurrency</code>: streams per connection before another one opens. <code>0</code> uses Xray's default of 8, <code>-1</code> sends TCP outside the mux.</li>
+<li><code>Max Connections</code>: at most this many connections, for TCP and XUDP each. Empty means no limit.</li>
+<li><code>XUDP Concurrency</code>: UDP streams per connection, on connections of their own. <code>0</code> carries UDP on the TCP connections, <code>-1</code> sends it outside the mux.</li>
+<li><code>UDP/443</code>, mostly QUIC: <code>Reject</code> (default) makes browsers fall back to TCP, <code>Allow</code> carries it through the mux, <code>Skip</code> sends it outside the mux.</li>
+</ul>
+<p><strong>Cost:</strong> everything on one connection stalls together. Many parallel connections, such as a torrent client's, can make Throne use a lot of CPU (<a href="https://github.com/throneproj/Throne/issues/1090">#1090</a>), so turn Multiplex off for that profile. The first request over a new mux connection is slower, so a short latency-test timeout can report a working profile as failed.</p>
+<h2 id="ech">ECH</h2>
+<p>Encrypted Client Hello (ECH) encrypts the server name, so an observer cannot read it. It works only when the server supports it, and is set per profile:</p>
+<ol>
+<li>Open the profile, click <code>Advanced Settings</code> and tick <code>Enable ECH</code>.</li>
+<li>Optional: paste the server's ECH configuration under <code>ECH Config</code>. Left <code>Not Set</code>, it is looked up in DNS, for the domain in <code>ECH Query Name / Resolver</code> or else the server name. Add a DNS server after a <code>+</code> to ask it instead of Direct DNS, for example <code>cloudflare-ech.com+https://1.1.1.1/dns-query</code>.</li>
+<li>Click <code>OK</code> in both windows.</li>
+</ol>
+<p>Xray profiles use <code>ECH Config List</code> in their TLS settings instead: the configuration in Base64, or a domain and a DNS-over-HTTPS server, such as <code>cloudflare-ech.com+https://8.8.8.8/dns-query</code>. Share links carry ECH in <code>ech=</code>, see <a href="/reference/protocols/#ech-links">ECH and certificate pins in links</a>.</p>
+<p><strong>Cost:</strong> the profile fails if the server does not support ECH or the configuration cannot be found.</p>
+<h2 id="tls-spoof">TLS spoof</h2>
+<p>Some filters let a few allowed names through and block the rest. TLS spoof sends a fake ClientHello with an allowed name just before the real one. The fake message is invalid on purpose, so the server ignores it while the filter lets the connection pass.</p>
+<ul>
+<li><strong>Presets</strong> (<code>Preset Settings</code> → <code>TLS</code> → <code>TLS Spoof</code>): <code>Spoof SNI</code> is the allowed name, and <code>Method</code> how the fake message is made invalid: <code>wrong-sequence</code>, <code>wrong-checksum</code>, <code>wrong-ack</code>, <code>wrong-md5</code> or <code>wrong-timestamp</code> (empty: the core's default).</li>
+<li><strong>Per profile:</strong> <code>Advanced Settings</code> → <code>TLS Spoof</code>, <code>Spoof SNI</code> and <code>Method</code>. Empty fields use the presets. A profile with its own <code>Spoof SNI</code> spoofs even on <code>Keep Default</code>.</li>
+<li><strong>Per site:</strong> an advanced routing rule with <code>tls_spoof</code> and <code>tls_spoof_method</code>, see <a href="/guides/routing/#advanced-rules">Advanced rules</a>.</li>
+</ul>
+<p>TLS spoof sends raw packets, so the core needs the rights that <a href="/guides/tun_mode/#privileges">TUN mode</a> sets up: Administrator on Windows (not on Windows ARM64), root or <code>CAP_NET_RAW</code> and <code>CAP_NET_ADMIN</code> on Linux, and root on macOS, where <code>wrong-timestamp</code> does not work.</p>
+<p><strong>Cost:</strong> it needs elevated rights and only helps against filters that allow some names.</p>
+<h2 id="http2-quic">HTTP/2 and QUIC tuning</h2>
+<p><code>Preset Settings</code> → <code>HTTP/2 &amp; QUIC</code> sets defaults such as <code>Idle Timeout</code>, <code>Keep Alive Period</code> and <code>Initial Packet Size</code> for Hysteria, TUIC and MASQUE profiles. A profile overrides them in <code>Advanced Settings</code> → <code>QUIC Parameters</code>. Leave them empty, which keeps the core's defaults, unless your server's documentation asks for other values.</p>
+<h2 id="android">Android</h2>
+<ul>
+<li>The same presets are in <code>Settings</code> → <code>Presets</code>, with <code>On by default</code> instead of <code>Default On</code>. ECH is set per profile.</li>
+<li><code>Enable multiplexer</code> in the profile editor also offers <code>Custom</code>, which shows the multiplex fields right below it.</li>
+<li>Routing rules can fragment the connections they match, with <code>TLS fragment</code>, <code>TLS fragment fallback delay</code> and <code>TLS record fragment</code>.</li>
+<li>TLS spoof is not available.</li>
+</ul>
+
+      </div>
+      
+      
+      
+      <footer class="docs-article-footer">
+        
+        <a class="edit-link" href="https://github.com/throneproj/throneproj.github.io/edit/main/content/advanced/presets.md" target="_blank" rel="noopener noreferrer">
+        
+          <svg class="ic" aria-hidden="true"><use href="#i-pencil"/></svg>
+          Edit this page on GitHub
+        </a>
+        
+
+<nav class="prev-next" aria-label="Page navigation">
+  
+  <a class="prevnext-prev" href="https://throneproj.github.io/advanced/chains/">
+    <span class="prevnext-dir">Previous</span>
+    Proxy Chains & Custom Configs
+  </a>
+  
+  
+  <a class="prevnext-next" href="https://throneproj.github.io/advanced/warp/">
+    <span class="prevnext-dir">Next</span>
+    Cloudflare WARP
+  </a>
+  
+</nav>
+
+      </footer>
+    </article>
+  </main>
+  
+<nav class="docs-toc" aria-label="On this page">
+  <p class="docs-toc-title">
+    <svg class="ic" aria-hidden="true"><use href="#i-list"/></svg>
+    On this page
+  </p>
+  <ul><li><a href="#presets">Presets and profile settings</a></li><li><a href="#one-at-a-time">Change one thing at a time</a></li><li><a href="#tls-fragment">TLS fragment</a></li><li><a href="#tls-tricks">TLS tricks</a></li><li><a href="#utls">uTLS fingerprint</a></li><li><a href="#multiplex">Multiplex</a></li><li><a href="#ech">ECH</a></li><li><a href="#tls-spoof">TLS spoof</a></li><li><a href="#http2-quic">HTTP/2 and QUIC tuning</a></li><li><a href="#android">Android</a></li></ul>
+</nav>
+
+    </main>
+  </div>
+
+  
+<script src="https://throneproj.github.io/assets/js/highlight.min.js" defer></script>
+<script>
+  window.NOIR_BASE = "https://throneproj.github.io";
+  
+  window.NOIR_I18N = {
+    copy: "Copy",
+    copied: "Copied",
+    copyManual: "Press Ctrl C",
+    noResults: "No results for",
+    theme: "Theme",
+    themeAuto: "auto",
+    themeLight: "light",
+    themeDark: "dark"
+  };
+</script>
+<script src="https://throneproj.github.io/js/theme.js" defer></script>
+<script src="https://throneproj.github.io/js/nav.js" defer></script>
+<script src="https://throneproj.github.io/js/code.js" defer></script>
+<script src="https://throneproj.github.io/js/toc.js" defer></script>
+<script src="https://throneproj.github.io/js/reveal.js" defer></script>
+<script src="https://throneproj.github.io/js/mermaid.js" defer></script>
+<script src="https://throneproj.github.io/js/search.js" defer></script>
+
+</body>
+</html>

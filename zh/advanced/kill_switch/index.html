@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="拦截所有不经过 Throne 的流量（即使没有配置档运行时也是如此），并在断网保护把你锁在网络之外时恢复连接。">
+  <title>Kill Switch（断网保护） - Throne</title>
+
+  
+  <meta name="theme-color" content="#0b0b0c" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#fbfbfa" media="(prefers-color-scheme: light)">
+
+  
+  <script>
+    (function () {
+      var r = document.documentElement;
+      r.classList.add("js");
+      try {
+        var t = localStorage.getItem("throne-theme");
+        if (t === "light" || t === "dark") r.setAttribute("data-theme", t);
+      } catch (e) {}
+    })();
+  </script>
+
+  <meta name="google-site-verification" content="Zzz4doeS45o-EhP56mm1yoyfHSEEZJRJJt0tfj7vPGM" />
+  <script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+      m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+      m[i].l=1*new Date();
+      for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+      k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=111847353', 'ym');
+
+    
+    ym(111847353, 'init', {ssr:true, webvisor:false, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/111847353" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+
+  <meta property="og:title" content="Kill Switch（断网保护）">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://throneproj.github.io/zh/advanced/kill_switch/">
+  <meta property="og:description" content="拦截所有不经过 Throne 的流量（即使没有配置档运行时也是如此），并在断网保护把你锁在网络之外时恢复连接。">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Kill Switch（断网保护）">
+  <meta name="twitter:description" content="拦截所有不经过 Throne 的流量（即使没有配置档运行时也是如此），并在断网保护把你锁在网络之外时恢复连接。">
+  <link rel="canonical" href="https://throneproj.github.io/zh/advanced/kill_switch/">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Kill Switch（断网保护）","url":"https://throneproj.github.io/zh/advanced/kill_switch/","description":"拦截所有不经过 Throne 的流量（即使没有配置档运行时也是如此），并在断网保护把你锁在网络之外时恢复连接。"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Throne","item":"https://throneproj.github.io/zh/"},{"@type":"ListItem","position":2,"name":"进阶配置","item":"https://throneproj.github.io/zh/advanced/"},{"@type":"ListItem","position":3,"name":"Kill Switch（断网保护）"}]}</script>
+  <link rel="alternate" hreflang="zh" href="https://throneproj.github.io/zh/advanced/kill_switch/">
+<link rel="alternate" hreflang="en" href="https://throneproj.github.io/advanced/kill_switch/">
+<link rel="alternate" hreflang="fa" href="https://throneproj.github.io/fa/advanced/kill_switch/">
+<link rel="alternate" hreflang="ru" href="https://throneproj.github.io/ru/advanced/kill_switch/">
+<link rel="alternate" hreflang="x-default" href="https://throneproj.github.io/advanced/kill_switch/">
+
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon.ico" sizes="any">
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon-96x96.png" type="image/png" sizes="96x96">
+  <link rel="apple-touch-icon" href="https://throneproj.github.io/logos/apple-touch-icon.png">
+  <link rel="manifest" href="https://throneproj.github.io/logos/site.webmanifest">
+
+  <link rel="preload" href="https://throneproj.github.io/fonts/geist-variable-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+  
+  <link rel="stylesheet" href="https://throneproj.github.io/assets/css/highlight/atom-one-dark.min.css">
+  <link rel="stylesheet" href="https://throneproj.github.io/css/style.css">
+  
+</head>
+<body>
+  <a class="skip-link" href="#main">跳转到主要内容</a>
+  
+<svg xmlns="http://www.w3.org/2000/svg" class="icon-sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 10a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+    <path d="M21 21l-6 -6" />
+  </symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M3 12h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7" />
+  </symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454l0 .008" />
+  </symbol>
+  <symbol id="i-contrast" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M12 17a5 5 0 0 0 0 -10v10" />
+  </symbol>
+  <symbol id="i-chevron-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M6 9l6 6l6 -6" />
+  </symbol>
+  <symbol id="i-menu-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 6l16 0" />
+    <path d="M4 12l16 0" />
+    <path d="M4 18l16 0" />
+  </symbol>
+  <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M18 6l-12 12" />
+    <path d="M6 6l12 12" />
+  </symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 9.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667l0 -8.666" />
+    <path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" />
+  </symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l5 5l10 -10" />
+  </symbol>
+  <symbol id="i-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l14 0" />
+    <path d="M13 18l6 -6" />
+    <path d="M13 6l6 6" />
+  </symbol>
+  <symbol id="i-arrow-up-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M17 7l-10 10" />
+    <path d="M8 7l9 0l0 9" />
+  </symbol>
+  <symbol id="i-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l14 0" />
+    <path d="M5 12l6 6" />
+    <path d="M5 12l6 -6" />
+  </symbol>
+  <symbol id="i-brand-github" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+  </symbol>
+  <symbol id="i-pencil" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+    <path d="M13.5 6.5l4 4" />
+  </symbol>
+  <symbol id="i-rocket" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 13a8 8 0 0 1 7 7a6 6 0 0 0 3 -5a9 9 0 0 0 6 -8a3 3 0 0 0 -3 -3a9 9 0 0 0 -8 6a6 6 0 0 0 -5 3" />
+    <path d="M7 14a6 6 0 0 0 -3 6a6 6 0 0 0 6 -3" />
+    <path d="M14 9a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+  </symbol>
+  <symbol id="i-terminal-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 9l3 3l-3 3" />
+    <path d="M13 15l3 0" />
+    <path d="M3 6a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2l0 -12" />
+  </symbol>
+  <symbol id="i-lifebuoy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M15 15l3.35 3.35" />
+    <path d="M9 15l-3.35 3.35" />
+    <path d="M5.65 5.65l3.35 3.35" />
+    <path d="M18.35 5.65l-3.35 3.35" />
+  </symbol>
+  <symbol id="i-list" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 6l11 0" />
+    <path d="M9 12l11 0" />
+    <path d="M9 18l11 0" />
+    <path d="M5 6l0 .01" />
+    <path d="M5 12l0 .01" />
+    <path d="M5 18l0 .01" />
+  </symbol>
+  <symbol id="i-code" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 8l-4 4l4 4" />
+    <path d="M17 8l4 4l-4 4" />
+    <path d="M14 4l-4 16" />
+  </symbol>
+  <symbol id="i-rss" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 19a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+    <path d="M4 4a16 16 0 0 1 16 16" />
+    <path d="M4 11a9 9 0 0 1 9 9" />
+  </symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12" />
+    <path d="M16 3v4" />
+    <path d="M8 3v4" />
+    <path d="M4 11h16" />
+    <path d="M11 15h1" />
+    <path d="M12 15v3" />
+  </symbol>
+</svg>
+
+<header class="site-header">
+  <div class="header-inner">
+    <button class="icon-btn hamburger" id="drawerToggle" aria-label="打开导航" aria-expanded="false" aria-controls="sidebar">
+      <svg class="ic" aria-hidden="true"><use href="#i-menu-2"/></svg>
+    </button>
+
+    <a href="https://throneproj.github.io/zh/" class="header-logo" aria-label="Throne 首页">
+      <img class="logo" src="https://throneproj.github.io/images/throne-logo.png" alt="Throne" width="1817" height="346">
+    </a>
+    <a class="header-version" href="https://github.com/throneproj/Throne/releases/tag/1.4.1" target="_blank" rel="noopener noreferrer">v1.4.1</a>
+
+    <nav class="header-nav" aria-label="主导航">
+      <a href="https://throneproj.github.io/zh/get_started/">开始使用</a>
+      <a href="https://throneproj.github.io/zh/downloads/">下载</a>
+    </nav>
+
+    <div class="header-right">
+      <button class="header-btn search-trigger" id="searchTrigger" aria-label="搜索文档">
+        <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+        <span>搜索</span>
+        <kbd>Ctrl K</kbd>
+      </button>
+
+      
+      
+      <nav class="lang-switcher" aria-label="语言">
+        
+        <a href="https://throneproj.github.io/advanced/kill_switch/" hreflang="en">EN</a>
+        
+        <a href="https://throneproj.github.io/fa/advanced/kill_switch/" hreflang="fa">FA</a>
+        
+        <a href="https://throneproj.github.io/ru/advanced/kill_switch/" hreflang="ru">RU</a>
+        
+        <a href="https://throneproj.github.io/zh/advanced/kill_switch/" hreflang="zh" aria-current="true">ZH</a>
+        
+      </nav>
+      
+
+      <a class="icon-btn" href="https://github.com/throneproj/Throne" target="_blank" rel="noopener noreferrer" aria-label="Throne 在 GitHub">
+        <svg class="ic" aria-hidden="true"><use href="#i-brand-github"/></svg>
+      </a>
+
+      
+      <button class="icon-btn theme-toggle" id="themeToggle" data-mode="auto" type="button" aria-label="主题">
+        <svg class="ic ic-auto" aria-hidden="true"><use href="#i-contrast"/></svg>
+        <svg class="ic ic-light" aria-hidden="true"><use href="#i-sun"/></svg>
+        <svg class="ic ic-dark" aria-hidden="true"><use href="#i-moon"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+<div class="search-overlay" id="searchOverlay" role="dialog" aria-modal="true" aria-label="搜索文档" hidden>
+  <div class="search-modal">
+    <div class="search-input-wrap">
+      <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+      <input type="search" id="searchInput" aria-label="搜索文档" placeholder="搜索文档" autocomplete="off" spellcheck="false">
+      <kbd id="searchClose" role="button" tabindex="0">Esc</kbd>
+    </div>
+    <div class="search-results" id="searchResults" role="listbox" aria-label="搜索"></div>
+  </div>
+</div>
+<div class="docs-container">
+<div class="drawer-scrim" id="drawerScrim"></div>
+<aside class="docs-sidebar" id="sidebar">
+  <nav class="sidebar-nav" aria-label="文档导航">
+
+    
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>开始使用</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/zh/get_started/">概览</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/get_started/installation/">安装</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/get_started/configuration/">快速入门</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>使用指南</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/zh/guides/">概览</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/guides/subscriptions/">订阅与分组</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/guides/proxy_modes/">系统代理、TUN 与局域网共享</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/guides/tun_mode/">TUN 模式</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/guides/routing/">路由</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/guides/dns/">DNS</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/guides/testing/">测试与自动选择器</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/guides/backup/">备份、更新与迁移</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/guides/recipes/">常用方案</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Throne for Android</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/zh/android/">概览</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/android/installation/">安装与升级</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/android/permissions/">权限与后台运行</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/android/modes/">VPN 与代理模式</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/android/widgets/">小部件、图块与自动化</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/android/tv/">Android TV</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/android/troubleshooting/">Android 故障排除</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>无界面 Throne</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/zh/headless/">概览</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/headless/installation/">安装与服务</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/headless/thronectl/">使用 thronectl 管理</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/headless/web/">Web 界面</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/headless/command_line/">命令行与数据目录</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/headless/monitoring/">健康检查与日志</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/headless/recovery/">防锁定与恢复</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/headless/troubleshooting/">故障排除</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group" open>
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>进阶配置</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/zh/advanced/">概览</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/advanced/xray/">sing-box 与 Xray</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/advanced/chains/">代理链与自定义配置</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/advanced/presets/">反审查预设</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/advanced/warp/">Cloudflare WARP</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/advanced/dns_tunnels/">DNS 隧道</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/advanced/vpn_profiles/">OpenVPN、OpenConnect 与 Tailscale</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/advanced/windows_tun_mode/">Windows DNS 泄漏防护</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/advanced/kill_switch/" aria-current="page">Kill Switch（断网保护）</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/advanced/deeplinks/">深度链接</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/advanced/api/">Throne API 与 thronectl</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>参考</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/zh/reference/">概览</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/reference/protocols/">协议与导入格式</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/reference/shortcuts/">键盘快捷键与托盘</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/reference/files/">命令行、文件与日志</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/reference/privacy/">隐私与网络请求</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/reference/glossary/">术语表</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>帮助</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/zh/help/">概览</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/help/faq/">常见问题</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/help/troubleshooting/">故障排除</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/help/bug_reports/">报告 Bug</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/zh/help/migrating/">从 Nekoray / NekoBox 迁移</a></li>
+        
+        
+      </ul>
+    </details>
+    
+
+  </nav>
+</aside>
+  <main id="main" class="docs-main">
+    <article>
+      <h1 class="docs-title">Kill Switch（断网保护）</h1>
+      <p class="docs-lede">拦截所有不经过 Throne 的流量（即使没有配置档运行时也是如此），并在断网保护把你锁在网络之外时恢复连接。</p>
+      <div class="prose">
+        <p>开启断网保护（kill switch）后，你的电脑只能通过 Throne 发送流量：通过 TUN 模式、本地代理端口，或者作为 Throne 自身的连接。其他所有流量都会被拦截，即使没有配置档运行时也是如此，因此代理停止或连接中断时，应用无法退回到你的普通连接。</p>
+<aside class="callout callout--warning">
+  <span class="callout-label">警告</span>
+  <p>开启断网保护之前，请先阅读<a href="#recovery">被锁在网络之外时</a>。</p>
+
+</aside>
+<h2 id="what-it-does">它的作用</h2>
+<table>
+<thead>
+<tr>
+<th>情况</th>
+<th>哪些流量能通过</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>配置档以 TUN 模式运行</td>
+<td>全部流量，经过 TUN 网卡。</td>
+</tr>
+<tr>
+<td>配置档仅以系统代理运行</td>
+<td>使用代理的应用。忽略代理的应用会被拦截。</td>
+</tr>
+<tr>
+<td>没有配置档运行</td>
+<td>只有本地网络和<a href="#allowed">下文的例外</a>。</td>
+</tr>
+</tbody>
+</table>
+<p>请将 TUN 模式与断网保护配合使用，这样在配置档运行期间所有应用都能正常工作。Throne 退出或崩溃时，断网保护随之结束：崩溃不会让你断网，但此后它也不再保护你。</p>
+<h2 id="enable">开启断网保护</h2>
+<ol>
+<li>打开 <code>设置</code>（Settings）→ <code>基本设置</code>（Basic Settings）→ <code>安全</code>（Security）（在简洁模式下，是 <code>通用</code>（Common）标签页中的 <code>安全</code> 分区）。</li>
+<li>勾选 <code>Kill Switch</code>，然后点击 <code>确定</code>（OK）。</li>
+</ol>
+<p>断网保护需要与 TUN 模式相同的权限，参见<a href="#requirements">要求</a>。在 Linux 和 macOS 上，开启它会重启 Throne 的核心和正在运行的配置档。在你关闭它之前，它每次都会随 Throne 一起启动。</p>
+<p>之后窗口标题会显示 <code>[Kill switch]</code>，启动按钮上会出现一个锁：</p>
+<ul>
+<li><strong>绿色：</strong> 配置档正以 TUN 模式运行。</li>
+<li><strong>琥珀色：</strong> 没有配置档运行或 TUN 模式已关闭，因此大部分流量会被拦截。</li>
+<li><strong>红色：</strong> 断网保护出现了问题，参见<a href="#failures">无法工作时</a>。</li>
+</ul>
+<p>要关闭它，取消勾选 <code>Kill Switch</code>，或者右键点击启动按钮 → <code>Disable Kill Switch</code>。</p>
+<h2 id="allowed">始终允许的流量</h2>
+<ul>
+<li><strong>Throne 的核心：</strong> 到你服务器的连接、被你的规则设为 <code>direct</code> 的流量、URL 测试，以及 Throne 自身的 DNS 服务器。<a href="/zh/advanced/chains/#extra-core">额外核心</a>（Extra Core）程序也会被放行。</li>
+<li><strong>TUN 网卡和环回地址</strong>（<code>127.0.0.1</code>、<code>::1</code>），应用通过环回地址访问本地代理端口。</li>
+<li><strong>本地网络：</strong> <code>10.0.0.0/8</code>、<code>172.16.0.0/12</code>、<code>192.168.0.0/16</code>、<code>169.254.0.0/16</code>、<code>224.0.0.0/4</code>、<code>255.255.255.255</code>、<code>fc00::/7</code>、<code>fe80::/10</code> 和 <code>ff00::/8</code>。在 <code>设置</code>（Settings）→ <code>Tun 设置</code>（Tun Settings）中关闭 <code>私有地址范围绕过</code>（Private Range Bypass）后，这些范围也会被拦截；修改它的列表不会改变这些范围。</li>
+<li><strong>网络基础协议：</strong> DHCP、IPv6 邻居发现和路由器发现，以及组播组消息，让你的电脑保留它的地址。</li>
+<li><strong><a href="/zh/advanced/api/">Throne API</a> 的回复</strong>，当它在某个网络地址上监听时。</li>
+</ul>
+<p>其他程序发往本地地址的 DNS 查询（端口 53 和 853）仍会被拦截，因为路由器会把这些查询转发到隧道之外。在 Linux 上，如果 <code>/etc/resolv.conf</code> 中指定了这样的服务器，Throne 会发出警告：在 TUN 模式下，请使用 systemd-resolved（Throne 会把它指向隧道），或者使用你的网络之外的 DNS 服务器。</p>
+<p>其他所有流量都会被拦截，包括：</p>
+<ul>
+<li>Throne 自身的请求，例如订阅更新、更新检查和 WARP 注册。它们只有在 TUN 模式下，或者在配置档运行且开启了 <code>系统代理</code>（System Proxy）或 <code>设置</code>（Settings）→ <code>基本设置</code>（Basic Settings）→ <code>杂项</code>（Miscellaneous）→ <code>使用代理</code>（Use proxy）时才能工作。</li>
+<li>这台电脑为其他设备、容器或虚拟机转发的流量，除非它经过 TUN 网卡或留在本地网络内。</li>
+<li>其他 VPN 应用。</li>
+</ul>
+<h2 id="requirements">要求</h2>
+<table>
+<thead>
+<tr>
+<th>系统</th>
+<th>断网保护需要什么</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Windows</td>
+<td>Throne 以管理员身份运行，并且 <code>Base Filtering Engine</code> 服务正在运行。</td>
+</tr>
+<tr>
+<td>Linux</td>
+<td>核心通过 SUID 位以 root 身份运行；只具有能力（<code>setcap</code>）是不够的。需要 Linux 5.12 或更高版本，并支持 nftables 和 conntrack 标签（<code>CONFIG_NFT_CT</code>、<code>CONFIG_NF_CONNTRACK_LABELS</code>）。</td>
+</tr>
+<tr>
+<td>macOS</td>
+<td>核心通过 SUID 位以 root 身份运行。<code>/etc/pf.conf</code> 必须加载 <code>com.apple</code> 锚点，默认情况下就是如此。</td>
+</tr>
+</tbody>
+</table>
+<p>Throne 会像为 TUN 模式那样设置这些权限，参见 <a href="/zh/guides/tun_mode/#privileges">TUN 模式的权限</a>。</p>
+<h2 id="failures">无法工作时</h2>
+<p>当断网保护已开启但无法启动或停止工作时，Throne 会显示“Kill switch is not active”（断网保护未生效）及其原因。缺少权限时点击 <code>Restart as Administrator</code>（Windows）或 <code>Grant Privileges</code>（Linux、macOS），其他问题点击 <code>Retry</code>，或者点击 <code>Disable Kill Switch</code>。在此之前，不会拦截任何流量，Throne 也不会启动配置档。</p>
+<p>日志和 <a href="/zh/advanced/api/">Throne API</a> 中的 <code>kill_switch_error</code> 会以代码形式给出原因：</p>
+<table>
+<thead>
+<tr>
+<th>代码</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>privilege</code></td>
+<td>缺少权限，参见<a href="#requirements">要求</a>。</td>
+</tr>
+<tr>
+<td><code>unsupported</code></td>
+<td>系统缺少<a href="#requirements">要求</a>中的其他条件，例如 Linux 上的 nftables 或以 root 运行的核心。</td>
+</tr>
+<tr>
+<td><code>config</code></td>
+<td>断网保护的设置无效，例如 TUN 地址。</td>
+</tr>
+<tr>
+<td><code>tampered</code></td>
+<td>其他程序反复移除规则或关闭防火墙。</td>
+</tr>
+<tr>
+<td><code>crash</code>、<code>timeout</code>、<code>internal</code></td>
+<td>守卫进程已停止或未能及时启动。<code>Retry</code> 通常有效。</td>
+</tr>
+<tr>
+<td><code>overridden</code></td>
+<td>无界面 Throne 是以 <code>--no-kill-switch</code> 启动的。</td>
+</tr>
+</tbody>
+</table>
+<p>在 Linux 上，在没有 <code>CAP_SETGID</code> 的容器或用户命名空间中，断网保护会继续拦截所有流量，Throne 则拒绝启动配置档（窗口标题显示 <code>[Kill Switch 正在阻断流量]</code>），直到你点击 <code>Disable Kill Switch</code>。</p>
+<h2 id="recovery">被锁在网络之外时</h2>
+<p>Throne 的设置无需互联网连接即可使用，因此可以在设置中或通过启动按钮关闭断网保护。</p>
+<p>如果 Throne 没有响应：</p>
+<ol>
+<li>退出 Throne，或者在任务管理器中结束它。它的守卫进程会在几秒内移除防火墙规则。</li>
+<li>如果流量仍被拦截，请自行结束守卫进程：
+<ul>
+<li><strong>Windows：</strong> 在任务管理器 → <code>详细信息</code>（Details）中结束所有 <code>ThroneCore.exe</code>，或者重启 Windows。</li>
+<li><strong>Linux：</strong> 运行 <code>sudo pkill -f 'ThroneCore --guard'</code>。</li>
+<li><strong>macOS：</strong> 运行 <code>sudo pkill -f 'ThroneCore --guard'</code>。如果规则仍然存在，请再次启动 Throne（它的核心会移除这些规则）或者重启 macOS。</li>
+</ul>
+</li>
+<li>启动 Throne，并在做其他任何事情之前先关闭断网保护。</li>
+</ol>
+<h2 id="android">Android 版</h2>
+<p>Throne for Android 没有断网保护。请使用 Android 自带的功能：将 Throne 设为始终开启的 VPN，并开启“屏蔽未使用 VPN 的所有连接”（Block connections without VPN）。参见<a href="/zh/android/permissions/#always-on">始终开启的 VPN</a>。</p>
+<h2 id="headless">无界面 Throne</h2>
+<p><a href="/zh/headless/">无界面 Throne</a> 具有相同的断网保护：<code>thronectl settings set kill_switch=true</code>。在 Linux 上，它需要一个以 root 身份运行的单元（unit），或者一个带有 SUID 位的核心，参见 <a href="/zh/headless/installation/#linux-privileges">Linux 上的权限</a>。如果断网保护让你无法访问这台电脑，请用 <code>--no-kill-switch</code> 启动 Throne 一次，参见<a href="/zh/headless/recovery/#recovery">恢复访问</a>。</p>
+
+      </div>
+      
+      
+      
+      <footer class="docs-article-footer">
+        
+        <a class="edit-link" href="https://github.com/throneproj/throneproj.github.io/edit/main/content/advanced/kill_switch.zh.md" target="_blank" rel="noopener noreferrer">
+        
+          <svg class="ic" aria-hidden="true"><use href="#i-pencil"/></svg>
+          在 GitHub 上编辑此页
+        </a>
+        
+
+<nav class="prev-next" aria-label="页面导航">
+  
+  <a class="prevnext-prev" href="https://throneproj.github.io/zh/advanced/windows_tun_mode/">
+    <span class="prevnext-dir">上一页</span>
+    Windows DNS 泄漏防护
+  </a>
+  
+  
+  <a class="prevnext-next" href="https://throneproj.github.io/zh/advanced/deeplinks/">
+    <span class="prevnext-dir">下一页</span>
+    深度链接
+  </a>
+  
+</nav>
+
+      </footer>
+    </article>
+  </main>
+  
+<nav class="docs-toc" aria-label="本页导航">
+  <p class="docs-toc-title">
+    <svg class="ic" aria-hidden="true"><use href="#i-list"/></svg>
+    本页导航
+  </p>
+  <ul><li><a href="#what-it-does">它的作用</a></li><li><a href="#enable">开启断网保护</a></li><li><a href="#allowed">始终允许的流量</a></li><li><a href="#requirements">要求</a></li><li><a href="#failures">无法工作时</a></li><li><a href="#recovery">被锁在网络之外时</a></li><li><a href="#android">Android 版</a></li><li><a href="#headless">无界面 Throne</a></li></ul>
+</nav>
+
+    </main>
+  </div>
+
+  
+<script src="https://throneproj.github.io/assets/js/highlight.min.js" defer></script>
+<script>
+  window.NOIR_BASE = "https://throneproj.github.io";
+  
+  window.NOIR_I18N = {
+    copy: "复制",
+    copied: "已复制",
+    copyManual: "请按 Ctrl C",
+    noResults: "未找到相关结果：",
+    theme: "主题",
+    themeAuto: "自动",
+    themeLight: "浅色",
+    themeDark: "深色"
+  };
+</script>
+<script src="https://throneproj.github.io/js/theme.js" defer></script>
+<script src="https://throneproj.github.io/js/nav.js" defer></script>
+<script src="https://throneproj.github.io/js/code.js" defer></script>
+<script src="https://throneproj.github.io/js/toc.js" defer></script>
+<script src="https://throneproj.github.io/js/reveal.js" defer></script>
+<script src="https://throneproj.github.io/js/mermaid.js" defer></script>
+<script src="https://throneproj.github.io/js/search.js" defer></script>
+
+</body>
+</html>

@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Keyboard shortcuts, the command palette, global hotkeys and the tray icon of Throne desktop.">
+  <title>Keyboard Shortcuts &amp; Tray - Throne</title>
+
+  
+  <meta name="theme-color" content="#0b0b0c" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#fbfbfa" media="(prefers-color-scheme: light)">
+
+  
+  <script>
+    (function () {
+      var r = document.documentElement;
+      r.classList.add("js");
+      try {
+        var t = localStorage.getItem("throne-theme");
+        if (t === "light" || t === "dark") r.setAttribute("data-theme", t);
+      } catch (e) {}
+    })();
+  </script>
+
+  <meta name="google-site-verification" content="Zzz4doeS45o-EhP56mm1yoyfHSEEZJRJJt0tfj7vPGM" />
+  <script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+      m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+      m[i].l=1*new Date();
+      for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+      k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=111847353', 'ym');
+
+    
+    ym(111847353, 'init', {ssr:true, webvisor:false, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/111847353" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+
+  <meta property="og:title" content="Keyboard Shortcuts &amp; Tray">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://throneproj.github.io/reference/shortcuts/">
+  <meta property="og:description" content="Keyboard shortcuts, the command palette, global hotkeys and the tray icon of Throne desktop.">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Keyboard Shortcuts &amp; Tray">
+  <meta name="twitter:description" content="Keyboard shortcuts, the command palette, global hotkeys and the tray icon of Throne desktop.">
+  <link rel="canonical" href="https://throneproj.github.io/reference/shortcuts/">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Keyboard Shortcuts \u0026 Tray","url":"https://throneproj.github.io/reference/shortcuts/","description":"Keyboard shortcuts, the command palette, global hotkeys and the tray icon of Throne desktop."}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Throne","item":"https://throneproj.github.io/"},{"@type":"ListItem","position":2,"name":"Reference","item":"https://throneproj.github.io/reference/"},{"@type":"ListItem","position":3,"name":"Keyboard Shortcuts \u0026 Tray"}]}</script>
+  <link rel="alternate" hreflang="en" href="https://throneproj.github.io/reference/shortcuts/">
+<link rel="alternate" hreflang="fa" href="https://throneproj.github.io/fa/reference/shortcuts/">
+<link rel="alternate" hreflang="ru" href="https://throneproj.github.io/ru/reference/shortcuts/">
+<link rel="alternate" hreflang="zh" href="https://throneproj.github.io/zh/reference/shortcuts/">
+<link rel="alternate" hreflang="x-default" href="https://throneproj.github.io/reference/shortcuts/">
+
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon.ico" sizes="any">
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon-96x96.png" type="image/png" sizes="96x96">
+  <link rel="apple-touch-icon" href="https://throneproj.github.io/logos/apple-touch-icon.png">
+  <link rel="manifest" href="https://throneproj.github.io/logos/site.webmanifest">
+
+  <link rel="preload" href="https://throneproj.github.io/fonts/geist-variable-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+  
+  <link rel="stylesheet" href="https://throneproj.github.io/assets/css/highlight/atom-one-dark.min.css">
+  <link rel="stylesheet" href="https://throneproj.github.io/css/style.css">
+  
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  
+<svg xmlns="http://www.w3.org/2000/svg" class="icon-sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 10a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+    <path d="M21 21l-6 -6" />
+  </symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M3 12h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7" />
+  </symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454l0 .008" />
+  </symbol>
+  <symbol id="i-contrast" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M12 17a5 5 0 0 0 0 -10v10" />
+  </symbol>
+  <symbol id="i-chevron-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M6 9l6 6l6 -6" />
+  </symbol>
+  <symbol id="i-menu-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 6l16 0" />
+    <path d="M4 12l16 0" />
+    <path d="M4 18l16 0" />
+  </symbol>
+  <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M18 6l-12 12" />
+    <path d="M6 6l12 12" />
+  </symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 9.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667l0 -8.666" />
+    <path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" />
+  </symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l5 5l10 -10" />
+  </symbol>
+  <symbol id="i-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l14 0" />
+    <path d="M13 18l6 -6" />
+    <path d="M13 6l6 6" />
+  </symbol>
+  <symbol id="i-arrow-up-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M17 7l-10 10" />
+    <path d="M8 7l9 0l0 9" />
+  </symbol>
+  <symbol id="i-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l14 0" />
+    <path d="M5 12l6 6" />
+    <path d="M5 12l6 -6" />
+  </symbol>
+  <symbol id="i-brand-github" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+  </symbol>
+  <symbol id="i-pencil" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+    <path d="M13.5 6.5l4 4" />
+  </symbol>
+  <symbol id="i-rocket" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 13a8 8 0 0 1 7 7a6 6 0 0 0 3 -5a9 9 0 0 0 6 -8a3 3 0 0 0 -3 -3a9 9 0 0 0 -8 6a6 6 0 0 0 -5 3" />
+    <path d="M7 14a6 6 0 0 0 -3 6a6 6 0 0 0 6 -3" />
+    <path d="M14 9a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+  </symbol>
+  <symbol id="i-terminal-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 9l3 3l-3 3" />
+    <path d="M13 15l3 0" />
+    <path d="M3 6a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2l0 -12" />
+  </symbol>
+  <symbol id="i-lifebuoy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M15 15l3.35 3.35" />
+    <path d="M9 15l-3.35 3.35" />
+    <path d="M5.65 5.65l3.35 3.35" />
+    <path d="M18.35 5.65l-3.35 3.35" />
+  </symbol>
+  <symbol id="i-list" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 6l11 0" />
+    <path d="M9 12l11 0" />
+    <path d="M9 18l11 0" />
+    <path d="M5 6l0 .01" />
+    <path d="M5 12l0 .01" />
+    <path d="M5 18l0 .01" />
+  </symbol>
+  <symbol id="i-code" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 8l-4 4l4 4" />
+    <path d="M17 8l4 4l-4 4" />
+    <path d="M14 4l-4 16" />
+  </symbol>
+  <symbol id="i-rss" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 19a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+    <path d="M4 4a16 16 0 0 1 16 16" />
+    <path d="M4 11a9 9 0 0 1 9 9" />
+  </symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12" />
+    <path d="M16 3v4" />
+    <path d="M8 3v4" />
+    <path d="M4 11h16" />
+    <path d="M11 15h1" />
+    <path d="M12 15v3" />
+  </symbol>
+</svg>
+
+<header class="site-header">
+  <div class="header-inner">
+    <button class="icon-btn hamburger" id="drawerToggle" aria-label="Open navigation" aria-expanded="false" aria-controls="sidebar">
+      <svg class="ic" aria-hidden="true"><use href="#i-menu-2"/></svg>
+    </button>
+
+    <a href="https://throneproj.github.io/" class="header-logo" aria-label="Throne homepage">
+      <img class="logo" src="https://throneproj.github.io/images/throne-logo.png" alt="Throne" width="1817" height="346">
+    </a>
+    <a class="header-version" href="https://github.com/throneproj/Throne/releases/tag/1.4.1" target="_blank" rel="noopener noreferrer">v1.4.1</a>
+
+    <nav class="header-nav" aria-label="Primary">
+      <a href="https://throneproj.github.io/get_started/">Get Started</a>
+      <a href="https://throneproj.github.io/downloads/">Downloads</a>
+    </nav>
+
+    <div class="header-right">
+      <button class="header-btn search-trigger" id="searchTrigger" aria-label="Search documentation">
+        <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+        <span>Search</span>
+        <kbd>Ctrl K</kbd>
+      </button>
+
+      
+      
+      <nav class="lang-switcher" aria-label="Language">
+        
+        <a href="https://throneproj.github.io/reference/shortcuts/" hreflang="en" aria-current="true">EN</a>
+        
+        <a href="https://throneproj.github.io/fa/reference/shortcuts/" hreflang="fa">FA</a>
+        
+        <a href="https://throneproj.github.io/ru/reference/shortcuts/" hreflang="ru">RU</a>
+        
+        <a href="https://throneproj.github.io/zh/reference/shortcuts/" hreflang="zh">ZH</a>
+        
+      </nav>
+      
+
+      <a class="icon-btn" href="https://github.com/throneproj/Throne" target="_blank" rel="noopener noreferrer" aria-label="Throne on GitHub">
+        <svg class="ic" aria-hidden="true"><use href="#i-brand-github"/></svg>
+      </a>
+
+      
+      <button class="icon-btn theme-toggle" id="themeToggle" data-mode="auto" type="button" aria-label="Theme">
+        <svg class="ic ic-auto" aria-hidden="true"><use href="#i-contrast"/></svg>
+        <svg class="ic ic-light" aria-hidden="true"><use href="#i-sun"/></svg>
+        <svg class="ic ic-dark" aria-hidden="true"><use href="#i-moon"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+<div class="search-overlay" id="searchOverlay" role="dialog" aria-modal="true" aria-label="Search documentation" hidden>
+  <div class="search-modal">
+    <div class="search-input-wrap">
+      <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+      <input type="search" id="searchInput" aria-label="Search documentation" placeholder="Search the docs" autocomplete="off" spellcheck="false">
+      <kbd id="searchClose" role="button" tabindex="0">Esc</kbd>
+    </div>
+    <div class="search-results" id="searchResults" role="listbox" aria-label="Search"></div>
+  </div>
+</div>
+<div class="docs-container">
+<div class="drawer-scrim" id="drawerScrim"></div>
+<aside class="docs-sidebar" id="sidebar">
+  <nav class="sidebar-nav" aria-label="Documentation">
+
+    
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Get Started</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/get_started/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/get_started/installation/">Installation</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/get_started/configuration/">Quick Start</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Guides</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/guides/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/subscriptions/">Subscriptions & Groups</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/proxy_modes/">System Proxy, TUN & LAN</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/tun_mode/">TUN Mode</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/routing/">Routing</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/dns/">DNS</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/testing/">Testing & Auto Selector</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/backup/">Backup, Updates & Migration</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/recipes/">Recipes</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Throne for Android</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/android/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/installation/">Installation & Upgrade</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/permissions/">Permissions & Background</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/modes/">VPN & Proxy Modes</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/widgets/">Widgets, Tile & Automation</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/tv/">Android TV</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/troubleshooting/">Troubleshooting</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Headless Throne</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/headless/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/headless/installation/">Installation & Services</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/headless/thronectl/">Managing with thronectl</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/headless/web/">Web UI</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/headless/command_line/">Command Line & Data Directory</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/headless/monitoring/">Health Checks & Logs</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/headless/recovery/">Lockout Protection & Recovery</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/headless/troubleshooting/">Troubleshooting</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Advanced Configuration</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/xray/">sing-box vs Xray</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/chains/">Chains & Custom Configs</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/presets/">Anti-Censorship Presets</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/warp/">Cloudflare WARP</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/dns_tunnels/">DNS Tunnels</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/vpn_profiles/">OpenVPN, OpenConnect & Tailscale</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/windows_tun_mode/">Windows DNS Leak Protection</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/kill_switch/">Kill Switch</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/deeplinks/">Deep Links</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/api/">Throne API & thronectl</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group" open>
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Reference</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/reference/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/reference/protocols/">Protocols & Import Formats</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/reference/shortcuts/" aria-current="page">Keyboard Shortcuts & Tray</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/reference/files/">Command Line, Files & Logs</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/reference/privacy/">Privacy & Network Requests</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/reference/glossary/">Glossary</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Help</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/help/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/help/faq/">FAQ</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/help/troubleshooting/">Troubleshooting</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/help/bug_reports/">Reporting a Bug</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/help/migrating/">Coming from Nekoray / NekoBox</a></li>
+        
+        
+      </ul>
+    </details>
+    
+
+  </nav>
+</aside>
+  <main id="main" class="docs-main">
+    <article>
+      <h1 class="docs-title">Keyboard Shortcuts &amp; Tray</h1>
+      <p class="docs-lede">Keyboard shortcuts, the command palette, global hotkeys and the tray icon of Throne desktop.</p>
+      <div class="prose">
+        <p>Shortcuts work while the Throne window is active. <strong>macOS:</strong> <code>Ctrl</code> means <code>Cmd</code> and <code>Alt</code> means <code>Option</code>, so <code>Ctrl+Shift+S</code> is <code>Cmd+Shift+S</code>. On a Mac laptop keyboard, <code>Del</code> is <code>Fn+Delete</code>.</p>
+<h2 id="main-window">Main window</h2>
+<p>The <code>Settings</code> and <code>Routing</code> menus have no shortcuts. The &quot;Can change&quot; column shows whether you can set another shortcut, see <a href="#change-shortcuts">Change a shortcut</a>. Simple mode hides some items, such as <code>Resolve Domain for group</code>, <code>Export config</code> and <code>Reset Traffic</code> (see <a href="/get_started/configuration/#interface-mode">Simple and Advanced mode</a>).</p>
+<p>In the status bar, click the running profile to URL-test it, or <code>Mixed: …</code> to open <code>Basic Settings</code>.</p>
+<h3 id="program-menu">Program menu</h3>
+<table>
+<thead>
+<tr>
+<th>Action</th>
+<th>Shortcut</th>
+<th>Can change</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Hide window</code></td>
+<td><code>Ctrl+H</code> (macOS: also <code>Cmd+W</code>)</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>New profile</code></td>
+<td><code>Ctrl+N</code></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>Add profile from clipboard</code></td>
+<td><code>Ctrl+V</code></td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>Add profile from File(s)</code></td>
+<td><code>Ctrl+O</code></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>Scan QR Code</code></td>
+<td><code>Ctrl+Shift+Q</code></td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
+<p>You can also drop files, QR code images or links on the window to import them.</p>
+<h3 id="groups-menu">Groups menu</h3>
+<p>Group actions work on the group of the open tab.</p>
+<table>
+<thead>
+<tr>
+<th>Action</th>
+<th>Shortcut</th>
+<th>Can change</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Url Test Group</code></td>
+<td><code>Ctrl+Shift+G</code></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>Speedtest Group</code></td>
+<td><code>Ctrl+Alt+P</code></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>Resolve Domain for group</code></td>
+<td><code>Ctrl+Shift+I</code></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>Clear Group test result</code></td>
+<td><code>Ctrl+Shift+C</code></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>Update subscription</code></td>
+<td><code>Ctrl+U</code></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>Clean up</code> → <code>Remove Duplicates</code></td>
+<td><code>Ctrl+Shift+D</code></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>Clean up</code> → <code>Remove Unavailable</code></td>
+<td><code>Ctrl+Shift+R</code></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>Clean up</code> → <code>Remove Invalid</code></td>
+<td><code>Ctrl+Alt+I</code></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>Stop Testing</code></td>
+<td><code>Ctrl+.</code></td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
+<p><code>Stop Testing</code> appears only while a test is running. Right-click a group tab for the group's menu; drag tabs to reorder the groups.</p>
+<h3 id="tools-menu">Tools menu</h3>
+<table>
+<thead>
+<tr>
+<th>Action</th>
+<th>Shortcut</th>
+<th>Can change</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Search Settings</code></td>
+<td><code>Ctrl+K</code></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>Speedtest Current</code></td>
+<td><code>F6</code></td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
+<p><code>Search Settings</code> opens the <a href="#command-palette">command palette</a>. <code>Speedtest Current</code> works only while a profile is running.</p>
+<h2 id="command-palette">Command palette</h2>
+<p>The command palette finds menu commands and settings by name. Press <code>Ctrl+K</code> in the main window, or click <code>Tools</code> → <code>Search Settings</code>.</p>
+<ul>
+<li>Type one or more words. An entry matches when its name or path, such as <code>Basic Settings › Common › Inbound Settings</code>, contains all of them. In a translated interface, English words also find many entries.</li>
+<li>Start with <code>&gt;</code> to search only commands, or with <code>@</code> to search only settings. <code>@</code> alone lists all settings.</li>
+<li>Press <code>Enter</code> or double-click an entry to run it. <code>Esc</code> closes the palette.</li>
+</ul>
+<p>The palette finds the settings of <code>Basic Settings</code>, <code>Routing Settings</code>, <code>Tun Settings</code>, <code>Preset Settings</code> and <code>Integration Settings</code>, and the commands that the menus show at the moment, including the profile list menu and your routing profiles.</p>
+<p>In Simple mode, the palette also finds the hidden settings, under <code>Settings in Advanced mode</code>; choosing one switches Throne to Advanced mode. Hidden menu commands are not listed.</p>
+<p>Only one of these windows can be open at a time: a settings window, <code>Manage Groups</code>, <code>OTP Manager</code>, <code>Traffic Stats</code> and <code>About</code>. While one is open, the palette greys out entries that would open another one.</p>
+<h2 id="profile-list">Profile list</h2>
+<p>Right-click the profile list for its menu. Besides the &quot;add&quot; actions of the <code>Program</code> menu, it has:</p>
+<table>
+<thead>
+<tr>
+<th>Action</th>
+<th>Shortcut</th>
+<th>Can change</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Start</code></td>
+<td><code>Enter</code></td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>Stop</code></td>
+<td><code>Ctrl+S</code></td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>Share</code> → <code>Export config</code></td>
+<td><code>Ctrl+E</code></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>Share</code> → <code>Copy links of selected</code></td>
+<td><code>Ctrl+C</code></td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>Share</code> → <code>Copy links of selected (Deep Links)</code></td>
+<td><code>Ctrl+Alt+C</code></td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>Delete</code></td>
+<td><code>Del</code></td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>Select All</code></td>
+<td><code>Ctrl+A</code></td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>Clone</code></td>
+<td><code>Ctrl+D</code></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>Url Test Selected</code></td>
+<td><code>Ctrl+Shift+S</code></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>Speedtest Selected</code></td>
+<td><code>Ctrl+Shift+P</code></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>Reset Traffic</code></td>
+<td><code>Ctrl+R</code></td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
+<p>Other keys and mouse actions in the list:</p>
+<table>
+<thead>
+<tr>
+<th>Key or action</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Double-click a profile</td>
+<td>Opens the profile editor.</td>
+</tr>
+<tr>
+<td><code>Esc</code></td>
+<td>Clears the selection. In the filter row, closes the filter row.</td>
+</tr>
+<tr>
+<td>Drag a row</td>
+<td>Moves the profile. This does not work while a filter is active.</td>
+</tr>
+<tr>
+<td><code>Ctrl+F</code></td>
+<td>Shows or hides the filter row. Hiding it clears the filters.</td>
+</tr>
+<tr>
+<td><code>Up</code> on the first row, <code>Down</code> in the filter row</td>
+<td>Moves between the list and the filter row.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="no-default">Actions without a default shortcut</h3>
+<p>You can give a shortcut to <code>QR Code and link</code>, <code>Copy Test Result</code>, <code>Resolve Selected Domain</code>, <code>Resolve Selected Out IP</code>, <code>Clear Test Result</code>, <code>Resolve out IP for group</code>, <code>Update all subscriptions</code>, <code>Remove Insecure Configs</code>, <code>IP Scanner</code> and <code>Refresh Column Widths</code>.</p>
+<h2 id="change-shortcuts">Change a shortcut</h2>
+<ol>
+<li>Open <code>Settings</code> → <code>Integration Settings</code> → <code>Shortcuts</code> (Advanced mode only, see <a href="/get_started/configuration/#interface-mode">Simple and Advanced mode</a>).</li>
+<li>Click the field next to an action and press the new key combination. <code>Backspace</code> removes the shortcut.</li>
+<li>Click <code>OK</code>.</li>
+</ol>
+<p>Shortcuts marked &quot;No&quot; above, and <code>Ctrl+F</code>, cannot be changed. If another action or a global hotkey already uses the combination, the window names the conflict and does not save until you change one of them.</p>
+<h2 id="global-hotkeys">Global hotkeys</h2>
+<p>Global hotkeys work in any app, even when the Throne window is hidden. All of them are empty by default.</p>
+<ol>
+<li>Open <code>Settings</code> → <code>Integration Settings</code> → <code>Global Hotkeys</code>.</li>
+<li>Click the field of a hotkey and press the key combination.</li>
+<li>Click <code>OK</code>.</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Hotkey</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Trigger main window</code></td>
+<td>Shows the main window, or hides it if it is active, like a click on the tray icon.</td>
+</tr>
+<tr>
+<td><code>Show groups</code></td>
+<td>Opens <code>Manage Groups</code>.</td>
+</tr>
+<tr>
+<td><code>Show routes</code></td>
+<td>Opens <code>Routing Settings</code>.</td>
+</tr>
+<tr>
+<td><code>Proxy mode</code></td>
+<td>Opens the <code>Operation Mode</code> menu (<code>System Proxy</code>, <code>Tun Mode</code>) at the mouse pointer.</td>
+</tr>
+<tr>
+<td><code>Toggle System Proxy</code></td>
+<td>Turns <code>System Proxy</code> on or off.</td>
+</tr>
+<tr>
+<td><code>Start/Stop Profile</code></td>
+<td>Stops the running profile, or starts the last profile when none runs.</td>
+</tr>
+<tr>
+<td><code>Toggle Tun Mode</code></td>
+<td>Turns <code>Tun Mode</code> on or off.</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>A hotkey needs <code>Ctrl</code>, <code>Alt</code> or <code>Meta</code> (<code>Cmd</code> on macOS), unless it is a function key such as <code>F9</code>.</li>
+<li>A combination that another program or the system already uses does not work. After you click <code>OK</code>, Throne lists the hotkeys it could not register.</li>
+<li>Global hotkeys are paused while <code>Integration Settings</code> is open.</li>
+<li><strong>Linux:</strong> global hotkeys work in X11 and KDE Plasma Wayland sessions (on KDE Plasma they also appear in the system shortcut settings, under <code>Throne</code>), but not in other Wayland sessions.</li>
+</ul>
+<p>To control Throne from a macro pad, a Stream Deck or a script, use <a href="/advanced/api/#example-hotkey">thronectl</a>.</p>
+<h2 id="tray">Tray icon</h2>
+<p>Throne shows an icon in the system tray (on macOS, in the menu bar). The icon changes while a profile runs and when <code>System Proxy</code> or <code>Tun Mode</code> is on. Hover over it to see the running profile and mode.</p>
+<ul>
+<li><strong>Windows and Linux:</strong> click the icon to show or hide the window. Right-click it for the tray menu.</li>
+<li><strong>macOS:</strong> click the icon for the tray menu.</li>
+</ul>
+<p>Closing the window does not quit Throne: it keeps running in the tray. To quit, choose <code>Exit</code> in the tray menu or the <code>Program</code> menu.</p>
+<p><strong>macOS:</strong> while the window is hidden, Throne has no Dock icon. If you keep Throne in the Dock, click its Dock icon to show the window, or open Throne again from Finder.</p>
+<p><strong>Linux:</strong> GNOME shows tray icons only with the AppIndicator extension (<a href="https://github.com/throneproj/Throne/issues/1623">#1623</a>). Without a tray icon, start Throne again to bring back its hidden window.</p>
+<h3 id="tray-menu">Tray menu</h3>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Connect</code> / <code>Disconnect</code></td>
+<td>Stops the running profile, or starts the profile selected in the list, else the last profile, else the first profile of the open group.</td>
+</tr>
+<tr>
+<td><code>Remember last profile</code></td>
+<td>At the next start, Throne starts the profile that was running when it quit, and turns <code>System Proxy</code> and <code>Tun Mode</code> back on if they were on. A profile you stopped yourself is not remembered.</td>
+</tr>
+<tr>
+<td><code>Allow other devices to connect</code></td>
+<td>Opens the local proxy port to your network, see <a href="/guides/proxy_modes/#lan-sharing">LAN sharing</a>.</td>
+</tr>
+<tr>
+<td><code>Select Profile</code></td>
+<td>Starts a profile chosen by group, or found by typing its name.</td>
+</tr>
+<tr>
+<td><code>Select Routing</code></td>
+<td>Makes a routing profile active and restarts the running profile.</td>
+</tr>
+<tr>
+<td><code>OTP Codes</code></td>
+<td>Click an OTP profile to copy its current code. Hidden in Simple mode.</td>
+</tr>
+</tbody>
+</table>
+<p><code>Start with system</code> starts Throne when you log in. It adds a Task Scheduler task on Windows, a login item on macOS, and <code>Throne.desktop</code> with the option <code>-tray</code> to <code>~/.config/autostart</code> on Linux. On Windows and macOS, the window opens at login unless <code>Hide dashboard at startup</code> is on. On Windows, each start of Throne gives the task the rights of the running Throne: if Throne runs as administrator, the task also starts it as administrator, unless <code>Always Start as Standard User</code> is on.</p>
+<h3 id="tray-settings">Tray settings</h3>
+<p>In <code>Settings</code> → <code>Basic Settings</code> → <code>Style</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>Default</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Hide dashboard at startup</code></td>
+<td>Off</td>
+<td>Throne starts with only the tray icon, like the command-line option <code>-tray</code>.</td>
+</tr>
+<tr>
+<td><code>Disable tray</code></td>
+<td>Off</td>
+<td>Removes the tray icon. Closing the window then quits Throne.</td>
+</tr>
+</tbody>
+</table>
+<aside class="callout callout--warning">
+  <span class="callout-label">Warning</span>
+  <p>Do not turn on <code>Disable tray</code> together with <code>Hide dashboard at startup</code> or <code>-tray</code>: Throne would start with no window and no tray icon. If this happens, start Throne again, and the running Throne shows its window.</p>
+
+</aside>
+
+      </div>
+      
+      
+      
+      <footer class="docs-article-footer">
+        
+        <a class="edit-link" href="https://github.com/throneproj/throneproj.github.io/edit/main/content/reference/shortcuts.md" target="_blank" rel="noopener noreferrer">
+        
+          <svg class="ic" aria-hidden="true"><use href="#i-pencil"/></svg>
+          Edit this page on GitHub
+        </a>
+        
+
+<nav class="prev-next" aria-label="Page navigation">
+  
+  <a class="prevnext-prev" href="https://throneproj.github.io/reference/protocols/">
+    <span class="prevnext-dir">Previous</span>
+    Protocols & Import Formats
+  </a>
+  
+  
+  <a class="prevnext-next" href="https://throneproj.github.io/reference/files/">
+    <span class="prevnext-dir">Next</span>
+    Command Line, Files & Logs
+  </a>
+  
+</nav>
+
+      </footer>
+    </article>
+  </main>
+  
+<nav class="docs-toc" aria-label="On this page">
+  <p class="docs-toc-title">
+    <svg class="ic" aria-hidden="true"><use href="#i-list"/></svg>
+    On this page
+  </p>
+  <ul><li><a href="#main-window">Main window</a><ul><li><a href="#program-menu">Program menu</a></li><li><a href="#groups-menu">Groups menu</a></li><li><a href="#tools-menu">Tools menu</a></li></ul></li><li><a href="#command-palette">Command palette</a></li><li><a href="#profile-list">Profile list</a><ul><li><a href="#no-default">Actions without a default shortcut</a></li></ul></li><li><a href="#change-shortcuts">Change a shortcut</a></li><li><a href="#global-hotkeys">Global hotkeys</a></li><li><a href="#tray">Tray icon</a><ul><li><a href="#tray-menu">Tray menu</a></li><li><a href="#tray-settings">Tray settings</a></li></ul></li></ul>
+</nav>
+
+    </main>
+  </div>
+
+  
+<script src="https://throneproj.github.io/assets/js/highlight.min.js" defer></script>
+<script>
+  window.NOIR_BASE = "https://throneproj.github.io";
+  
+  window.NOIR_I18N = {
+    copy: "Copy",
+    copied: "Copied",
+    copyManual: "Press Ctrl C",
+    noResults: "No results for",
+    theme: "Theme",
+    themeAuto: "auto",
+    themeLight: "light",
+    themeDark: "dark"
+  };
+</script>
+<script src="https://throneproj.github.io/js/theme.js" defer></script>
+<script src="https://throneproj.github.io/js/nav.js" defer></script>
+<script src="https://throneproj.github.io/js/code.js" defer></script>
+<script src="https://throneproj.github.io/js/toc.js" defer></script>
+<script src="https://throneproj.github.io/js/reveal.js" defer></script>
+<script src="https://throneproj.github.io/js/mermaid.js" defer></script>
+<script src="https://throneproj.github.io/js/search.js" defer></script>
+
+</body>
+</html>

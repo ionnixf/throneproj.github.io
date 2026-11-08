@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Test profiles, sort and clean up the list, let the auto selector pick the best server, and scan for working IP addresses and DNS resolvers.">
+  <title>Testing &amp; Auto Selector - Throne</title>
+
+  
+  <meta name="theme-color" content="#0b0b0c" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#fbfbfa" media="(prefers-color-scheme: light)">
+
+  
+  <script>
+    (function () {
+      var r = document.documentElement;
+      r.classList.add("js");
+      try {
+        var t = localStorage.getItem("throne-theme");
+        if (t === "light" || t === "dark") r.setAttribute("data-theme", t);
+      } catch (e) {}
+    })();
+  </script>
+
+  <meta name="google-site-verification" content="Zzz4doeS45o-EhP56mm1yoyfHSEEZJRJJt0tfj7vPGM" />
+  <script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+      m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+      m[i].l=1*new Date();
+      for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+      k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=111847353', 'ym');
+
+    
+    ym(111847353, 'init', {ssr:true, webvisor:false, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/111847353" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+
+  <meta property="og:title" content="Testing &amp; Auto Selector">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://throneproj.github.io/guides/testing/">
+  <meta property="og:description" content="Test profiles, sort and clean up the list, let the auto selector pick the best server, and scan for working IP addresses and DNS resolvers.">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Testing &amp; Auto Selector">
+  <meta name="twitter:description" content="Test profiles, sort and clean up the list, let the auto selector pick the best server, and scan for working IP addresses and DNS resolvers.">
+  <link rel="canonical" href="https://throneproj.github.io/guides/testing/">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Testing \u0026 Auto Selector","url":"https://throneproj.github.io/guides/testing/","description":"Test profiles, sort and clean up the list, let the auto selector pick the best server, and scan for working IP addresses and DNS resolvers."}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Throne","item":"https://throneproj.github.io/"},{"@type":"ListItem","position":2,"name":"Guides","item":"https://throneproj.github.io/guides/"},{"@type":"ListItem","position":3,"name":"Testing \u0026 Auto Selector"}]}</script>
+  <link rel="alternate" hreflang="en" href="https://throneproj.github.io/guides/testing/">
+<link rel="alternate" hreflang="fa" href="https://throneproj.github.io/fa/guides/testing/">
+<link rel="alternate" hreflang="ru" href="https://throneproj.github.io/ru/guides/testing/">
+<link rel="alternate" hreflang="zh" href="https://throneproj.github.io/zh/guides/testing/">
+<link rel="alternate" hreflang="x-default" href="https://throneproj.github.io/guides/testing/">
+
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon.ico" sizes="any">
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon-96x96.png" type="image/png" sizes="96x96">
+  <link rel="apple-touch-icon" href="https://throneproj.github.io/logos/apple-touch-icon.png">
+  <link rel="manifest" href="https://throneproj.github.io/logos/site.webmanifest">
+
+  <link rel="preload" href="https://throneproj.github.io/fonts/geist-variable-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+  
+  <link rel="stylesheet" href="https://throneproj.github.io/assets/css/highlight/atom-one-dark.min.css">
+  <link rel="stylesheet" href="https://throneproj.github.io/css/style.css">
+  
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  
+<svg xmlns="http://www.w3.org/2000/svg" class="icon-sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 10a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+    <path d="M21 21l-6 -6" />
+  </symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M3 12h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7" />
+  </symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454l0 .008" />
+  </symbol>
+  <symbol id="i-contrast" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M12 17a5 5 0 0 0 0 -10v10" />
+  </symbol>
+  <symbol id="i-chevron-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M6 9l6 6l6 -6" />
+  </symbol>
+  <symbol id="i-menu-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 6l16 0" />
+    <path d="M4 12l16 0" />
+    <path d="M4 18l16 0" />
+  </symbol>
+  <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M18 6l-12 12" />
+    <path d="M6 6l12 12" />
+  </symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 9.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667l0 -8.666" />
+    <path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" />
+  </symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l5 5l10 -10" />
+  </symbol>
+  <symbol id="i-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l14 0" />
+    <path d="M13 18l6 -6" />
+    <path d="M13 6l6 6" />
+  </symbol>
+  <symbol id="i-arrow-up-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M17 7l-10 10" />
+    <path d="M8 7l9 0l0 9" />
+  </symbol>
+  <symbol id="i-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l14 0" />
+    <path d="M5 12l6 6" />
+    <path d="M5 12l6 -6" />
+  </symbol>
+  <symbol id="i-brand-github" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+  </symbol>
+  <symbol id="i-pencil" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+    <path d="M13.5 6.5l4 4" />
+  </symbol>
+  <symbol id="i-rocket" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 13a8 8 0 0 1 7 7a6 6 0 0 0 3 -5a9 9 0 0 0 6 -8a3 3 0 0 0 -3 -3a9 9 0 0 0 -8 6a6 6 0 0 0 -5 3" />
+    <path d="M7 14a6 6 0 0 0 -3 6a6 6 0 0 0 6 -3" />
+    <path d="M14 9a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+  </symbol>
+  <symbol id="i-terminal-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 9l3 3l-3 3" />
+    <path d="M13 15l3 0" />
+    <path d="M3 6a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2l0 -12" />
+  </symbol>
+  <symbol id="i-lifebuoy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M15 15l3.35 3.35" />
+    <path d="M9 15l-3.35 3.35" />
+    <path d="M5.65 5.65l3.35 3.35" />
+    <path d="M18.35 5.65l-3.35 3.35" />
+  </symbol>
+  <symbol id="i-list" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 6l11 0" />
+    <path d="M9 12l11 0" />
+    <path d="M9 18l11 0" />
+    <path d="M5 6l0 .01" />
+    <path d="M5 12l0 .01" />
+    <path d="M5 18l0 .01" />
+  </symbol>
+  <symbol id="i-code" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 8l-4 4l4 4" />
+    <path d="M17 8l4 4l-4 4" />
+    <path d="M14 4l-4 16" />
+  </symbol>
+  <symbol id="i-rss" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 19a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+    <path d="M4 4a16 16 0 0 1 16 16" />
+    <path d="M4 11a9 9 0 0 1 9 9" />
+  </symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12" />
+    <path d="M16 3v4" />
+    <path d="M8 3v4" />
+    <path d="M4 11h16" />
+    <path d="M11 15h1" />
+    <path d="M12 15v3" />
+  </symbol>
+</svg>
+
+<header class="site-header">
+  <div class="header-inner">
+    <button class="icon-btn hamburger" id="drawerToggle" aria-label="Open navigation" aria-expanded="false" aria-controls="sidebar">
+      <svg class="ic" aria-hidden="true"><use href="#i-menu-2"/></svg>
+    </button>
+
+    <a href="https://throneproj.github.io/" class="header-logo" aria-label="Throne homepage">
+      <img class="logo" src="https://throneproj.github.io/images/throne-logo.png" alt="Throne" width="1817" height="346">
+    </a>
+    <a class="header-version" href="https://github.com/throneproj/Throne/releases/tag/1.4.1" target="_blank" rel="noopener noreferrer">v1.4.1</a>
+
+    <nav class="header-nav" aria-label="Primary">
+      <a href="https://throneproj.github.io/get_started/">Get Started</a>
+      <a href="https://throneproj.github.io/downloads/">Downloads</a>
+    </nav>
+
+    <div class="header-right">
+      <button class="header-btn search-trigger" id="searchTrigger" aria-label="Search documentation">
+        <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+        <span>Search</span>
+        <kbd>Ctrl K</kbd>
+      </button>
+
+      
+      
+      <nav class="lang-switcher" aria-label="Language">
+        
+        <a href="https://throneproj.github.io/guides/testing/" hreflang="en" aria-current="true">EN</a>
+        
+        <a href="https://throneproj.github.io/fa/guides/testing/" hreflang="fa">FA</a>
+        
+        <a href="https://throneproj.github.io/ru/guides/testing/" hreflang="ru">RU</a>
+        
+        <a href="https://throneproj.github.io/zh/guides/testing/" hreflang="zh">ZH</a>
+        
+      </nav>
+      
+
+      <a class="icon-btn" href="https://github.com/throneproj/Throne" target="_blank" rel="noopener noreferrer" aria-label="Throne on GitHub">
+        <svg class="ic" aria-hidden="true"><use href="#i-brand-github"/></svg>
+      </a>
+
+      
+      <button class="icon-btn theme-toggle" id="themeToggle" data-mode="auto" type="button" aria-label="Theme">
+        <svg class="ic ic-auto" aria-hidden="true"><use href="#i-contrast"/></svg>
+        <svg class="ic ic-light" aria-hidden="true"><use href="#i-sun"/></svg>
+        <svg class="ic ic-dark" aria-hidden="true"><use href="#i-moon"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+<div class="search-overlay" id="searchOverlay" role="dialog" aria-modal="true" aria-label="Search documentation" hidden>
+  <div class="search-modal">
+    <div class="search-input-wrap">
+      <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+      <input type="search" id="searchInput" aria-label="Search documentation" placeholder="Search the docs" autocomplete="off" spellcheck="false">
+      <kbd id="searchClose" role="button" tabindex="0">Esc</kbd>
+    </div>
+    <div class="search-results" id="searchResults" role="listbox" aria-label="Search"></div>
+  </div>
+</div>
+<div class="docs-container">
+<div class="drawer-scrim" id="drawerScrim"></div>
+<aside class="docs-sidebar" id="sidebar">
+  <nav class="sidebar-nav" aria-label="Documentation">
+
+    
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Get Started</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/get_started/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/get_started/installation/">Installation</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/get_started/configuration/">Quick Start</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group" open>
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Guides</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/guides/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/subscriptions/">Subscriptions & Groups</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/proxy_modes/">System Proxy, TUN & LAN</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/tun_mode/">TUN Mode</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/routing/">Routing</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/dns/">DNS</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/testing/" aria-current="page">Testing & Auto Selector</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/backup/">Backup, Updates & Migration</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/recipes/">Recipes</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Throne for Android</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/android/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/installation/">Installation & Upgrade</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/permissions/">Permissions & Background</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/modes/">VPN & Proxy Modes</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/widgets/">Widgets, Tile & Automation</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/tv/">Android TV</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/troubleshooting/">Troubleshooting</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Headless Throne</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/headless/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/headless/installation/">Installation & Services</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/headless/thronectl/">Managing with thronectl</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/headless/web/">Web UI</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/headless/command_line/">Command Line & Data Directory</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/headless/monitoring/">Health Checks & Logs</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/headless/recovery/">Lockout Protection & Recovery</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/headless/troubleshooting/">Troubleshooting</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Advanced Configuration</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/xray/">sing-box vs Xray</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/chains/">Chains & Custom Configs</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/presets/">Anti-Censorship Presets</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/warp/">Cloudflare WARP</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/dns_tunnels/">DNS Tunnels</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/vpn_profiles/">OpenVPN, OpenConnect & Tailscale</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/windows_tun_mode/">Windows DNS Leak Protection</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/kill_switch/">Kill Switch</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/deeplinks/">Deep Links</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/api/">Throne API & thronectl</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Reference</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/reference/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/reference/protocols/">Protocols & Import Formats</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/reference/shortcuts/">Keyboard Shortcuts & Tray</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/reference/files/">Command Line, Files & Logs</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/reference/privacy/">Privacy & Network Requests</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/reference/glossary/">Glossary</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Help</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/help/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/help/faq/">FAQ</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/help/troubleshooting/">Troubleshooting</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/help/bug_reports/">Reporting a Bug</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/help/migrating/">Coming from Nekoray / NekoBox</a></li>
+        
+        
+      </ul>
+    </details>
+    
+
+  </nav>
+</aside>
+  <main id="main" class="docs-main">
+    <article>
+      <h1 class="docs-title">Testing &amp; Auto Selector</h1>
+      <p class="docs-lede">Test profiles, sort and clean up the list, let the auto selector pick the best server, and scan for working IP addresses and DNS resolvers.</p>
+      <div class="prose">
+        <p>Tests do not stop the running profile. They skip auto selectors; test the groups that an auto selector uses instead.</p>
+<h2 id="url-test">URL test</h2>
+<p>The URL test checks that a profile works and measures its latency. Throne requests the <code>Latency Test URL</code> through the profile twice and shows how long the second request took.</p>
+<ul>
+<li><strong>Selected profiles:</strong> right-click them and choose <code>Url Test Selected</code> (<code>Ctrl+Shift+S</code>).</li>
+<li><strong>The whole group:</strong> choose <code>Groups</code> → <code>Url Test Group</code> (<code>Ctrl+Shift+G</code>).</li>
+<li><strong>The running profile:</strong> click its name at the left of the status bar. The result appears in the status bar.</li>
+</ul>
+<p><code>Stop Testing</code> (<code>Ctrl+.</code>) stops a running test.</p>
+<p>The <code>Test Result</code> column shows the latency (green up to 100 ms, yellow up to 300 ms, red above), <code>Unavailable</code> when the test failed (the log has a <code>test error</code> line with the reason), or <code>Connect OK</code> when an OpenVPN or OpenConnect profile connected but the test URL did not answer through it.</p>
+<p>The settings are in <code>Settings</code> → <code>Basic Settings</code> → <code>Common</code>, under <code>Testing</code>. In Simple mode, only <code>Latency Test URL</code> and <code>Look up exit country</code> are shown (see <a href="/get_started/configuration/#interface-mode">Simple and Advanced mode</a>).</p>
+<table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>Default</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Latency Test URL</code></td>
+<td><code>http://cp.cloudflare.com/</code></td>
+<td>The address requested through each profile.</td>
+</tr>
+<tr>
+<td><code>Timeout</code> (next to <code>Concurrency</code>)</td>
+<td><code>3000</code> ms</td>
+<td>The time limit for each request. Too low a value fails profiles with multiplexing, whose first request takes longer.</td>
+</tr>
+<tr>
+<td><code>Concurrency</code></td>
+<td><code>10</code></td>
+<td>How many profiles are tested at the same time.</td>
+</tr>
+<tr>
+<td><code>Direct Test URL</code></td>
+<td>empty</td>
+<td>An address that works without a proxy on your network. The auto selector fetches it directly to tell a dead Internet connection from dead servers. Empty uses the network state of the operating system.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="ip-test">IP and country test</h2>
+<p>This test shows the exit IP address of each profile and its country: the address that websites see. Right-click profiles and choose <code>Resolve Selected Out IP</code>, or choose <code>Groups</code> → <code>Resolve out IP for group</code> (Advanced mode only). The <code>Test Result</code> column then shows the country flag, and the exit IP if <code>Out IP</code> is included (see <a href="#sort-filter">Sort and filter</a>). The country filter and the auto selector's <code>Only countries</code> use this country.</p>
+<p>After a profile starts, Throne also shows the country and city of its exit at the bottom left of the window and in the window title. In the <code>Testing</code> settings, <code>Look up exit country</code> turns this off and <code>Lookup service</code> chooses the service; <code>Automatic</code> starts with IP2Location.io, which the IP test also uses. For the services Throne contacts, see <a href="/reference/privacy/#network-requests">Privacy</a>.</p>
+<h2 id="speed-test">Speed test</h2>
+<p>The speed test measures the download and upload speed of a profile.</p>
+<ul>
+<li><strong>Selected profiles:</strong> right-click them and choose <code>Speedtest Selected</code> (<code>Ctrl+Shift+P</code>).</li>
+<li><strong>The whole group:</strong> choose <code>Groups</code> → <code>Speedtest Group</code> (<code>Ctrl+Alt+P</code>).</li>
+<li><strong>The live connection:</strong> while a profile runs, choose <code>Tools</code> → <code>Speedtest Current</code> (<code>F6</code>).</li>
+</ul>
+<p>Throne tests the profiles one at a time. The <code>Test Result</code> column shows the download speed after <code>↓</code> and the upload speed after <code>↑</code>, if <code>Speed</code> is included.</p>
+<p><code>Settings</code> → <code>Basic Settings</code> → <code>Common</code> → <code>Speedtest mode</code> chooses what the test does: <code>Download + Upload</code> (default), <code>Only Download</code>, <code>Only Upload</code>, <code>Simple Download</code> (fetches the <code>Simple Download URL</code> without a server search) or <code>Only Country</code>, which only finds the nearest Speedtest server and shows its country: fast, with almost no data, many profiles at once. The <code>Timeout</code> next to it (default <code>5000</code> ms) limits each part of the test.</p>
+<aside class="callout callout--warning">
+  <span class="callout-label">Warning</span>
+  <p>A speed test transfers as much data as it can until the timeout, for every profile. Testing a large group can use a lot of data.</p>
+
+</aside>
+<h2 id="sort-filter">Sort and filter</h2>
+<p>Click a column header to sort by it, and click it again to reverse the order. Sorting by latency puts the fastest profiles first, then failed ones, then untested ones. The group stays sorted, also after tests, subscription updates and imports, until you right-click a column header and choose <code>Stop Sorting</code>, or drag a row to another place.</p>
+<p>Right-click the <code>Test Result</code> header to choose what the column shows (<code>Out IP</code>, <code>Speed</code>) and what it sorts by (<code>Latency</code>, <code>Download Speed</code>, <code>Upload Speed</code>, <code>IP Out</code>).</p>
+<p>To filter the list, press <code>Ctrl+F</code> and type in the field under <code>Type</code>, <code>Address</code> or <code>Name</code>, or in <code>Filter by country...</code> under <code>Test Result</code>. In the <code>Address</code> field, <code>port=443</code> shows the profiles on port 443 and <code>port=1000:2000</code> those on ports 1000 to 2000. The country field matches the country code from the IP or speed test, such as <code>DE</code>. Press <code>Ctrl+F</code> again to hide and clear the fields.</p>
+<h2 id="clean-up">Clean up</h2>
+<p><code>Groups</code> → <code>Clean up</code>, also in the right-click menu of the group's tab, removes profiles from the current group:</p>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Shortcut</th>
+<th>What it removes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Remove Duplicates</code></td>
+<td><code>Ctrl+Shift+D</code></td>
+<td>Exact copies of an earlier profile, including the name.</td>
+</tr>
+<tr>
+<td><code>Remove Unavailable</code></td>
+<td><code>Ctrl+Shift+R</code></td>
+<td>Profiles whose last test failed. Never the running profile.</td>
+</tr>
+<tr>
+<td><code>Remove Invalid</code></td>
+<td><code>Ctrl+Alt+I</code></td>
+<td>Profiles that the core rejects as invalid.</td>
+</tr>
+<tr>
+<td><code>Remove Insecure Configs</code></td>
+<td>–</td>
+<td>Profiles without encryption, with TLS that does not check certificates, or with old Shadowsocks ciphers.</td>
+</tr>
+</tbody>
+</table>
+<p>The other commands stop the running profile if they remove it. <code>Groups</code> → <code>Clear Group test result</code> (<code>Ctrl+Shift+C</code>) clears only the test results.</p>
+<p>To see which profiles count as insecure, turn on <code>Settings</code> → <code>Basic Settings</code> → <code>Style</code> → <code>Show Config Security</code> (Advanced mode only): insecure profiles then get a warning sign in the <code>Type</code> column.</p>
+<p>To clean up automatically, use the group option <code>Auto Clear Unavailable Profiles</code>, which deletes failed profiles after every URL test of the group, or the <a href="/guides/subscriptions/#after-update">After each update</a> options of a subscription group, which can also test and sort it.</p>
+<h2 id="auto-selector">Auto selector</h2>
+<p>An auto selector is a profile that picks the best working profile from one or more groups, keeps checking the others, and switches when the current one gets worse or fails. New servers from a subscription update join it by themselves.</p>
+<ol>
+<li>Select the tab of the group it should use.</li>
+<li>Choose <code>Program</code> → <code>New profile</code> (<code>Ctrl+N</code>). The editor opens with <code>Auto Selector</code> as the <code>Type</code>.</li>
+<li>Enter a <code>Name</code>.</li>
+<li>In <code>Servers from</code>, check the groups to pick from. The current group is already checked.</li>
+<li>Click <code>OK</code>, then start the new profile like any other.</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Servers from</code></td>
+<td>The groups whose profiles are used. Profiles from all checked groups are ranked together.</td>
+</tr>
+<tr>
+<td><code>Only names matching</code></td>
+<td>An optional regular expression; only profiles whose name matches are used. It matches anywhere in the name and ignores case: <code>germany|nl</code> uses every name that contains <code>germany</code> or <code>nl</code>, and <code>^(?!.*(germany|🇩🇪)).*$</code> every name that contains neither <code>germany</code> nor 🇩🇪.</td>
+</tr>
+<tr>
+<td><code>Share traffic between the best profiles</code></td>
+<td>Off (default): one profile carries all traffic and the other ready profiles stand by. On: traffic is spread over the working profiles.</td>
+</tr>
+<tr>
+<td><code>Preferred profile</code></td>
+<td>Appears after you chose a profile with <code>Use this profile</code> in the stats window. <code>Use automatic</code> returns the choice to the auto selector.</td>
+</tr>
+</tbody>
+</table>
+<p>Each profile goes through the <code>Front Proxy</code> and <code>Landing Proxy</code> of its own group, as if you started it on its own; those of the auto selector's group do not apply.</p>
+<p><code>Advanced…</code> has more options, each with a working default and a tooltip. The ones most often changed:</p>
+<table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>Default</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Only countries</code></td>
+<td>empty</td>
+<td>Country codes such as <code>DE,NL,FR</code>. <code>!</code> leaves a country out: <code>!RU,!IR</code> uses every country except these two. Uses the country found by the IP test or the speed test, so profiles without one are skipped while this is set.</td>
+</tr>
+<tr>
+<td><code>Run the best</code></td>
+<td>300 profiles</td>
+<td>How many profiles are loaded into the running config. The auto selector switches between them without reconnecting.</td>
+</tr>
+<tr>
+<td><code>Switch tolerance</code></td>
+<td>300 ms</td>
+<td>How much faster another profile must be before the auto selector switches to it.</td>
+</tr>
+<tr>
+<td><code>Maximum latency</code></td>
+<td>no limit</td>
+<td>Profiles slower than this are never chosen.</td>
+</tr>
+<tr>
+<td><code>Drop connections on switch</code></td>
+<td>on</td>
+<td>After a switch caused by a problem, on moves all connections to the new profile at once; off lets open downloads finish on the old one.</td>
+</tr>
+<tr>
+<td><code>Mode</code></td>
+<td><code>Rotate on a timer (keeps sessions stable)</code></td>
+<td>Used with <code>Share traffic between the best profiles</code>. With <code>Per connection (widest spread)</code>, your exit IP can change during a session.</td>
+</tr>
+</tbody>
+</table>
+<p>With more usable profiles than <code>Run the best</code>, the auto selector first URL-tests those without a result from the last <code>Trust results for</code> minutes (default 1440) and loads the best. It starts as soon as a few of them work, finishes the tests in the background and restarts once if the ranking changed. If all running profiles fail, it rebuilds from the next best ones. It pauses while your computer is offline. Its log lines start with <code>[Auto selector]</code>.</p>
+<p>While an auto selector runs, <code>Tools</code> → <code>Auto Selector Stats</code> shows the status and latency of each profile. <code>Use this profile</code> keeps the selected profile in use, <code>Back to automatic</code> lets the ranking choose again, and <code>Check all now</code> measures all running profiles at once.</p>
+<p>Limits:</p>
+<ul>
+<li>An auto selector cannot be a hop in a chain, or a <code>Front Proxy</code> or <code>Landing Proxy</code>.</li>
+<li>It skips chains, other auto selectors, OpenVPN, OpenConnect, Tailscale, Extra Core, sing-box full configs, custom configs that cannot be read, and Xray full configs that cannot be combined with the front or landing proxy of their group.</li>
+</ul>
+<h2 id="ip-scanner">IP scanner</h2>
+<p><code>Tools</code> → <code>IP Scanner</code> (Advanced mode only, see <a href="/get_started/configuration/#interface-mode">Simple and Advanced mode</a>) checks lists of IP addresses and keeps the ones that work from your network: an unblocked address of the CDN your servers are behind, a working Cloudflare WARP endpoint, or DNS resolvers for a DNS tunnel. The results form an IP list, which a group or a profile can use as its <a href="/guides/subscriptions/#server-address">server address</a>.</p>
+<ol>
+<li>Click <code>New scan</code>, enter a <code>Name</code> and choose the kind of scan:
+<ul>
+<li><code>Generic scan</code> checks addresses with ping, TCP, TLS or HTTP, optionally through one of your profiles.</li>
+<li><code>WARP scan</code> finds WARP endpoints that complete a WireGuard, AmneziaWG or MASQUE connection.</li>
+<li><code>DNS resolver scan</code> finds resolvers for a DNS tunnel profile; see <a href="#dns-scan">DNS resolver scans</a>.</li>
+</ul>
+</li>
+<li>Click <code>OK</code>. The scan's window opens.</li>
+<li>Set the targets on the <code>Targets</code> tab and the checks on the <code>Phases</code> tab.</li>
+<li>Click <code>Start</code>. The <code>Results</code> tab fills as addresses pass.</li>
+</ol>
+<p>A scan keeps running when you close its window.</p>
+<p>On the <code>Targets</code> tab:</p>
+<ul>
+<li><code>Base IP list</code> holds the addresses to scan; <code>Manage</code> opens the <a href="#ip-lists">IP lists</a>. In a WARP scan, <code>Use built-in WARP ranges</code> picks the list and ports for the selected WARP mode.</li>
+<li><code>Ports</code> are merged with the ports stored in the list, unless you choose otherwise next to them. Addresses left without a port are scanned on port 443, or 80 for plain HTTP.</li>
+<li><code>Stop after (results)</code> completes the scan after that many results. <code>Concurrency</code> sets how many addresses are checked at the same time.</li>
+<li>IPv6 addresses are skipped unless you tick <code>Scan IPv6 addresses</code>.</li>
+</ul>
+<p>The <code>Phases</code> tab has the checks. An address must pass every check that is on, in this order:</p>
+<table>
+<thead>
+<tr>
+<th>Phase</th>
+<th>Default</th>
+<th>What it checks</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ICMP (ping)</code></td>
+<td>off</td>
+<td>The address answers ping.</td>
+</tr>
+<tr>
+<td><code>TCP connect</code></td>
+<td>on</td>
+<td>The port accepts a TCP connection. Generic scans only.</td>
+</tr>
+<tr>
+<td><code>TLS / HTTP</code></td>
+<td>off</td>
+<td>A TLS handshake succeeds and, unless <code>Method</code> is <code>None (TLS handshake only)</code>, an HTTP request gets the answer 200 OK. Generic scans only.</td>
+</tr>
+<tr>
+<td><code>Config test</code></td>
+<td>off</td>
+<td>A copy of the chosen <code>Profile</code>, pointed at the address, loads the <code>Test URL</code>. This finds addresses that really work for your server, such as CDN addresses. Generic scans only.</td>
+</tr>
+<tr>
+<td><code>WARP test</code></td>
+<td>on</td>
+<td>A WARP connection through the address works, in the chosen <code>Mode</code>: <code>WireGuard</code>, <code>AmneziaWG</code> or <code>MASQUE</code>. WARP scans only.</td>
+</tr>
+</tbody>
+</table>
+<p>The <code>WARP test</code> needs a WARP identity. The default, <code>Dedicated for this scan (recommended)</code>, needs one click on <code>Register</code>, which registers a new WARP device with Cloudflare.</p>
+<p>On the <code>Results</code> tab, <code>Save as IP list</code> copies the results into a new IP list.</p>
+<p>When a scan has results, <code>Start</code> asks what to do: <code>Scan from the beginning</code> clears the results and scans the base list again; <code>Rescan current results</code> checks only the results and removes the ones that stopped working.</p>
+<h3 id="dns-scan">DNS resolver scans</h3>
+<p>A DNS resolver scan finds resolvers that relay the tunnel of one of your <a href="/advanced/dns_tunnels/">DNS tunnel</a> profiles: DNSTT (also in VayDNS mode), MasterDNS, or VLESS (Xray) with XDNS. It tries each address of the base list as the only resolver of that profile and keeps the ones that pass.</p>
+<p>To create one, choose <code>DNS resolver scan</code> in <code>New scan</code>, or click <code>Find resolvers…</code> next to <code>IP list</code> in the editor of a saved DNS tunnel profile, which opens or creates a scan for it. The scan tests the profile as it was last saved.</p>
+<p>On the <code>Targets</code> tab, choose the resolvers to try as the <code>Base IP list</code>, such as <code>Iran DNS resolvers</code> or <code>Russia DNS resolvers</code>. There is no <code>Ports</code> field: each address is tried on the port stored in the list, or on port 53.</p>
+<p>The <code>Phases</code> tab has one check, <code>DNS tunnel test</code>, with the <code>Profile</code>, the <code>Test</code> and a <code>Timeout (ms)</code> for the whole test of one resolver. Each test also does the checks of the tests above it for the same kind of profile:</p>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Profiles</th>
+<th>What it checks</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Poll: relays one tunnel query</code></td>
+<td>DNSTT, XDNS</td>
+<td>The resolver passes one tunnel query to the tunnel server and returns a valid answer.</td>
+</tr>
+<tr>
+<td><code>Query names: also relays names as long as the profile sends</code> (default)</td>
+<td>DNSTT, XDNS</td>
+<td>The resolver also relays query names as long as the profile&#39;s. The scan finds the longest name it relays.</td>
+</tr>
+<tr>
+<td><code>Handshake: also opens a tunnel session</code></td>
+<td>DNSTT</td>
+<td>A tunnel session with the server opens through the resolver.</td>
+</tr>
+<tr>
+<td><code>Quick: relays the smallest packets</code> (default)</td>
+<td>MasterDNS</td>
+<td>The resolver relays queries and answers of the smallest size the profile needs.</td>
+</tr>
+<tr>
+<td><code>Full: also measures the upload and download MTU</code></td>
+<td>MasterDNS</td>
+<td>The scan also finds the largest query and answer that the resolver relays.</td>
+</tr>
+</tbody>
+</table>
+<p>On the <code>Results</code> tab, <code>Latency</code> is how long the resolver took to answer. <code>Max QNAME</code> (DNSTT and XDNS) is the longest query name it relays, in the units of <code>Max QNAME Length</code> for DNSTT and of <code>lenLimit</code> for XDNS. <code>Upload MTU</code> and <code>Download MTU</code> (MasterDNS) are the largest payloads per query and per answer. Resolvers that fail are not kept; the log shows where each one stopped.</p>
+<p>Click <code>Use as resolvers</code> on the <code>Results</code> tab to make the scan's result list the profile's <code>IP list</code>. The resolvers typed in the profile stay and are used first. The profile reads the list each time it starts, so it follows the scan: <code>Scan from the beginning</code> empties the list, and <code>Rescan current results</code> removes resolvers that stopped working. For a fixed set, click <code>Save as IP list</code> and choose that list as the profile's <code>IP list</code> instead.</p>
+<h3 id="ip-lists">IP lists</h3>
+<p>Click <code>IP Lists</code> in the <code>IP Scanner</code> window to manage the lists that scans read and that groups and profiles use. Throne comes with <code>Cloudflare CDN</code>, <code>Fastly CDN</code>, <code>Gcore CDN</code>, <code>Cloudflare WARP (WireGuard)</code>, <code>Cloudflare WARP (MASQUE)</code>, <code>Iran DNS resolvers</code> and <code>Russia DNS resolvers</code>. <code>Import</code> → <code>Add default lists</code> restores them.</p>
+<ul>
+<li><code>New</code> creates a list. Its <code>Source</code> is <code>Manual</code> (you write the entries), <code>URL</code> (an address that Throne downloads) or <code>Rule-set</code> (the IP ranges of a rule-set such as <code>geoip-ir</code>, or a rule-set URL). A <code>URL</code> or <code>Rule-set</code> list can update itself with <code>Auto update</code>, at most once every 30 minutes.</li>
+<li>Write one entry per line, for example <code>1.2.3.4</code>, <code>1.2.3.0/24</code>, <code>1.2.3.4:443</code>, <code>[2606:4700::1]:443</code>, <code>1.2.3.0/24 443</code> or <code>1.2.3.1-1.2.3.9</code>.</li>
+</ul>
+<p>The results of each scan are a list too, named &quot;Result of scan&quot; and the scan's name. A group or a profile can use it directly, but <code>Scan from the beginning</code> empties it; use <code>Save as IP list</code> for a list that stays as it is.</p>
+<h2 id="android">On Android</h2>
+<p>Throne for Android has the same tests and the same auto selector. The differences:</p>
+<ul>
+<li><strong>Menus.</strong> On the Profiles screen, the <code>⋮</code> menu has <code>Test</code> (<code>URL test</code>, <code>IP &amp; country test</code>, <code>Speed test</code>, <code>Stop testing</code>), <code>Remove</code> and <code>Sort</code>. For selected profiles, use <code>Test</code> in the selection menu; for one profile, its <code>⋮</code> button.</li>
+<li><strong>Test panel.</strong> A panel shows the progress and results of a test, with actions such as <code>Sort by latency</code>, <code>Remove unavailable</code> and <code>Connect to fastest</code>.</li>
+<li><strong>Live connection.</strong> While connected, tap the statistics bar to test the connection. Touch and hold it for <code>Live graphs</code> and <code>Speed test current connection</code>. The bar also shows the exit country; <code>Settings</code> → <code>Testing</code> has <code>Look up exit country</code> and <code>Lookup service</code>.</li>
+<li><strong>Auto selector.</strong> Create it with <code>Add profile</code> → <code>Manual settings</code> → <code>Auto selector</code>. Tap its status line on the Profiles screen to open <code>Auto selector stats</code>.</li>
+<li><strong>IP scanner.</strong> Not available on Android.</li>
+</ul>
+
+      </div>
+      
+      
+      
+      <footer class="docs-article-footer">
+        
+        <a class="edit-link" href="https://github.com/throneproj/throneproj.github.io/edit/main/content/guides/testing.md" target="_blank" rel="noopener noreferrer">
+        
+          <svg class="ic" aria-hidden="true"><use href="#i-pencil"/></svg>
+          Edit this page on GitHub
+        </a>
+        
+
+<nav class="prev-next" aria-label="Page navigation">
+  
+  <a class="prevnext-prev" href="https://throneproj.github.io/guides/dns/">
+    <span class="prevnext-dir">Previous</span>
+    DNS
+  </a>
+  
+  
+  <a class="prevnext-next" href="https://throneproj.github.io/guides/backup/">
+    <span class="prevnext-dir">Next</span>
+    Backup, Updates & Migration
+  </a>
+  
+</nav>
+
+      </footer>
+    </article>
+  </main>
+  
+<nav class="docs-toc" aria-label="On this page">
+  <p class="docs-toc-title">
+    <svg class="ic" aria-hidden="true"><use href="#i-list"/></svg>
+    On this page
+  </p>
+  <ul><li><a href="#url-test">URL test</a></li><li><a href="#ip-test">IP and country test</a></li><li><a href="#speed-test">Speed test</a></li><li><a href="#sort-filter">Sort and filter</a></li><li><a href="#clean-up">Clean up</a></li><li><a href="#auto-selector">Auto selector</a></li><li><a href="#ip-scanner">IP scanner</a><ul><li><a href="#dns-scan">DNS resolver scans</a></li><li><a href="#ip-lists">IP lists</a></li></ul></li><li><a href="#android">On Android</a></li></ul>
+</nav>
+
+    </main>
+  </div>
+
+  
+<script src="https://throneproj.github.io/assets/js/highlight.min.js" defer></script>
+<script>
+  window.NOIR_BASE = "https://throneproj.github.io";
+  
+  window.NOIR_I18N = {
+    copy: "Copy",
+    copied: "Copied",
+    copyManual: "Press Ctrl C",
+    noResults: "No results for",
+    theme: "Theme",
+    themeAuto: "auto",
+    themeLight: "light",
+    themeDark: "dark"
+  };
+</script>
+<script src="https://throneproj.github.io/js/theme.js" defer></script>
+<script src="https://throneproj.github.io/js/nav.js" defer></script>
+<script src="https://throneproj.github.io/js/code.js" defer></script>
+<script src="https://throneproj.github.io/js/toc.js" defer></script>
+<script src="https://throneproj.github.io/js/reveal.js" defer></script>
+<script src="https://throneproj.github.io/js/mermaid.js" defer></script>
+<script src="https://throneproj.github.io/js/search.js" defer></script>
+
+</body>
+</html>

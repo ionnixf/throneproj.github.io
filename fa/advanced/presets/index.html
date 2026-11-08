@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" >
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="کارکرد TLS fragment، TLS tricks، uTLS، Multiplex، ECH و TLS spoof، زمانی که کمک می‌کنند و هزینهٔ آن‌ها.">
+  <title>پیش‌تنظیم‌های ضدسانسور - Throne</title>
+
+  
+  <meta name="theme-color" content="#0b0b0c" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#fbfbfa" media="(prefers-color-scheme: light)">
+
+  
+  <script>
+    (function () {
+      var r = document.documentElement;
+      r.classList.add("js");
+      try {
+        var t = localStorage.getItem("throne-theme");
+        if (t === "light" || t === "dark") r.setAttribute("data-theme", t);
+      } catch (e) {}
+    })();
+  </script>
+
+  <meta name="google-site-verification" content="Zzz4doeS45o-EhP56mm1yoyfHSEEZJRJJt0tfj7vPGM" />
+  <script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+      m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+      m[i].l=1*new Date();
+      for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+      k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=111847353', 'ym');
+
+    
+    ym(111847353, 'init', {ssr:true, webvisor:false, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/111847353" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+
+  <meta property="og:title" content="پیش‌تنظیم‌های ضدسانسور">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://throneproj.github.io/fa/advanced/presets/">
+  <meta property="og:description" content="کارکرد TLS fragment، TLS tricks، uTLS، Multiplex، ECH و TLS spoof، زمانی که کمک می‌کنند و هزینهٔ آن‌ها.">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="پیش‌تنظیم‌های ضدسانسور">
+  <meta name="twitter:description" content="کارکرد TLS fragment، TLS tricks، uTLS، Multiplex، ECH و TLS spoof، زمانی که کمک می‌کنند و هزینهٔ آن‌ها.">
+  <link rel="canonical" href="https://throneproj.github.io/fa/advanced/presets/">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"پیش‌تنظیم‌های ضدسانسور","url":"https://throneproj.github.io/fa/advanced/presets/","description":"کارکرد TLS fragment، TLS tricks، uTLS، Multiplex، ECH و TLS spoof، زمانی که کمک می‌کنند و هزینهٔ آن‌ها."}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Throne","item":"https://throneproj.github.io/fa/"},{"@type":"ListItem","position":2,"name":"پیکربندی پیشرفته","item":"https://throneproj.github.io/fa/advanced/"},{"@type":"ListItem","position":3,"name":"پیش‌تنظیم‌های ضدسانسور"}]}</script>
+  <link rel="alternate" hreflang="fa" href="https://throneproj.github.io/fa/advanced/presets/">
+<link rel="alternate" hreflang="en" href="https://throneproj.github.io/advanced/presets/">
+<link rel="alternate" hreflang="ru" href="https://throneproj.github.io/ru/advanced/presets/">
+<link rel="alternate" hreflang="zh" href="https://throneproj.github.io/zh/advanced/presets/">
+<link rel="alternate" hreflang="x-default" href="https://throneproj.github.io/advanced/presets/">
+
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon.ico" sizes="any">
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon-96x96.png" type="image/png" sizes="96x96">
+  <link rel="apple-touch-icon" href="https://throneproj.github.io/logos/apple-touch-icon.png">
+  <link rel="manifest" href="https://throneproj.github.io/logos/site.webmanifest">
+
+  <link rel="preload" href="https://throneproj.github.io/fonts/geist-variable-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+  
+  <link rel="stylesheet" href="https://throneproj.github.io/assets/css/highlight/atom-one-dark.min.css">
+  <link rel="stylesheet" href="https://throneproj.github.io/css/style.css">
+  
+</head>
+<body>
+  <a class="skip-link" href="#main">پرش به محتوای اصلی</a>
+  
+<svg xmlns="http://www.w3.org/2000/svg" class="icon-sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 10a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+    <path d="M21 21l-6 -6" />
+  </symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M3 12h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7" />
+  </symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454l0 .008" />
+  </symbol>
+  <symbol id="i-contrast" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M12 17a5 5 0 0 0 0 -10v10" />
+  </symbol>
+  <symbol id="i-chevron-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M6 9l6 6l6 -6" />
+  </symbol>
+  <symbol id="i-menu-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 6l16 0" />
+    <path d="M4 12l16 0" />
+    <path d="M4 18l16 0" />
+  </symbol>
+  <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M18 6l-12 12" />
+    <path d="M6 6l12 12" />
+  </symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 9.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667l0 -8.666" />
+    <path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" />
+  </symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l5 5l10 -10" />
+  </symbol>
+  <symbol id="i-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l14 0" />
+    <path d="M13 18l6 -6" />
+    <path d="M13 6l6 6" />
+  </symbol>
+  <symbol id="i-arrow-up-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M17 7l-10 10" />
+    <path d="M8 7l9 0l0 9" />
+  </symbol>
+  <symbol id="i-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l14 0" />
+    <path d="M5 12l6 6" />
+    <path d="M5 12l6 -6" />
+  </symbol>
+  <symbol id="i-brand-github" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+  </symbol>
+  <symbol id="i-pencil" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+    <path d="M13.5 6.5l4 4" />
+  </symbol>
+  <symbol id="i-rocket" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 13a8 8 0 0 1 7 7a6 6 0 0 0 3 -5a9 9 0 0 0 6 -8a3 3 0 0 0 -3 -3a9 9 0 0 0 -8 6a6 6 0 0 0 -5 3" />
+    <path d="M7 14a6 6 0 0 0 -3 6a6 6 0 0 0 6 -3" />
+    <path d="M14 9a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+  </symbol>
+  <symbol id="i-terminal-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 9l3 3l-3 3" />
+    <path d="M13 15l3 0" />
+    <path d="M3 6a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2l0 -12" />
+  </symbol>
+  <symbol id="i-lifebuoy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M15 15l3.35 3.35" />
+    <path d="M9 15l-3.35 3.35" />
+    <path d="M5.65 5.65l3.35 3.35" />
+    <path d="M18.35 5.65l-3.35 3.35" />
+  </symbol>
+  <symbol id="i-list" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 6l11 0" />
+    <path d="M9 12l11 0" />
+    <path d="M9 18l11 0" />
+    <path d="M5 6l0 .01" />
+    <path d="M5 12l0 .01" />
+    <path d="M5 18l0 .01" />
+  </symbol>
+  <symbol id="i-code" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 8l-4 4l4 4" />
+    <path d="M17 8l4 4l-4 4" />
+    <path d="M14 4l-4 16" />
+  </symbol>
+  <symbol id="i-rss" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 19a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+    <path d="M4 4a16 16 0 0 1 16 16" />
+    <path d="M4 11a9 9 0 0 1 9 9" />
+  </symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12" />
+    <path d="M16 3v4" />
+    <path d="M8 3v4" />
+    <path d="M4 11h16" />
+    <path d="M11 15h1" />
+    <path d="M12 15v3" />
+  </symbol>
+</svg>
+
+<header class="site-header">
+  <div class="header-inner">
+    <button class="icon-btn hamburger" id="drawerToggle" aria-label="باز کردن منو" aria-expanded="false" aria-controls="sidebar">
+      <svg class="ic" aria-hidden="true"><use href="#i-menu-2"/></svg>
+    </button>
+
+    <a href="https://throneproj.github.io/fa/" class="header-logo" aria-label="صفحه اصلی Throne">
+      <img class="logo" src="https://throneproj.github.io/images/throne-logo.png" alt="Throne" width="1817" height="346">
+    </a>
+    <a class="header-version" href="https://github.com/throneproj/Throne/releases/tag/1.4.1" target="_blank" rel="noopener noreferrer">v1.4.1</a>
+
+    <nav class="header-nav" aria-label="اصلی">
+      <a href="https://throneproj.github.io/fa/get_started/">شروع کار</a>
+      <a href="https://throneproj.github.io/fa/downloads/">دانلود</a>
+    </nav>
+
+    <div class="header-right">
+      <button class="header-btn search-trigger" id="searchTrigger" aria-label="جستجو در مستندات">
+        <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+        <span>جستجو</span>
+        <kbd>Ctrl K</kbd>
+      </button>
+
+      
+      
+      <nav class="lang-switcher" aria-label="زبان">
+        
+        <a href="https://throneproj.github.io/advanced/presets/" hreflang="en">EN</a>
+        
+        <a href="https://throneproj.github.io/fa/advanced/presets/" hreflang="fa" aria-current="true">FA</a>
+        
+        <a href="https://throneproj.github.io/ru/advanced/presets/" hreflang="ru">RU</a>
+        
+        <a href="https://throneproj.github.io/zh/advanced/presets/" hreflang="zh">ZH</a>
+        
+      </nav>
+      
+
+      <a class="icon-btn" href="https://github.com/throneproj/Throne" target="_blank" rel="noopener noreferrer" aria-label="Throne در GitHub">
+        <svg class="ic" aria-hidden="true"><use href="#i-brand-github"/></svg>
+      </a>
+
+      
+      <button class="icon-btn theme-toggle" id="themeToggle" data-mode="auto" type="button" aria-label="تم">
+        <svg class="ic ic-auto" aria-hidden="true"><use href="#i-contrast"/></svg>
+        <svg class="ic ic-light" aria-hidden="true"><use href="#i-sun"/></svg>
+        <svg class="ic ic-dark" aria-hidden="true"><use href="#i-moon"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+<div class="search-overlay" id="searchOverlay" role="dialog" aria-modal="true" aria-label="جستجو در مستندات" hidden>
+  <div class="search-modal">
+    <div class="search-input-wrap">
+      <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+      <input type="search" id="searchInput" aria-label="جستجو در مستندات" placeholder="جستجو در مستندات" autocomplete="off" spellcheck="false">
+      <kbd id="searchClose" role="button" tabindex="0">Esc</kbd>
+    </div>
+    <div class="search-results" id="searchResults" role="listbox" aria-label="جستجو"></div>
+  </div>
+</div>
+<div class="docs-container">
+<div class="drawer-scrim" id="drawerScrim"></div>
+<aside class="docs-sidebar" id="sidebar">
+  <nav class="sidebar-nav" aria-label="مسیریابی مستندات">
+
+    
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>شروع کار</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/fa/get_started/">نمای کلی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/get_started/installation/">نصب</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/get_started/configuration/">شروع سریع</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>راهنماها</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/">نمای کلی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/subscriptions/">اشتراک‌ها و گروه‌ها</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/proxy_modes/">پروکسی سیستمی، TUN و اشتراک‌گذاری در شبکهٔ محلی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/tun_mode/">حالت TUN</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/routing/">مسیریابی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/dns/">DNS</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/testing/">تست و انتخابگر خودکار</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/backup/">پشتیبان‌گیری، به‌روزرسانی و مهاجرت</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/guides/recipes/">دستورالعمل‌های کاربردی</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Throne برای Android</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/fa/android/">نمای کلی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/android/installation/">نصب و ارتقا</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/android/permissions/">مجوزها و اجرا در پس‌زمینه</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/android/modes/">حالت‌های VPN و پروکسی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/android/widgets/">ویجت‌ها، کاشی و خودکارسازی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/android/tv/">Android TV</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/android/troubleshooting/">عیب‌یابی Android</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Throne بدون رابط گرافیکی (Headless)</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/fa/headless/">نمای کلی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/headless/installation/">نصب و سرویس‌ها</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/headless/thronectl/">مدیریت با thronectl</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/headless/web/">رابط وب</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/headless/command_line/">خط فرمان و پوشهٔ داده‌ها</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/headless/monitoring/">بررسی سلامت و گزارش‌ها</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/headless/recovery/">محافظت در برابر قطع دسترسی و بازیابی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/headless/troubleshooting/">عیب‌یابی</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group" open>
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>پیکربندی پیشرفته</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/">نمای کلی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/xray/">sing-box در برابر Xray</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/chains/">زنجیره‌های پروکسی و پیکربندی‌های سفارشی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/presets/" aria-current="page">پیش‌تنظیم‌های ضدسانسور</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/warp/">Cloudflare WARP</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/dns_tunnels/">تونل‌های DNS</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/vpn_profiles/">OpenVPN، OpenConnect و Tailscale</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/windows_tun_mode/">محافظت از نشت DNS در Windows</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/kill_switch/">کیل‌سوییچ (Kill Switch)</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/deeplinks/">لینک‌های عمیق</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/advanced/api/">Throne API و thronectl</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>مرجع</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/fa/reference/">نمای کلی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/reference/protocols/">پروتکل‌ها و قالب‌های واردکردن</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/reference/shortcuts/">میانبرهای صفحه‌کلید و سینی سیستم</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/reference/files/">خط فرمان، فایل‌ها و گزارش‌ها</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/reference/privacy/">حریم خصوصی و درخواست‌های شبکه</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/reference/glossary/">واژه‌نامه</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>پشتیبانی</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/fa/help/">نمای کلی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/help/faq/">پرسش‌های متداول</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/help/troubleshooting/">عیب‌یابی</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/help/bug_reports/">گزارش باگ</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/fa/help/migrating/">مهاجرت از Nekoray / NekoBox</a></li>
+        
+        
+      </ul>
+    </details>
+    
+
+  </nav>
+</aside>
+  <main id="main" class="docs-main">
+    <article>
+      <h1 class="docs-title">پیش‌تنظیم‌های ضدسانسور</h1>
+      <p class="docs-lede">کارکرد TLS fragment، TLS tricks، uTLS، Multiplex، ECH و TLS spoof، زمانی که کمک می‌کنند و هزینهٔ آن‌ها.</p>
+      <div class="prose">
+        <p>برخی شبکه‌ها با بررسی نحوهٔ آغاز هر اتصال رمزنگاری‌شده، پروکسی‌ها را مسدود یا کند می‌کنند. این گزینه‌ها ظاهر این آغاز را تغییر می‌دهند. <code>Preset Settings</code>، <code>تنظیمات استتار TLS</code> (TLS Camouflage Settings) و <code>Advanced Settings</code> در ویرایشگر نمایه و انتخاب <code>Custom</code> در <code>چندگانه‌سازی</code> (Multiplex) فقط در حالت پیشرفته در دسترس‌اند (<a href="/fa/get_started/configuration/#interface-mode">حالت ساده و پیشرفته</a> را ببینید).</p>
+<h2 id="presets">پیش‌تنظیم‌ها و تنظیمات نمایه</h2>
+<p><code>تنظیمات</code> (Settings) ← <code>Preset Settings</code> پیش‌فرض‌های سراسری را نگه می‌دارد. در ویرایشگر نمایه، Fragment، TLS Tricks، Multiplex و TLS Spoof این انتخاب‌ها را دارند: <code>نگه داری مقدار پیشفرض</code> (Keep Default)، یعنی پیروی از <code>Default On</code> در پیش‌تنظیم (نمایه‌های جدید از این گزینه استفاده می‌کنند)، <code>فعال</code> (On) و <code>خاموش</code> (Off). بنابراین <code>Default On</code> فقط روی نمایه‌هایی اثر دارد که روی <code>نگه داری مقدار پیشفرض</code> مانده‌اند.</p>
+<p>پیش‌تنظیم‌ها فقط روی نمایه‌هایی اعمال می‌شوند که روی sing-box اجرا می‌شوند، به‌جز <code>Default Fingerprint</code> مربوط به uTLS که روی هر دو هسته اعمال می‌شود و پیش‌تنظیم‌های Multiplex مربوط به Xray که نمایه‌های <code>VLESS (Xray)</code> از آن‌ها استفاده می‌کنند. <a href="/fa/advanced/xray/#two-cores">sing-box در برابر Xray</a> را ببینید.</p>
+<h2 id="one-at-a-time">هر بار فقط یک چیز را تغییر دهید</h2>
+<p>هر گزینه در برابر یک روش مسدودسازی کار می‌کند. هیچ‌کدام همه‌جا کمک نمی‌کند و هر کدام ممکن است نمایه‌ای را که پیش‌تر کار می‌کرد از کار بیندازد.</p>
+<ol>
+<li>در یک نمایه که کار نمی‌کند یا کند است، یک گزینه را روشن کنید.</li>
+<li>یک <a href="/fa/guides/testing/#url-test">تست URL</a> اجرا کنید و چند وب‌سایت را باز کنید. اگر چیزی بهتر نشد، گزینه را دوباره روی <code>نگه داری مقدار پیشفرض</code> (Keep Default) بگذارید و گزینهٔ بعدی را امتحان کنید.</li>
+<li>وقتی گزینه‌ای به بیشتر نمایه‌هایتان کمک کرد، <code>Default On</code> آن را در <code>Preset Settings</code> روشن کنید.</li>
+</ol>
+<h2 id="tls-fragment">قطعه‌بندی TLS (TLS fragment)</h2>
+<p>سامانهٔ سانسور اغلب نام سرور (SNI) را در نخستین پیام یک اتصال TLS، یعنی ClientHello، می‌خواند. TLS fragment این پیام را تقسیم می‌کند تا یک فیلتر ساده نتواند نام را از یک بسته بخواند. این روش فقط در برابر چنین فیلترهای ساده‌ای کمک می‌کند.</p>
+<p><code>Fragment</code> را در ویرایشگر نمایه، زیر <code>تنظیمات استتار TLS</code> (TLS Camouflage Settings)، تنظیم کنید. ابتدا <code>Enable TLS Record Fragment</code> را که کنار آن است امتحان کنید: سبک‌تر است و ClientHello را به‌جای چند بسته، به چند رکورد TLS تقسیم می‌کند.</p>
+<p><code>Preset Settings</code> → <code>TLS</code> → <code>TLS Fragment</code> → <code>Implementation</code> تعیین می‌کند تقسیم چگونه انجام شود:</p>
+<ul>
+<li><code>built-in</code> (پیش‌فرض): sing-box پیام ClientHello را به چند بستهٔ TCP تقسیم می‌کند. <code>Fallback Delay</code> در نمایه، مثلاً <code>500ms</code>، مکث میان قطعه‌هاست وقتی سیستم نمی‌تواند آن را اندازه بگیرد.</li>
+<li><code>custom</code>: قطعه‌هایی با <code>Size</code> تصادفی (بایت، <code>10-100</code>) و مکث‌های <code>Sleep</code> (میلی‌ثانیه، <code>2-5</code>). نمایه‌های Naive فقط از این پیاده‌سازی پشتیبانی می‌کنند.</li>
+</ul>
+<p><strong>هزینه:</strong> اتصال‌های جدید کندتر آغاز می‌شوند و <code>custom</code> برای نمایه TCP Fast Open را خاموش می‌کند.</p>
+<p>یک قانون مسیریابی هم می‌تواند اتصال‌هایی را که با آن منطبق می‌شوند قطعه‌بندی کند، مثلاً اتصال‌های مستقیم به سایتی که یک فیلتر آن را بر اساس نامش مسدود می‌کند. <code>tls_fragment</code> را در <a href="/fa/guides/routing/#advanced-rules">قوانین پیشرفته</a> ببینید.</p>
+<h2 id="tls-tricks">ترفندهای TLS (TLS tricks)</h2>
+<p>TLS tricks نام سرور را با ترکیبی از حروف بزرگ و کوچک می‌نویسد، مثلاً <code>ExAmPlE.com</code>. سرورها به بزرگی و کوچکی حروف توجهی ندارند، اما فیلتری که دنبال نام دقیق می‌گردد ممکن است آن را تشخیص ندهد. <code>TLS Tricks</code> را در ویرایشگر نمایه، زیر <code>تنظیمات استتار TLS</code> (TLS Camouflage Settings)، تنظیم کنید.</p>
+<p><strong>هزینه:</strong> تقریباً هیچ، اما در برابر فیلترهایی که به بزرگی و کوچکی حروف توجه نمی‌کنند کمکی نمی‌کند.</p>
+<h2 id="utls">اثر انگشت uTLS</h2>
+<p>uTLS پیام ClientHello را شبیه ClientHello یک مرورگر یا سیستم رایج می‌کند، به‌جای یک کلاینت پروکسی ساده که از روی اثر انگشتش به‌آسانی شناسایی می‌شود.</p>
+<ul>
+<li><strong>برای هر نمایه:</strong> <code>Fingerprint</code> در ویرایشگر نمایه. لینک‌های اشتراک‌گذاری اغلب آن را با <code>fp=</code> تعیین می‌کنند.</li>
+<li><strong>سراسری:</strong> <code>Preset Settings</code> → <code>TLS</code> → <code>uTLS</code> → <code>Default Fingerprint</code>، برای نمایه‌هایی که اثر انگشت خودشان را ندارند. تا وقتی خالی است (پیش‌فرض)، این نمایه‌ها روی sing-box از uTLS استفاده نمی‌کنند، در REALITY روی sing-box از <code>random</code> و روی Xray از <code>chrome</code> استفاده می‌کنند. نمایه‌های Hysteria، TUIC، Juicity و Naive از uTLS استفاده نمی‌کنند.</li>
+<li><strong>گزینه‌ها:</strong> <code>chrome</code>، <code>firefox</code>، <code>edge</code>، <code>safari</code>، <code>360</code>، <code>qq</code>، <code>ios</code>، <code>android</code>، <code>random</code>، <code>randomized</code> و <code>unsafe</code>. <code>unsafe</code> uTLS را خاموش می‌کند، حتی وقتی <code>Default Fingerprint</code> تنظیم شده باشد، و فقط در این حالت فیلد <code>Cipher Suites</code> نمایه اعمال می‌شود (مجموعه‌رمزهای TLS 1.2، جداشده با دونقطه؛ آن را خالی بگذارید، مگر اینکه سرورتان به آن نیاز داشته باشد).</li>
+</ul>
+<p><strong>هزینه:</strong> اندک. اگر سروری با یک اثر انگشت از کار افتاد، اثر انگشت دیگری را امتحان کنید یا فیلد را خالی کنید.</p>
+<h2 id="multiplex">چندگانه‌سازی (Multiplex)</h2>
+<p>Multiplex (mux) چندین اتصال را درون یک اتصال به سرور حمل می‌کند؛ در نتیجه صفحه‌ها به دست‌دهی‌های (handshake) کمتری نیاز دارند و ناظر اتصال‌های کمتری می‌بیند. سرور باید از mux با همان پروتکل پشتیبانی کند، و اگر از padding استفاده می‌کنید، از آن هم.</p>
+<p><code>چندگانه‌سازی</code> (Multiplex) را در ویرایشگر نمایه تنظیم کنید (در نمایه‌های <code>VLESS (Xray)</code> به‌جای <code>فعال</code> و <code>خاموش</code>، <code>Enabled</code> و <code>Disabled</code> آمده است). <code>Custom</code> ← <code>Configure</code> نسخه‌ای از فیلدهای پیش‌تنظیم را مخصوص همان نمایه می‌کند؛ نمایه‌هایی که از لینک یا اشتراکی با تنظیمات mux مخصوص خودشان آمده‌اند، با <code>Custom</code> باز می‌شوند. Multiplex برای نمایه‌های VLESS با flow برابر با <code>xtls-rprx-vision</code> غیرفعال است و برای <a href="/fa/advanced/xray/#xdrive">XDRIVE</a> لازم است.</p>
+<p>پیش‌تنظیم‌های sing-box (<code>Preset Settings</code> → <code>Multiplex</code> → <code>Sing-box</code>):</p>
+<ul>
+<li><code>Protocol</code>: <code>smux</code>، <code>yamux</code> یا <code>h2mux</code>.</li>
+<li><code>Mode</code>: با <code>Max Streams</code>، وقتی یک اتصال این تعداد جریان را حمل کند، اتصال دیگری باز می‌شود. با <code>Max Connections</code>، حداکثر همین تعداد اتصال نگه داشته می‌شود و فقط وقتی اتصال جدیدی باز می‌شود که کم‌کارترین اتصال <code>Min Streams</code> جریان را حمل کند.</li>
+<li><code>Padding</code>: به ترافیک چندگانه‌شده padding اضافه می‌کند.</li>
+<li><code>TCP Brutal</code>: حتی هنگام از دست رفتن بسته‌ها، با سرعت‌های ثابتی که در <code>Upload (Mb/s)</code> و <code>Download (Mb/s)</code> وارد می‌کنید ارسال می‌کند. هر دو را وارد کنید. به پشتیبانی سرور نیاز دارد و در این حالت همهٔ جریان‌ها از یک اتصال مشترک استفاده می‌کنند.</li>
+</ul>
+<p>پیش‌تنظیم‌های Xray (<code>Preset Settings</code> → <code>Multiplex</code> → <code>Xray</code>):</p>
+<ul>
+<li><code>Concurrency</code>: تعداد جریان‌های هر اتصال، پیش از اینکه اتصال دیگری باز شود. <code>0</code> از پیش‌فرض Xray، یعنی 8، استفاده می‌کند و <code>-1</code> ترافیک TCP را بیرون از mux می‌فرستد.</li>
+<li><code>Max Connections</code>: حداکثر این تعداد اتصال، برای TCP و XUDP هر کدام جداگانه. خالی یعنی بدون محدودیت.</li>
+<li><code>XUDP Concurrency</code>: تعداد جریان‌های UDP در هر اتصال، روی اتصال‌های جداگانهٔ خودشان. <code>0</code> ترافیک UDP را روی اتصال‌های TCP حمل می‌کند و <code>-1</code> آن را بیرون از mux می‌فرستد.</li>
+<li><code>UDP/443</code>، که بیشتر QUIC است: <code>Reject</code> (پیش‌فرض) باعث می‌شود مرورگرها به TCP برگردند، <code>Allow</code> آن را از راه mux حمل می‌کند و <code>Skip</code> آن را بیرون از mux می‌فرستد.</li>
+</ul>
+<p><strong>هزینه:</strong> هر چیزی که روی یک اتصال است با هم گیر می‌کند. اتصال‌های موازی زیاد، مثلاً از یک کلاینت تورنت، ممکن است باعث شوند Throne پردازنده (CPU) را زیاد مصرف کند (<a href="https://github.com/throneproj/Throne/issues/1090">#1090</a>)؛ Multiplex را برای آن نمایه خاموش کنید. نخستین درخواست روی یک اتصال mux جدید کندتر است، پس مهلت زمانی (timeout) کوتاه در تست تأخیر ممکن است نمایهٔ سالم را ناموفق گزارش کند.</p>
+<h2 id="ech">ECH</h2>
+<p>Encrypted Client Hello (ECH) نام سرور را رمزنگاری می‌کند تا ناظر نتواند آن را بخواند. فقط وقتی کار می‌کند که سرور از آن پشتیبانی کند و برای هر نمایه جداگانه تنظیم می‌شود:</p>
+<ol>
+<li>نمایه را باز کنید، روی <code>Advanced Settings</code> کلیک کنید و <code>Enable ECH</code> را تیک بزنید.</li>
+<li>اختیاری: پیکربندی ECH سرور را در <code>ECH Config</code> جای‌گذاری کنید. اگر روی <code>Not Set</code> بماند، پیکربندی در DNS جست‌وجو می‌شود، برای دامنهٔ <code>ECH Query Name / Resolver</code> یا در غیر این صورت نام سرور. برای پرسیدن از یک سرور DNS به‌جای DNS مستقیم، آن را پس از یک <code>+</code> اضافه کنید، برای مثال <code>cloudflare-ech.com+https://1.1.1.1/dns-query</code>.</li>
+<li>در هر دو پنجره روی <code>تایید</code> (OK) کلیک کنید.</li>
+</ol>
+<p>نمایه‌های Xray به‌جای آن از <code>ECH Config List</code> در تنظیمات TLS خود استفاده می‌کنند: پیکربندی به‌صورت Base64، یا یک دامنه و یک سرور DNS-over-HTTPS، مانند <code>cloudflare-ech.com+https://8.8.8.8/dns-query</code>. لینک‌های اشتراک‌گذاری ECH را در <code>ech=</code> دارند؛ <a href="/fa/reference/protocols/#ech-links">ECH و پین‌های گواهی در لینک‌ها</a> را ببینید.</p>
+<p><strong>هزینه:</strong> اگر سرور از ECH پشتیبانی نکند یا پیکربندی پیدا نشود، نمایه کار نمی‌کند.</p>
+<h2 id="tls-spoof">جعل TLS (TLS spoof)</h2>
+<p>برخی فیلترها چند نام مجاز را عبور می‌دهند و بقیه را مسدود می‌کنند. TLS spoof درست پیش از ClientHello واقعی، یک ClientHello جعلی با یک نام مجاز می‌فرستد. پیام جعلی عمداً نامعتبر است تا سرور آن را نادیده بگیرد، در حالی که فیلتر اجازهٔ عبور اتصال را می‌دهد.</p>
+<ul>
+<li><strong>پیش‌تنظیم‌ها</strong> (<code>Preset Settings</code> → <code>TLS</code> → <code>TLS Spoof</code>): <code>Spoof SNI</code> نام مجاز است و <code>Method</code> روش نامعتبر ساختن پیام جعلی: <code>wrong-sequence</code>، <code>wrong-checksum</code>، <code>wrong-ack</code>، <code>wrong-md5</code> یا <code>wrong-timestamp</code> (خالی: پیش‌فرض هسته).</li>
+<li><strong>برای هر نمایه:</strong> <code>Advanced Settings</code> ← <code>TLS Spoof</code>، <code>Spoof SNI</code> و <code>Method</code>. فیلدهای خالی از پیش‌تنظیم‌ها استفاده می‌کنند. نمایه‌ای که <code>Spoof SNI</code> خودش را دارد، حتی روی <code>Keep Default</code> هم جعل انجام می‌دهد.</li>
+<li><strong>برای هر سایت:</strong> یک قانون مسیریابی پیشرفته با <code>tls_spoof</code> و <code>tls_spoof_method</code>؛ <a href="/fa/guides/routing/#advanced-rules">قوانین پیشرفته</a> را ببینید.</li>
+</ul>
+<p>TLS spoof بسته‌های خام می‌فرستد، بنابراین هسته به دسترسی‌هایی نیاز دارد که <a href="/fa/guides/tun_mode/#privileges">حالت TUN</a> تنظیم می‌کند: دسترسی مدیر (Administrator) در Windows (نه در Windows ARM64)، root یا <code>CAP_NET_RAW</code> و <code>CAP_NET_ADMIN</code> در Linux، و root در macOS که روش <code>wrong-timestamp</code> در آن کار نمی‌کند.</p>
+<p><strong>هزینه:</strong> به دسترسی بالاتر نیاز دارد و فقط در برابر فیلترهایی کمک می‌کند که برخی نام‌ها را مجاز می‌دانند.</p>
+<h2 id="http2-quic">تنظیم دقیق HTTP/2 و QUIC</h2>
+<p><code>Preset Settings</code> → <code>HTTP/2 &amp; QUIC</code> پیش‌فرض‌هایی مانند <code>Idle Timeout</code>، <code>Keep Alive Period</code> و <code>Initial Packet Size</code> را برای نمایه‌های Hysteria، TUIC و MASQUE تعیین می‌کند. هر نمایه می‌تواند آن‌ها را در <code>Advanced Settings</code> → <code>QUIC Parameters</code> با مقدار خودش جایگزین کند. این فیلدها را خالی بگذارید تا پیش‌فرض‌های هسته به کار روند، مگر اینکه مستندات سرورتان مقدارهای دیگری بخواهد.</p>
+<h2 id="android">Android</h2>
+<ul>
+<li>همین پیش‌تنظیم‌ها در <code>تنظیمات</code> (Settings) ← <code>از پیش‌تنظیم‌ها</code> (Presets) قرار دارند و <code>Default On</code> در آنجا <code>به‌طور پیش‌فرض روشن</code> (On by default) نام دارد. ECH برای هر نمایه جداگانه تنظیم می‌شود.</li>
+<li><code>فعال کردن مالتی‌پلکسر</code> (Enable multiplexer) در ویرایشگر نمایه گزینهٔ <code>سفارشی</code> (Custom) را هم دارد که فیلدهای Multiplex را درست زیر خودش نشان می‌دهد.</li>
+<li>قوانین مسیریابی می‌توانند اتصال‌هایی را که با آن‌ها تطبیق دارند قطعه‌بندی کنند، با <code>قطعه‌بندی TLS</code> (TLS fragment)، <code>تأخیر بازگشت قطعه‌بندی TLS</code> (TLS fragment fallback delay) و <code>قطعه‌بندی رکورد TLS</code> (TLS record fragment).</li>
+<li>TLS spoof در دسترس نیست.</li>
+</ul>
+
+      </div>
+      
+      
+      
+      <footer class="docs-article-footer">
+        
+        <a class="edit-link" href="https://github.com/throneproj/throneproj.github.io/edit/main/content/advanced/presets.fa.md" target="_blank" rel="noopener noreferrer">
+        
+          <svg class="ic" aria-hidden="true"><use href="#i-pencil"/></svg>
+          ویرایش این صفحه در GitHub
+        </a>
+        
+
+<nav class="prev-next" aria-label="مسیریابی صفحه">
+  
+  <a class="prevnext-prev" href="https://throneproj.github.io/fa/advanced/chains/">
+    <span class="prevnext-dir">قبلی</span>
+    زنجیره‌های پروکسی و پیکربندی‌های سفارشی
+  </a>
+  
+  
+  <a class="prevnext-next" href="https://throneproj.github.io/fa/advanced/warp/">
+    <span class="prevnext-dir">بعدی</span>
+    Cloudflare WARP
+  </a>
+  
+</nav>
+
+      </footer>
+    </article>
+  </main>
+  
+<nav class="docs-toc" aria-label="در این صفحه">
+  <p class="docs-toc-title">
+    <svg class="ic" aria-hidden="true"><use href="#i-list"/></svg>
+    در این صفحه
+  </p>
+  <ul><li><a href="#presets">پیش‌تنظیم‌ها و تنظیمات نمایه</a></li><li><a href="#one-at-a-time">هر بار فقط یک چیز را تغییر دهید</a></li><li><a href="#tls-fragment">قطعه‌بندی TLS (TLS fragment)</a></li><li><a href="#tls-tricks">ترفندهای TLS (TLS tricks)</a></li><li><a href="#utls">اثر انگشت uTLS</a></li><li><a href="#multiplex">چندگانه‌سازی (Multiplex)</a></li><li><a href="#ech">ECH</a></li><li><a href="#tls-spoof">جعل TLS (TLS spoof)</a></li><li><a href="#http2-quic">تنظیم دقیق HTTP/2 و QUIC</a></li><li><a href="#android">Android</a></li></ul>
+</nav>
+
+    </main>
+  </div>
+
+  
+<script src="https://throneproj.github.io/assets/js/highlight.min.js" defer></script>
+<script>
+  window.NOIR_BASE = "https://throneproj.github.io";
+  
+  window.NOIR_I18N = {
+    copy: "کپی",
+    copied: "کپی شد",
+    copyManual: "کلید Ctrl C را فشار دهید",
+    noResults: "نتیجه‌ای یافت نشد برای",
+    theme: "تم",
+    themeAuto: "خودکار",
+    themeLight: "روشن",
+    themeDark: "تاریک"
+  };
+</script>
+<script src="https://throneproj.github.io/js/theme.js" defer></script>
+<script src="https://throneproj.github.io/js/nav.js" defer></script>
+<script src="https://throneproj.github.io/js/code.js" defer></script>
+<script src="https://throneproj.github.io/js/toc.js" defer></script>
+<script src="https://throneproj.github.io/js/reveal.js" defer></script>
+<script src="https://throneproj.github.io/js/mermaid.js" defer></script>
+<script src="https://throneproj.github.io/js/search.js" defer></script>
+
+</body>
+</html>

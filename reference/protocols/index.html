@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Profile types, the links and files Throne imports, and how to share a profile.">
+  <title>Protocols &amp; Import Formats - Throne</title>
+
+  
+  <meta name="theme-color" content="#0b0b0c" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#fbfbfa" media="(prefers-color-scheme: light)">
+
+  
+  <script>
+    (function () {
+      var r = document.documentElement;
+      r.classList.add("js");
+      try {
+        var t = localStorage.getItem("throne-theme");
+        if (t === "light" || t === "dark") r.setAttribute("data-theme", t);
+      } catch (e) {}
+    })();
+  </script>
+
+  <meta name="google-site-verification" content="Zzz4doeS45o-EhP56mm1yoyfHSEEZJRJJt0tfj7vPGM" />
+  <script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+      m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+      m[i].l=1*new Date();
+      for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+      k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=111847353', 'ym');
+
+    
+    ym(111847353, 'init', {ssr:true, webvisor:false, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/111847353" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+
+  <meta property="og:title" content="Protocols &amp; Import Formats">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://throneproj.github.io/reference/protocols/">
+  <meta property="og:description" content="Profile types, the links and files Throne imports, and how to share a profile.">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Protocols &amp; Import Formats">
+  <meta name="twitter:description" content="Profile types, the links and files Throne imports, and how to share a profile.">
+  <link rel="canonical" href="https://throneproj.github.io/reference/protocols/">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Protocols \u0026 Import Formats","url":"https://throneproj.github.io/reference/protocols/","description":"Profile types, the links and files Throne imports, and how to share a profile."}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Throne","item":"https://throneproj.github.io/"},{"@type":"ListItem","position":2,"name":"Reference","item":"https://throneproj.github.io/reference/"},{"@type":"ListItem","position":3,"name":"Protocols \u0026 Import Formats"}]}</script>
+  <link rel="alternate" hreflang="en" href="https://throneproj.github.io/reference/protocols/">
+<link rel="alternate" hreflang="fa" href="https://throneproj.github.io/fa/reference/protocols/">
+<link rel="alternate" hreflang="ru" href="https://throneproj.github.io/ru/reference/protocols/">
+<link rel="alternate" hreflang="zh" href="https://throneproj.github.io/zh/reference/protocols/">
+<link rel="alternate" hreflang="x-default" href="https://throneproj.github.io/reference/protocols/">
+
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon.ico" sizes="any">
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon-96x96.png" type="image/png" sizes="96x96">
+  <link rel="apple-touch-icon" href="https://throneproj.github.io/logos/apple-touch-icon.png">
+  <link rel="manifest" href="https://throneproj.github.io/logos/site.webmanifest">
+
+  <link rel="preload" href="https://throneproj.github.io/fonts/geist-variable-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+  
+  <link rel="stylesheet" href="https://throneproj.github.io/assets/css/highlight/atom-one-dark.min.css">
+  <link rel="stylesheet" href="https://throneproj.github.io/css/style.css">
+  
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  
+<svg xmlns="http://www.w3.org/2000/svg" class="icon-sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 10a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+    <path d="M21 21l-6 -6" />
+  </symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M3 12h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7" />
+  </symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454l0 .008" />
+  </symbol>
+  <symbol id="i-contrast" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M12 17a5 5 0 0 0 0 -10v10" />
+  </symbol>
+  <symbol id="i-chevron-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M6 9l6 6l6 -6" />
+  </symbol>
+  <symbol id="i-menu-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 6l16 0" />
+    <path d="M4 12l16 0" />
+    <path d="M4 18l16 0" />
+  </symbol>
+  <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M18 6l-12 12" />
+    <path d="M6 6l12 12" />
+  </symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 9.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667l0 -8.666" />
+    <path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" />
+  </symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l5 5l10 -10" />
+  </symbol>
+  <symbol id="i-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l14 0" />
+    <path d="M13 18l6 -6" />
+    <path d="M13 6l6 6" />
+  </symbol>
+  <symbol id="i-arrow-up-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M17 7l-10 10" />
+    <path d="M8 7l9 0l0 9" />
+  </symbol>
+  <symbol id="i-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l14 0" />
+    <path d="M5 12l6 6" />
+    <path d="M5 12l6 -6" />
+  </symbol>
+  <symbol id="i-brand-github" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+  </symbol>
+  <symbol id="i-pencil" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+    <path d="M13.5 6.5l4 4" />
+  </symbol>
+  <symbol id="i-rocket" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 13a8 8 0 0 1 7 7a6 6 0 0 0 3 -5a9 9 0 0 0 6 -8a3 3 0 0 0 -3 -3a9 9 0 0 0 -8 6a6 6 0 0 0 -5 3" />
+    <path d="M7 14a6 6 0 0 0 -3 6a6 6 0 0 0 6 -3" />
+    <path d="M14 9a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+  </symbol>
+  <symbol id="i-terminal-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 9l3 3l-3 3" />
+    <path d="M13 15l3 0" />
+    <path d="M3 6a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2l0 -12" />
+  </symbol>
+  <symbol id="i-lifebuoy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M15 15l3.35 3.35" />
+    <path d="M9 15l-3.35 3.35" />
+    <path d="M5.65 5.65l3.35 3.35" />
+    <path d="M18.35 5.65l-3.35 3.35" />
+  </symbol>
+  <symbol id="i-list" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 6l11 0" />
+    <path d="M9 12l11 0" />
+    <path d="M9 18l11 0" />
+    <path d="M5 6l0 .01" />
+    <path d="M5 12l0 .01" />
+    <path d="M5 18l0 .01" />
+  </symbol>
+  <symbol id="i-code" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 8l-4 4l4 4" />
+    <path d="M17 8l4 4l-4 4" />
+    <path d="M14 4l-4 16" />
+  </symbol>
+  <symbol id="i-rss" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 19a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+    <path d="M4 4a16 16 0 0 1 16 16" />
+    <path d="M4 11a9 9 0 0 1 9 9" />
+  </symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12" />
+    <path d="M16 3v4" />
+    <path d="M8 3v4" />
+    <path d="M4 11h16" />
+    <path d="M11 15h1" />
+    <path d="M12 15v3" />
+  </symbol>
+</svg>
+
+<header class="site-header">
+  <div class="header-inner">
+    <button class="icon-btn hamburger" id="drawerToggle" aria-label="Open navigation" aria-expanded="false" aria-controls="sidebar">
+      <svg class="ic" aria-hidden="true"><use href="#i-menu-2"/></svg>
+    </button>
+
+    <a href="https://throneproj.github.io/" class="header-logo" aria-label="Throne homepage">
+      <img class="logo" src="https://throneproj.github.io/images/throne-logo.png" alt="Throne" width="1817" height="346">
+    </a>
+    <a class="header-version" href="https://github.com/throneproj/Throne/releases/tag/1.4.1" target="_blank" rel="noopener noreferrer">v1.4.1</a>
+
+    <nav class="header-nav" aria-label="Primary">
+      <a href="https://throneproj.github.io/get_started/">Get Started</a>
+      <a href="https://throneproj.github.io/downloads/">Downloads</a>
+    </nav>
+
+    <div class="header-right">
+      <button class="header-btn search-trigger" id="searchTrigger" aria-label="Search documentation">
+        <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+        <span>Search</span>
+        <kbd>Ctrl K</kbd>
+      </button>
+
+      
+      
+      <nav class="lang-switcher" aria-label="Language">
+        
+        <a href="https://throneproj.github.io/reference/protocols/" hreflang="en" aria-current="true">EN</a>
+        
+        <a href="https://throneproj.github.io/fa/reference/protocols/" hreflang="fa">FA</a>
+        
+        <a href="https://throneproj.github.io/ru/reference/protocols/" hreflang="ru">RU</a>
+        
+        <a href="https://throneproj.github.io/zh/reference/protocols/" hreflang="zh">ZH</a>
+        
+      </nav>
+      
+
+      <a class="icon-btn" href="https://github.com/throneproj/Throne" target="_blank" rel="noopener noreferrer" aria-label="Throne on GitHub">
+        <svg class="ic" aria-hidden="true"><use href="#i-brand-github"/></svg>
+      </a>
+
+      
+      <button class="icon-btn theme-toggle" id="themeToggle" data-mode="auto" type="button" aria-label="Theme">
+        <svg class="ic ic-auto" aria-hidden="true"><use href="#i-contrast"/></svg>
+        <svg class="ic ic-light" aria-hidden="true"><use href="#i-sun"/></svg>
+        <svg class="ic ic-dark" aria-hidden="true"><use href="#i-moon"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+<div class="search-overlay" id="searchOverlay" role="dialog" aria-modal="true" aria-label="Search documentation" hidden>
+  <div class="search-modal">
+    <div class="search-input-wrap">
+      <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+      <input type="search" id="searchInput" aria-label="Search documentation" placeholder="Search the docs" autocomplete="off" spellcheck="false">
+      <kbd id="searchClose" role="button" tabindex="0">Esc</kbd>
+    </div>
+    <div class="search-results" id="searchResults" role="listbox" aria-label="Search"></div>
+  </div>
+</div>
+<div class="docs-container">
+<div class="drawer-scrim" id="drawerScrim"></div>
+<aside class="docs-sidebar" id="sidebar">
+  <nav class="sidebar-nav" aria-label="Documentation">
+
+    
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Get Started</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/get_started/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/get_started/installation/">Installation</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/get_started/configuration/">Quick Start</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Guides</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/guides/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/subscriptions/">Subscriptions & Groups</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/proxy_modes/">System Proxy, TUN & LAN</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/tun_mode/">TUN Mode</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/routing/">Routing</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/dns/">DNS</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/testing/">Testing & Auto Selector</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/backup/">Backup, Updates & Migration</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/recipes/">Recipes</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Throne for Android</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/android/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/installation/">Installation & Upgrade</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/permissions/">Permissions & Background</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/modes/">VPN & Proxy Modes</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/widgets/">Widgets, Tile & Automation</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/tv/">Android TV</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/troubleshooting/">Troubleshooting</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Headless Throne</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/headless/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/headless/installation/">Installation & Services</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/headless/thronectl/">Managing with thronectl</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/headless/web/">Web UI</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/headless/command_line/">Command Line & Data Directory</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/headless/monitoring/">Health Checks & Logs</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/headless/recovery/">Lockout Protection & Recovery</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/headless/troubleshooting/">Troubleshooting</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Advanced Configuration</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/xray/">sing-box vs Xray</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/chains/">Chains & Custom Configs</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/presets/">Anti-Censorship Presets</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/warp/">Cloudflare WARP</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/dns_tunnels/">DNS Tunnels</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/vpn_profiles/">OpenVPN, OpenConnect & Tailscale</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/windows_tun_mode/">Windows DNS Leak Protection</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/kill_switch/">Kill Switch</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/deeplinks/">Deep Links</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/api/">Throne API & thronectl</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group" open>
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Reference</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/reference/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/reference/protocols/" aria-current="page">Protocols & Import Formats</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/reference/shortcuts/">Keyboard Shortcuts & Tray</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/reference/files/">Command Line, Files & Logs</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/reference/privacy/">Privacy & Network Requests</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/reference/glossary/">Glossary</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Help</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/help/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/help/faq/">FAQ</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/help/troubleshooting/">Troubleshooting</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/help/bug_reports/">Reporting a Bug</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/help/migrating/">Coming from Nekoray / NekoBox</a></li>
+        
+        
+      </ul>
+    </details>
+    
+
+  </nav>
+</aside>
+  <main id="main" class="docs-main">
+    <article>
+      <h1 class="docs-title">Protocols &amp; Import Formats</h1>
+      <p class="docs-lede">Profile types, the links and files Throne imports, and how to share a profile.</p>
+      <div class="prose">
+        <h2 id="protocols">Profile types</h2>
+<p>Create a profile with <code>Program</code> → <code>New profile</code> (<code>Ctrl+N</code>), or on Android with <code>Add profile</code> → <code>Manual settings</code>. You cannot change the type of an existing profile. <code>Direct</code>, <code>Chain Proxy</code>, <code>Extra Core</code> and the <code>Custom</code> types are Advanced mode only, see <a href="/get_started/configuration/#interface-mode">Simple and Advanced mode</a>.</p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Auto Selector</code></td>
+<td>Picks the best working profile of a group and switches automatically, see <a href="/guides/testing/#auto-selector">Auto Selector</a>.</td>
+</tr>
+<tr>
+<td><code>Socks</code></td>
+<td>SOCKS version 5 or 4.</td>
+</tr>
+<tr>
+<td><code>HTTP</code></td>
+<td>Optionally over TLS (HTTPS).</td>
+</tr>
+<tr>
+<td><code>Shadowsocks</code></td>
+<td>With the 2022 ciphers and the <code>obfs-local</code> and <code>v2ray-plugin</code> plugins.</td>
+</tr>
+<tr>
+<td><code>VMess</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>Trojan</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>VLESS</code></td>
+<td>sing-box implementation, with REALITY.</td>
+</tr>
+<tr>
+<td><code>VLESS (Xray)</code></td>
+<td>Xray implementation: XHTTP, REALITY, VLESS encryption, Finalmask, the <a href="/advanced/xray/#xdrive">XDRIVE</a> transport and mKCP with <a href="/advanced/dns_tunnels/#xdns">XDNS</a>.</td>
+</tr>
+<tr>
+<td><code>Hysteria</code></td>
+<td>Hysteria 1 and 2 in one type: choose the <code>Protocol Version</code>. Supports port hopping and obfuscation. With <code>Up Mbps</code> or <code>Down Mbps</code> empty, Hysteria 1 uses 10 Mbps up and 50 Mbps down, so set your real line speed.</td>
+</tr>
+<tr>
+<td><code>TUIC</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>Juicity</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>Naive</code></td>
+<td>NaïveProxy over HTTPS or QUIC. On Android: <code>Naïve</code>.</td>
+</tr>
+<tr>
+<td><code>TrustTunnel</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>AnyTLS</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>Mieru</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>Snell</code></td>
+<td>Snell version 4 or 6.</td>
+</tr>
+<tr>
+<td><code>ShadowTLS</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>WireGuard</code></td>
+<td>For AmneziaWG, tick <code>Enable Amnezia</code> (Android: <code>Enable AmneziaWG</code>). <code>Amnezia Options</code> → <code>Generate QUIC Signature...</code> makes the handshake look like HTTP/3 to a domain you choose. Can create a Cloudflare WARP account, see <a href="/advanced/warp/#generate">WARP</a>.</td>
+</tr>
+<tr>
+<td><code>MASQUE</code></td>
+<td>HTTP/3 or HTTP/2. Can create a Cloudflare WARP identity.</td>
+</tr>
+<tr>
+<td><code>OpenVPN</code></td>
+<td>Imports <code>.ovpn</code> files. One-time passwords (OTP) work only on the desktop. See <a href="/advanced/vpn_profiles/#openvpn">OpenVPN</a>.</td>
+</tr>
+<tr>
+<td><code>OpenConnect</code></td>
+<td>AnyConnect, GlobalProtect, Fortinet, F5, Pulse and Juniper (<code>nc</code>) servers. OTP works only on the desktop. See <a href="/advanced/vpn_profiles/#openconnect">OpenConnect</a>.</td>
+</tr>
+<tr>
+<td><code>Tailscale</code></td>
+<td>Desktop only. Joins your Tailscale network and can use an exit node, see <a href="/advanced/vpn_profiles/#tailscale">Tailscale</a>.</td>
+</tr>
+<tr>
+<td><code>SSH</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>DNSTT / VayDNS</code></td>
+<td>DNS tunnel to a dnstt or VayDNS server, see <a href="/advanced/dns_tunnels/#dnstt">DNSTT and VayDNS</a>.</td>
+</tr>
+<tr>
+<td><code>MasterDNS</code></td>
+<td>DNS tunnel to a MasterDnsVPN or StormDNS server, see <a href="/advanced/dns_tunnels/#masterdns">MasterDNS</a>.</td>
+</tr>
+<tr>
+<td><code>Direct</code></td>
+<td>No proxy. With a bind interface, it sends traffic out through that network adapter.</td>
+</tr>
+<tr>
+<td><code>Custom (sing-box outbound)</code>, <code>Custom (sing-box config)</code></td>
+<td>Your own sing-box JSON: one outbound, or a complete config that runs unchanged. On Android: <code>Custom config</code>. See <a href="/advanced/chains/#custom-config">Custom configs</a>.</td>
+</tr>
+<tr>
+<td><code>Custom (Xray outbound)</code>, <code>Custom (Xray config)</code></td>
+<td>The same for Xray JSON.</td>
+</tr>
+<tr>
+<td><code>Extra Core</code></td>
+<td>Desktop only. Runs an external program you choose and connects to its local SOCKS port, see <a href="/advanced/chains/#extra-core">Extra Core</a>.</td>
+</tr>
+<tr>
+<td><code>Chain Proxy</code></td>
+<td>Sends traffic through several profiles in a row. On Android: <code>Proxy chain</code>. See <a href="/advanced/chains/#chains">Chains</a>.</td>
+</tr>
+</tbody>
+</table>
+<p><code>AnyTLS</code>, <code>Hysteria</code>, <code>Juicity</code>, <code>MASQUE</code>, <code>ShadowTLS</code>, <code>TrustTunnel</code> and <code>TUIC</code> always use TLS, so their editors have no switch to turn it off.</p>
+<h3 id="engines">Which engine runs a profile</h3>
+<p>Every type runs in sing-box, except <code>VLESS (Xray)</code>, <code>Custom (Xray outbound)</code> and <code>Custom (Xray config)</code>, which run in the Xray engine built into the core (XDNS too, as it is a <code>VLESS (Xray)</code> profile), and <code>Extra Core</code>, which runs the program you choose. Throne for Android uses the same core.</p>
+<p><code>Settings</code> → <code>Basic Settings</code> → <code>Core</code> → <code>Xray VLESS Preference</code> (Advanced mode only) decides whether an imported <code>vless://</code> link becomes <code>VLESS</code> or <code>VLESS (Xray)</code>. Links that need a feature only Xray has, such as VLESS encryption or mKCP (<code>type=kcp</code>), always become <code>VLESS (Xray)</code>. See <a href="/advanced/xray/#vless-preference">sing-box vs Xray</a>.</p>
+<h2 id="import-formats">Import formats</h2>
+<h3 id="where-to-import">Where to import</h3>
+<table>
+<thead>
+<tr>
+<th>Source</th>
+<th>Desktop</th>
+<th>Android</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Clipboard</td>
+<td><code>Ctrl+V</code>, or <code>Program</code> → <code>Add profile from clipboard</code></td>
+<td><code>Add profile</code> → <code>Import from clipboard</code></td>
+</tr>
+<tr>
+<td>Files</td>
+<td><code>Program</code> → <code>Add profile from File(s)</code> (<code>Ctrl+O</code>), or drag files onto the main window</td>
+<td><code>Add profile</code> → <code>Import from file</code></td>
+</tr>
+<tr>
+<td>QR codes</td>
+<td><code>Program</code> → <code>Scan QR Code</code> (<code>Ctrl+Shift+Q</code>) reads QR codes on your screens. QR images also work as files.</td>
+<td><code>Add profile</code> → <code>Scan QR code</code> (camera, or <code>Select image</code>)</td>
+</tr>
+<tr>
+<td>Subscriptions</td>
+<td>A group of type <code>Subscription</code>, see <a href="/guides/subscriptions/#add-subscription">Subscriptions &amp; Groups</a></td>
+<td>The same, in <code>Groups</code></td>
+</tr>
+<tr>
+<td>Links</td>
+<td><code>throne://</code> links, see <a href="/advanced/deeplinks/">Deep Links</a></td>
+<td><code>throne://</code> links and protocol links that you open in other apps</td>
+</tr>
+</tbody>
+</table>
+<p>Imported profiles go into the current group. If the clipboard holds a single <code>http://</code> or <code>https://</code> URL, Throne asks whether to add it as a subscription group, import it once into the current group, or use it as an HTTP proxy.</p>
+<h3 id="formats">Supported formats</h3>
+<p>Both apps read these formats in pasted text, files, QR codes and subscription responses.</p>
+<table>
+<thead>
+<tr>
+<th>Format</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Share links, one per line: <code>vless://</code>, <code>vmess://</code>, <code>ss://</code>, <code>trojan://</code>, <code>socks://</code>, <code>socks4://</code>, <code>socks4a://</code>, <code>socks5://</code>, <code>http://</code>, <code>https://</code>, <code>hysteria://</code>, <code>hysteria2://</code>, <code>hy2://</code>, <code>tuic://</code>, <code>juicity://</code>, <code>anytls://</code>, <code>mieru://</code>, <code>mierus://</code>, <code>snell://</code>, <code>tt://</code> (TrustTunnel), <code>shadowtls://</code>, <code>wg://</code>, <code>wireguard://</code>, <code>awg://</code>, <code>ssh://</code>, <code>naive+https://</code>, <code>naive+quic://</code></td>
+<td>One profile per link</td>
+</tr>
+<tr>
+<td>Throne links: <code>throne://add/…</code> and the older <code>json://…</code></td>
+<td>One profile of any type</td>
+</tr>
+<tr>
+<td>AmneziaVPN links: <code>vpn://…</code></td>
+<td>The configs inside the link</td>
+</tr>
+<tr>
+<td>DNS tunnel links: <code>dnst://</code>, <code>slipnet://</code>, <code>masterdns://</code>, <code>stormdns://</code></td>
+<td>One <code>DNSTT / VayDNS</code> or <code>MasterDNS</code> profile per link, see <a href="/advanced/dns_tunnels/#import">DNS Tunnels</a></td>
+</tr>
+<tr>
+<td>sing-box JSON: a full config, or an array of outbounds</td>
+<td>One profile for each supported outbound, including <code>dnstt</code> and <code>masterdns</code></td>
+</tr>
+<tr>
+<td>sing-box JSON: one outbound object</td>
+<td>One <code>Custom (sing-box outbound)</code> profile</td>
+</tr>
+<tr>
+<td>Xray JSON: a config, an array of outbounds, or one outbound</td>
+<td><code>VLESS (Xray)</code> for VLESS outbounds, <code>Custom (Xray outbound)</code> for the others</td>
+</tr>
+<tr>
+<td>Xray JSON: an array of complete configs</td>
+<td>One <code>Custom (Xray config)</code> profile for each config</td>
+</tr>
+<tr>
+<td>SIP008 JSON (Shadowsocks)</td>
+<td><code>Shadowsocks</code> profiles</td>
+</tr>
+<tr>
+<td>Clash or Mihomo YAML with a <code>proxies:</code> list</td>
+<td>Profiles for the <code>socks5</code>, <code>http</code>, <code>ss</code>, <code>vmess</code>, <code>vless</code>, <code>trojan</code>, <code>anytls</code>, <code>snell</code>, <code>hysteria</code>, <code>hysteria2</code>, <code>tuic</code>, <code>masque</code> and <code>ssh</code> entries</td>
+</tr>
+<tr>
+<td>WireGuard or AmneziaWG <code>.conf</code> file</td>
+<td>One <code>WireGuard</code> profile, named after a <code># Name =</code> or <code># remarks:</code> comment, or the comment above <code>[Peer]</code></td>
+</tr>
+<tr>
+<td>OpenVPN <code>.ovpn</code> file</td>
+<td>One <code>OpenVPN</code> profile</td>
+</tr>
+<tr>
+<td>AnyConnect XML profile, an <code>openconnect</code> command line, or a file with a <code>protocol=</code> line</td>
+<td><code>OpenConnect</code> profiles</td>
+</tr>
+<tr>
+<td>Any of the above, encoded in Base64</td>
+<td>Decoded first, then imported</td>
+</tr>
+</tbody>
+</table>
+<p><code>tt://</code> covers both kinds of TrustTunnel links: <code>tt://user:password@server:port?…</code> and the <code>tt://?…</code> deep link (versions 1 and 2) of the TrustTunnel apps. The link must contain the server address, server name, username and password, so a link with only a subscription address is refused. If it lists several server addresses, Throne imports the first and warns about the others.</p>
+<p>Entries that are not proxy servers are skipped, such as sing-box <code>direct</code>, <code>block</code>, <code>selector</code> and <code>urltest</code> or Xray <code>freedom</code> and <code>blackhole</code> outbounds. To run a complete sing-box or Xray config, paste it into a <code>Custom (sing-box config)</code> or <code>Custom (Xray config)</code> profile, see <a href="/advanced/chains/#full-configs">Full configs</a>.</p>
+<p>Import files over 50 MB (on Android, <code>.zip</code> files have no limit) and subscription responses over 64 MB are refused.</p>
+<h3 id="unusable-values">Values that cannot be used</h3>
+<p>These values do not stop the import. Throne leaves the value out, imports the rest of the profile and lists a warning in the <a href="/guides/subscriptions/#change-report">change report</a>:</p>
+<ul>
+<li>a <code>flow</code> the <code>VLESS</code> or <code>VLESS (Xray)</code> profile cannot use, for example Vision on a transport without Vision support;</li>
+<li>an invalid XHTTP setting (an invalid XHTTP mode becomes <code>auto</code>);</li>
+<li>an invalid REALITY <code>spx</code> (spider X);</li>
+<li>an invalid Mieru port or port range.</li>
+</ul>
+<h3 id="android-import">Android differences</h3>
+<ul>
+<li>A subscription URL can also be a <code>content://</code> address of a file on the device.</li>
+<li><code>Import from file</code> also takes a <code>.zip</code> file and imports every file in it, for example several WireGuard or OpenVPN configs.</li>
+<li><code>clash://install-config?url=…</code> links open Throne and add the URL as a subscription.</li>
+<li>When you tap a protocol link (<code>vless://…</code>) or a <code>throne://</code> link in another app, Throne opens and asks before it imports the profile.</li>
+<li>The Android share sheet offers Throne only for binary files, such as backups. Copy links from chat apps and use <code>Import from clipboard</code>; open other files with <code>Import from file</code>.</li>
+<li><code>Tailscale</code> and <code>Extra Core</code> profiles cannot be used on Android.</li>
+</ul>
+<h2 id="share-links">Share links</h2>
+<h3 id="link-types">Link types</h3>
+<table>
+<thead>
+<tr>
+<th>Link</th>
+<th>Looks like</th>
+<th>Who can read it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Standard link</td>
+<td><code>vless://…</code>, <code>ss://…</code>, <code>hysteria2://…</code> and so on</td>
+<td>Throne and most other clients</td>
+</tr>
+<tr>
+<td>Throne link</td>
+<td><code>throne://add/…</code></td>
+<td>Throne desktop and Throne for Android</td>
+</tr>
+<tr>
+<td>Old Throne link</td>
+<td><code>json://…</code></td>
+<td>Throne, for import only</td>
+</tr>
+</tbody>
+</table>
+<p>A <strong>standard link</strong> uses the protocol's usual link format. <code>Auto Selector</code>, <code>Chain Proxy</code>, the <code>Custom</code> types, <code>Direct</code>, <code>Extra Core</code>, <code>MASQUE</code>, <code>OpenVPN</code>, <code>OpenConnect</code> and <code>VLESS (Xray)</code> with XDRIVE have none, so Throne usually gives the Throne link instead. <code>Tailscale</code> shows a <code>ts://</code> link that Throne cannot import, so share its Throne link. <code>DNSTT / VayDNS</code> and <code>MasterDNS</code> give a <code>dnst://</code> link, see <a href="/advanced/dns_tunnels/#import">DNS Tunnels</a>.</p>
+<p>A <strong>Throne link</strong> holds the profile's settings as Base64-encoded JSON. It works for every type, but only Throne can read it, see <a href="/advanced/deeplinks/#add">Deep Links</a>. <code>json://</code> is its older format, which Throne still imports.</p>
+<p>A <code>Chain Proxy</code> or <code>Auto Selector</code> link stores only the internal numbers of the profiles or group it uses, so it works only in the same Throne installation.</p>
+<h3 id="ech-links">ECH and certificate pins in links</h3>
+<p>Throne reads and writes these TLS parameters in standard links:</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ech=1</code> or <code>ech=true</code></td>
+<td>Turns ECH on. The core looks up the ECH configuration in DNS.</td>
+</tr>
+<tr>
+<td><code>ech=</code> a domain, or a domain, <code>+</code> and a DNS server URL</td>
+<td>Turns ECH on and names the domain to look up, and optionally the DNS server to ask, for example <code>cloudflare-ech.com+https://1.1.1.1/dns-query</code>. It fills <code>ECH Query Name / Resolver</code>.</td>
+</tr>
+<tr>
+<td><code>ech=</code> any other value</td>
+<td>Turns ECH on with this Base64 ECH configuration.</td>
+</tr>
+<tr>
+<td><code>pcs=</code></td>
+<td>SHA-256 hashes of the server certificate, in hex and separated by commas. A matching certificate is accepted instead of the usual CA check. It fills <code>Certificate SHA256</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>For <code>VLESS (Xray)</code> profiles, the <code>ech</code> value goes unchanged into <code>ECH Config List</code>. Links that Throne creates also keep the older <code>ech_enabled</code>, <code>ech_config</code> and <code>ech_server_name</code> parameters. For what ECH does, see <a href="/advanced/presets/#ech">ECH</a>.</p>
+<h3 id="share-desktop">Share on the desktop</h3>
+<p>Right-click a profile and open <code>Share</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Action</th>
+<th>What you get</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>QR Code and link</code></td>
+<td>The standard link and its QR code. Tick <code>Deep Link</code> for the Throne link.</td>
+</tr>
+<tr>
+<td><code>Copy links of selected</code> (<code>Ctrl+C</code>)</td>
+<td>The standard links of the selected profiles, one per line.</td>
+</tr>
+<tr>
+<td><code>Copy links of selected (Deep Links)</code> (<code>Ctrl+Alt+C</code>)</td>
+<td>The Throne links of the selected profiles.</td>
+</tr>
+<tr>
+<td><code>Export config</code> (<code>Ctrl+E</code>)</td>
+<td>The core config Throne generates for the profile, in a <code>sing-box</code> tab and, for profiles that use Xray, an <code>Xray</code> tab. A config for other clients, not a share link.</td>
+</tr>
+</tbody>
+</table>
+<p>For the links of a whole group, use <code>Groups</code> → <code>Edit current Group</code> → <code>Copy profile share links</code> or <code>Copy profile share links (Deep Links)</code>. <code>Copy links of selected (Deep Links)</code> and <code>Export config</code> are Advanced mode only, see <a href="/get_started/configuration/#interface-mode">Simple and Advanced mode</a>.</p>
+<h3 id="share-android">Share on Android</h3>
+<p>Tap the share button of a profile, or ⋮ → <code>Share</code> on double-column cards and <code>Compact profile rows</code>:</p>
+<ul>
+<li><code>QR code</code> → <code>Standard</code> or <code>Throne link</code></li>
+<li><code>Export to clipboard</code> → <code>Standard</code> or <code>Throne link</code></li>
+<li><code>Configuration</code> → <code>Export to clipboard</code> or <code>Export to file</code>: the core config Throne generates, not a share link</li>
+</ul>
+<p><code>Standard</code> is missing when the type has no standard link, and a chain offers only <code>Configuration</code>. For the links of a whole group, open <code>Groups</code>, tap <code>More options</code> on the group and choose <code>Copy profile share links</code> or <code>Copy profile share links (deep links)</code>.</p>
+
+      </div>
+      
+      
+      
+      <footer class="docs-article-footer">
+        
+        <a class="edit-link" href="https://github.com/throneproj/throneproj.github.io/edit/main/content/reference/protocols.md" target="_blank" rel="noopener noreferrer">
+        
+          <svg class="ic" aria-hidden="true"><use href="#i-pencil"/></svg>
+          Edit this page on GitHub
+        </a>
+        
+
+<nav class="prev-next" aria-label="Page navigation">
+  
+  <a class="prevnext-prev" href="https://throneproj.github.io/reference/">
+    <span class="prevnext-dir">Previous</span>
+    Reference
+  </a>
+  
+  
+  <a class="prevnext-next" href="https://throneproj.github.io/reference/shortcuts/">
+    <span class="prevnext-dir">Next</span>
+    Keyboard Shortcuts & Tray
+  </a>
+  
+</nav>
+
+      </footer>
+    </article>
+  </main>
+  
+<nav class="docs-toc" aria-label="On this page">
+  <p class="docs-toc-title">
+    <svg class="ic" aria-hidden="true"><use href="#i-list"/></svg>
+    On this page
+  </p>
+  <ul><li><a href="#protocols">Profile types</a><ul><li><a href="#engines">Which engine runs a profile</a></li></ul></li><li><a href="#import-formats">Import formats</a><ul><li><a href="#where-to-import">Where to import</a></li><li><a href="#formats">Supported formats</a></li><li><a href="#unusable-values">Values that cannot be used</a></li><li><a href="#android-import">Android differences</a></li></ul></li><li><a href="#share-links">Share links</a><ul><li><a href="#link-types">Link types</a></li><li><a href="#ech-links">ECH and certificate pins in links</a></li><li><a href="#share-desktop">Share on the desktop</a></li><li><a href="#share-android">Share on Android</a></li></ul></li></ul>
+</nav>
+
+    </main>
+  </div>
+
+  
+<script src="https://throneproj.github.io/assets/js/highlight.min.js" defer></script>
+<script>
+  window.NOIR_BASE = "https://throneproj.github.io";
+  
+  window.NOIR_I18N = {
+    copy: "Copy",
+    copied: "Copied",
+    copyManual: "Press Ctrl C",
+    noResults: "No results for",
+    theme: "Theme",
+    themeAuto: "auto",
+    themeLight: "light",
+    themeDark: "dark"
+  };
+</script>
+<script src="https://throneproj.github.io/js/theme.js" defer></script>
+<script src="https://throneproj.github.io/js/nav.js" defer></script>
+<script src="https://throneproj.github.io/js/code.js" defer></script>
+<script src="https://throneproj.github.io/js/toc.js" defer></script>
+<script src="https://throneproj.github.io/js/reveal.js" defer></script>
+<script src="https://throneproj.github.io/js/mermaid.js" defer></script>
+<script src="https://throneproj.github.io/js/search.js" defer></script>
+
+</body>
+</html>

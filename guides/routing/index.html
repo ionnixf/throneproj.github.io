@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Choose which traffic goes through the proxy, which goes direct and which is blocked, with ready-made profiles or your own rules.">
+  <title>Routing - Throne</title>
+
+  
+  <meta name="theme-color" content="#0b0b0c" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#fbfbfa" media="(prefers-color-scheme: light)">
+
+  
+  <script>
+    (function () {
+      var r = document.documentElement;
+      r.classList.add("js");
+      try {
+        var t = localStorage.getItem("throne-theme");
+        if (t === "light" || t === "dark") r.setAttribute("data-theme", t);
+      } catch (e) {}
+    })();
+  </script>
+
+  <meta name="google-site-verification" content="Zzz4doeS45o-EhP56mm1yoyfHSEEZJRJJt0tfj7vPGM" />
+  <script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+      m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+      m[i].l=1*new Date();
+      for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+      k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=111847353', 'ym');
+
+    
+    ym(111847353, 'init', {ssr:true, webvisor:false, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/111847353" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+
+  <meta property="og:title" content="Routing">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://throneproj.github.io/guides/routing/">
+  <meta property="og:description" content="Choose which traffic goes through the proxy, which goes direct and which is blocked, with ready-made profiles or your own rules.">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Routing">
+  <meta name="twitter:description" content="Choose which traffic goes through the proxy, which goes direct and which is blocked, with ready-made profiles or your own rules.">
+  <link rel="canonical" href="https://throneproj.github.io/guides/routing/">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Routing","url":"https://throneproj.github.io/guides/routing/","description":"Choose which traffic goes through the proxy, which goes direct and which is blocked, with ready-made profiles or your own rules."}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Throne","item":"https://throneproj.github.io/"},{"@type":"ListItem","position":2,"name":"Guides","item":"https://throneproj.github.io/guides/"},{"@type":"ListItem","position":3,"name":"Routing"}]}</script>
+  <link rel="alternate" hreflang="en" href="https://throneproj.github.io/guides/routing/">
+<link rel="alternate" hreflang="fa" href="https://throneproj.github.io/fa/guides/routing/">
+<link rel="alternate" hreflang="ru" href="https://throneproj.github.io/ru/guides/routing/">
+<link rel="alternate" hreflang="zh" href="https://throneproj.github.io/zh/guides/routing/">
+<link rel="alternate" hreflang="x-default" href="https://throneproj.github.io/guides/routing/">
+
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon.ico" sizes="any">
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon-96x96.png" type="image/png" sizes="96x96">
+  <link rel="apple-touch-icon" href="https://throneproj.github.io/logos/apple-touch-icon.png">
+  <link rel="manifest" href="https://throneproj.github.io/logos/site.webmanifest">
+
+  <link rel="preload" href="https://throneproj.github.io/fonts/geist-variable-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+  
+  <link rel="stylesheet" href="https://throneproj.github.io/assets/css/highlight/atom-one-dark.min.css">
+  <link rel="stylesheet" href="https://throneproj.github.io/css/style.css">
+  
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  
+<svg xmlns="http://www.w3.org/2000/svg" class="icon-sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 10a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+    <path d="M21 21l-6 -6" />
+  </symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M3 12h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7" />
+  </symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454l0 .008" />
+  </symbol>
+  <symbol id="i-contrast" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M12 17a5 5 0 0 0 0 -10v10" />
+  </symbol>
+  <symbol id="i-chevron-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M6 9l6 6l6 -6" />
+  </symbol>
+  <symbol id="i-menu-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 6l16 0" />
+    <path d="M4 12l16 0" />
+    <path d="M4 18l16 0" />
+  </symbol>
+  <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M18 6l-12 12" />
+    <path d="M6 6l12 12" />
+  </symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 9.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667l0 -8.666" />
+    <path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" />
+  </symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l5 5l10 -10" />
+  </symbol>
+  <symbol id="i-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l14 0" />
+    <path d="M13 18l6 -6" />
+    <path d="M13 6l6 6" />
+  </symbol>
+  <symbol id="i-arrow-up-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M17 7l-10 10" />
+    <path d="M8 7l9 0l0 9" />
+  </symbol>
+  <symbol id="i-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l14 0" />
+    <path d="M5 12l6 6" />
+    <path d="M5 12l6 -6" />
+  </symbol>
+  <symbol id="i-brand-github" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+  </symbol>
+  <symbol id="i-pencil" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+    <path d="M13.5 6.5l4 4" />
+  </symbol>
+  <symbol id="i-rocket" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 13a8 8 0 0 1 7 7a6 6 0 0 0 3 -5a9 9 0 0 0 6 -8a3 3 0 0 0 -3 -3a9 9 0 0 0 -8 6a6 6 0 0 0 -5 3" />
+    <path d="M7 14a6 6 0 0 0 -3 6a6 6 0 0 0 6 -3" />
+    <path d="M14 9a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+  </symbol>
+  <symbol id="i-terminal-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 9l3 3l-3 3" />
+    <path d="M13 15l3 0" />
+    <path d="M3 6a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2l0 -12" />
+  </symbol>
+  <symbol id="i-lifebuoy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M15 15l3.35 3.35" />
+    <path d="M9 15l-3.35 3.35" />
+    <path d="M5.65 5.65l3.35 3.35" />
+    <path d="M18.35 5.65l-3.35 3.35" />
+  </symbol>
+  <symbol id="i-list" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 6l11 0" />
+    <path d="M9 12l11 0" />
+    <path d="M9 18l11 0" />
+    <path d="M5 6l0 .01" />
+    <path d="M5 12l0 .01" />
+    <path d="M5 18l0 .01" />
+  </symbol>
+  <symbol id="i-code" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 8l-4 4l4 4" />
+    <path d="M17 8l4 4l-4 4" />
+    <path d="M14 4l-4 16" />
+  </symbol>
+  <symbol id="i-rss" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 19a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+    <path d="M4 4a16 16 0 0 1 16 16" />
+    <path d="M4 11a9 9 0 0 1 9 9" />
+  </symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12" />
+    <path d="M16 3v4" />
+    <path d="M8 3v4" />
+    <path d="M4 11h16" />
+    <path d="M11 15h1" />
+    <path d="M12 15v3" />
+  </symbol>
+</svg>
+
+<header class="site-header">
+  <div class="header-inner">
+    <button class="icon-btn hamburger" id="drawerToggle" aria-label="Open navigation" aria-expanded="false" aria-controls="sidebar">
+      <svg class="ic" aria-hidden="true"><use href="#i-menu-2"/></svg>
+    </button>
+
+    <a href="https://throneproj.github.io/" class="header-logo" aria-label="Throne homepage">
+      <img class="logo" src="https://throneproj.github.io/images/throne-logo.png" alt="Throne" width="1817" height="346">
+    </a>
+    <a class="header-version" href="https://github.com/throneproj/Throne/releases/tag/1.4.1" target="_blank" rel="noopener noreferrer">v1.4.1</a>
+
+    <nav class="header-nav" aria-label="Primary">
+      <a href="https://throneproj.github.io/get_started/">Get Started</a>
+      <a href="https://throneproj.github.io/downloads/">Downloads</a>
+    </nav>
+
+    <div class="header-right">
+      <button class="header-btn search-trigger" id="searchTrigger" aria-label="Search documentation">
+        <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+        <span>Search</span>
+        <kbd>Ctrl K</kbd>
+      </button>
+
+      
+      
+      <nav class="lang-switcher" aria-label="Language">
+        
+        <a href="https://throneproj.github.io/guides/routing/" hreflang="en" aria-current="true">EN</a>
+        
+        <a href="https://throneproj.github.io/fa/guides/routing/" hreflang="fa">FA</a>
+        
+        <a href="https://throneproj.github.io/ru/guides/routing/" hreflang="ru">RU</a>
+        
+        <a href="https://throneproj.github.io/zh/guides/routing/" hreflang="zh">ZH</a>
+        
+      </nav>
+      
+
+      <a class="icon-btn" href="https://github.com/throneproj/Throne" target="_blank" rel="noopener noreferrer" aria-label="Throne on GitHub">
+        <svg class="ic" aria-hidden="true"><use href="#i-brand-github"/></svg>
+      </a>
+
+      
+      <button class="icon-btn theme-toggle" id="themeToggle" data-mode="auto" type="button" aria-label="Theme">
+        <svg class="ic ic-auto" aria-hidden="true"><use href="#i-contrast"/></svg>
+        <svg class="ic ic-light" aria-hidden="true"><use href="#i-sun"/></svg>
+        <svg class="ic ic-dark" aria-hidden="true"><use href="#i-moon"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+<div class="search-overlay" id="searchOverlay" role="dialog" aria-modal="true" aria-label="Search documentation" hidden>
+  <div class="search-modal">
+    <div class="search-input-wrap">
+      <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+      <input type="search" id="searchInput" aria-label="Search documentation" placeholder="Search the docs" autocomplete="off" spellcheck="false">
+      <kbd id="searchClose" role="button" tabindex="0">Esc</kbd>
+    </div>
+    <div class="search-results" id="searchResults" role="listbox" aria-label="Search"></div>
+  </div>
+</div>
+<div class="docs-container">
+<div class="drawer-scrim" id="drawerScrim"></div>
+<aside class="docs-sidebar" id="sidebar">
+  <nav class="sidebar-nav" aria-label="Documentation">
+
+    
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Get Started</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/get_started/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/get_started/installation/">Installation</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/get_started/configuration/">Quick Start</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group" open>
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Guides</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/guides/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/subscriptions/">Subscriptions & Groups</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/proxy_modes/">System Proxy, TUN & LAN</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/tun_mode/">TUN Mode</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/routing/" aria-current="page">Routing</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/dns/">DNS</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/testing/">Testing & Auto Selector</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/backup/">Backup, Updates & Migration</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/recipes/">Recipes</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Throne for Android</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/android/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/installation/">Installation & Upgrade</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/permissions/">Permissions & Background</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/modes/">VPN & Proxy Modes</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/widgets/">Widgets, Tile & Automation</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/tv/">Android TV</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/troubleshooting/">Troubleshooting</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Headless Throne</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/headless/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/headless/installation/">Installation & Services</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/headless/thronectl/">Managing with thronectl</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/headless/web/">Web UI</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/headless/command_line/">Command Line & Data Directory</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/headless/monitoring/">Health Checks & Logs</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/headless/recovery/">Lockout Protection & Recovery</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/headless/troubleshooting/">Troubleshooting</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Advanced Configuration</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/xray/">sing-box vs Xray</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/chains/">Chains & Custom Configs</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/presets/">Anti-Censorship Presets</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/warp/">Cloudflare WARP</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/dns_tunnels/">DNS Tunnels</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/vpn_profiles/">OpenVPN, OpenConnect & Tailscale</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/windows_tun_mode/">Windows DNS Leak Protection</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/kill_switch/">Kill Switch</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/deeplinks/">Deep Links</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/api/">Throne API & thronectl</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Reference</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/reference/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/reference/protocols/">Protocols & Import Formats</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/reference/shortcuts/">Keyboard Shortcuts & Tray</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/reference/files/">Command Line, Files & Logs</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/reference/privacy/">Privacy & Network Requests</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/reference/glossary/">Glossary</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Help</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/help/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/help/faq/">FAQ</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/help/troubleshooting/">Troubleshooting</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/help/bug_reports/">Reporting a Bug</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/help/migrating/">Coming from Nekoray / NekoBox</a></li>
+        
+        
+      </ul>
+    </details>
+    
+
+  </nav>
+</aside>
+  <main id="main" class="docs-main">
+    <article>
+      <h1 class="docs-title">Routing</h1>
+      <p class="docs-lede">Choose which traffic goes through the proxy, which goes direct and which is blocked, with ready-made profiles or your own rules.</p>
+      <div class="prose">
+        <p>Routing decides where each connection goes: through the proxy, direct, or nowhere. The built-in <code>Default</code> profile sends everything through the proxy, so you only need this page if you want something else.</p>
+<h2 id="how-routing-works">How routing works</h2>
+<p>A routing profile is a list of rules plus a default outbound. Throne checks the rules from top to bottom and the first match decides where the connection goes. If no rule matches, the default outbound is used.</p>
+<table>
+<thead>
+<tr>
+<th>Outbound</th>
+<th>Where the traffic goes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>proxy</code></td>
+<td>Through the running profile, and through WARP when it is on.</td>
+</tr>
+<tr>
+<td><code>direct</code></td>
+<td>Straight to the internet.</td>
+</tr>
+<tr>
+<td><code>block</code></td>
+<td>Nowhere. The connection is refused.</td>
+</tr>
+<tr>
+<td><code>warp-bypass</code></td>
+<td>Through the running profile, without WARP. See <a href="/advanced/warp/#warp-bypass">WARP</a>.</td>
+</tr>
+<tr>
+<td>A saved profile</td>
+<td>Through that profile instead. Advanced rules only.</td>
+</tr>
+</tbody>
+</table>
+<p>One routing profile is active at a time. Switch it from the list at the bottom of the <code>Routing</code> menu, or from the tray menu → <code>Select Routing</code>. A running connection restarts with the new rules. A group can also use its own routing profile, see <a href="#group-routing">Routing profile per group</a>.</p>
+<h2 id="download-profiles">Download ready-made profiles</h2>
+<ol>
+<li>Open <code>Routing</code> → <code>Download Profiles</code> and choose <code>China</code>, <code>Iran</code> or <code>Russia</code>.</li>
+<li>Keep <code>Auto update</code> ticked and click <code>OK</code>.</li>
+<li>Choose one of the new profiles at the bottom of the <code>Routing</code> menu. Downloading alone does not activate it.</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Profile</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Bypass China</code>, <code>Bypass Iran</code>, <code>Bypass Russia</code></td>
+<td>Proxies everything, except that country&#39;s sites and IP addresses and your local network.</td>
+</tr>
+<tr>
+<td><code>Proxy China Blocked</code>, <code>Proxy Russia Blocked</code></td>
+<td>Sends everything direct, except sites blocked in that country.</td>
+</tr>
+<tr>
+<td><code>Proxy Antizapret</code>, <code>Proxy Refilter</code> (Russia)</td>
+<td>Sends everything direct, except sites on the Antizapret or Re:filter block list.</td>
+</tr>
+</tbody>
+</table>
+<p>Use a &quot;Bypass&quot; profile if most sites you visit are abroad. A &quot;Proxy … Blocked&quot; profile sends less traffic through your server, but a blocked site that is missing from the list will not load.</p>
+<p>The lists are maintained in <a href="https://github.com/throneproj/routeprofiles">throneproj/routeprofiles</a>. If the download fails, choose another <code>Remote Rule-set Mirror</code> (see <a href="#rule-sets">Rule-sets</a>) and try again.</p>
+<h2 id="profiles">Routing profiles</h2>
+<p>Routing profiles are managed on the <code>Route</code> tab of <code>Settings</code> → <code>Routing Settings</code>, which is also the first item of the <code>Routing</code> menu. Right-clicking a profile in the <code>Routing</code> menu opens it in the editor directly. Changes apply when you click <code>OK</code>; if a connection is running, click <code>Restart</code> in the &quot;Settings changed, restart to apply&quot; notice.</p>
+<p>There are three kinds:</p>
+<ul>
+<li><strong>Structured profiles</strong>, edited in Throne with <a href="#simple-rules">simple rules</a> and <a href="#advanced-rules">advanced rules</a>. Most people only need these.</li>
+<li><strong><a href="#remote-profiles">Remote profiles</a></strong>, downloaded from a URL.</li>
+<li><strong><a href="#raw-profiles">Raw profiles</a></strong>, written as sing-box JSON.</li>
+</ul>
+<p>To create a structured profile:</p>
+<ol>
+<li>On the <code>Route</code> tab, click <code>New</code> → <code>Structured profile</code>.</li>
+<li>Enter a <code>Name</code> and choose the <code>Default outbound</code>.</li>
+<li>Add rules on the <code>Basic</code> or <code>Advanced</code> tab and click <code>OK</code>.</li>
+<li>Activate it from the <code>Routing</code> menu.</li>
+</ol>
+<p>A profile's <code>DNS</code> tab can give it its own DNS servers, see <a href="/guides/dns/#route-dns">DNS per routing profile</a>. Its <code>Endpoints</code> tab, shown when you have OpenVPN or OpenConnect profiles, runs them next to the proxy, see <a href="/advanced/vpn_profiles/#split-tunnel">split tunnel</a>.</p>
+<p>The <code>Common</code> tab also has these settings (Advanced mode only, see <a href="/get_started/configuration/#interface-mode">Simple and Advanced mode</a>):</p>
+<table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Default Domain Strategy</code></td>
+<td>IPv4 or IPv6 preference when Throne resolves a server or a site that goes direct.</td>
+</tr>
+<tr>
+<td><code>Resolve Domain Strategy</code></td>
+<td>Resolves every domain before the rules run, so IP rules also match domains.</td>
+</tr>
+<tr>
+<td><code>Remote Rule-set Mirror</code></td>
+<td>Where rule-sets and profiles hosted on GitHub are downloaded from. Default: <code>jsDelivr(Cloudflare)</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="simple-rules">Simple rules</h2>
+<p>The <code>Basic</code> tab of a profile has four boxes: <code>Direct</code>, <code>Proxy</code>, <code>Block</code> and <code>Warp-bypass</code>. Each line in a box sends matching traffic there.</p>
+<table>
+<thead>
+<tr>
+<th>Line</th>
+<th>Matches</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>domain:example.com</code></td>
+<td>Only <code>example.com</code>.</td>
+</tr>
+<tr>
+<td><code>suffix:example.com</code></td>
+<td><code>example.com</code> and all its subdomains.</td>
+</tr>
+<tr>
+<td><code>keyword:example</code></td>
+<td>Every domain that contains <code>example</code>.</td>
+</tr>
+<tr>
+<td><code>regex:^cdn[0-9]*\.example\.com$</code></td>
+<td>Domains that match a regular expression (Go RE2 syntax).</td>
+</tr>
+<tr>
+<td><code>ruleset:geosite-youtube</code></td>
+<td>Everything in a <a href="#rule-sets">rule-set</a>, by name or by <code>.srs</code> URL.</td>
+</tr>
+<tr>
+<td><code>ip:10.0.0.0/8</code></td>
+<td>An IP range, or a single address such as <code>1.2.3.4</code>.</td>
+</tr>
+<tr>
+<td><code>processName:Telegram.exe</code></td>
+<td>A program, by file name.</td>
+</tr>
+<tr>
+<td><code>processPath:C:\Program Files\App\app.exe</code></td>
+<td>A program, by full path.</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Write one entry per line. Prefixes are case-sensitive: <code>processName</code>, not <code>processname</code>.</li>
+<li>A process name must match exactly, including case and <code>.exe</code> on Windows. The <a href="#connections-tab">Connections tab</a> shows the exact name.</li>
+<li>The editor marks lines it cannot use. Fix them before you switch tabs, because switching tabs drops them.</li>
+</ul>
+
+<aside class="callout callout--info">
+  <span class="callout-label">Note</span>
+  <p>Process rules only see traffic that reaches Throne. In system proxy mode, programs that ignore the proxy never reach it, so use process rules together with <code>Tun Mode</code>. See <a href="/guides/tun_mode/#enable">TUN Mode</a>.</p>
+
+</aside>
+<p><strong>Example: proxy everything except local sites, and block ads.</strong> Set <code>Default outbound</code> to <code>proxy</code>. In <code>Direct</code>:</p>
+<pre><code class="language-text hljs">ruleset:geosite-ir
+ruleset:geoip-ir
+</code></pre>
+<p>In <code>Block</code>:</p>
+<pre><code class="language-text hljs">ruleset:geosite-category-ads-all
+</code></pre>
+<p>Replace <code>ir</code> with your country code, for example <code>cn</code> or <code>ru</code>.</p>
+<p><strong>Example: only one program and one site through the proxy.</strong> Set <code>Default outbound</code> to <code>direct</code>. In <code>Proxy</code>:</p>
+<pre><code class="language-text hljs">processName:Telegram.exe
+suffix:example.org
+</code></pre>
+<p>Each box becomes rules on the <code>Advanced</code> tab, such as <code>Simple Address Bypass</code> for the addresses in <code>Direct</code> and <code>Simple Process Name Proxy</code> for the programs in <code>Proxy</code>. They are added in the order <code>Direct</code>, <code>Block</code>, <code>Proxy</code>, <code>Warp-bypass</code>, and the first match wins, so a line in <code>Proxy</code> has no effect if a broader line in <code>Direct</code> matches the same traffic. To make an exception, for example to proxy <code>example.ir</code> while <code>geosite-ir</code> goes direct, add <code>suffix:example.ir</code> to <code>Proxy</code>, then on the <code>Advanced</code> tab move <code>Simple Address Proxy</code> above the rule that contains <code>geosite-ir</code>.</p>
+<h2 id="advanced-rules">Advanced rules</h2>
+<p>The <code>Advanced</code> tab lists every rule of the profile in order. <code>Move Up</code> and <code>Move Down</code> change the order. Untick the check box of a rule to disable it without deleting it; this also works for the rules of the <code>Basic</code> boxes. In Simple mode, the tab only appears when the profile has rules that the <code>Basic</code> tab cannot show.</p>
+<p>To add a rule, click <code>New</code> and choose an <code>Action</code>. Then tick the attributes you need on the <code>+</code> tab and fill them in, one entry per line.</p>
+<table>
+<thead>
+<tr>
+<th>Action</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>route</code></td>
+<td>Sends matching traffic to the rule&#39;s <code>outbound</code>. A new rule uses <code>direct</code> until you tick <code>outbound</code> and choose another one.</td>
+</tr>
+<tr>
+<td><code>reject</code></td>
+<td>Blocks matching traffic. In advanced rules, use this instead of <code>block</code>.</td>
+</tr>
+<tr>
+<td><code>hijack-dns</code></td>
+<td>Answers DNS queries with Throne&#39;s DNS.</td>
+</tr>
+<tr>
+<td><code>route-options</code></td>
+<td>Sets options such as <code>override_address</code> or <code>tls_spoof</code>, then continues with the next rules.</td>
+</tr>
+<tr>
+<td><code>sniff</code></td>
+<td>Detects the protocol and the domain of a connection, then continues.</td>
+</tr>
+<tr>
+<td><code>resolve</code></td>
+<td>Looks up the IP address of the domain, then continues.</td>
+</tr>
+<tr>
+<td><code>bypass</code></td>
+<td>Linux only. See the <a href="https://sing-box.sagernet.org/configuration/route/rule_action/">sing-box documentation</a>.</td>
+</tr>
+</tbody>
+</table>
+<p><code>route</code>, <code>route-options</code> and <code>bypass</code> also offer <code>tls_fragment</code> and <code>tls_record_fragment</code>. They split the TLS handshake like the <a href="/advanced/presets/#tls-fragment">TLS fragment</a> options of a profile, which helps <code>direct</code> connections to sites that a filter blocks by name.</p>
+<table>
+<thead>
+<tr>
+<th>Attributes</th>
+<th>What they match</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>domain</code>, <code>domain_suffix</code>, <code>domain_keyword</code>, <code>domain_regex</code></td>
+<td>The requested domain.</td>
+</tr>
+<tr>
+<td><code>ip_cidr</code>, <code>ip_is_private</code></td>
+<td>The destination address.</td>
+</tr>
+<tr>
+<td><code>rule_set</code></td>
+<td>Rule-set names or <code>.srs</code> URLs.</td>
+</tr>
+<tr>
+<td><code>port</code>, <code>port_range</code></td>
+<td>The destination port, for example <code>443</code> or <code>1000:2000</code>.</td>
+</tr>
+<tr>
+<td><code>source_ip_cidr</code>, <code>source_port</code> and the like</td>
+<td>Where the connection comes from, for example another device on your network.</td>
+</tr>
+<tr>
+<td><code>process_name</code>, <code>process_path</code>, <code>process_path_regex</code></td>
+<td>The program on this computer.</td>
+</tr>
+<tr>
+<td><code>network</code>, <code>protocol</code>, <code>ip_version</code></td>
+<td><code>tcp</code>, <code>udp</code> or <code>icmp</code>; a detected protocol such as <code>tls</code> or <code>bittorrent</code>; <code>4</code> or <code>6</code>.</td>
+</tr>
+<tr>
+<td><code>inbound</code></td>
+<td><code>mixed-in</code> (the proxy port) or <code>tun-in</code> (TUN mode).</td>
+</tr>
+<tr>
+<td><code>wifi_ssid</code>, <code>wifi_bssid</code></td>
+<td>The Wi-Fi network you are connected to. Not available on macOS.</td>
+</tr>
+<tr>
+<td><code>invert</code></td>
+<td>Makes the rule match when its conditions do not.</td>
+</tr>
+</tbody>
+</table>
+<p>Within one rule, the domain, IP and <code>rule_set</code> attributes match when any of them matches. Every other attribute must match as well.</p>
+<p>To send traffic through a specific server, tick <code>outbound</code> and choose a saved profile, shown as <code>[group] name</code>. Throne runs it next to the profile you started. Extra Core profiles and full custom configs cannot be used this way.</p>
+<h2 id="rule-sets">Rule-sets</h2>
+<p>A rule-set is a list of domains or IP ranges in a separate file. Use it as <code>ruleset:&lt;name&gt;</code> in a box, or in the <code>rule_set</code> attribute of an advanced rule.</p>
+<ul>
+<li><strong>Built-in names</strong>: more than 2,000. Names starting with <code>geosite-</code> hold domains, such as <code>geosite-youtube</code> or <code>geosite-category-ads-all</code>. Names starting with <code>geoip-</code> hold IP ranges, such as <code>geoip-ir</code> or <code>geoip-telegram</code>. The editor suggests names as you type.</li>
+<li><strong>Your own files</strong>: the URL of any sing-box binary rule-set. The file name must contain <code>.srs</code>.</li>
+</ul>
+<p>Rule-sets are downloaded when a profile starts. <code>Routing</code> → <code>Update Rule-Sets</code> downloads fresh copies. If GitHub is blocked or slow on your network, change <code>Routing Settings</code> → <code>Common</code> → <code>Remote Rule-set Mirror</code>. The mirror also applies to the AdBlock list and to routing profiles hosted on GitHub.</p>
+<h2 id="remote-profiles">Remote profiles</h2>
+<p>A remote profile is a structured profile that Throne downloads from a URL, like the ones from <a href="#download-profiles">Download Profiles</a>. Providers can also share one as a <a href="/advanced/deeplinks/#remoteroute"><code>throne://remoteroute/</code> link</a>.</p>
+<p>To add one, click <code>New</code> → <code>Remote profile</code> on the <code>Route</code> tab, enter the <code>URL</code>, tick <code>Auto update</code> and click <code>OK</code>. The URL can serve a <code>throne://route/</code> link, its Base64 text or the profile's JSON. Raw profiles cannot be remote.</p>
+<p>Automatic updates also need <code>Settings</code> → <code>Basic Settings</code> → <code>Subscription</code> → <code>Routing profiles auto update</code>, which is off by default (Advanced mode only). To update right away, click <code>Update</code> on the <code>Route</code> tab.</p>
+<aside class="callout callout--warning">
+  <span class="callout-label">Warning</span>
+  <p>An update replaces the rules and the default outbound of the profile, so your changes to it are lost. To customize a remote profile, <code>Clone</code> it and untick <code>Auto update</code> in the copy. Rules you disabled and the profile's own DNS settings are kept.</p>
+
+</aside>
+<h2 id="group-routing">Routing profile per group</h2>
+<p>A group can connect with its own routing profile instead of the one in the <code>Routing</code> menu. For example, the servers of one provider can use <code>Bypass Iran</code> while all other groups use <code>Default</code>.</p>
+<ol>
+<li>Right-click the group's tab and choose <code>Edit selected Group</code>.</li>
+<li>Choose a <code>Routing Profile</code>. <code>Default (…)</code> follows the <code>Routing</code> menu.</li>
+<li>Click <code>OK</code>.</li>
+</ol>
+<p>The group of the profile you start decides. For a chain or an auto selector, that is the group of the chain or the auto selector, not of the profiles in it. The window title and the tray tooltip show the routing profile in use, and the <a href="#connections-tab">Connections tab</a> changes that profile. A group's routing profile also brings its own <a href="/guides/dns/#route-dns">DNS settings</a>, if it has them.</p>
+<h3 id="subscription-routing">From the subscription</h3>
+<p>Some providers send a routing profile with the subscription, in the Happ format. To use it, open the group's settings, tick <code>Use the subscription's routing profile</code> under <code>Subscription</code>, click <code>OK</code> and update the subscription.</p>
+<p>Throne saves it as a structured routing profile named by the provider. If the group's <code>Routing Profile</code> is <code>Default (…)</code>, the new profile becomes the group's routing profile. Every update replaces its rules. DNS settings from the subscription are never used.</p>
+<ul>
+<li>To change it for good, <code>Clone</code> it and choose the clone as the group's <code>Routing Profile</code>.</li>
+<li>The profile belongs to the group. Deleting the group deletes it.</li>
+</ul>
+<h2 id="raw-profiles">Raw profiles</h2>
+<p>A raw profile is a complete sing-box <code>route</code> object in JSON, for features that the rule editor does not offer. Create one with <code>New</code> → <code>Raw profile</code>.</p>
+<p>Outbounds are written as numbers: <code>-1</code> is <code>proxy</code>, <code>-2</code> is <code>direct</code>, <code>-5</code> is <code>warp-bypass</code>, and a profile ID is that saved profile. The editor suggests your profiles after <code>&quot;outbound&quot;:</code>. Without <code>final</code>, Throne uses <code>proxy</code>.</p>
+<p>Built-in rule-set names are not defined in raw profiles, and Throne does not add the DNS step that structured profiles get. For TUN mode, start your rules like this:</p>
+<pre><code class="language-json hljs">{
+  &quot;rules&quot;: [
+    { &quot;action&quot;: &quot;sniff&quot; },
+    { &quot;protocol&quot;: &quot;dns&quot;, &quot;action&quot;: &quot;hijack-dns&quot; },
+    { &quot;domain_suffix&quot;: [&quot;example.com&quot;], &quot;outbound&quot;: -2 }
+  ],
+  &quot;final&quot;: -1
+}
+</code></pre>
+<p><code>Prevent modifications</code> uses the JSON exactly as written, which can break DNS, Xray profiles and chains. AdBlock, <code>Enable DNS Routing</code> and the Connections tab actions do not work with raw profiles, and Throne for Android cannot use them.</p>
+<h2 id="connections-tab">Connections tab</h2>
+<p>The <code>Connections</code> tab at the bottom of the main window lists open connections grouped by program, with their destination, protocol, outbound and traffic. Hover over the <code>Outbound</code> column to see the rule a connection matched; <code>final</code> means that no rule matched.</p>
+<p>Right-click a connection to change where such traffic goes:</p>
+<ul>
+<li><code>Direct</code>, <code>Proxy</code> or <code>Block</code> lists targets with check boxes: each domain level such as <code>*.example.com</code>, the site name as a keyword, the IP address when there is no domain, and the program. A ticked target is added to that box of the routing profile in use, and removed from any other box.</li>
+<li><code>Specific server</code> does the same, but sends the targets through a server you choose.</li>
+</ul>
+<p>Then click <code>Restart</code> in the &quot;Settings changed, restart to apply&quot; notice. A target joins the existing rule of that box. If the box was empty, its new rule goes to the end of the list, where a broader rule above it can still match first, so check the order on the <code>Advanced</code> tab.</p>
+<p>These actions are not available for raw profiles, for profiles with <code>Prevent modifications</code>, for remote profiles with <code>Auto update</code>, and for profiles updated by a subscription. To change a remote or subscription profile, clone it first, see <a href="#remote-profiles">Remote profiles</a> and <a href="#subscription-routing">From the subscription</a>.</p>
+<p>If the tab is missing, turn on <code>Settings</code> → <code>Basic Settings</code> → <code>Style</code> → <code>Connection statistics</code> (Advanced mode only).</p>
+<h2 id="adblock">AdBlock</h2>
+<p><code>Routing</code> → <code>Enable AdBlock</code> blocks ads in whichever structured or remote profile is active, with the <code>adblocksingbox</code> list of the 217heidai/adblockfilters project. It runs before your own rules, so ads are blocked for direct and proxied traffic alike.</p>
+<p>If a site stops working, turn AdBlock off to check whether the list blocks it. To block ads in one profile only, put <code>ruleset:geosite-category-ads-all</code> in its <code>Block</code> box instead.</p>
+<h2 id="share-profiles">Share profiles</h2>
+<p>Select a profile on the <code>Route</code> tab and click <code>Export</code> (<code>Ctrl+C</code>) to copy it as a <code>throne://route/</code> link.</p>
+<p>To import one, click the link, or copy it and press <code>Ctrl+V</code> in the main window. This adds the profile without activating it. <code>Import</code> (<code>Ctrl+V</code>) on the <code>Route</code> tab also selects it, so it becomes active when you click <code>OK</code>.</p>
+<p>The link carries the name, the default outbound, the rules (disabled ones included) and the profile's own DNS settings. Rules that send traffic to a saved profile refer to it by name; if the other device has no profile with that name, they use <code>proxy</code>. OpenVPN and OpenConnect endpoints are shared without their credentials. For the link format, see <a href="/advanced/deeplinks/#route">Deep Links</a>.</p>
+<h2 id="android">On Android</h2>
+<p>Throne for Android has the same routing profiles, rules and rule-sets. Open <code>Routing</code> from the drawer and tap a profile to activate it. The differences:</p>
+<ul>
+<li><strong>App rules.</strong> The <code>Apps</code> field matches Android apps; <code>Unknown apps</code> matches connections whose app cannot be found. <code>Package name regex</code> matches package names. These rules never match on the desktop.</li>
+<li><strong>Network rules.</strong> <code>Network type</code> matches Wi-Fi, mobile data or Ethernet, and <code>Metered network</code> matches metered networks. The desktop leaves these rules out when it imports a link.</li>
+<li><strong>Wi-Fi rules</strong> need location access set to &quot;Allow all the time&quot;, with location turned on.</li>
+<li><strong>Raw profiles</strong> and the VPN endpoints of imported links are not supported.</li>
+<li><code>AdBlock</code> and <code>Auto update remote profiles</code> are in <code>Settings</code> → <code>Routing</code>.</li>
+<li>If a rule-set cannot be downloaded, <code>Connect anyway</code> connects without it. Its rules match nothing until it has been downloaded through the proxy.</li>
+</ul>
+
+      </div>
+      
+      
+      
+      <footer class="docs-article-footer">
+        
+        <a class="edit-link" href="https://github.com/throneproj/throneproj.github.io/edit/main/content/guides/routing.md" target="_blank" rel="noopener noreferrer">
+        
+          <svg class="ic" aria-hidden="true"><use href="#i-pencil"/></svg>
+          Edit this page on GitHub
+        </a>
+        
+
+<nav class="prev-next" aria-label="Page navigation">
+  
+  <a class="prevnext-prev" href="https://throneproj.github.io/guides/tun_mode/">
+    <span class="prevnext-dir">Previous</span>
+    TUN Mode
+  </a>
+  
+  
+  <a class="prevnext-next" href="https://throneproj.github.io/guides/dns/">
+    <span class="prevnext-dir">Next</span>
+    DNS
+  </a>
+  
+</nav>
+
+      </footer>
+    </article>
+  </main>
+  
+<nav class="docs-toc" aria-label="On this page">
+  <p class="docs-toc-title">
+    <svg class="ic" aria-hidden="true"><use href="#i-list"/></svg>
+    On this page
+  </p>
+  <ul><li><a href="#how-routing-works">How routing works</a></li><li><a href="#download-profiles">Download ready-made profiles</a></li><li><a href="#profiles">Routing profiles</a></li><li><a href="#simple-rules">Simple rules</a></li><li><a href="#advanced-rules">Advanced rules</a></li><li><a href="#rule-sets">Rule-sets</a></li><li><a href="#remote-profiles">Remote profiles</a></li><li><a href="#group-routing">Routing profile per group</a><ul><li><a href="#subscription-routing">From the subscription</a></li></ul></li><li><a href="#raw-profiles">Raw profiles</a></li><li><a href="#connections-tab">Connections tab</a></li><li><a href="#adblock">AdBlock</a></li><li><a href="#share-profiles">Share profiles</a></li><li><a href="#android">On Android</a></li></ul>
+</nav>
+
+    </main>
+  </div>
+
+  
+<script src="https://throneproj.github.io/assets/js/highlight.min.js" defer></script>
+<script>
+  window.NOIR_BASE = "https://throneproj.github.io";
+  
+  window.NOIR_I18N = {
+    copy: "Copy",
+    copied: "Copied",
+    copyManual: "Press Ctrl C",
+    noResults: "No results for",
+    theme: "Theme",
+    themeAuto: "auto",
+    themeLight: "light",
+    themeDark: "dark"
+  };
+</script>
+<script src="https://throneproj.github.io/js/theme.js" defer></script>
+<script src="https://throneproj.github.io/js/nav.js" defer></script>
+<script src="https://throneproj.github.io/js/code.js" defer></script>
+<script src="https://throneproj.github.io/js/toc.js" defer></script>
+<script src="https://throneproj.github.io/js/reveal.js" defer></script>
+<script src="https://throneproj.github.io/js/mermaid.js" defer></script>
+<script src="https://throneproj.github.io/js/search.js" defer></script>
+
+</body>
+</html>

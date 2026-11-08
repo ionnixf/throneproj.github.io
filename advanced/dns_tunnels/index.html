@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Reach your server through DNS queries on networks where only DNS gets through: DNSTT, VayDNS, MasterDNS and Xray XDNS profiles.">
+  <title>DNS Tunnels - Throne</title>
+
+  
+  <meta name="theme-color" content="#0b0b0c" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#fbfbfa" media="(prefers-color-scheme: light)">
+
+  
+  <script>
+    (function () {
+      var r = document.documentElement;
+      r.classList.add("js");
+      try {
+        var t = localStorage.getItem("throne-theme");
+        if (t === "light" || t === "dark") r.setAttribute("data-theme", t);
+      } catch (e) {}
+    })();
+  </script>
+
+  <meta name="google-site-verification" content="Zzz4doeS45o-EhP56mm1yoyfHSEEZJRJJt0tfj7vPGM" />
+  <script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+      m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+      m[i].l=1*new Date();
+      for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+      k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=111847353', 'ym');
+
+    
+    ym(111847353, 'init', {ssr:true, webvisor:false, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/111847353" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+
+  <meta property="og:title" content="DNS Tunnels">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://throneproj.github.io/advanced/dns_tunnels/">
+  <meta property="og:description" content="Reach your server through DNS queries on networks where only DNS gets through: DNSTT, VayDNS, MasterDNS and Xray XDNS profiles.">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="DNS Tunnels">
+  <meta name="twitter:description" content="Reach your server through DNS queries on networks where only DNS gets through: DNSTT, VayDNS, MasterDNS and Xray XDNS profiles.">
+  <link rel="canonical" href="https://throneproj.github.io/advanced/dns_tunnels/">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"DNS Tunnels","url":"https://throneproj.github.io/advanced/dns_tunnels/","description":"Reach your server through DNS queries on networks where only DNS gets through: DNSTT, VayDNS, MasterDNS and Xray XDNS profiles."}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Throne","item":"https://throneproj.github.io/"},{"@type":"ListItem","position":2,"name":"Advanced Configuration","item":"https://throneproj.github.io/advanced/"},{"@type":"ListItem","position":3,"name":"DNS Tunnels"}]}</script>
+  <link rel="alternate" hreflang="en" href="https://throneproj.github.io/advanced/dns_tunnels/">
+<link rel="alternate" hreflang="fa" href="https://throneproj.github.io/fa/advanced/dns_tunnels/">
+<link rel="alternate" hreflang="ru" href="https://throneproj.github.io/ru/advanced/dns_tunnels/">
+<link rel="alternate" hreflang="zh" href="https://throneproj.github.io/zh/advanced/dns_tunnels/">
+<link rel="alternate" hreflang="x-default" href="https://throneproj.github.io/advanced/dns_tunnels/">
+
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon.ico" sizes="any">
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon-96x96.png" type="image/png" sizes="96x96">
+  <link rel="apple-touch-icon" href="https://throneproj.github.io/logos/apple-touch-icon.png">
+  <link rel="manifest" href="https://throneproj.github.io/logos/site.webmanifest">
+
+  <link rel="preload" href="https://throneproj.github.io/fonts/geist-variable-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+  
+  <link rel="stylesheet" href="https://throneproj.github.io/assets/css/highlight/atom-one-dark.min.css">
+  <link rel="stylesheet" href="https://throneproj.github.io/css/style.css">
+  
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  
+<svg xmlns="http://www.w3.org/2000/svg" class="icon-sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 10a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+    <path d="M21 21l-6 -6" />
+  </symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M3 12h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7" />
+  </symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454l0 .008" />
+  </symbol>
+  <symbol id="i-contrast" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M12 17a5 5 0 0 0 0 -10v10" />
+  </symbol>
+  <symbol id="i-chevron-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M6 9l6 6l6 -6" />
+  </symbol>
+  <symbol id="i-menu-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 6l16 0" />
+    <path d="M4 12l16 0" />
+    <path d="M4 18l16 0" />
+  </symbol>
+  <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M18 6l-12 12" />
+    <path d="M6 6l12 12" />
+  </symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 9.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667l0 -8.666" />
+    <path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" />
+  </symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l5 5l10 -10" />
+  </symbol>
+  <symbol id="i-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l14 0" />
+    <path d="M13 18l6 -6" />
+    <path d="M13 6l6 6" />
+  </symbol>
+  <symbol id="i-arrow-up-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M17 7l-10 10" />
+    <path d="M8 7l9 0l0 9" />
+  </symbol>
+  <symbol id="i-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l14 0" />
+    <path d="M5 12l6 6" />
+    <path d="M5 12l6 -6" />
+  </symbol>
+  <symbol id="i-brand-github" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+  </symbol>
+  <symbol id="i-pencil" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+    <path d="M13.5 6.5l4 4" />
+  </symbol>
+  <symbol id="i-rocket" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 13a8 8 0 0 1 7 7a6 6 0 0 0 3 -5a9 9 0 0 0 6 -8a3 3 0 0 0 -3 -3a9 9 0 0 0 -8 6a6 6 0 0 0 -5 3" />
+    <path d="M7 14a6 6 0 0 0 -3 6a6 6 0 0 0 6 -3" />
+    <path d="M14 9a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+  </symbol>
+  <symbol id="i-terminal-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 9l3 3l-3 3" />
+    <path d="M13 15l3 0" />
+    <path d="M3 6a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2l0 -12" />
+  </symbol>
+  <symbol id="i-lifebuoy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M15 15l3.35 3.35" />
+    <path d="M9 15l-3.35 3.35" />
+    <path d="M5.65 5.65l3.35 3.35" />
+    <path d="M18.35 5.65l-3.35 3.35" />
+  </symbol>
+  <symbol id="i-list" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 6l11 0" />
+    <path d="M9 12l11 0" />
+    <path d="M9 18l11 0" />
+    <path d="M5 6l0 .01" />
+    <path d="M5 12l0 .01" />
+    <path d="M5 18l0 .01" />
+  </symbol>
+  <symbol id="i-code" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 8l-4 4l4 4" />
+    <path d="M17 8l4 4l-4 4" />
+    <path d="M14 4l-4 16" />
+  </symbol>
+  <symbol id="i-rss" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 19a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+    <path d="M4 4a16 16 0 0 1 16 16" />
+    <path d="M4 11a9 9 0 0 1 9 9" />
+  </symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12" />
+    <path d="M16 3v4" />
+    <path d="M8 3v4" />
+    <path d="M4 11h16" />
+    <path d="M11 15h1" />
+    <path d="M12 15v3" />
+  </symbol>
+</svg>
+
+<header class="site-header">
+  <div class="header-inner">
+    <button class="icon-btn hamburger" id="drawerToggle" aria-label="Open navigation" aria-expanded="false" aria-controls="sidebar">
+      <svg class="ic" aria-hidden="true"><use href="#i-menu-2"/></svg>
+    </button>
+
+    <a href="https://throneproj.github.io/" class="header-logo" aria-label="Throne homepage">
+      <img class="logo" src="https://throneproj.github.io/images/throne-logo.png" alt="Throne" width="1817" height="346">
+    </a>
+    <a class="header-version" href="https://github.com/throneproj/Throne/releases/tag/1.4.1" target="_blank" rel="noopener noreferrer">v1.4.1</a>
+
+    <nav class="header-nav" aria-label="Primary">
+      <a href="https://throneproj.github.io/get_started/">Get Started</a>
+      <a href="https://throneproj.github.io/downloads/">Downloads</a>
+    </nav>
+
+    <div class="header-right">
+      <button class="header-btn search-trigger" id="searchTrigger" aria-label="Search documentation">
+        <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+        <span>Search</span>
+        <kbd>Ctrl K</kbd>
+      </button>
+
+      
+      
+      <nav class="lang-switcher" aria-label="Language">
+        
+        <a href="https://throneproj.github.io/advanced/dns_tunnels/" hreflang="en" aria-current="true">EN</a>
+        
+        <a href="https://throneproj.github.io/fa/advanced/dns_tunnels/" hreflang="fa">FA</a>
+        
+        <a href="https://throneproj.github.io/ru/advanced/dns_tunnels/" hreflang="ru">RU</a>
+        
+        <a href="https://throneproj.github.io/zh/advanced/dns_tunnels/" hreflang="zh">ZH</a>
+        
+      </nav>
+      
+
+      <a class="icon-btn" href="https://github.com/throneproj/Throne" target="_blank" rel="noopener noreferrer" aria-label="Throne on GitHub">
+        <svg class="ic" aria-hidden="true"><use href="#i-brand-github"/></svg>
+      </a>
+
+      
+      <button class="icon-btn theme-toggle" id="themeToggle" data-mode="auto" type="button" aria-label="Theme">
+        <svg class="ic ic-auto" aria-hidden="true"><use href="#i-contrast"/></svg>
+        <svg class="ic ic-light" aria-hidden="true"><use href="#i-sun"/></svg>
+        <svg class="ic ic-dark" aria-hidden="true"><use href="#i-moon"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+<div class="search-overlay" id="searchOverlay" role="dialog" aria-modal="true" aria-label="Search documentation" hidden>
+  <div class="search-modal">
+    <div class="search-input-wrap">
+      <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+      <input type="search" id="searchInput" aria-label="Search documentation" placeholder="Search the docs" autocomplete="off" spellcheck="false">
+      <kbd id="searchClose" role="button" tabindex="0">Esc</kbd>
+    </div>
+    <div class="search-results" id="searchResults" role="listbox" aria-label="Search"></div>
+  </div>
+</div>
+<div class="docs-container">
+<div class="drawer-scrim" id="drawerScrim"></div>
+<aside class="docs-sidebar" id="sidebar">
+  <nav class="sidebar-nav" aria-label="Documentation">
+
+    
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Get Started</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/get_started/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/get_started/installation/">Installation</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/get_started/configuration/">Quick Start</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Guides</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/guides/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/subscriptions/">Subscriptions & Groups</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/proxy_modes/">System Proxy, TUN & LAN</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/tun_mode/">TUN Mode</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/routing/">Routing</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/dns/">DNS</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/testing/">Testing & Auto Selector</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/backup/">Backup, Updates & Migration</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/guides/recipes/">Recipes</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Throne for Android</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/android/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/installation/">Installation & Upgrade</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/permissions/">Permissions & Background</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/modes/">VPN & Proxy Modes</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/widgets/">Widgets, Tile & Automation</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/tv/">Android TV</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/android/troubleshooting/">Troubleshooting</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Headless Throne</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/headless/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/headless/installation/">Installation & Services</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/headless/thronectl/">Managing with thronectl</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/headless/web/">Web UI</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/headless/command_line/">Command Line & Data Directory</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/headless/monitoring/">Health Checks & Logs</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/headless/recovery/">Lockout Protection & Recovery</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/headless/troubleshooting/">Troubleshooting</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group" open>
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Advanced Configuration</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/xray/">sing-box vs Xray</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/chains/">Chains & Custom Configs</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/presets/">Anti-Censorship Presets</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/warp/">Cloudflare WARP</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/dns_tunnels/" aria-current="page">DNS Tunnels</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/vpn_profiles/">OpenVPN, OpenConnect & Tailscale</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/windows_tun_mode/">Windows DNS Leak Protection</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/kill_switch/">Kill Switch</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/deeplinks/">Deep Links</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/advanced/api/">Throne API & thronectl</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Reference</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/reference/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/reference/protocols/">Protocols & Import Formats</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/reference/shortcuts/">Keyboard Shortcuts & Tray</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/reference/files/">Command Line, Files & Logs</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/reference/privacy/">Privacy & Network Requests</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/reference/glossary/">Glossary</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Help</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/help/">Overview</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/help/faq/">FAQ</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/help/troubleshooting/">Troubleshooting</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/help/bug_reports/">Reporting a Bug</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/help/migrating/">Coming from Nekoray / NekoBox</a></li>
+        
+        
+      </ul>
+    </details>
+    
+
+  </nav>
+</aside>
+  <main id="main" class="docs-main">
+    <article>
+      <h1 class="docs-title">DNS Tunnels</h1>
+      <p class="docs-lede">Reach your server through DNS queries on networks where only DNS gets through: DNSTT, VayDNS, MasterDNS and Xray XDNS profiles.</p>
+      <div class="prose">
+        <p>A DNS tunnel carries your traffic inside DNS queries, so it works on networks that block everything except DNS. It is much slower than a normal profile, and the first connection takes a while. Use it only when your other profiles cannot connect.</p>
+<h2 id="how-it-works">How a DNS tunnel works</h2>
+<p>Throne does not connect to the tunnel server. It sends DNS queries for names under the tunnel domain, for example <code>t.example.com</code>, to resolvers: your network's DNS servers or public ones such as <code>8.8.8.8</code>. The domain is delegated to the tunnel server, so the resolvers pass the queries on, and the server answers in the DNS replies.</p>
+<p>So a DNS tunnel profile has no server address or port. It needs the tunnel domain, the server's key and <a href="#resolvers">resolvers</a> that pass the queries on. The speed depends mostly on the resolvers: many limit the size or number of queries, or drop unusual ones.</p>
+<table>
+<thead>
+<tr>
+<th>Kind</th>
+<th><code>Type</code></th>
+<th>Server</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="#dnstt">DNSTT and VayDNS</a></td>
+<td><code>DNSTT / VayDNS</code></td>
+<td><code>dnstt-server</code> or <code>vaydns-server</code></td>
+</tr>
+<tr>
+<td><a href="#masterdns">MasterDNS</a></td>
+<td><code>MasterDNS</code></td>
+<td>MasterDnsVPN or StormDNS</td>
+</tr>
+<tr>
+<td><a href="#xdns">XDNS</a></td>
+<td><code>VLESS (Xray)</code> with the <code>kcp</code> network and an <code>xdns</code> mask</td>
+<td>Xray with mKCP and an <code>xdns</code> mask</td>
+</tr>
+</tbody>
+</table>
+<p>Create a profile with <code>Program</code> → <code>New profile</code> (<code>Ctrl+N</code>), or <a href="#import">import</a> a link or config. For Throne for Android, see <a href="#android">Android</a>.</p>
+<h2 id="dnstt">DNSTT and VayDNS</h2>
+<p><code>Mode</code> selects the protocol: <code>DNSTT</code> (default) for <code>dnstt-server</code> or <code>vaydns-server -dnstt-compat</code>, <code>VayDNS</code> for <code>vaydns-server</code>, and <code>VayDNS (dnstt-compatible)</code> for the same servers as <code>DNSTT</code>, with <code>Max QNAME Length</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Domain</code></td>
+<td>The tunnel domain delegated to the server, for example <code>t.example.com</code>.</td>
+</tr>
+<tr>
+<td><code>Public Key</code></td>
+<td>The server&#39;s public key: 64 hexadecimal digits.</td>
+</tr>
+<tr>
+<td><code>Record Type</code>, <code>Client ID Size</code></td>
+<td><code>VayDNS</code> only. Must match the server (<code>-clientid-size</code> for the ID size).</td>
+</tr>
+<tr>
+<td><code>Max QNAME Length</code></td>
+<td>Both VayDNS modes. Default 101 (<code>VayDNS</code>) or 253 (dnstt-compatible), at most 253. Longer names carry more data, but some resolvers drop them.</td>
+</tr>
+<tr>
+<td><code>Payload per Query</code></td>
+<td>The tunnel data that each query carries. It must be at least 25 bytes: use a shorter domain or a longer <code>Max QNAME Length</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>In the <code>Advanced</code> group (Advanced mode only, see <a href="/get_started/configuration/#interface-mode">Simple and Advanced mode</a>), keep <code>Idle Timeout</code> in line with the server; <code>Keepalive Interval</code> must be shorter than it.</p>
+<p><code>Backend</code> → <code>Type</code> says what runs behind the tunnel on the server:</p>
+<ul>
+<li><code>None (chain only)</code> (default): the server passes the tunnel on to another proxy server. Create a <a href="/advanced/chains/#create-chain">chain</a> with the DNS tunnel profile on top and that server's profile below it.</li>
+<li><code>SOCKS5</code> or <code>Shadowsocks</code>: enter its credentials. Tick <code>UDP over TCP</code> to carry UDP.</li>
+<li><code>SSH</code>: enter <code>User</code> and <code>Password</code> or <code>Private Key</code>, as in an <code>SSH</code> profile.</li>
+</ul>
+<h2 id="masterdns">MasterDNS</h2>
+<p><code>MasterDNS</code> profiles work with MasterDnsVPN and StormDNS servers and carry TCP only. These fields must match the server's configuration:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Server setting</th>
+<th>What to enter</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Domains</code></td>
+<td><code>DOMAIN</code></td>
+<td>One per line, all leading to the same server.</td>
+</tr>
+<tr>
+<td><code>Mode</code></td>
+<td><code>PROTOCOL_TYPE</code></td>
+<td><code>SOCKS5</code> (default): the server connects to the website for you. <code>TCP / custom chain</code>: the server sends every connection to its own forward target, so chain that target&#39;s profile below this one.</td>
+</tr>
+<tr>
+<td><code>Encryption</code></td>
+<td><code>DATA_ENCRYPTION_METHOD</code></td>
+<td><code>none</code> (0), <code>xor</code> (1, default), <code>chacha20</code> (2), <code>aes-128-gcm</code> (3), <code>aes-192-gcm</code> (4) or <code>aes-256-gcm</code> (5).</td>
+</tr>
+<tr>
+<td><code>Key</code></td>
+<td><code>ENCRYPTION_KEY_FILE</code></td>
+<td>The text in that file. Not needed with <code>none</code>.</td>
+</tr>
+</tbody>
+</table>
+<aside class="callout callout--warning">
+  <span class="callout-label">Warning</span>
+  <p>MasterDNS encrypts only the queries. The server's replies are never encrypted or authenticated, <code>xor</code> only obfuscates, and <code>chacha20</code> is not authenticated. Send only encrypted traffic through the tunnel, for example HTTPS websites, or chain an encrypted proxy below the MasterDNS profile.</p>
+
+</aside>
+<p>In the <code>Transfer</code> group, <code>Duplication</code> (default 3, at most 10) sends each packet through that many pairs of resolver and domain. The server may refuse compression. <code>Base64-encoded replies</code> helps with resolvers that damage binary TXT records, but carries a quarter less data.</p>
+<p>Before the session starts, Throne tests every pair of domain and resolver for how much data a query and a reply can carry. Resolvers below <code>Min Upload</code> or <code>Min Download</code> in the <code>MTU</code> group (38 and 200 bytes) are left out. If none passes, Throne repeats the test every 5 seconds.</p>
+<h2 id="xdns">XDNS</h2>
+<p>XDNS is Xray's mKCP transport with an <code>xdns</code> mask in Finalmask: Xray sends the mKCP packets as DNS queries through resolvers. The server must run Xray with an mKCP inbound and an <code>xdns</code> mask for the same domain.</p>
+<p>Importing is easiest: a <code>vless://</code> link with <code>type=kcp</code> and the mask in <code>fm</code>, the server's Xray JSON, or a Throne link. <code>vless://</code> links with <code>type=kcp</code> always become <code>VLESS (Xray)</code> profiles, whatever the <a href="/advanced/xray/#vless-preference">Xray VLESS Preference</a>.</p>
+<p>To set it up by hand:</p>
+<ol>
+<li>
+<p>Open <code>Program</code> → <code>New profile</code>, set <code>Type</code> to <code>VLESS (Xray)</code> and enter the server's VLESS settings.</p>
+</li>
+<li>
+<p>Set <code>Network</code> to <code>kcp</code>.</p>
+</li>
+<li>
+<p>Click <code>Finalmask</code> and add an <code>xdns</code> mask to the <code>udp</code> list, with the tunnel domain and, optionally, resolvers:</p>
+<pre><code class="language-json hljs">{
+  &quot;udp&quot;: [
+    {
+      &quot;type&quot;: &quot;xdns&quot;,
+      &quot;settings&quot;: {
+        &quot;domains&quot;: [{ &quot;names&quot;: [&quot;t.example.com&quot;] }],
+        &quot;resolvers&quot;: [{ &quot;addrs&quot;: [&quot;udp://8.8.8.8:53&quot;] }]
+      }
+    }
+  ]
+}
+</code></pre>
+</li>
+<li>
+<p>Optionally, enter resolvers in the <code>Resolvers</code> row. They replace the ones in the mask.</p>
+</li>
+<li>
+<p>Click <code>OK</code>.</p>
+</li>
+</ol>
+<p>The <code>xdns</code> mask must be the last mask in <code>udp</code> and needs at least one domain. Without resolvers in the mask or the <code>Resolvers</code> row, Xray cannot connect. A DNS-over-HTTPS resolver (<code>https://…</code>) in the mask needs a <code>tlsConfig</code> with <code>serverName</code>, for example <code>&quot;tlsConfig&quot;: {&quot;serverName&quot;: &quot;dns.google&quot;}</code>.</p>
+<p>Leave the mKCP fields, such as <code>MTU</code> and <code>TTI</code>, empty to use Xray's defaults. With <code>Multiplex</code> set to <code>Keep Default</code>, Throne turns mux on for XDNS profiles; without mux, every connection would open its own mKCP session to all resolvers.</p>
+<h2 id="resolvers">Resolvers</h2>
+<p>Every DNS tunnel profile has a resolver box (the <code>Resolvers</code> group for DNSTT and MasterDNS, the <code>Resolvers</code> row for XDNS) with one resolver per line. Lines that start with <code>#</code> are comments. <code>IP list</code> adds the addresses of an IP scanner list after the typed lines, for example the results of a <a href="#find-resolvers">resolver scan</a>.</p>
+<table>
+<thead>
+<tr>
+<th>Line</th>
+<th>DNSTT / VayDNS</th>
+<th>MasterDNS</th>
+<th>XDNS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>system</code>: your system&#39;s DNS servers</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>An IP address, optionally with a port: <code>8.8.8.8</code>, <code>1.1.1.1:53</code>, <code>[2001:db8::1]:53</code></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>A range such as <code>192.0.2.0/24</code></td>
+<td>Up to 256 addresses (<code>/24</code> or longer)</td>
+<td>Up to 65536 addresses (<code>/16</code> or longer)</td>
+<td>Only from an IP list, up to 256 addresses</td>
+</tr>
+<tr>
+<td><code>udp://</code> or <code>tcp://</code> and an address</td>
+<td>Yes</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>tls://</code> (DNS over TLS)</td>
+<td>Yes</td>
+<td>No</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>https://</code> (DNS over HTTPS), with an optional path</td>
+<td>Yes</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
+<p>The default port is 53; DNSTT uses 853 for <code>tls://</code> and 443 for <code>https://</code>. Throne uses at most 4096 resolvers for DNSTT and 256 for XDNS. Without any resolvers, DNSTT and MasterDNS use <code>system</code>, and XDNS keeps the resolvers of the <code>xdns</code> mask.</p>
+<p><code>Strategy</code> decides where the queries go:</p>
+<ul>
+<li>DNSTT and VayDNS: <code>round_robin</code> (default) uses each resolver in turn, <code>failover</code> the first one that works, <code>fanout</code> every working one at the same time.</li>
+<li>MasterDNS: <code>least_loss</code> (default) uses the resolver with the least loss. The other strategies pick in turn, at random, by latency or by a mix of loss and latency.</li>
+<li>XDNS: Xray uses all resolvers in turn.</li>
+</ul>
+<h2 id="find-resolvers">Find working resolvers</h2>
+<p>Many resolvers do not pass tunnel queries on. A resolver scan tries addresses as the resolvers of your profile and keeps the ones that work:</p>
+<ol>
+<li>Save the profile and open it again. <code>Find resolvers…</code> stays disabled until the profile is saved.</li>
+<li>Click <code>Find resolvers…</code> next to <code>IP list</code>. Throne opens the profile's DNS resolver scan in the IP scanner.</li>
+<li>On the <code>Targets</code> tab, choose the addresses to try in <code>Base IP list</code>, for example <code>Iran DNS resolvers</code> or <code>Russia DNS resolvers</code>, and start the scan.</li>
+<li>On the <code>Results</code> tab, click <code>Use as resolvers</code>. The results become the profile's <code>IP list</code>. The lines that you typed stay and are used first.</li>
+</ol>
+<p>See <a href="/guides/testing/#dns-scan">DNS resolver scans</a>.</p>
+<h2 id="import">Import and share</h2>
+<p>Throne imports these from the clipboard, files, QR codes and subscriptions:</p>
+<table>
+<thead>
+<tr>
+<th>Format</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>dnst://</code> links</td>
+<td>A <code>DNSTT / VayDNS</code> profile, or a <code>MasterDNS</code> profile when the link&#39;s tunnel type is <code>masterdns</code>.</td>
+</tr>
+<tr>
+<td><code>slipnet://</code> links of SlipNet 16 to 28</td>
+<td>A <code>DNSTT / VayDNS</code> profile. NoizDNS profiles become plain DNSTT, without NoizDNS&#39;s DPI evasion. Encrypted SlipNet links cannot be read.</td>
+</tr>
+<tr>
+<td><code>masterdns://</code> and <code>stormdns://</code> links</td>
+<td>A <code>MasterDNS</code> profile.</td>
+</tr>
+<tr>
+<td>sing-box JSON with <code>dnstt</code> or <code>masterdns</code> outbounds</td>
+<td><code>DNSTT / VayDNS</code> and <code>MasterDNS</code> profiles.</td>
+</tr>
+<tr>
+<td><code>vless://</code> links with <code>type=kcp</code>, Xray JSON with the <code>kcp</code> network</td>
+<td><code>VLESS (Xray)</code> profiles, XDNS with an <code>xdns</code> mask.</td>
+</tr>
+<tr>
+<td><code>throne://add/</code> links</td>
+<td>Any of these, with all settings.</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>A <code>dnst://</code> link names the service behind the tunnel: <code>socks</code>, <code>ssh</code>, <code>shadowsocks</code>, or <code>custom</code> for <code>None (chain only)</code>. MasterDNS takes only <code>socks</code> and <code>custom</code>.</li>
+<li>If a link also carries a proxy to run over the tunnel, Throne warns about it. Import that proxy separately and chain it below the DNS tunnel profile.</li>
+</ul>
+<p>To share a profile, right-click it → <code>Share</code>. DNSTT and MasterDNS profiles give a <code>dnst://</code> link, XDNS profiles a <code>vless://</code> link. These leave out your resolvers and IP list, and for MasterDNS all domains but the first. A Throne link keeps every setting except the IP list. See <a href="/reference/protocols/#share-links">Share links</a>.</p>
+<h2 id="testing">Testing</h2>
+<p>URL tests and IP tests work with DNS tunnel profiles. The first request opens the tunnel, which takes many slow queries, so Throne gives it 30 more seconds for DNSTT and XDNS and 90 more for MasterDNS; a chain gets the sum. The latency shown comes from the second request. See <a href="/guides/testing/#url-test">URL test</a>.</p>
+<p>If a test fails, look for the reason on the <code>Logs</code> tab, check <code>Domain</code> and <code>Public Key</code> (DNSTT) or <code>Domains</code>, <code>Encryption</code> and <code>Key</code> (MasterDNS) against the server, and try other resolvers or a <a href="#find-resolvers">resolver scan</a>.</p>
+<h2 id="android">Android</h2>
+<p>Throne for Android has the same DNS tunnels and imports the same links, also when you tap them in another app. The differences:</p>
+<ul>
+<li>Create a profile with <code>Add profile</code> → <code>Manual settings</code> → <code>DNSTT / VayDNS</code> or <code>MasterDNS</code>. For XDNS, choose <code>VLESS (Xray)</code>, set <code>Network</code> to <code>mKCP</code> and add the <code>xdns</code> mask in <code>Finalmask</code>.</li>
+<li>There are no IP lists and no resolver scans: only the resolvers typed in the profile are used.</li>
+<li>URL tests get no extra time for the first request.</li>
+</ul>
+
+      </div>
+      
+      
+      
+      <footer class="docs-article-footer">
+        
+        <a class="edit-link" href="https://github.com/throneproj/throneproj.github.io/edit/main/content/advanced/dns_tunnels.md" target="_blank" rel="noopener noreferrer">
+        
+          <svg class="ic" aria-hidden="true"><use href="#i-pencil"/></svg>
+          Edit this page on GitHub
+        </a>
+        
+
+<nav class="prev-next" aria-label="Page navigation">
+  
+  <a class="prevnext-prev" href="https://throneproj.github.io/advanced/warp/">
+    <span class="prevnext-dir">Previous</span>
+    Cloudflare WARP
+  </a>
+  
+  
+  <a class="prevnext-next" href="https://throneproj.github.io/advanced/vpn_profiles/">
+    <span class="prevnext-dir">Next</span>
+    OpenVPN, OpenConnect & Tailscale
+  </a>
+  
+</nav>
+
+      </footer>
+    </article>
+  </main>
+  
+<nav class="docs-toc" aria-label="On this page">
+  <p class="docs-toc-title">
+    <svg class="ic" aria-hidden="true"><use href="#i-list"/></svg>
+    On this page
+  </p>
+  <ul><li><a href="#how-it-works">How a DNS tunnel works</a></li><li><a href="#dnstt">DNSTT and VayDNS</a></li><li><a href="#masterdns">MasterDNS</a></li><li><a href="#xdns">XDNS</a></li><li><a href="#resolvers">Resolvers</a></li><li><a href="#find-resolvers">Find working resolvers</a></li><li><a href="#import">Import and share</a></li><li><a href="#testing">Testing</a></li><li><a href="#android">Android</a></li></ul>
+</nav>
+
+    </main>
+  </div>
+
+  
+<script src="https://throneproj.github.io/assets/js/highlight.min.js" defer></script>
+<script>
+  window.NOIR_BASE = "https://throneproj.github.io";
+  
+  window.NOIR_I18N = {
+    copy: "Copy",
+    copied: "Copied",
+    copyManual: "Press Ctrl C",
+    noResults: "No results for",
+    theme: "Theme",
+    themeAuto: "auto",
+    themeLight: "light",
+    themeDark: "dark"
+  };
+</script>
+<script src="https://throneproj.github.io/js/theme.js" defer></script>
+<script src="https://throneproj.github.io/js/nav.js" defer></script>
+<script src="https://throneproj.github.io/js/code.js" defer></script>
+<script src="https://throneproj.github.io/js/toc.js" defer></script>
+<script src="https://throneproj.github.io/js/reveal.js" defer></script>
+<script src="https://throneproj.github.io/js/mermaid.js" defer></script>
+<script src="https://throneproj.github.io/js/search.js" defer></script>
+
+</body>
+</html>

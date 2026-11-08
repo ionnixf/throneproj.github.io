@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Как добавить Cloudflare WARP дополнительным выходом после прокси и пустить выбранный трафик в обход него.">
+  <title>Cloudflare WARP - Throne</title>
+
+  
+  <meta name="theme-color" content="#0b0b0c" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#fbfbfa" media="(prefers-color-scheme: light)">
+
+  
+  <script>
+    (function () {
+      var r = document.documentElement;
+      r.classList.add("js");
+      try {
+        var t = localStorage.getItem("throne-theme");
+        if (t === "light" || t === "dark") r.setAttribute("data-theme", t);
+      } catch (e) {}
+    })();
+  </script>
+
+  <meta name="google-site-verification" content="Zzz4doeS45o-EhP56mm1yoyfHSEEZJRJJt0tfj7vPGM" />
+  <script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+      m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+      m[i].l=1*new Date();
+      for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+      k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=111847353', 'ym');
+
+    
+    ym(111847353, 'init', {ssr:true, webvisor:false, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/111847353" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+
+  <meta property="og:title" content="Cloudflare WARP">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://throneproj.github.io/ru/advanced/warp/">
+  <meta property="og:description" content="Как добавить Cloudflare WARP дополнительным выходом после прокси и пустить выбранный трафик в обход него.">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Cloudflare WARP">
+  <meta name="twitter:description" content="Как добавить Cloudflare WARP дополнительным выходом после прокси и пустить выбранный трафик в обход него.">
+  <link rel="canonical" href="https://throneproj.github.io/ru/advanced/warp/">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Cloudflare WARP","url":"https://throneproj.github.io/ru/advanced/warp/","description":"Как добавить Cloudflare WARP дополнительным выходом после прокси и пустить выбранный трафик в обход него."}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Throne","item":"https://throneproj.github.io/ru/"},{"@type":"ListItem","position":2,"name":"Расширенная конфигурация","item":"https://throneproj.github.io/ru/advanced/"},{"@type":"ListItem","position":3,"name":"Cloudflare WARP"}]}</script>
+  <link rel="alternate" hreflang="ru" href="https://throneproj.github.io/ru/advanced/warp/">
+<link rel="alternate" hreflang="en" href="https://throneproj.github.io/advanced/warp/">
+<link rel="alternate" hreflang="fa" href="https://throneproj.github.io/fa/advanced/warp/">
+<link rel="alternate" hreflang="zh" href="https://throneproj.github.io/zh/advanced/warp/">
+<link rel="alternate" hreflang="x-default" href="https://throneproj.github.io/advanced/warp/">
+
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon.ico" sizes="any">
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="https://throneproj.github.io/logos/favicon-96x96.png" type="image/png" sizes="96x96">
+  <link rel="apple-touch-icon" href="https://throneproj.github.io/logos/apple-touch-icon.png">
+  <link rel="manifest" href="https://throneproj.github.io/logos/site.webmanifest">
+
+  <link rel="preload" href="https://throneproj.github.io/fonts/geist-variable-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+  
+  <link rel="stylesheet" href="https://throneproj.github.io/assets/css/highlight/atom-one-dark.min.css">
+  <link rel="stylesheet" href="https://throneproj.github.io/css/style.css">
+  
+</head>
+<body>
+  <a class="skip-link" href="#main">Перейти к основному содержимому</a>
+  
+<svg xmlns="http://www.w3.org/2000/svg" class="icon-sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 10a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+    <path d="M21 21l-6 -6" />
+  </symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M3 12h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7" />
+  </symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454l0 .008" />
+  </symbol>
+  <symbol id="i-contrast" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M12 17a5 5 0 0 0 0 -10v10" />
+  </symbol>
+  <symbol id="i-chevron-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M6 9l6 6l6 -6" />
+  </symbol>
+  <symbol id="i-menu-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 6l16 0" />
+    <path d="M4 12l16 0" />
+    <path d="M4 18l16 0" />
+  </symbol>
+  <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M18 6l-12 12" />
+    <path d="M6 6l12 12" />
+  </symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 9.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667l0 -8.666" />
+    <path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" />
+  </symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l5 5l10 -10" />
+  </symbol>
+  <symbol id="i-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l14 0" />
+    <path d="M13 18l6 -6" />
+    <path d="M13 6l6 6" />
+  </symbol>
+  <symbol id="i-arrow-up-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M17 7l-10 10" />
+    <path d="M8 7l9 0l0 9" />
+  </symbol>
+  <symbol id="i-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12l14 0" />
+    <path d="M5 12l6 6" />
+    <path d="M5 12l6 -6" />
+  </symbol>
+  <symbol id="i-brand-github" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+  </symbol>
+  <symbol id="i-pencil" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+    <path d="M13.5 6.5l4 4" />
+  </symbol>
+  <symbol id="i-rocket" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 13a8 8 0 0 1 7 7a6 6 0 0 0 3 -5a9 9 0 0 0 6 -8a3 3 0 0 0 -3 -3a9 9 0 0 0 -8 6a6 6 0 0 0 -5 3" />
+    <path d="M7 14a6 6 0 0 0 -3 6a6 6 0 0 0 6 -3" />
+    <path d="M14 9a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+  </symbol>
+  <symbol id="i-terminal-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 9l3 3l-3 3" />
+    <path d="M13 15l3 0" />
+    <path d="M3 6a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2l0 -12" />
+  </symbol>
+  <symbol id="i-lifebuoy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M15 15l3.35 3.35" />
+    <path d="M9 15l-3.35 3.35" />
+    <path d="M5.65 5.65l3.35 3.35" />
+    <path d="M18.35 5.65l-3.35 3.35" />
+  </symbol>
+  <symbol id="i-list" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 6l11 0" />
+    <path d="M9 12l11 0" />
+    <path d="M9 18l11 0" />
+    <path d="M5 6l0 .01" />
+    <path d="M5 12l0 .01" />
+    <path d="M5 18l0 .01" />
+  </symbol>
+  <symbol id="i-code" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 8l-4 4l4 4" />
+    <path d="M17 8l4 4l-4 4" />
+    <path d="M14 4l-4 16" />
+  </symbol>
+  <symbol id="i-rss" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 19a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+    <path d="M4 4a16 16 0 0 1 16 16" />
+    <path d="M4 11a9 9 0 0 1 9 9" />
+  </symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12" />
+    <path d="M16 3v4" />
+    <path d="M8 3v4" />
+    <path d="M4 11h16" />
+    <path d="M11 15h1" />
+    <path d="M12 15v3" />
+  </symbol>
+</svg>
+
+<header class="site-header">
+  <div class="header-inner">
+    <button class="icon-btn hamburger" id="drawerToggle" aria-label="Открыть навигацию" aria-expanded="false" aria-controls="sidebar">
+      <svg class="ic" aria-hidden="true"><use href="#i-menu-2"/></svg>
+    </button>
+
+    <a href="https://throneproj.github.io/ru/" class="header-logo" aria-label="Главная страница Throne">
+      <img class="logo" src="https://throneproj.github.io/images/throne-logo.png" alt="Throne" width="1817" height="346">
+    </a>
+    <a class="header-version" href="https://github.com/throneproj/Throne/releases/tag/1.4.1" target="_blank" rel="noopener noreferrer">v1.4.1</a>
+
+    <nav class="header-nav" aria-label="Основная навигация">
+      <a href="https://throneproj.github.io/ru/get_started/">Начало работы</a>
+      <a href="https://throneproj.github.io/ru/downloads/">Скачать</a>
+    </nav>
+
+    <div class="header-right">
+      <button class="header-btn search-trigger" id="searchTrigger" aria-label="Поиск по документации">
+        <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+        <span>Поиск</span>
+        <kbd>Ctrl K</kbd>
+      </button>
+
+      
+      
+      <nav class="lang-switcher" aria-label="Язык">
+        
+        <a href="https://throneproj.github.io/advanced/warp/" hreflang="en">EN</a>
+        
+        <a href="https://throneproj.github.io/fa/advanced/warp/" hreflang="fa">FA</a>
+        
+        <a href="https://throneproj.github.io/ru/advanced/warp/" hreflang="ru" aria-current="true">RU</a>
+        
+        <a href="https://throneproj.github.io/zh/advanced/warp/" hreflang="zh">ZH</a>
+        
+      </nav>
+      
+
+      <a class="icon-btn" href="https://github.com/throneproj/Throne" target="_blank" rel="noopener noreferrer" aria-label="Throne на GitHub">
+        <svg class="ic" aria-hidden="true"><use href="#i-brand-github"/></svg>
+      </a>
+
+      
+      <button class="icon-btn theme-toggle" id="themeToggle" data-mode="auto" type="button" aria-label="Тема">
+        <svg class="ic ic-auto" aria-hidden="true"><use href="#i-contrast"/></svg>
+        <svg class="ic ic-light" aria-hidden="true"><use href="#i-sun"/></svg>
+        <svg class="ic ic-dark" aria-hidden="true"><use href="#i-moon"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+<div class="search-overlay" id="searchOverlay" role="dialog" aria-modal="true" aria-label="Поиск по документации" hidden>
+  <div class="search-modal">
+    <div class="search-input-wrap">
+      <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+      <input type="search" id="searchInput" aria-label="Поиск по документации" placeholder="Поиск по документации" autocomplete="off" spellcheck="false">
+      <kbd id="searchClose" role="button" tabindex="0">Esc</kbd>
+    </div>
+    <div class="search-results" id="searchResults" role="listbox" aria-label="Поиск"></div>
+  </div>
+</div>
+<div class="docs-container">
+<div class="drawer-scrim" id="drawerScrim"></div>
+<aside class="docs-sidebar" id="sidebar">
+  <nav class="sidebar-nav" aria-label="Навигация по документации">
+
+    
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Начало работы</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/ru/get_started/">Обзор</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/get_started/installation/">Установка</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/get_started/configuration/">Быстрый старт</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Руководства</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/ru/guides/">Обзор</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/guides/subscriptions/">Подписки и группы</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/guides/proxy_modes/">Системный прокси, TUN и доступ из локальной сети</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/guides/tun_mode/">Режим TUN</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/guides/routing/">Маршрутизация</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/guides/dns/">DNS</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/guides/testing/">Тестирование и автовыбор</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/guides/backup/">Резервное копирование, обновление и перенос</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/guides/recipes/">Рецепты</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Throne для Android</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/ru/android/">Обзор</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/android/installation/">Установка и обновление</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/android/permissions/">Разрешения и работа в фоне</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/android/modes/">Режимы VPN и прокси</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/android/widgets/">Виджеты, плитка и автоматизация</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/android/tv/">Android TV</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/android/troubleshooting/">Устранение неполадок на Android</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Throne в режиме headless</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/ru/headless/">Обзор</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/headless/installation/">Установка и службы</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/headless/thronectl/">Управление через thronectl</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/headless/web/">Веб-интерфейс</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/headless/command_line/">Командная строка и каталог данных</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/headless/monitoring/">Проверки состояния и логи</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/headless/recovery/">Защита от потери доступа и восстановление</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/headless/troubleshooting/">Устранение неполадок</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group" open>
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Расширенная конфигурация</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/ru/advanced/">Обзор</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/advanced/xray/">sing-box или Xray</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/advanced/chains/">Цепочки прокси и пользовательские конфигурации</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/advanced/presets/">Пресеты для обхода цензуры</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/advanced/warp/" aria-current="page">Cloudflare WARP</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/advanced/dns_tunnels/">DNS-туннели</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/advanced/vpn_profiles/">OpenVPN, OpenConnect и Tailscale</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/advanced/windows_tun_mode/">Защита от утечек DNS в Windows</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/advanced/kill_switch/">Kill Switch</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/advanced/deeplinks/">Глубокие ссылки</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/advanced/api/">Throne API и thronectl</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Справочник</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/ru/reference/">Обзор</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/reference/protocols/">Протоколы и форматы импорта</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/reference/shortcuts/">Сочетания клавиш и трей</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/reference/files/">Командная строка, файлы и логи</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/reference/privacy/">Конфиденциальность и сетевые запросы</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/reference/glossary/">Глоссарий</a></li>
+        
+        
+      </ul>
+    </details>
+    
+    <details class="sidebar-group">
+      <summary class="sidebar-heading">
+        <svg class="ic" aria-hidden="true"><use href="#i-rocket"/></svg>
+        <span>Помощь</span>
+        <svg class="ic sidebar-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+      </summary>
+      <ul class="sidebar-links">
+        
+        
+        <li><a href="https://throneproj.github.io/ru/help/">Обзор</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/help/faq/">FAQ</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/help/troubleshooting/">Устранение неполадок</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/help/bug_reports/">Как сообщить об ошибке</a></li>
+        
+        
+        
+        <li><a href="https://throneproj.github.io/ru/help/migrating/">Переход с Nekoray / NekoBox</a></li>
+        
+        
+      </ul>
+    </details>
+    
+
+  </nav>
+</aside>
+  <main id="main" class="docs-main">
+    <article>
+      <h1 class="docs-title">Cloudflare WARP</h1>
+      <p class="docs-lede">Как добавить Cloudflare WARP дополнительным выходом после прокси и пустить выбранный трафик в обход него.</p>
+      <div class="prose">
+        <p>WARP — бесплатный VPN-сервис Cloudflare. Throne может добавить его как дополнительное звено после вашего прокси: ваше устройство → запущенный вами профиль → WARP → интернет. Тогда сайты видят адрес Cloudflare вместо адреса вашего прокси-сервера, что помогает на сайтах, которые блокируют адреса VPN или дата-центров.</p>
+<ul>
+<li>WARP применяется к каждому запускаемому профилю, включая цепочки и профили автовыбора, и идёт после выходного прокси группы. Без него работают только профили <code>Пользовательский (конфигурация sing-box)</code> (Custom (sing-box config)).</li>
+<li>WARP работает через ваш прокси, поэтому профиль должен пропускать его трафик: режимам <code>WireGuard</code> и <code>AmneziaWG</code> нужен UDP, как и <code>MASQUE</code> поверх HTTP/3. <code>MASQUE</code> поверх HTTP/2 нужен только TCP.</li>
+</ul>
+<h2 id="generate">Генерация конфигурации WARP</h2>
+<ol>
+<li>Откройте <code>Маршрутизация</code> (Routing) → <code>Настройки маршрутизации</code> (Routing Settings) → вкладку <code>Warp</code> (в простом режиме — раздел <code>Warp</code> на вкладке <code>Основные</code> (Common)).</li>
+<li>Выберите <code>Режим</code> (Mode): <code>WireGuard</code>, <code>MASQUE</code> или <code>AmneziaWG</code>.</li>
+<li>Нажмите <code>Сгенерировать конфигурацию Warp</code> (Generate Warp Config) и в первый раз примите условия использования Cloudflare WARP.</li>
+<li>Когда на кнопке появится «Успешно!» (Success!), нажмите <code>OK</code>.</li>
+</ol>
+<p>У <code>WireGuard</code> и <code>MASQUE</code> отдельные конфигурации, поэтому после переключения между ними сгенерируйте конфигурацию заново. <code>AmneziaWG</code> использует конфигурацию <code>WireGuard</code>.</p>
+<p>Для <code>MASQUE</code> значение <code>Версия HTTP</code> (HTTP Version) по умолчанию использует HTTP/3 поверх UDP; <code>HTTP/2</code> работает поверх TCP и подходит там, где UDP заблокирован. Сгенерированные поля, <code>Версия HTTP</code> и <code>Домены регистрации…</code> (Registration Domains…) доступны только в расширенном режиме (см. <a href="/ru/get_started/configuration/#interface-mode">Простой и расширенный режим</a>).</p>
+<h3 id="amneziawg">Режим AmneziaWG</h3>
+<p>Используйте <code>AmneziaWG</code>, когда режим <code>WireGuard</code> не подключается, потому что WireGuard к Cloudflare заблокирован. Перед рукопожатием он отправляет пакеты, похожие на соединение HTTP/3 (QUIC) с <code>www.cloudflare.com</code> (сигнатуру), и несколько мусорных пакетов, которые WARP принимает. Пакеты WARP уходят с вашего прокси-сервера, поэтому значение имеет сеть сервера, а не ваша.</p>
+<p>Throne создаёт сигнатуру, когда вы выбираете <code>AmneziaWG</code>. Ранее сгенерированная конфигурация WireGuard продолжает работать.</p>
+<h3 id="registration-fails">Если регистрация не удаётся</h3>
+<p>Сервер регистрации Cloudflare, <code>api.cloudflareclient.com</code>, заблокирован в некоторых странах (<a href="https://github.com/throneproj/Throne/issues/1874">#1874</a>). Регистрируйтесь через свой прокси:</p>
+<ol>
+<li>Запустите рабочий профиль.</li>
+<li>Отметьте <code>Использовать прокси</code> (Use proxy) в <code>Настройки</code> (Settings) → <code>Основные настройки</code> (Basic Settings) → <code>Прочее</code> (Miscellaneous) (в простом режиме — <code>Настройки сети</code> (Network Settings) на вкладке <code>Общие</code> (Common)). Когда включён <code>Системный прокси</code> (System Proxy), Throne и так это делает.</li>
+<li>Снова нажмите <code>Сгенерировать конфигурацию Warp</code>.</li>
+</ol>
+<ul>
+<li>«Запрос через прокси, но профиль не запущен» (Request with proxy but no profile started.): сначала запустите профиль.</li>
+<li>Если включено <code>Отключить mixed inbound</code> (Disable Mixed Inbound), запросу нужен ещё и режим TUN.</li>
+<li>Когда включён <a href="/ru/advanced/kill_switch/">kill switch</a>, генерируйте конфигурацию, пока профиль запущен в режиме TUN или с включённым <code>Использовать прокси</code>.</li>
+</ul>
+<p><code>Домены регистрации…</code> — домены API Cloudflare, которые перебираются по порядку, по одному на строку. Пустой список означает <code>api.cloudflareclient.com</code>.</p>
+<h2 id="enable">Включение WARP</h2>
+<p>Нажмите <code>Маршрутизация</code> → <code>Включить Warp</code> (Enable Warp) (повторное нажатие выключает его). Запущенный профиль перезапускается с новой настройкой.</p>
+<p>Если для текущего режима нет конфигурации или у <code>AmneziaWG</code> нет сигнатуры, профиль не запускается: сначала сгенерируйте её. Чтобы проверить, что WARP работает, откройте сайт, который показывает ваш IP-адрес: там должен быть адрес Cloudflare.</p>
+<h2 id="warp-bypass">Трафик в обход WARP</h2>
+<p><code>warp-bypass</code> — это outbound, который использует ваш профиль без звена WARP. Задайте его в редакторе профиля маршрутизации (<code>Настройки маршрутизации</code> → вкладка <code>Маршрутизация</code> (Route) → выберите профиль → <code>Редактировать</code> (Edit)):</p>
+<table>
+<thead>
+<tr>
+<th>Цель</th>
+<th><code>Outbound по умолчанию</code> (Default outbound)</th>
+<th>Куда добавить сайты</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Большая часть трафика через WARP, некоторые сайты — без него</td>
+<td><code>proxy</code></td>
+<td>поле <code>Warp-bypass</code></td>
+</tr>
+<tr>
+<td>Большая часть трафика без WARP, некоторые сайты — через него</td>
+<td><code>warp-bypass</code></td>
+<td>поле <code>Прокси</code> (Proxy)</td>
+</tr>
+</tbody>
+</table>
+<p>Расширенные правила тоже могут использовать <code>warp-bypass</code> в качестве outbound (см. <a href="/ru/guides/routing/#simple-rules">Маршрутизация</a>). Когда WARP выключен, <code>warp-bypass</code> работает так же, как <code>proxy</code>.</p>
+<h2 id="warp-profiles">WARP как обычный профиль</h2>
+<p>Чтобы пользоваться WARP без другого прокси или в качестве звена цепочки, сделайте его отдельным профилем:</p>
+<ol>
+<li>Откройте <code>Программа</code> (Program) → <code>Новый профиль</code> (New profile) и установите <code>Тип</code> (Type) в значение <code>WireGuard</code> или <code>MASQUE</code>.</li>
+<li>Нажмите <code>Сгенерировать конфиг Warp</code> (Generate Warp Config, WireGuard) или <code>Сгенерировать учётные данные WARP</code> (Generate WARP identity, MASQUE).</li>
+<li>Введите <code>Название</code> (Name) и нажмите <code>OK</code>.</li>
+</ol>
+<p>Такой профиль подключается к Cloudflare напрямую. Пока вы им пользуетесь, держите <code>Включить Warp</code> выключенным, иначе Throne добавит после него второе звено WARP.</p>
+<p><code>Режим</code> в <code>Настройки маршрутизации</code> на него не влияет. Чтобы дать профилю WireGuard маскировку режима <code>AmneziaWG</code>, отметьте <code>Включить Amnezia</code> (Enable Amnezia), нажмите <code>Параметры Amnezia</code> (Amnezia Options) и задайте <code>Junk Packet Count (Jc)</code> равным 4, <code>Junk Packet Min Size (Jmin)</code> — 40, <code>Junk Packet Max Size (Jmax)</code> — 70, а H1–H4 — 1, 2, 3 и 4. Затем нажмите <code>Сгенерировать QUIC-сигнатуру...</code> (Generate QUIC Signature...), введите <code>www.cloudflare.com</code> и нажмите <code>OK</code>.</p>
+<h2 id="android">Android</h2>
+<ul>
+<li>Настройки находятся в <code>Настройки</code> (Settings) → <code>Маршрутизация</code> (Routing) → <code>WARP</code> и работают так же, как на компьютере, включая <code>AmneziaWG</code>.</li>
+<li>Если регистрация заблокирована, сначала подключитесь и включите <code>Настройки</code> → <code>Подписки</code> (Subscriptions) → <code>Использовать прокси</code> (Use proxy).</li>
+<li>Чтобы быстро переключить WARP, откройте <code>Настройки</code> → <code>Маршрутизация</code> → <code>Текущий маршрутизирующий профиль</code> (Current routing profile) и нажмите <code>Включить WARP</code> (Enable WARP) или <code>Отключить WARP</code> (Disable WARP).</li>
+<li>В редакторах профилей WireGuard и MASQUE есть кнопка <code>Создать идентификатор WARP</code> (Generate WARP identity).</li>
+</ul>
+
+      </div>
+      
+      
+      
+      <footer class="docs-article-footer">
+        
+        <a class="edit-link" href="https://github.com/throneproj/throneproj.github.io/edit/main/content/advanced/warp.ru.md" target="_blank" rel="noopener noreferrer">
+        
+          <svg class="ic" aria-hidden="true"><use href="#i-pencil"/></svg>
+          Редактировать эту страницу на GitHub
+        </a>
+        
+
+<nav class="prev-next" aria-label="Навигация по странице">
+  
+  <a class="prevnext-prev" href="https://throneproj.github.io/ru/advanced/presets/">
+    <span class="prevnext-dir">Назад</span>
+    Пресеты для обхода цензуры
+  </a>
+  
+  
+  <a class="prevnext-next" href="https://throneproj.github.io/ru/advanced/dns_tunnels/">
+    <span class="prevnext-dir">Вперед</span>
+    DNS-туннели
+  </a>
+  
+</nav>
+
+      </footer>
+    </article>
+  </main>
+  
+<nav class="docs-toc" aria-label="На этой странице">
+  <p class="docs-toc-title">
+    <svg class="ic" aria-hidden="true"><use href="#i-list"/></svg>
+    На этой странице
+  </p>
+  <ul><li><a href="#generate">Генерация конфигурации WARP</a><ul><li><a href="#amneziawg">Режим AmneziaWG</a></li><li><a href="#registration-fails">Если регистрация не удаётся</a></li></ul></li><li><a href="#enable">Включение WARP</a></li><li><a href="#warp-bypass">Трафик в обход WARP</a></li><li><a href="#warp-profiles">WARP как обычный профиль</a></li><li><a href="#android">Android</a></li></ul>
+</nav>
+
+    </main>
+  </div>
+
+  
+<script src="https://throneproj.github.io/assets/js/highlight.min.js" defer></script>
+<script>
+  window.NOIR_BASE = "https://throneproj.github.io";
+  
+  window.NOIR_I18N = {
+    copy: "Копировать",
+    copied: "Скопировано",
+    copyManual: "Нажмите Ctrl C",
+    noResults: "Ничего не найдено по запросу",
+    theme: "Тема",
+    themeAuto: "авто",
+    themeLight: "светлая",
+    themeDark: "темная"
+  };
+</script>
+<script src="https://throneproj.github.io/js/theme.js" defer></script>
+<script src="https://throneproj.github.io/js/nav.js" defer></script>
+<script src="https://throneproj.github.io/js/code.js" defer></script>
+<script src="https://throneproj.github.io/js/toc.js" defer></script>
+<script src="https://throneproj.github.io/js/reveal.js" defer></script>
+<script src="https://throneproj.github.io/js/mermaid.js" defer></script>
+<script src="https://throneproj.github.io/js/search.js" defer></script>
+
+</body>
+</html>
